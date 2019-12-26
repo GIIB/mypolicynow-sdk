@@ -21,28 +21,45 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.indicosmic.www.mypolicynow_sdk.utils.CommonMethods;
 import com.indicosmic.www.mypolicynow_sdk.utils.Constant;
 import com.indicosmic.www.mypolicynow_sdk.utils.UtilitySharedPreferences;
+import com.indicosmic.www.mypolicynow_sdk.webservices.RestClient;
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class QuotationActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     ImageView back_btn;
     ProgressDialog myDialog;
-    String QuotationFor="Car",StrPucReminder="0";
+    String QuotationFor="Bike",StrPucReminder="0";
     ImageView iv_bike,iv_car,iv_commercial;
     DatePickerDialog registrationDatePickerDialog,prePolicyExpiryDatePickerDialog,dateOfExpiryDatePickerDialog;
     String RegistrationDate="",PusDateOfIssue="",PusDateOfExpiry="";
@@ -68,7 +85,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
     RadioGroup RG_PolicyType;
     RadioButton Rb_NewPolicy,Rb_ReNewPolicy;
     ArrayList<String> manufacturingYear = new ArrayList<String>();
-
+    SearchableSpinner Spn_RTO,Spn_Make,Spn_Model,Spn_Variant;
     Spinner Spn_ManufacturingYear,Spn_ManufacturingMonth;
     String StrPolicyType = "New",StrManufacturingYear,StrManufacturingMonth;
     Spinner Spn_PolicyHolder;
@@ -79,9 +96,21 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
     Spinner Spn_NCB_Percent,Spn_ODDiscount;
     EditText EdtPreviousPolicyExpiryDate;
     String StrExpiryDate = "";
+    String SelectedMakeId="";
     LinearLayout LinearChangeInOwnership,LayoutODDisount,InvoiceLayout,LinearNewPolicyWanted,IndividualPolicyHolderLayout,LinearValidMotorPolicy,LinearAnotherPA_Policy,LinearPA_Cover;
     RadioGroup RG_NewPolicyRequired,RG_ValidLicence,RG_AnotherPolicy,RG_AnotherPA_Policy,RG_PA_Cover;
     RadioButton Rb_1OD3TP,Rb_3OD3TP,Rb_NotValidLicence,Rb_ValidLicence,Rb_NoOtherPolicy,Rb_YesOtherPolicy,Rb_NoOtherPA_Policy,Rb_YesOtherPA_Policy,Rb_1YearPACover;
+    ArrayList<String> rtoValue = new ArrayList<String>();
+    ArrayList<String> rtoDisplayValue = new ArrayList<String>();
+
+    ArrayList<String> makeValue = new ArrayList<String>();
+    ArrayList<String> makeDisplayValue = new ArrayList<String>();
+
+    ArrayList<String> modelValue = new ArrayList<String>();
+    ArrayList<String> modelDisplayValue = new ArrayList<String>();
+
+    ArrayList<String> variantValue = new ArrayList<String>();
+    ArrayList<String> variantDisplayValue = new ArrayList<String>();
 
     String StrPolicyHolder;
 
@@ -95,15 +124,15 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
     private void init() {
 
-     
+
         myDialog = new ProgressDialog(QuotationActivity.this);
         myDialog.setMessage("Please wait...");
         myDialog.setCancelable(false);
         myDialog.setCanceledOnTouchOutside(false);
 
         QuotationFor = UtilitySharedPreferences.getPrefs(getApplicationContext(), "QuotationFor");
-
-
+        QuotationFor = "Bike";
+        GetMasterFor(QuotationFor);
 
         iv_bike = (ImageView) findViewById(R.id.iv_bike);
         iv_car = (ImageView) findViewById(R.id.iv_car);
@@ -135,6 +164,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                 Glide.with(QuotationActivity.this).load(R.drawable.bike_dashboard_bike).into(iv_bike);
                 Glide.with(QuotationActivity.this).load(R.drawable.dashboard_car).into(iv_car);
                 Glide.with(QuotationActivity.this).load(R.drawable.dashboard_pickup_truck).into(iv_commercial);
+                GetMasterFor(QuotationFor);
             }
         });
 
@@ -197,6 +227,17 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                 setChangeInOwnserhipVisibility();
             }
         });
+
+
+        Spn_RTO = (SearchableSpinner) findViewById(R.id.Spn_RTO);
+        Spn_Make = (SearchableSpinner) findViewById(R.id.Spn_Make);
+        Spn_Model = (SearchableSpinner) findViewById(R.id.Spn_Model);
+        Spn_Variant= (SearchableSpinner) findViewById(R.id.Spn_Variant);
+
+        Spn_RTO.setOnItemSelectedListener(this);
+        Spn_Make.setOnItemSelectedListener(this);
+        Spn_Model.setOnItemSelectedListener(this);
+        Spn_Variant.setOnItemSelectedListener(this);
 
         Spn_ManufacturingYear = (Spinner)findViewById(R.id.Spn_ManufacturingYear);
         StrPolicyType = "New";
@@ -658,6 +699,107 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
     }
 
+    private void GetMasterFor(String policy_type) {
+        rtoValue = new ArrayList<>();
+        rtoDisplayValue = new ArrayList<>();
+        rtoValue.add("0");
+        rtoDisplayValue.add("Select Rto");
+
+        makeValue = new ArrayList<>();
+        makeDisplayValue = new ArrayList<>();
+        makeValue.add("0");
+        makeDisplayValue.add("Select Make");
+
+        String URL = "";
+        if(policy_type.equals("Bike")){
+            URL = RestClient.ROOT_URL+"quotation/bike";
+        }
+        Log.d("URL",""+ URL);
+        StringRequest request = new StringRequest(Request.Method.POST,URL , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                if(myDialog!=null && myDialog.isShowing()){
+                    myDialog.dismiss();
+                }
+                try {
+
+                    Log.d("Response", ""+response);
+                    JSONObject jsonresponse = new JSONObject(response);
+
+                    JSONObject status_res = jsonresponse.getJSONObject("status");
+                    JSONArray make_arry = status_res.getJSONArray("make_list");
+                    JSONArray rto_array = status_res.getJSONArray("rto_list");
+                    UtilitySharedPreferences.setPrefs(getApplicationContext(),"MakeMasterArryList",make_arry.toString());
+                    UtilitySharedPreferences.setPrefs(getApplicationContext(),"RtoMasterArryList",rto_array.toString());
+
+
+                    for(int k = 0; k< make_arry.length();k++){
+                        JSONObject makeObj = make_arry.getJSONObject(k);
+                        String make_id = makeObj.getString("id");
+                        String make_name = makeObj.getString("make");
+
+                        makeValue.add(make_id);
+                        makeDisplayValue.add(make_name);
+                    }
+
+                    ArrayAdapter<String> makeAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, makeDisplayValue);
+                    Spn_Make.setAdapter(makeAdapter);
+
+
+                    for(int k = 0; k< rto_array.length();k++){
+                        JSONObject rtoObj = rto_array.getJSONObject(k);
+                        String rto_id = rtoObj.getString("id");
+                        String rto_name = rtoObj.getString("label");
+
+                        rtoValue.add(rto_id);
+                        rtoDisplayValue.add(rto_name);
+                    }
+
+                    ArrayAdapter<String> rtoAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, rtoDisplayValue);
+                    Spn_RTO.setAdapter(rtoAdapter);
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if(myDialog!=null && myDialog.isShowing()){
+                    myDialog.dismiss();
+                }
+                Toast.makeText(getApplicationContext(), "Something went wrong. Please try again later.", Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("agent_id", "41");
+                //map.put("business_id","");
+
+                return map;
+            }
+        };
+
+
+        int socketTimeout = 50000; //30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        request.setRetryPolicy(policy);
+        // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+
+
+
+
+    }
+
+
+
     private void checkIsBreakInCase() {
 
         if(StrExpiryDate!=null && !StrExpiryDate.equalsIgnoreCase("")){
@@ -901,7 +1043,30 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         int id = adapterView.getId();
-        if (id == R.id.Spn_ManufacturingYear) {
+
+        if(id== R.id.Spn_RTO){
+
+           String StrRtoSelected = Spn_RTO.getSelectedItem().toString();
+
+
+
+        }else if(id==R.id.Spn_Make){
+
+            String SelectedMake = Spn_Make.getSelectedItem().toString().toLowerCase();
+            int pos_make = Spn_Make.getSelectedItemPosition();
+            SelectedMakeId = makeValue.get(pos_make).toString();
+            GetModelList(SelectedMakeId);
+
+
+        }else if(id==R.id.Spn_Model){
+
+            String SelectedModel = Spn_Model.getSelectedItem().toString().toLowerCase();
+            int pos_model = Spn_Model.getSelectedItemPosition();
+            String SelectedModelId = modelValue.get(pos_model).toString();
+            GetVariantList(SelectedMakeId,SelectedModelId);
+
+
+        }else if (id == R.id.Spn_ManufacturingYear) {
             StrManufacturingYear = Spn_ManufacturingYear.getSelectedItem().toString().trim();
             if (Spn_ManufacturingYear.getSelectedItemPosition() > 0) {
                 registration_year = Integer.valueOf(StrManufacturingYear);
@@ -921,6 +1086,171 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
             }
         }
     }
+
+
+    private void GetModelList(String selectedMakeId) {
+
+        modelValue = new ArrayList<>();
+        modelDisplayValue = new ArrayList<>();
+        modelValue.add("0");
+        modelDisplayValue.add("Select Model");
+
+
+
+        String URL = RestClient.ROOT_URL+"getmodel";
+
+        Log.d("URL",""+ URL);
+        StringRequest request = new StringRequest(Request.Method.POST,URL , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                if(myDialog!=null && myDialog.isShowing()){
+                    myDialog.dismiss();
+                }
+                try {
+
+                    Log.d("Response", ""+response);
+                    JSONObject jsonresponse = new JSONObject(response);
+
+
+                    JSONArray model_arry = jsonresponse.getJSONArray("status");
+
+                    UtilitySharedPreferences.setPrefs(getApplicationContext(),"ModelMasterArryList",model_arry.toString());
+
+
+                    for(int k = 0; k< model_arry.length();k++){
+                        JSONObject modelObj = model_arry.getJSONObject(k);
+                        String model_id = modelObj.getString("id");
+                        String model_name = modelObj.getString("model");
+
+                        modelValue.add(model_id);
+                        modelDisplayValue.add(model_name);
+                    }
+
+                    ArrayAdapter<String> modelAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, modelDisplayValue);
+                    Spn_Model.setAdapter(modelAdapter);
+
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if(myDialog!=null && myDialog.isShowing()){
+                    myDialog.dismiss();
+                }
+                Toast.makeText(getApplicationContext(), "Something went wrong. Please try again later.", Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("agent_id", "41");
+                map.put("make_id", selectedMakeId);
+                map.put("product_type_id", "2");
+
+                return map;
+            }
+        };
+
+
+        int socketTimeout = 50000; //30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        request.setRetryPolicy(policy);
+        // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+
+    }
+
+    private void GetVariantList(String selectedMakeId,String selectedModelId) {
+
+        variantValue = new ArrayList<>();
+        variantDisplayValue = new ArrayList<>();
+        variantValue.add("0");
+        variantDisplayValue.add("Select Variant");
+
+
+
+        String URL = RestClient.ROOT_URL+"getvariant";
+
+        Log.d("URL",""+ URL);
+        StringRequest request = new StringRequest(Request.Method.POST,URL , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                if(myDialog!=null && myDialog.isShowing()){
+                    myDialog.dismiss();
+                }
+                try {
+
+                    Log.d("Response", ""+response);
+                    JSONObject jsonresponse = new JSONObject(response);
+
+
+                    JSONArray variant_arry = jsonresponse.getJSONArray("status");
+
+                    UtilitySharedPreferences.setPrefs(getApplicationContext(),"VariantMasterArryList",variant_arry.toString());
+
+
+                    for(int k = 0; k< variant_arry.length();k++){
+                        JSONObject variantObj = variant_arry.getJSONObject(k);
+                        String variant_id = variantObj.getString("id");
+                        String variant_name = variantObj.getString("variant");
+
+                        variantValue.add(variant_id);
+                        variantDisplayValue.add(variant_name);
+                    }
+
+                    ArrayAdapter<String> variantAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, variantDisplayValue);
+                    Spn_Variant.setAdapter(variantAdapter);
+
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if(myDialog!=null && myDialog.isShowing()){
+                    myDialog.dismiss();
+                }
+                Toast.makeText(getApplicationContext(), "Something went wrong. Please try again later.", Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("agent_id", "41");
+                map.put("make_id", selectedMakeId);
+                map.put("model_id", selectedModelId);
+                map.put("product_type_id", "2");
+
+                return map;
+            }
+        };
+
+
+        int socketTimeout = 50000; //30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        request.setRetryPolicy(policy);
+        // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+
+
+
+    }
+
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
