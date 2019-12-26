@@ -36,6 +36,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.indicosmic.www.mypolicynow_sdk.utils.CommonMethods;
+import com.indicosmic.www.mypolicynow_sdk.utils.ConnectionDetector;
 import com.indicosmic.www.mypolicynow_sdk.utils.Constant;
 import com.indicosmic.www.mypolicynow_sdk.utils.UtilitySharedPreferences;
 import com.indicosmic.www.mypolicynow_sdk.webservices.RestClient;
@@ -700,6 +701,8 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
     }
 
     private void GetMasterFor(String policy_type) {
+
+        myDialog.show();
         rtoValue = new ArrayList<>();
         rtoDisplayValue = new ArrayList<>();
         rtoValue.add("0");
@@ -714,84 +717,95 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
         if(policy_type.equals("Bike")){
             URL = RestClient.ROOT_URL+"quotation/bike";
         }
-        Log.d("URL",""+ URL);
-        StringRequest request = new StringRequest(Request.Method.POST,URL , new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-                if(myDialog!=null && myDialog.isShowing()){
-                    myDialog.dismiss();
-                }
-                try {
-
-                    Log.d("Response", ""+response);
-                    JSONObject jsonresponse = new JSONObject(response);
-
-                    JSONObject status_res = jsonresponse.getJSONObject("status");
-                    JSONArray make_arry = status_res.getJSONArray("make_list");
-                    JSONArray rto_array = status_res.getJSONArray("rto_list");
-                    UtilitySharedPreferences.setPrefs(getApplicationContext(),"MakeMasterArryList",make_arry.toString());
-                    UtilitySharedPreferences.setPrefs(getApplicationContext(),"RtoMasterArryList",rto_array.toString());
 
 
-                    for(int k = 0; k< make_arry.length();k++){
-                        JSONObject makeObj = make_arry.getJSONObject(k);
-                        String make_id = makeObj.getString("id");
-                        String make_name = makeObj.getString("make");
+        ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
+        boolean isInternetPresent = cd.isConnectingToInternet();
+        if (isInternetPresent) {
+            Log.d("URL",""+ URL);
+            StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
 
-                        makeValue.add(make_id);
-                        makeDisplayValue.add(make_name);
+                    if (myDialog != null && myDialog.isShowing()) {
+                        myDialog.dismiss();
+                    }
+                    try {
+
+                        Log.d("Response", "" + response);
+                        JSONObject jsonresponse = new JSONObject(response);
+
+                        JSONObject status_res = jsonresponse.getJSONObject("status");
+                        JSONArray make_arry = status_res.getJSONArray("make_list");
+                        JSONArray rto_array = status_res.getJSONArray("rto_list");
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(), "MakeMasterArryList", make_arry.toString());
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(), "RtoMasterArryList", rto_array.toString());
+
+
+                        for (int k = 0; k < make_arry.length(); k++) {
+                            JSONObject makeObj = make_arry.getJSONObject(k);
+                            String make_id = makeObj.getString("id");
+                            String make_name = makeObj.getString("make");
+
+                            makeValue.add(make_id);
+                            makeDisplayValue.add(make_name.toUpperCase());
+                        }
+
+                        ArrayAdapter<String> makeAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, makeDisplayValue);
+                        Spn_Make.setAdapter(makeAdapter);
+
+
+                        for (int k = 0; k < rto_array.length(); k++) {
+                            JSONObject rtoObj = rto_array.getJSONObject(k);
+                            String rto_id = rtoObj.getString("id");
+                            String rto_name = rtoObj.getString("label");
+
+                            rtoValue.add(rto_id);
+                            rtoDisplayValue.add(rto_name.toUpperCase());
+                        }
+
+                        ArrayAdapter<String> rtoAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, rtoDisplayValue);
+                        Spn_RTO.setAdapter(rtoAdapter);
+
+                        if (myDialog != null && myDialog.isShowing()) {
+                            myDialog.dismiss();
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
 
-                    ArrayAdapter<String> makeAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, makeDisplayValue);
-                    Spn_Make.setAdapter(makeAdapter);
-
-
-                    for(int k = 0; k< rto_array.length();k++){
-                        JSONObject rtoObj = rto_array.getJSONObject(k);
-                        String rto_id = rtoObj.getString("id");
-                        String rto_name = rtoObj.getString("label");
-
-                        rtoValue.add(rto_id);
-                        rtoDisplayValue.add(rto_name);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    if (myDialog != null && myDialog.isShowing()) {
+                        myDialog.dismiss();
                     }
-
-                    ArrayAdapter<String> rtoAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, rtoDisplayValue);
-                    Spn_RTO.setAdapter(rtoAdapter);
-
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    CommonMethods.DisplayToastInfo(getApplicationContext(), "Something went wrong. Please try again later.");
                 }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("agent_id", "41");
+                    //map.put("business_id","");
 
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                if(myDialog!=null && myDialog.isShowing()){
-                    myDialog.dismiss();
+                    return map;
                 }
-                Toast.makeText(getApplicationContext(), "Something went wrong. Please try again later.", Toast.LENGTH_LONG).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("agent_id", "41");
-                //map.put("business_id","");
-
-                return map;
-            }
-        };
+            };
 
 
-        int socketTimeout = 50000; //30 seconds - change to what you want
-        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        request.setRetryPolicy(policy);
-        // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(request);
+            int socketTimeout = 50000; //30 seconds - change to what you want
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            request.setRetryPolicy(policy);
+            // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(request);
+        }else {
+            CommonMethods.DisplayToastInfo(getApplicationContext(), "Please check Internet Connection");
+
+        }
 
 
 
@@ -1098,74 +1112,77 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
 
         String URL = RestClient.ROOT_URL+"getmodel";
+        ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
+        boolean isInternetPresent = cd.isConnectingToInternet();
+        if (isInternetPresent) {
+            Log.d("URL", "" + URL);
+            StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
 
-        Log.d("URL",""+ URL);
-        StringRequest request = new StringRequest(Request.Method.POST,URL , new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
+                    if (myDialog != null && myDialog.isShowing()) {
+                        myDialog.dismiss();
+                    }
+                    try {
 
-                if(myDialog!=null && myDialog.isShowing()){
-                    myDialog.dismiss();
-                }
-                try {
-
-                    Log.d("Response", ""+response);
-                    JSONObject jsonresponse = new JSONObject(response);
-
-
-                    JSONArray model_arry = jsonresponse.getJSONArray("status");
-
-                    UtilitySharedPreferences.setPrefs(getApplicationContext(),"ModelMasterArryList",model_arry.toString());
+                        Log.d("Response", "" + response);
+                        JSONObject jsonresponse = new JSONObject(response);
 
 
-                    for(int k = 0; k< model_arry.length();k++){
-                        JSONObject modelObj = model_arry.getJSONObject(k);
-                        String model_id = modelObj.getString("id");
-                        String model_name = modelObj.getString("model");
+                        JSONArray model_arry = jsonresponse.getJSONArray("status");
 
-                        modelValue.add(model_id);
-                        modelDisplayValue.add(model_name);
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(), "ModelMasterArryList", model_arry.toString());
+
+
+                        for (int k = 0; k < model_arry.length(); k++) {
+                            JSONObject modelObj = model_arry.getJSONObject(k);
+                            String model_id = modelObj.getString("id");
+                            String model_name = modelObj.getString("model");
+
+                            modelValue.add(model_id);
+                            modelDisplayValue.add(model_name.toUpperCase());
+                        }
+
+                        ArrayAdapter<String> modelAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, modelDisplayValue);
+                        Spn_Model.setAdapter(modelAdapter);
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
 
-                    ArrayAdapter<String> modelAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, modelDisplayValue);
-                    Spn_Model.setAdapter(modelAdapter);
-
-
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    if (myDialog != null && myDialog.isShowing()) {
+                        myDialog.dismiss();
+                    }
+                    CommonMethods.DisplayToastInfo(getApplicationContext(),"Something went wrong. Please try again later.");
 
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                if(myDialog!=null && myDialog.isShowing()){
-                    myDialog.dismiss();
                 }
-                Toast.makeText(getApplicationContext(), "Something went wrong. Please try again later.", Toast.LENGTH_LONG).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("agent_id", "41");
-                map.put("make_id", selectedMakeId);
-                map.put("product_type_id", "2");
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("agent_id", "41");
+                    map.put("make_id", selectedMakeId);
+                    map.put("product_type_id", "2");
 
-                return map;
-            }
-        };
+                    return map;
+                }
+            };
 
 
-        int socketTimeout = 50000; //30 seconds - change to what you want
-        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        request.setRetryPolicy(policy);
-        // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(request);
-
+            int socketTimeout = 50000; //30 seconds - change to what you want
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            request.setRetryPolicy(policy);
+            // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(request);
+        }else {
+            CommonMethods.DisplayToast(getApplicationContext(),"Please check Internet Connection");
+        }
     }
 
     private void GetVariantList(String selectedMakeId,String selectedModelId) {
@@ -1178,78 +1195,80 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
 
         String URL = RestClient.ROOT_URL+"getvariant";
+        ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
+        boolean isInternetPresent = cd.isConnectingToInternet();
+        if (isInternetPresent) {
+            StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
 
-        Log.d("URL",""+ URL);
-        StringRequest request = new StringRequest(Request.Method.POST,URL , new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
+                    if (myDialog != null && myDialog.isShowing()) {
+                        myDialog.dismiss();
+                    }
+                    try {
 
-                if(myDialog!=null && myDialog.isShowing()){
-                    myDialog.dismiss();
-                }
-                try {
-
-                    Log.d("Response", ""+response);
-                    JSONObject jsonresponse = new JSONObject(response);
-
-
-                    JSONArray variant_arry = jsonresponse.getJSONArray("status");
-
-                    UtilitySharedPreferences.setPrefs(getApplicationContext(),"VariantMasterArryList",variant_arry.toString());
+                        Log.d("Response", "" + response);
+                        JSONObject jsonresponse = new JSONObject(response);
 
 
-                    for(int k = 0; k< variant_arry.length();k++){
-                        JSONObject variantObj = variant_arry.getJSONObject(k);
-                        String variant_id = variantObj.getString("id");
-                        String variant_name = variantObj.getString("variant");
+                        JSONArray variant_arry = jsonresponse.getJSONArray("status");
 
-                        variantValue.add(variant_id);
-                        variantDisplayValue.add(variant_name);
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(), "VariantMasterArryList", variant_arry.toString());
+
+
+                        for (int k = 0; k < variant_arry.length(); k++) {
+                            JSONObject variantObj = variant_arry.getJSONObject(k);
+                            String variant_id = variantObj.getString("id");
+                            String variant_name = variantObj.getString("variant");
+
+                            variantValue.add(variant_id);
+                            variantDisplayValue.add(variant_name.toUpperCase());
+                        }
+
+                        ArrayAdapter<String> variantAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, variantDisplayValue);
+                        Spn_Variant.setAdapter(variantAdapter);
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
 
-                    ArrayAdapter<String> variantAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, variantDisplayValue);
-                    Spn_Variant.setAdapter(variantAdapter);
-
-
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                if(myDialog!=null && myDialog.isShowing()){
-                    myDialog.dismiss();
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    if (myDialog != null && myDialog.isShowing()) {
+                        myDialog.dismiss();
+                    }
+                    CommonMethods.DisplayToastInfo(getApplicationContext(),"Something went wrong. Please try again later.");
                 }
-                Toast.makeText(getApplicationContext(), "Something went wrong. Please try again later.", Toast.LENGTH_LONG).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("agent_id", "41");
-                map.put("make_id", selectedMakeId);
-                map.put("model_id", selectedModelId);
-                map.put("product_type_id", "2");
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("agent_id", "41");
+                    map.put("make_id", selectedMakeId);
+                    map.put("model_id", selectedModelId);
+                    map.put("product_type_id", "2");
 
-                return map;
-            }
-        };
+                    return map;
+                }
+            };
 
 
-        int socketTimeout = 50000; //30 seconds - change to what you want
-        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        request.setRetryPolicy(policy);
-        // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(request);
-
+            int socketTimeout = 50000; //30 seconds - change to what you want
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            request.setRetryPolicy(policy);
+            // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(request);
+        }else {
+            CommonMethods.DisplayToast(getApplicationContext(),"Please check Internet Connection");
+        }
 
 
     }
+
 
 
     @Override
