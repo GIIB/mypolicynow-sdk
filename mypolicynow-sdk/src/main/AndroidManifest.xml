@@ -1,2 +1,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.indicosmic.www.mypolicynow_sdk" />
+    package="com.indicosmic.www.mypolicynow_sdk" >
+
+
+    <application
+        android:allowBackup="true"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Design.NoActionBar">
+        <activity
+        android:name=".QuotationActivity"
+        android:label="Quotation Screen" />
+
+
+
+    </application>
+
+</manifest>

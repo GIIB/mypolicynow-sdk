@@ -95,17 +95,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
     private void init() {
 
-        back_btn = (ImageView) findViewById(R.id.back_btn_toolbar);
-        back_btn.setVisibility(View.VISIBLE);
-        back_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
-        TextView til_text = (TextView) findViewById(R.id.til_text);
-        til_text.setText("Get Quotation");
+     
         myDialog = new ProgressDialog(QuotationActivity.this);
         myDialog.setMessage("Please wait...");
         myDialog.setCancelable(false);
