@@ -1220,9 +1220,13 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                             JSONObject variantObj = variant_arry.getJSONObject(k);
                             String variant_id = variantObj.getString("id");
                             String variant_name = variantObj.getString("variant");
+                            String seating_capacity = variantObj.getString("seating_capacity");
+                            String cc = variantObj.getString("cc");
+                            //String gvw = variantObj.getString("gvw");
+                            String fuel_cleaned = variantObj.getString("fuel_cleaned");
 
                             variantValue.add(variant_id);
-                            variantDisplayValue.add(variant_name.toUpperCase());
+                            variantDisplayValue.add(variant_name.toUpperCase() + " ("+ seating_capacity + "SEATER) ("+fuel_cleaned.toUpperCase()+") ("+cc+" CC)");
                         }
 
                         ArrayAdapter<String> variantAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, variantDisplayValue);
