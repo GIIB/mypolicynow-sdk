@@ -1,0 +1,2 @@
+include ':app', ':mypolicynow-sdk'
+rootProject.name='mypolicynow-ags'
