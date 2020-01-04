@@ -5,28 +5,27 @@
             <!-- SHADOW -->
             <item>
                 <shape>
-                    <solid android:color="@color/orange"/>
+                    <solid
+                        android:startColor="@color/colorPrimary"
+                        android:endColor="@color/colorPrimaryLight"
+                        />
                     <!-- alttan gölge -->
-                    <corners android:radius="10dp"/>
+                    <corners android:radius="19dp"/>
                 </shape>
             </item>
             <!-- BUTTON alttan gölge
               android:right="5px" to make it round-->
             <item
-                android:bottom="3px"
-                android:top="3px"
-                android:left="3px"
-                android:right="3px"
+                android:bottom="5px"
                 >
                 <shape>
                     <padding android:bottom="5dp"/>
                     <gradient
-                        android:startColor="@color/white"
-                        android:endColor="@color/white"
-
+                        android:startColor="@color/colorPrimary"
+                        android:endColor="@color/colorPrimaryLight"
                         android:angle="270" />
                     <corners
-                        android:radius="10dp"/>
+                        android:radius="19dp"/>
                     <padding
                         android:left="5dp"
                         android:top="5dp"
@@ -42,7 +41,7 @@
             <!-- SHADOW -->
             <item>
                 <shape>
-                    <solid android:color="#102746"/>
+                    <solid android:color="@color/dark_grey"/>
                     <corners android:radius="19dp"/>
 
                 </shape>
@@ -52,8 +51,8 @@
                 <shape>
                     <padding android:bottom="5dp"/>
                     <gradient
-                        android:startColor="@color/wetland_logo_color"
-                        android:endColor="@color/wetland_logo_color"
+                        android:startColor="@color/colorPrimary"
+                        android:endColor="@color/colorPrimaryLight"
                         android:angle="270" />
                     <corners
                         android:radius="19dp"/>

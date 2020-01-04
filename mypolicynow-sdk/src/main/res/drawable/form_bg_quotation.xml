@@ -6,8 +6,8 @@
             <item>
                 <shape>
                     <gradient
-                        android:startColor="#055284"
-                        android:endColor="#0770B2"
+                        android:startColor="#fff"
+                        android:endColor="#fff"
                         android:angle="270" />
 
                     <!-- alttan gölge -->
@@ -21,8 +21,8 @@
                 >
                 <shape>
                     <gradient
-                        android:startColor="#055284"
-                        android:endColor="#0770B2"
+                        android:startColor="#fff"
+                        android:endColor="#fff"
                         android:angle="270" />
 
 

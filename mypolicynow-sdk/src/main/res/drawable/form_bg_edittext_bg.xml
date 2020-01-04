@@ -5,7 +5,7 @@
             <!-- SHADOW -->
             <item>
                 <shape>
-                    <solid android:color="@color/dark_grey"/>
+                    <solid android:color="#A6A6A6"/>
                     <padding android:top="2dp"/>
                     <padding android:left="2dp"/>
                     <padding android:right="2dp"/>

@@ -3,7 +3,7 @@
     <color name="colorPrimaryBlue">#27525e</color>
     <color name="colorPrimaryDark">#C0631F</color>
     <color name="colorPrimaryLight">#E6A674</color>
-    <color name="colorPrimary">#DB6505</color>
+    <color name="colorPrimary">#F35D22</color>
     <color name="colorPrimaryVeryLight">#FF770B</color>
     <color name="button_color">#db4100</color>
     <color name="iron_grey">#9c9999</color>
@@ -19,7 +19,7 @@
     <color name="primary_grey">#ededed</color>
     <color name="dark_grey">#757575</color>
     <color name="grey">#ccc9c9</color>
-    <color name="colorAccent">#0398CE</color>
+    <color name="colorAccent">#5E5E5E</color>
     <color name="primary_light_blue">#6aacd9</color>
     <color name="red_close">#fc1208</color>
     <color name="pie_chart_blue">#3a4692</color>
@@ -32,6 +32,7 @@
     <color name="transparent_green">#91a7e269</color>
     <color name="grey_bg_color">#E4EBF0</color>
     <color name="wetland_logo_color">#2e4cb6</color>
+
     <color name="new_dashboard_bg_color_dark">#707070</color>
     <color name="new_dashboard_bg_color_light">#A3A3A3</color>
     <color name="new_dashboard_yellow_color_dark">#F8C200</color>
@@ -749,5 +750,7 @@
     <color name="widget_selected_v_name">#ffffff</color>
     <color name="widget_unselected_v_name">#6a6a6a</color>
     <color name="black">#000000</color>
+    <color name="green_card_color">#7ace6f</color>
+    <color name="colorPrimaryLightBlue">#1c809e</color>
 
 </resources>

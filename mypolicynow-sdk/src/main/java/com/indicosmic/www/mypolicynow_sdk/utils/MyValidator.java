@@ -6,12 +6,16 @@ import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -93,7 +97,7 @@ public class MyValidator {
             editText.setError(REQUIRED_MSG);
             return false;
         }else {
-             //$specialCharacters = "-@%\\\\[\\\\}+'!/#$^?:;,\\\\(\\\"\\\\)~`.*=&\\\\{>\\\\]<_";
+            //$specialCharacters = "-@%\\\\[\\\\}+'!/#$^?:;,\\\\(\\\"\\\\)~`.*=&\\\\{>\\\\]<_";
             Pattern pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@%!/#$^?*=&])(?=\\S+$).{6,20}$");
 
             Matcher matcher = pattern.matcher(pass);
@@ -148,7 +152,7 @@ public class MyValidator {
     }
 
     public static boolean isValidAge(EditText editText) {
-       Integer retValue=0;
+        Integer retValue=0;
 
         String txtValue = editText.getText().toString().trim();
         if(txtValue.length() == 0){
@@ -174,12 +178,47 @@ public class MyValidator {
 
     public static boolean isValidSpinner(Spinner spinner) {
         View view = spinner.getSelectedView();
-        TextView textView = (TextView) view;
+        //TextView textView = (TextView) view;
         if (spinner.getSelectedItemPosition() == 0) {
-            textView.setError("None selected");
+            //textView.setError("None selected");
             return false;
         }
-        textView.setError(null);
+
+        return true;
+    }
+
+    public static boolean isValidSearchableSpinner(SearchableSpinner spinner) {
+        View view = spinner.getSelectedView();
+        //TextView textView = (TextView) view;
+        if (spinner.getSelectedItemPosition() == 0) {
+            //textView.setError("None selected");
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean isValidRadioGroup(RadioGroup radioGroup) {
+        int val = radioGroup.getCheckedRadioButtonId();
+
+
+        if (val == -1) {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean isValidCheckBox(CheckBox checkBox) {
+        boolean checked = checkBox.isChecked();
+
+
+        if (!checked) {
+
+            return false;
+        }
+
         return true;
     }
 
@@ -222,18 +261,18 @@ public class MyValidator {
 
             }else {
                 //      ([CPHFATBLJG])
-                    String char_4 = pan.substring(3,4);
-                    Log.d("Char 4",char_4);
-                    Pattern pat = Pattern.compile("[CPHFATBLJG]");
-                    Matcher mat = pat.matcher(char_4);
-                    if(!mat.matches()){
-                        editText.setError("Invalid PAN. Enter Valid PAN Number");
-                        return false;
+                String char_4 = pan.substring(3,4);
+                Log.d("Char 4",char_4);
+                Pattern pat = Pattern.compile("[CPHFATBLJG]");
+                Matcher mat = pat.matcher(char_4);
+                if(!mat.matches()){
+                    editText.setError("Invalid PAN. Enter Valid PAN Number");
+                    return false;
 
-                    }else {
-                        editText.setError(null);
-                        return true;
-                    }
+                }else {
+                    editText.setError(null);
+                    return true;
+                }
             }
 
         }else {

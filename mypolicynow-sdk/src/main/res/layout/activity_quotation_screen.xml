@@ -7,7 +7,6 @@
     android:background="@drawable/form_bg_quotation">
 
 
-
     <ScrollView
         android:id="@+id/Scroll_BelowLayout"
         android:layout_width="match_parent"
@@ -18,7 +17,10 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:descendantFocusability="beforeDescendants"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
 
 
@@ -36,14 +38,13 @@
                     android:layout_margin="5dp"
                     android:padding="5dp"
                     android:visibility="gone"
-                    android:background="@color/white"
                     android:orientation="vertical">
                     <ImageView
                         android:id="@+id/iv_car"
                         android:layout_width="80sp"
                         android:layout_height="80sp"
 
-                        android:src="@drawable/dashboard_car"/>
+                        android:src="@drawable/car"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -62,7 +63,6 @@
                     android:gravity="center"
                     android:layout_margin="5dp"
                     android:padding="5dp"
-                    android:background="@color/white"
                     android:orientation="vertical">
 
                     <ImageView
@@ -70,7 +70,7 @@
                         android:layout_width="80sp"
                         android:layout_height="80sp"
                         android:layout_gravity="center"
-                        android:src="@drawable/dashboard_bike"/>
+                        android:src="@drawable/bike"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -78,6 +78,7 @@
                         android:text="Bike \nInsurance"
                         android:layout_gravity="center"
                         android:gravity="center"
+                        android:textColor="@color/colorAccent"
                         />
 
                 </LinearLayout>
@@ -90,15 +91,14 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:layout_margin="5dp"
-                    android:padding="5dp"
                     android:visibility="gone"
-                    android:background="@color/white"
+                    android:padding="5dp"
                     android:orientation="vertical">
                     <ImageView
                         android:id="@+id/iv_commercial"
                         android:layout_width="80sp"
                         android:layout_height="80sp"
-                        android:src="@drawable/dashboard_pickup_truck"/>
+                        android:src="@drawable/commercial_new"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -248,7 +248,7 @@
                     android:layout_margin="5sp"
                     android:padding="5dp"
                     android:text="RTO (EX. MH-02) *"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <RelativeLayout
@@ -274,7 +274,7 @@
                     android:layout_margin="5sp"
                     android:padding="5dp"
                     android:text="Make *"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <RelativeLayout
@@ -300,7 +300,7 @@
                     android:layout_margin="5sp"
                     android:padding="5dp"
                     android:text="Model *"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <RelativeLayout
@@ -326,7 +326,7 @@
                     android:layout_margin="5sp"
                     android:padding="5dp"
                     android:text="Variant *"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <RelativeLayout
@@ -352,7 +352,7 @@
                     android:layout_margin="5sp"
                     android:padding="5dp"
                     android:text="Manufacturing Year *"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <RelativeLayout
@@ -378,7 +378,7 @@
                     android:layout_margin="5sp"
                     android:padding="5dp"
                     android:text="Manufacturing Month *"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <RelativeLayout
@@ -405,7 +405,7 @@
                     android:layout_margin="5sp"
                     android:padding="5dp"
                     android:text="Purchase/Registration Date *"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <EditText
@@ -436,7 +436,7 @@
                     android:layout_margin="5sp"
                     android:padding="5dp"
                     android:text="Policy Holder Type *"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <RelativeLayout
@@ -477,7 +477,7 @@
                         android:layout_gravity="center|start"
                         android:gravity="center|start"
                         android:text="Is there a change in ownership in last one year? *"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="14sp" />
 
                     <RadioGroup
@@ -485,7 +485,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:visibility="visible"
                         android:layout_weight="5"
                         android:layout_gravity="center"
                         android:gravity="center"
@@ -551,7 +550,7 @@
                             android:layout_gravity="center|start"
                             android:gravity="center|start"
                             android:text="Do you have previous policy? *"
-                            android:textColor="@color/white"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
 
                         <RadioGroup
@@ -559,7 +558,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:visibility="visible"
                             android:layout_weight="5"
                             android:layout_gravity="center"
                             android:gravity="center"
@@ -619,7 +617,7 @@
                             android:layout_gravity="center|start"
                             android:gravity="center|start"
                             android:text="Previous Policy Type *"
-                            android:textColor="@color/white"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
 
                         <RadioGroup
@@ -627,7 +625,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:visibility="visible"
                             android:layout_weight="5"
                             android:layout_gravity="center"
                             android:gravity="center"
@@ -681,7 +678,7 @@
                             android:layout_margin="5sp"
                             android:padding="5dp"
                             android:text="Previous Policy Expiry Date *"
-                            android:textColor="@color/white"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
 
                         <EditText
@@ -727,7 +724,7 @@
                             android:layout_gravity="center|start"
                             android:gravity="center|start"
                             android:text="Have you made a claim? *"
-                            android:textColor="@color/white"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
 
                         <RadioGroup
@@ -735,7 +732,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:visibility="visible"
                             android:layout_weight="5"
                             android:layout_gravity="center"
                             android:gravity="center"
@@ -795,7 +791,7 @@
                             android:layout_gravity="center|start"
                             android:gravity="center|start"
                             android:text="Select Previous Year NCB% *"
-                            android:textColor="@color/white"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
 
                         <RelativeLayout
@@ -812,7 +808,6 @@
                                 style="@style/Widget.AppCompat.DropDownItem.Spinner"
                                 android:layout_width="match_parent"
                                 android:layout_height="70dp"
-                                android:entries="@array/spin_item_ncb_per"
                                 android:padding="5dp"/>
                         </RelativeLayout>
 
@@ -841,7 +836,7 @@
                         android:layout_gravity="center|start"
                         android:gravity="center|start"
                         android:text="OD Discount"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="14sp" />
 
                     <RelativeLayout
@@ -876,6 +871,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/til_invoice_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5sp"
@@ -884,7 +880,7 @@
                         android:layout_gravity="center|start"
                         android:gravity="center|start"
                         android:text="Invoice Price"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="14sp" />
 
                     <EditText
@@ -904,7 +900,6 @@
                         android:maxLength="8"
                         android:inputType="number"
                         android:focusableInTouchMode="true"
-                        android:focusable="true"
                         android:editable="true"
                         android:imeOptions="actionDone"
                         />
@@ -931,7 +926,7 @@
                         android:gravity="center|start"
                         android:visibility="gone"
                         android:text="Previous Policy Type *"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="14sp" />
 
                     <RadioGroup
@@ -947,10 +942,10 @@
 
 
                         <RadioButton
-                            android:id="@+id/Rb_1OD3TP"
+                            android:id="@+id/Rb_1OD5TP"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="1 Yr OD &amp; 3 Yrs TP"
+                            android:text="1 Yr OD &amp; 5 Yrs TP"
                             android:textColor="@color/black"
                             android:background="@drawable/form_bg_edittext_bg"
                             android:layout_margin="5dp"
@@ -961,10 +956,10 @@
                             android:layout_weight="5"/>
 
                         <RadioButton
-                            android:id="@+id/Rb_3OD3TP"
+                            android:id="@+id/Rb_5OD5TP"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="3 Yrs OD &amp; 3 Yrs TP"
+                            android:text="5 Yrs OD &amp; 5 Yrs TP"
                             android:textColor="@color/black"
                             android:background="@drawable/form_bg_edittext_bg"
                             android:layout_margin="5dp"
@@ -987,13 +982,14 @@
                     android:visibility="gone">
 
                     <CheckBox
+                        android:id="@+id/ChkNilDept"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Previous Policy Nil Dep"
-                        android:textColor="@color/white"
-                        android:backgroundTint="@color/white"
+                        android:textColor="@color/black"
+                        android:backgroundTint="@color/black"
 
-                        android:buttonTint="@color/primary_green"/>
+                        android:buttonTint="@color/black"/>
 
 
                 </LinearLayout>
@@ -1023,7 +1019,7 @@
                             android:layout_gravity="center|start"
                             android:gravity="center|start"
                             android:text="Do you have valid license ? *"
-                            android:textColor="@color/white"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
 
                         <RadioGroup
@@ -1031,7 +1027,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:visibility="visible"
                             android:layout_weight="5"
                             android:layout_gravity="center"
                             android:gravity="center"
@@ -1092,7 +1087,7 @@
                             android:layout_gravity="center|start"
                             android:gravity="center|start"
                             android:text="Do you have another Motor Insurance Policy with 15 lakhs PA owner cover ? *"
-                            android:textColor="@color/white"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
 
                         <RadioGroup
@@ -1100,7 +1095,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:visibility="visible"
                             android:layout_weight="5"
                             android:layout_gravity="center"
                             android:gravity="center"
@@ -1160,7 +1154,7 @@
                             android:layout_gravity="center|start"
                             android:gravity="center|start"
                             android:text="Do you have PA Policy of 15 lakhs and above ? *"
-                            android:textColor="@color/white"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
 
                         <RadioGroup
@@ -1168,7 +1162,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:visibility="visible"
                             android:layout_weight="5"
                             android:layout_gravity="center"
                             android:gravity="center"
@@ -1217,7 +1210,7 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:visibility="gone"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -1228,7 +1221,7 @@
                             android:layout_gravity="center|start"
                             android:gravity="center|start"
                             android:text="PA COVER FOR *"
-                            android:textColor="@color/white"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
 
                         <RadioGroup
@@ -1236,7 +1229,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:visibility="visible"
                             android:layout_weight="5"
                             android:layout_gravity="center"
                             android:gravity="center"
@@ -1249,16 +1241,28 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="1 Year PA"
-                                android:textColor="@color/white"
-                                android:background="@color/primary_green"
+                                android:textColor="@color/black"
+                                android:background="@drawable/form_bg_edittext_bg"
                                 android:layout_margin="5dp"
                                 android:padding="5dp"
-                                android:checked="true"
                                 android:minHeight="30sp"
-                                android:buttonTint="@color/white"
+                                android:buttonTint="@color/black"
                                 style="@android:style/Widget.CompoundButton.CheckBox"
-                                android:layout_weight="10"/>
+                                android:layout_weight="5"/>
 
+                            <RadioButton
+                                android:id="@+id/Rb_5YearPACover"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="5 Year PA"
+                                android:textColor="@color/black"
+                                android:background="@drawable/form_bg_edittext_bg"
+                                android:layout_margin="5dp"
+                                android:padding="5dp"
+                                android:minHeight="30sp"
+                                android:buttonTint="@color/black"
+                                style="@android:style/Widget.CompoundButton.CheckBox"
+                                android:layout_weight="5"/>
 
 
                         </RadioGroup>
@@ -1279,7 +1283,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/BtnAddNewVehicle"
+        android:id="@+id/BtnGetQuote"
         android:layout_width="match_parent"
         android:layout_height="60sp"
         android:text="Get Quote For Policy"
