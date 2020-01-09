@@ -55,8 +55,7 @@ public class ReviewDetailsFragment extends Fragment implements BlockingStep {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for context fragment
 
         rootView = inflater.inflate(R.layout.fragment_review_details_info, container, false);
@@ -227,8 +226,14 @@ public class ReviewDetailsFragment extends Fragment implements BlockingStep {
         StrPreviousPolicyNo = UtilitySharedPreferences.getPrefs(context, "PreviousPolicyNo");
         StrPreviousPolicyIC = UtilitySharedPreferences.getPrefs(context, "PreviousPolicyIC");
 
-        tv_EngineNo.setText(StrEngineNo.toUpperCase());
-        tv_ChassisNo.setText(StrChassisNo.toUpperCase());
+        if(StrEngineNo!=null && !StrEngineNo.equalsIgnoreCase("")){
+            tv_EngineNo.setText(StrEngineNo.toUpperCase());
+        }
+
+        if(StrChassisNo!=null && !StrChassisNo.equalsIgnoreCase("")){
+            tv_ChassisNo.setText(StrChassisNo.toUpperCase());
+        }
+
 
     }
 
