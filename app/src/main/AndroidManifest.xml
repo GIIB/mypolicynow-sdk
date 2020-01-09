@@ -44,6 +44,23 @@
         <activity
             android:name="com.indicosmic.www.mypolicynow_sdk.IcListingQuoteScreen"
             android:label="Quotation Screen" />
+
+        <activity
+            android:name="com.indicosmic.www.mypolicynow_sdk.CustomerPage"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden"
+            />
+
+        <activity
+            android:name="com.indicosmic.www.mypolicynow_sdk.ProposalPdfActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden"
+            />
+
+
+
     </application>
 
 </manifest>

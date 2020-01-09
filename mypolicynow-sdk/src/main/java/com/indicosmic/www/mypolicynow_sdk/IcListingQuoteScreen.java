@@ -3,6 +3,7 @@ package com.indicosmic.www.mypolicynow_sdk;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -55,9 +56,9 @@ public class IcListingQuoteScreen extends AppCompatActivity {
 
     String StrAgentId="",StrMpnData="",StrUserActionData="",StrImageUrl="",StrPlanTypeData="",selected_od_year,ProductTypeId="";
     String StrMake,StrModel,StrVariant,Str_vehicle_make_model_variant_name="",Str_vehicle_id="",Str_vehicle_make_id="",Str_vehicle_model_id="",Str_vehicle_variant_id="",
-    Str_cc="",Str_fuel="",Str_rto="",Str_policy_package_type="",Str_policy_start_date="",Str_previous_ncb="",Str_policy_type="",Str_policy_end_date="",
-    Str_current_ncb="",Str_policy_holder_type="",Str_claimed_in_past_year="",Str_plan_type="",Str_previous_policy_type="",Str_previous_policy_expiry_date="",
-    Str_pa_cover_tenure="",Str_rto_id="",Str_have_pa_policy="",Str_product_type_id="";
+            Str_cc="",Str_fuel="",Str_rto="",Str_policy_package_type="",Str_policy_start_date="",Str_previous_ncb="",Str_policy_type="",Str_policy_end_date="",
+            Str_current_ncb="",Str_policy_holder_type="",Str_claimed_in_past_year="",Str_plan_type="",Str_previous_policy_type="",Str_previous_policy_expiry_date="",
+            Str_pa_cover_tenure="",Str_rto_id="",Str_have_pa_policy="",Str_product_type_id="";
     ProgressDialog myDialog;
     LinearLayout ll_parent_portfolio;
     Dialog DialogBreakUpDetail;
@@ -66,9 +67,9 @@ public class IcListingQuoteScreen extends AppCompatActivity {
     String error_message,vehicle_idv,available_od_discount,total_addon_premium,gross_premium,addon_button_html_message;
     JSONObject vehicle_idv_year_trObj,start_date_year_trObj,end_date_year_trObj,total_basic_od_yr_trObj,
             total_electrical_premiumObj,total_non_electrical_premiumObj,
-            total_od_yr_wise_trObj,total_geographical_value_odObj,year_wise_trObj;
+            total_od_yr_wise_trObj,total_geographical_value_odObj,year_wise_trObj,total_bifuel_premiumObj;
     String total_basic_od_year_amount,total_electrical_year_amount,total_non_electrical_year_amount,total_geographical_year_amount,
-            total_basic_od_premium;
+            total_basic_od_premium,total_bifuel_value;
 
     JSONObject deductibles_year_wise_trObj,antitheft_value_year_wise_trObj,total_automobile_association_premium_year_wiseObj,
             ncb_value_trObj,deductibles_total_year_wise_trObj;
@@ -299,8 +300,6 @@ public class IcListingQuoteScreen extends AppCompatActivity {
 
     }
 
-
-
     private void LoadQuotation(String ic_id) {
 
         String URL = RestClient.ROOT_URL2+"loadquotation";
@@ -322,13 +321,13 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                         JSONObject dataObj = responseObj.getJSONObject("data");
 
                         //Quote Html
-                        JSONObject quote_html = dataObj.getJSONObject("quote_html");
+                        JSONObject quote_html = dataObj.getJSONObject("quote_api");
                         String logo_url = quote_html.getString("logo_url");
                         String ic_id_name = quote_html.getString("ic_id_name");
 
                         String error = quote_html.getString("error");
 
-                       //boolean is_addon = quote_html.getBoolean("is_addon");
+                        //boolean is_addon = quote_html.getBoolean("is_addon");
 
 
 
@@ -353,8 +352,8 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                                 .load(logo_url)
                                 .into(iv_IC_Img);
 
-                        /*TextView row_ic_name = (TextView)rowView.findViewById(R.id.row_ic_name);
-                        row_ic_name.setText(ic_id_name);*/
+                        TextView row_ic_id = (TextView)rowView.findViewById(R.id.row_ic_id);
+                        row_ic_id.setText(ic_id);
 
 
 
@@ -412,7 +411,8 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                         btn_buy_policy.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                CommonMethods.DisplayToastInfo(getApplicationContext(),"Buy Policy");
+                                API_BUY_POLICY(row_ic_id.getText().toString());
+
                             }
                         });
 
@@ -457,6 +457,78 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         }else {
             CommonMethods.DisplayToast(getApplicationContext(),"Please check Internet Connection");
         }
+
+
+    }
+
+    private void API_BUY_POLICY(String ic_id) {
+
+        myDialog.show();
+        String URL = RestClient.ROOT_URL2+"buypolicy";
+        ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
+        boolean isInternetPresent = cd.isConnectingToInternet();
+        if (isInternetPresent) {
+            Log.d("URL", "" + URL);
+            StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+
+                    if (myDialog != null && myDialog.isShowing()) {
+                        myDialog.dismiss();
+                    }
+                    try {
+
+                        Log.d("Response", "" + response);
+                        JSONObject responseObj = new JSONObject(response);
+                        JSONObject dataObj = responseObj.getJSONObject("data");
+                        JSONObject mpn_dataObj = dataObj.getJSONObject("mpn_data");
+                        JSONObject user_action_dataObj = dataObj.getJSONObject("user_action_data");
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(),"MpnData",mpn_dataObj.toString());
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(),"UserActionData",user_action_dataObj.toString());
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(),"SelectedIcId",ic_id);
+
+                        Intent i = new Intent(getApplicationContext(),CustomerPage.class);
+                        startActivity(i);
+                        overridePendingTransition(R.animator.move_left,R.animator.move_right);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    if (myDialog != null && myDialog.isShowing()) {
+                        myDialog.dismiss();
+                    }
+                    CommonMethods.DisplayToastInfo(getApplicationContext(),"Something went wrong. Please try again later.");
+
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("agent_id", StrAgentId);
+                    map.put("mpn_data",StrMpnData);
+                    map.put("user_action_data",StrUserActionData);
+                    map.put("ic_id",ic_id);
+                    Log.d("BuyPolicyData",""+map);
+                    return map;
+                }
+            };
+
+
+            int socketTimeout = 50000; //30 seconds - change to what you want
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            request.setRetryPolicy(policy);
+            // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(request);
+        }else {
+            CommonMethods.DisplayToast(getApplicationContext(),"Please check Internet Connection");
+        }
+
 
 
     }
@@ -563,7 +635,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                 JSONObject dataObj = new JSONObject(response);
 
                 //Quote Html
-                JSONObject quote_html = dataObj.getJSONObject("quote_html");
+                JSONObject quote_html = dataObj.getJSONObject("quote_api");
                 String logo_url = quote_html.getString("logo_url");
                 String ic_id_name = quote_html.getString("ic_id_name");
                 String error = quote_html.getString("error");
@@ -575,7 +647,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
 
                 //boolean is_addon = quote_html.getBoolean("is_addon");
 
-                JSONObject breakup_html = dataObj.getJSONObject("breakup_html");
+                JSONObject breakup_html = dataObj.getJSONObject("breakup_api");
 
 
 
@@ -594,7 +666,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                     // Vehicle Details
                     JSONObject vehicle_detailsObj = breakup_html.getJSONObject("vehicle_details");
                     String make_model_variant = vehicle_detailsObj.getString("make_model_variant");
-                    String idv = vehicle_detailsObj.getString("idv");
+                    String idv = vehicle_detailsObj.getString("total_vehicle_idv");
                     String vehicle_age_year = vehicle_detailsObj.getString("vehicle_age_year");
                     String cc = vehicle_detailsObj.getString("cc");
                     String seating_capacity = vehicle_detailsObj.getString("seating_capacity");
@@ -649,7 +721,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                     String k_total_tp_premium = breakup_html.getString("k_total_tp_premium");
                     String l_total_tp_premium_with_gst = breakup_html.getString("l_total_tp_premium_with_gst");
                     String m_total_tp_premium_with_gst = breakup_html.getString("m_total_tp_premium_with_gst");
-                    String kerala_cess_text = breakup_html.getString("kerala_cess_text");
+                    String kerala_cess = breakup_html.getString("kerala_cess");
                     String total_premium_payable = breakup_html.getString("total_premium_payable");
 
                     tv_total_idv.setText(total_idv);
@@ -674,7 +746,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                     tv_total_total_premium_payable_n.setText(total_premium_payable);
 
                     // OD BreakUp
-                    JSONObject basic_od_htmlObj = breakup_html.getJSONObject("basic_od_html");
+                    JSONObject basic_od_htmlObj = breakup_html.getJSONObject("basic_od");
                     if(Str_policy_type.equalsIgnoreCase("renew")) {
                         LayoutOd_Renew.setVisibility(View.VISIBLE);
                         Wb_OD_BreakUp.setVisibility(View.GONE);
@@ -697,18 +769,28 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                             LayoutOd_Renew.setVisibility(View.GONE);
                             Wb_OD_BreakUp.setVisibility(View.VISIBLE);
                             vehicle_idv_year_trObj = basic_od_htmlObj.getJSONObject("vehicle_idv_year_tr");
+                            year_wise_trObj = basic_od_htmlObj.getJSONObject("year_wise_tr");
+
                             start_date_year_trObj = basic_od_htmlObj.getJSONObject("start_date_year_tr");
                             end_date_year_trObj = basic_od_htmlObj.getJSONObject("end_date_year_tr");
-                            total_basic_od_year_amount = basic_od_htmlObj.getString("total_basic_od_year_amount");
+
                             total_basic_od_yr_trObj = basic_od_htmlObj.getJSONObject("total_basic_od_yr_tr");
-                            total_electrical_year_amount = basic_od_htmlObj.getString("total_electrical_year_amount");
+                            total_basic_od_year_amount = basic_od_htmlObj.getString("total_basic_od_year_amount");
+
                             total_electrical_premiumObj = basic_od_htmlObj.getJSONObject("total_electrical_premium");
-                            total_non_electrical_year_amount = basic_od_htmlObj.getString("total_non_electrical_year_amount");
+                            total_electrical_year_amount = basic_od_htmlObj.getString("total_electrical_year_amount");
+
                             total_non_electrical_premiumObj = basic_od_htmlObj.getJSONObject("total_non_electrical_premium");
-                            total_geographical_year_amount = basic_od_htmlObj.getString("total_geographical_year_amount");
-                            total_od_yr_wise_trObj = basic_od_htmlObj.getJSONObject("total_od_yr_wise_tr");
+                            total_non_electrical_year_amount = basic_od_htmlObj.getString("total_non_electrical_year_amount");
+
                             total_geographical_value_odObj = basic_od_htmlObj.getJSONObject("total_geographical_value_od");
-                            year_wise_trObj = basic_od_htmlObj.getJSONObject("year_wise_tr");
+                            total_geographical_year_amount = basic_od_htmlObj.getString("total_geographical_year_amount");
+
+                            total_bifuel_premiumObj = basic_od_htmlObj.getJSONObject("bifuel_premium");
+                            total_bifuel_value = basic_od_htmlObj.getString("total_bifuel_value");
+
+
+                            total_od_yr_wise_trObj = basic_od_htmlObj.getJSONObject("total_od_yr_wise_tr");
                             total_basic_od_premium = basic_od_htmlObj.getString("total_basic_od_premium");
 
                             Wb_OD_BreakUp.addJavascriptInterface(new WebAppInterfaceOdBreakup(), "Android");

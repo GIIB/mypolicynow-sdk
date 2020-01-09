@@ -10,7 +10,27 @@
         android:name=".QuotationActivity"
         android:label="Quotation Screen" />
 
+        <activity
+            android:name=".IcListingQuoteScreen"
+            android:label="IC Quote" />
 
+        <activity
+            android:name=".CustomerPage"
+            android:label="Customer Screen" />
+
+        <activity
+            android:name=".ProposalPdfActivity"
+            android:label="Proposal Pdf Screen" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
 
     </application>
 

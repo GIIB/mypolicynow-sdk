@@ -36,4 +36,65 @@
             <item>70%</item>
             <item>75%</item>
         </string-array>
+
+        <string-array name="spin_item_marital_status">
+            <item>Select Marital Status *</item>
+            <item>Single</item>
+            <item>Married</item>
+
+        </string-array>
+
+        <string-array name="spin_item_nominee_relationship">
+            <item>Select Relationship *</item>
+            <item>Son</item>
+            <item>Daughter</item>
+            <item>Brother</item>
+            <item>Father</item>
+            <item>Mother</item>
+            <item>Spouse</item>
+            <item>Father-in-law</item>
+        </string-array>
+
+        <string-array name="spin_item_appointtee_relationship">
+            <item>Select Relationship *</item>
+            <item>Son</item>
+            <item>Daughter</item>
+            <item>Brother</item>
+            <item>Father</item>
+            <item>Mother</item>
+            <item>Spouse</item>
+            <item>Father-in-law</item>
+            <item>Mother-in-law</item>
+            <item>OTHERS</item>
+            <item>Child</item>
+            <item>Sibling</item>
+        </string-array>
+
+
+        <string-array name="spin_item_agreement">
+            <item>Select Agreement Type</item>
+            <item>Hypothecation</item>
+            <item>Hire Purchase</item>
+            <item>Lease Agreement</item>
+        </string-array>
+
+        <string-array name="spin_item_salutation">
+            <item>Select Salutation *</item>
+            <item>MR.</item>
+            <item>MS.</item>
+            <item>MRS.</item>
+        </string-array>
+
+
+        <string-array name="spin_item_gender">
+            <item>Select Gender *</item>
+            <item>Male</item>
+            <item>Female</item>
+        </string-array>
+
+        <string-array name="spin_item_spouse_gender">
+            <item>Select Spouse Gender</item>
+            <item>Male</item>
+            <item>Female</item>
+        </string-array>
 </resources>

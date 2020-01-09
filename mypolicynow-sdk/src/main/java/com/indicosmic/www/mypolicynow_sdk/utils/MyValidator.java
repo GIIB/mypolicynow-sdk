@@ -29,6 +29,8 @@ public class MyValidator {
     private static final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     private static final String PHONE_REGEX = "\\d{3}-\\d{7}";
     private static final String REQUIRED_MSG = "Field required";
+    public static final String GSTINFORMAT_REGEX = "[0-9]{2}[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[1-9A-Za-z]{1}[Z]{1}[0-9a-zA-Z]{1}";
+    public static final String GSTN_CODEPOINT_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     Bitmap bitmap=null;
 
 
@@ -327,6 +329,124 @@ public class MyValidator {
             e.printStackTrace();
         }
         return b;
+    }
+
+    public static boolean isValidGSTIN(EditText editText){
+        boolean result = false;
+        String gst_in = editText.getText().toString().trim();
+        if (gst_in != null && gst_in.length()==0) {
+            editText.setError("Enter Valid GST IN Number");
+            result =  false;
+        }else if (gst_in != null && gst_in.length()>1) {
+
+            try {
+                result =  validGSTIN(gst_in);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }else {
+            editText.setError(null);
+            result =  true;
+        }
+        return  result;
+
+    }
+
+    private static boolean validGSTIN(String gstin) throws Exception {
+        boolean isValidFormat = false;
+        if (checkPattern(gstin, GSTINFORMAT_REGEX)) {
+            isValidFormat = verifyCheckDigit(gstin);
+        }
+        return isValidFormat;
+
+    }
+
+    /**
+     * Method for checkDigit verification.
+     *
+     * @param gstinWCheckDigit
+     * @return
+     * @throws Exception
+     */
+    private static boolean verifyCheckDigit(String gstinWCheckDigit) throws Exception {
+        Boolean isCDValid = false;
+        String newGstninWCheckDigit = getGSTINWithCheckDigit(
+                gstinWCheckDigit.substring(0, gstinWCheckDigit.length() - 1));
+
+        if (gstinWCheckDigit.trim().equals(newGstninWCheckDigit)) {
+            isCDValid = true;
+        }
+        return isCDValid;
+    }
+
+    /**
+     * Method to check if an input string matches the regex pattern passed
+     *
+     * @param inputval
+     * @param regxpatrn
+     * @return boolean
+     */
+    public static boolean checkPattern(String inputval, String regxpatrn) {
+        boolean result = false;
+        if ((inputval.trim()).matches(regxpatrn)) {
+            result = true;
+        }
+        return result;
+    }
+
+    /**
+     * Method to get the check digit for the gstin (without checkdigit)
+     *
+     * @param gstinWOCheckDigit
+     * @return : GSTIN with check digit
+     * @throws Exception
+     */
+    public static String getGSTINWithCheckDigit(String gstinWOCheckDigit) throws Exception {
+        int factor = 2;
+        int sum = 0;
+        int checkCodePoint = 0;
+        char[] cpChars;
+        char[] inputChars;
+
+        try {
+            if (gstinWOCheckDigit == null) {
+                throw new Exception("GSTIN supplied for checkdigit calculation is null");
+            }
+            cpChars = GSTN_CODEPOINT_CHARS.toCharArray();
+            inputChars = gstinWOCheckDigit.trim().toUpperCase().toCharArray();
+
+            int mod = cpChars.length;
+            for (int i = inputChars.length - 1; i >= 0; i--) {
+                int codePoint = -1;
+                for (int j = 0; j < cpChars.length; j++) {
+                    if (cpChars[j] == inputChars[i]) {
+                        codePoint = j;
+                    }
+                }
+                int digit = factor * codePoint;
+                factor = (factor == 2) ? 1 : 2;
+                digit = (digit / mod) + (digit % mod);
+                sum += digit;
+            }
+            checkCodePoint = (mod - (sum % mod)) % mod;
+            return gstinWOCheckDigit + cpChars[checkCodePoint];
+        } finally {
+            inputChars = null;
+            cpChars = null;
+        }
+    }
+
+    public static boolean isValidEngine_ChassisNumber(EditText edt_engineNo) {
+
+        String engine_no = edt_engineNo.getText().toString().trim();
+        if (engine_no != null && (engine_no.length() > 5 && engine_no.length() <= 22 )){
+            edt_engineNo.setError(null);
+            return true;
+        }
+        edt_engineNo.setError(REQUIRED_MSG + "This Filed should have Minimum 5 & maximum 22 digits");
+        return false;
+
     }
 
 

@@ -2039,7 +2039,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
 
 
-        String URL = RestClient.ROOT_URL2+"getNcbHtml";
+        String URL = RestClient.ROOT_URL2+"getNcb";
         ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
         boolean isInternetPresent = cd.isConnectingToInternet();
         if (isInternetPresent) {
@@ -2060,7 +2060,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
                         for (int k = 0; k < model_arry.length(); k++) {
                             JSONObject modelObj = model_arry.getJSONObject(k);
-                            String ncb_name = modelObj.getString("name");
+                            String ncb_name = modelObj.getString("val");
 
                             ncbDisplayValue.add(ncb_name);
                         }
