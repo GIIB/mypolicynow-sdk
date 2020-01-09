@@ -37,13 +37,17 @@
         </activity>
 
 
+
+
         <activity
             android:name="com.indicosmic.www.mypolicynow_sdk.QuotationActivity"
-            android:label="Quotation Screen" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name="com.indicosmic.www.mypolicynow_sdk.IcListingQuoteScreen"
-            android:label="Quotation Screen" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name="com.indicosmic.www.mypolicynow_sdk.CustomerPage"

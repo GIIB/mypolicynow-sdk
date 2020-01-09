@@ -247,7 +247,9 @@ public class ContactDetailsFragment extends Fragment implements BlockingStep {
             UtilitySharedPreferences.setPrefs(context,"AddressState",Str_State);
             UtilitySharedPreferences.setPrefs(context,"AddressCity",Str_City);
 
-             callback.goToNextStep();
+            if(callback!=null) {
+                callback.goToNextStep();
+            }
         }
 
     }

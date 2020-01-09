@@ -217,8 +217,8 @@ public class ReviewDetailsFragment extends Fragment implements BlockingStep {
         StrRtoCityCode = UtilitySharedPreferences.getPrefs(context, "RtoCityCode");
         StrRtoZoneCode = UtilitySharedPreferences.getPrefs(context, "RtoZoneCode");
         StrVehicleNo = UtilitySharedPreferences.getPrefs(context, "RtoVehicleNo");
-        StrEngineNo = UtilitySharedPreferences.getPrefs(context, "EngineNo").toUpperCase();
-        StrChassisNo = UtilitySharedPreferences.getPrefs(context, "ChassisNo").toUpperCase();
+        StrEngineNo = UtilitySharedPreferences.getPrefs(context, "EngineNo");
+        StrChassisNo = UtilitySharedPreferences.getPrefs(context, "ChassisNo");
         StrVehicleColor = UtilitySharedPreferences.getPrefs(context, "VehicleColor");
         StrAgreement = UtilitySharedPreferences.getPrefs(context, "AgreementType");
         StrBankName = UtilitySharedPreferences.getPrefs(context, "BankName");
