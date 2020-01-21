@@ -38,6 +38,13 @@
                 android:enabled="false"
                 android:visibility="gone"/>
 
+            <TextView
+                android:id="@+id/row_ic_name"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:enabled="false"
+                android:visibility="gone"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -57,32 +64,42 @@
                     android:gravity="center"
                     android:visibility="gone"
                     android:layout_weight="5">
-                    <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:textSize="12sp"
-                        android:layout_marginBottom="5dp"
-                        android:textColorHint="@color/grey"
-                        android:enabled="false"
-                        android:text="PREMIUM"
-                        android:fontFamily="@font/calibri_regular"
-                        android:layout_gravity="center|start"
-                        android:gravity="center|start"
-                        android:textColor="@color/black"/>
+                        <TextView
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:textSize="12sp"
+                            android:layout_marginBottom="5dp"
+                            android:textColorHint="@color/grey"
+                            android:enabled="false"
+                            android:text="PREMIUM"
+                            android:fontFamily="@font/calibri_regular"
+                            android:layout_gravity="center|start"
+                            android:gravity="center|start"
+                            android:textColor="@color/black"/>
 
 
-                    <TextView
-                        android:layout_height="wrap_content"
+                        <TextView
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:id="@+id/row_net_premium_amt"
+                            android:textSize="22sp"
+                            android:textStyle="bold"
+                            android:textColorHint="@color/grey"
+                            android:enabled="false"
+                            android:layout_gravity="center|start"
+                            android:fontFamily="@font/calibri_regular"
+                            android:gravity="center|start"
+                            android:textColor="@color/black"/>
+
+                    <LinearLayout
+                        android:id="@+id/LayoutSelectedAddon"
                         android:layout_width="match_parent"
-                        android:id="@+id/row_net_premium_amt"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
-                        android:textColorHint="@color/grey"
-                        android:enabled="false"
-                        android:layout_gravity="center|start"
-                        android:fontFamily="@font/calibri_regular"
-                        android:gravity="center|start"
-                        android:textColor="@color/black"/>
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:orientation="vertical"/>
+
+
+
 
                 </LinearLayout>
                 <LinearLayout
@@ -154,128 +171,128 @@
             android:visibility="gone"
             android:orientation="vertical">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/orange"
-                android:layout_marginEnd="5dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/orange"
+            android:layout_marginEnd="5dp"/>
+
+        <LinearLayout
+            android:id="@+id/row_linear_buy_policy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="9">
 
             <LinearLayout
-                android:id="@+id/row_linear_buy_policy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="9">
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_marginTop="3dp"
+                android:layout_weight="3">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+
+                <TextView
+                    android:id="@+id/tv_idv_in_rupees"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="3dp"
-                    android:layout_weight="3">
-
-
-                    <TextView
-                        android:id="@+id/tv_idv_in_rupees"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/orange"
-                        android:textStyle="bold"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text=""
-                        android:fontFamily="@font/calibri_regular"
-                        android:textSize="14sp"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:padding="5dp"
-                        android:textStyle="bold"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:textSize="12sp"
-                        android:text="IDV"
-                        android:fontFamily="@font/calibri_regular"
-                        android:textColor="@color/black"/>
-
-
-                </LinearLayout>
-
-
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/orange"
-                    android:layout_marginTop="7dp"
-                    />
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="3dp"
-
-                    android:layout_weight="3">
-
-
-                    <TextView
-                        android:id="@+id/row_addon_premium_amt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/orange"
-                        android:textStyle="bold"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:fontFamily="@font/calibri_regular"
-
-                        android:textSize="14sp"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textStyle="bold"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:textSize="12dp"
-                        android:text="Addon Premium"
-                        android:fontFamily="@font/calibri_regular"
-
-                        android:textColor="@color/black"/>
-
-
-                </LinearLayout>
-
-
-
-                <Button
-                    android:id="@+id/btn_buy_policy"
-                    android:layout_width="match_parent"
-                    android:layout_height="40sp"
-                    android:text="Buy Policy"
-                    android:textColor="@color/white"
-                    android:layout_weight="3"
+                    android:textColor="@color/orange"
+                    android:textStyle="bold"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
-
-
-                    android:textAllCaps="true"
-                    android:background="@drawable/cw_button_shadow_primary"
-
-                    android:layout_marginTop="5dp"
+                    android:text=""
+                    android:fontFamily="@font/calibri_regular"
+                    android:textSize="14sp"
                     />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:padding="5dp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:text="IDV"
+                    android:fontFamily="@font/calibri_regular"
+                    android:textColor="@color/black"/>
 
 
             </LinearLayout>
+
+
+
+              <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/orange"
+                android:layout_marginTop="7dp"
+                  />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_marginTop="3dp"
+
+                android:layout_weight="3">
+
+
+                <TextView
+                    android:id="@+id/row_addon_premium_amt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/orange"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:fontFamily="@font/calibri_regular"
+
+                    android:textSize="14sp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:textSize="12dp"
+                    android:text="Addon Premium"
+                    android:fontFamily="@font/calibri_regular"
+
+                    android:textColor="@color/black"/>
+
+
+            </LinearLayout>
+
+
+
+            <Button
+                android:id="@+id/btn_buy_policy"
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:text="Buy Policy"
+                android:textColor="@color/white"
+                android:layout_weight="3"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="10sp"
+                android:textStyle="bold"
+
+
+                android:textAllCaps="true"
+                android:background="@drawable/cw_button_shadow_primary"
+
+                android:layout_marginTop="5dp"
+                />
+
+
+        </LinearLayout>
 
 
         </LinearLayout>

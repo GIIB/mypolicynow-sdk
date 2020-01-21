@@ -97,4 +97,39 @@
             <item>Male</item>
             <item>Female</item>
         </string-array>
+
+        <string-array name="spin_item_geographical_extension_countries">
+
+            <item>Select Select Country</item>
+            <item>Bangladesh</item>
+            <item>Bhutan</item>
+            <item>Pakistan</item>
+            <item>Maldives</item>
+            <item>Nepal</item>
+            <item>Sri Lanka</item>
+
+        </string-array>
+
+        <string-array name="reason_opting_out_cpa">
+            <item>Do not have valid license</item>
+            <item>Have another Motor Insurance Policy with 15 lakhs PA owner cover</item>
+            <item>Have PA Policy of 15 lakhs and above</item>
+            <item>Have Other PA Policy</item>
+        </string-array>
+
+        <string-array name="spin_item_pa_sum_assured">
+
+            <item>Select Sum Insured(Rs)</item>
+            <item>200000</item>
+            <item>100000</item>
+            <item>90000</item>
+            <item>80000</item>
+            <item>70000</item>
+            <item>60000</item>
+            <item>50000</item>
+            <item>40000</item>
+            <item>30000</item>
+            <item>20000</item>
+            <item>10000</item>
+        </string-array>
 </resources>

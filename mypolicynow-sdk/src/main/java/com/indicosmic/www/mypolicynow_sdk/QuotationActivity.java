@@ -89,10 +89,14 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
     String StrExpiryDate = "";
     CheckBox ChkNilDept;
     String SelectedRtoId="",SelectedMakeId="",SelectedModelId="",SelectedVaraintId="",SelectedVehicleId="";
-    LinearLayout LinearChangeInOwnership,LayoutODDisount,InvoiceLayout,LinearNewPolicyWanted,IndividualPolicyHolderLayout,LinearValidMotorPolicy,LinearAnotherPA_Policy,LinearPA_Cover;
-    RadioGroup RG_NewPolicyRequired,RG_ValidLicence,RG_AnotherPolicy,RG_AnotherPA_Policy,RG_PA_Cover;
-    RadioButton Rb_1OD5TP,Rb_5OD5TP,Rb_NotValidLicence,Rb_ValidLicence,Rb_NoOtherPolicy,Rb_YesOtherPolicy,Rb_NoOtherPA_Policy,Rb_YesOtherPA_Policy,Rb_1YearPACover,Rb_5YearPACover;
+    LinearLayout LinearChangeInOwnership,LayoutODDisount,InvoiceLayout,LinearNewPolicyWanted,IndividualPolicyHolderLayout;
+    RadioGroup RG_NewPolicyRequired;
+    RadioButton Rb_1OD5TP,Rb_5OD5TP;
     TextView til_invoice_price;
+
+    Spinner Spn_CPASelection,Spn_ReasonOptingOutCPA;
+    LinearLayout LayoutReasonOptingOutCpa;
+
     ArrayList<String> rtoValue = new ArrayList<String>();
     ArrayList<String> rtoDisplayValue = new ArrayList<String>();
 
@@ -101,6 +105,9 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
     ArrayList<String> modelValue = new ArrayList<String>();
     ArrayList<String> modelDisplayValue = new ArrayList<String>();
+
+    ArrayList<String> cpaDisplayValue = new ArrayList<String>();
+
 
     ArrayList<String> variantValue = new ArrayList<String>();
     ArrayList<String> variantDisplayValue = new ArrayList<String>();
@@ -111,7 +118,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
     ArrayList<String> ncbDisplayValue = new ArrayList<String>();
 
-    String StrPosToken="",StrAgentId="",ProductTypeId="2",StrPolicyHolder;
+    String StrPosToken="",StrAgentId="",ProductTypeId="2",StrPolicyHolder="";
     Button BtnGetQuote;
     String StrRegistrationDate="",StrRegistration_monthId="0";
 
@@ -128,7 +135,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
     String policy_package_type = "",policy_type_selection="";
     String is_changes_in_ownership="no",is_previous_policy="no",previous_yr_policy_type="",is_claimed="no",
             previous_policy_ncb="0",selected_od_discount="",StrInvoicePrice="",selected_od_year="",have_motor_license="no",
-            have_motor_policy="no",have_pa_policy="no",selected_pa_year="1",previous_policy_nil_dep="no",
+            have_motor_policy="no",have_pa_policy="no",other_pa_policy="no",selected_pa_year="",previous_policy_nil_dep="no",
             ownership_change="no",product_type="bike",is_cng_lpg_tp="no",commercial_idv="0",no_of_trailer="0",
             vehicledisplaytype="0",body_type_id="0",frame_type_id="";
 
@@ -432,7 +439,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
                 // Show the date picker dialog fragment
                 dFragment.show(getFragmentManager(), "Date Picker");*/
-               prePolicyExpiryDatePickerDialog = new DatePickerDialog(QuotationActivity.this,
+                prePolicyExpiryDatePickerDialog = new DatePickerDialog(QuotationActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog,new DatePickerDialog.OnDateSetListener() {
 
                     @Override
@@ -728,6 +735,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                     IndividualPolicyHolderLayout.setVisibility(View.VISIBLE);
                 }else if(StrPolicyHolder!=null && StrPolicyHolder.equalsIgnoreCase("CORPORATE")){
                     IndividualPolicyHolderLayout.setVisibility(View.GONE);
+
                 }
             }
 
@@ -737,25 +745,13 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
             }
         });
 
-        RG_ValidLicence = (RadioGroup)findViewById(R.id.RG_ValidLicence);
-        Rb_NotValidLicence = (RadioButton)findViewById(R.id.Rb_NotValidLicence);
-        Rb_ValidLicence = (RadioButton)findViewById(R.id.Rb_ValidLicence);
-        LinearValidMotorPolicy = (LinearLayout)findViewById(R.id.LinearValidMotorPolicy);
+        Spn_CPASelection=(Spinner)findViewById(R.id.Spn_CPASelection);
+        Spn_ReasonOptingOutCPA=(Spinner)findViewById(R.id.Spn_ReasonOptingOutCPA);
+        LayoutReasonOptingOutCpa=(LinearLayout)findViewById(R.id.LayoutReasonOptingOutCpa);
 
-        RG_AnotherPolicy = (RadioGroup)findViewById(R.id.RG_AnotherPolicy);
-        Rb_NoOtherPolicy = (RadioButton)findViewById(R.id.Rb_NoOtherPolicy);
-        Rb_YesOtherPolicy = (RadioButton)findViewById(R.id.Rb_YesOtherPolicy);
-        LinearAnotherPA_Policy= (LinearLayout)findViewById(R.id.LinearAnotherPA_Policy);
-
-        RG_AnotherPA_Policy = (RadioGroup)findViewById(R.id.RG_AnotherPA_Policy);
-        Rb_NoOtherPA_Policy = (RadioButton)findViewById(R.id.Rb_NoOtherPA_Policy);
-        Rb_YesOtherPA_Policy = (RadioButton)findViewById(R.id.Rb_YesOtherPA_Policy);
-        LinearPA_Cover= (LinearLayout)findViewById(R.id.LinearPA_Cover);
-
-        RG_PA_Cover = (RadioGroup)findViewById(R.id.RG_PA_Cover);
-        Rb_1YearPACover = (RadioButton)findViewById(R.id.Rb_1YearPACover);
-        Rb_5YearPACover = (RadioButton)findViewById(R.id.Rb_5YearPACover);
-        if(StrPolicyType.equalsIgnoreCase("Renew")){
+        Spn_CPASelection.setOnItemSelectedListener(this);
+        Spn_ReasonOptingOutCPA.setOnItemSelectedListener(this);
+       /* if(StrPolicyType.equalsIgnoreCase("Renew")){
             Rb_5YearPACover.setVisibility(View.GONE);
         }else {
             Rb_5YearPACover.setVisibility(View.VISIBLE);
@@ -884,7 +880,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                 }
 
             }
-        });
+        });*/
 
         RG_PolicyType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -895,18 +891,19 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                     StrPolicyType = "New";
                     getManufacturingYear();
                     setChangeInOwnserhipVisibility();
-                    Rb_5YearPACover.setVisibility(View.VISIBLE);
-                    Rb_5YearPACover.setChecked(false);
+                    /*Rb_5YearPACover.setVisibility(View.VISIBLE);
+                    Rb_5YearPACover.setChecked(false);*/
                 }
                 if (Rb_ReNewPolicy.isChecked()){
                     Rb_NewPolicy.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                     Rb_ReNewPolicy.setBackgroundColor(getResources().getColor(R.color.primary_green));
                     StrPolicyType = "Renew";
-                    Rb_5YearPACover.setVisibility(View.GONE);
-                    Rb_5YearPACover.setChecked(false);
-
                     getManufacturingYear();
                     setChangeInOwnserhipVisibility();
+                   /* Rb_5YearPACover.setVisibility(View.GONE);
+                    Rb_5YearPACover.setChecked(false);
+*/
+
                 }
 
             }
@@ -919,485 +916,11 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
             @Override
             public void onClick(View view) {
                 if(validateFields()){
-
                     API_GET_QUOTE();
-
-
                 }
             }
         });
 
-    }
-
-    private void API_GET_QUOTE() {
-        if(myDialog!=null) {
-            myDialog.show();
-        }
-
-        if(PolicyType!=null && PolicyType.equalsIgnoreCase("Comprehensive")) {
-            if (StrPolicyType!=null && StrPolicyType.equalsIgnoreCase("Renew")) {
-                policy_package_type= "comprehensive";
-                policy_type_selection = "comprehensive_renewal";
-                selected_od_year = "1";
-                StrInvoicePrice = "";
-                StrExpiryDate = EdtPreviousPolicyExpiryDate.getText().toString();
-            } else if (StrPolicyType!=null &&StrPolicyType.equalsIgnoreCase("New")) {
-                policy_package_type= "comprehensive";
-                policy_type_selection = "comprehensive_new";
-                is_changes_in_ownership= "no";
-                is_previous_policy = "no";
-                previous_yr_policy_type="";
-                StrExpiryDate="";
-                is_claimed="no";
-                previous_policy_ncb = "0";
-                previous_policy_nil_dep = "no";
-            }
-        }else  if(PolicyType!=null && PolicyType.equalsIgnoreCase("ThirdParty")) {
-            if (StrPolicyType!=null && StrPolicyType.equalsIgnoreCase("Renew")) {
-                policy_package_type= "thirdparty";
-                policy_type_selection = "thirdparty_renewal";
-                selected_od_year = "1";
-                StrExpiryDate = EdtPreviousPolicyExpiryDate.getText().toString();
-            } else if (StrPolicyType!=null &&StrPolicyType.equalsIgnoreCase("New")) {
-                policy_package_type= "thirdparty";
-                policy_type_selection = "thirdparty_new";
-                is_changes_in_ownership= "no";
-                is_previous_policy = "no";
-                previous_yr_policy_type="";
-                StrExpiryDate="";
-                is_claimed="no";
-                previous_policy_ncb = "0";
-                previous_policy_nil_dep = "no";
-
-            }
-        }else  if(PolicyType!=null && PolicyType.equalsIgnoreCase("StandaloneOD")) {
-            if (StrPolicyType!=null && StrPolicyType.equalsIgnoreCase("Renew")) {
-                policy_package_type= "standalone od";
-                policy_type_selection = "standalone_renewal";
-                selected_od_year = "1";
-
-            }
-        }
-
-        if(Spn_NCB_Percent.getSelectedItemPosition()>0) {
-            previous_policy_ncb = Spn_NCB_Percent.getSelectedItem().toString();
-        }else {
-            previous_policy_ncb = "0";
-        }
-
-        if(StrRegistration_monthId!=null && StrRegistration_monthId.length()==1){
-            manufacturing_date = "01/0"+StrRegistration_monthId+"/"+StrManufacturingYear;
-        }else {
-            manufacturing_date = "01/"+StrRegistration_monthId+"/"+StrManufacturingYear;
-        }
-
-        if(Spn_ODDiscount.getSelectedItemPosition()>0){
-            String ODDiscountPer = Spn_ODDiscount.getSelectedItem().toString();
-            if(ODDiscountPer.equalsIgnoreCase("MAX DISCOUNT")){
-                selected_od_discount = "max";
-
-            }else {
-                selected_od_discount = ODDiscountPer.replace("%","");
-            }
-        }
-
-        StrInvoicePrice = EdtInvoicePrice.getText().toString();
-
-        String make_arry =  UtilitySharedPreferences.getPrefs(getApplicationContext(), "MakeMasterArryList");
-        String rto_array = UtilitySharedPreferences.getPrefs(getApplicationContext(), "RtoMasterArryList");
-        String model_arry = UtilitySharedPreferences.getPrefs(getApplicationContext(), "ModelMasterArryList");
-        String variant_arry = UtilitySharedPreferences.getPrefs(getApplicationContext(), "VariantMasterArryList");
-
-
-        if(rto_array!=null){
-
-            try {
-                JSONArray jsonArray = new JSONArray(rto_array);
-                for(int k =0; k<jsonArray.length();k++){
-                    JSONObject jsonObject = jsonArray.getJSONObject(k);
-                    String id = jsonObject.getString("id");
-                    if(SelectedRtoId.equalsIgnoreCase(id)){
-                        StrRtoCode = jsonObject.getString("code");
-                        StrRtoLabel = jsonObject.getString("label");
-                        StrRtoCity = jsonObject.getString("rto_city");
-                        StrRtoCityId = jsonObject.getString("city_id");
-                        StrRtoStateId = jsonObject.getString("state_id");
-                        StrRtoZoneTypeId = jsonObject.getString("zone_type_id");
-
-                    }
-
-                }
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-        }
-
-        if(make_arry!=null){
-
-            try {
-                JSONArray jsonArray = new JSONArray(make_arry);
-                for(int k =0; k<jsonArray.length();k++){
-                    JSONObject jsonObject = jsonArray.getJSONObject(k);
-                    String id = jsonObject.getString("id");
-                    if(SelectedMakeId.equalsIgnoreCase(id)){
-                        make_cleaned = jsonObject.getString("make_cleaned");
-                        StrSelectedMake = jsonObject.getString("make");
-
-
-                    }
-
-                }
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-        }
-
-
-        if(model_arry!=null){
-            try {
-                JSONArray jsonArray = new JSONArray(model_arry);
-                for(int k =0; k<jsonArray.length();k++){
-                    JSONObject jsonObject = jsonArray.getJSONObject(k);
-                    String id = jsonObject.getString("id");
-                    if(SelectedModelId.equalsIgnoreCase(id)){
-                        model_cleaned = jsonObject.getString("model_cleaned");
-                        SelectedModel = jsonObject.getString("model");
-                    }
-
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        if(variant_arry!=null){
-            try {
-                JSONArray jsonArray = new JSONArray(variant_arry);
-                for(int k =0; k<jsonArray.length();k++){
-                    JSONObject jsonObject = jsonArray.getJSONObject(k);
-                    String id = jsonObject.getString("id");
-                    if(SelectedVaraintId.equalsIgnoreCase(id)){
-                        StrVehicleId = jsonObject.getString("vehicle_id");
-                        StrVariantCleaned = jsonObject.getString("variant_cleaned");
-                        StrVariant = jsonObject.getString("variant");
-                        StrSeatingCapacity = jsonObject.getString("seating_capacity");
-                        StrCC = jsonObject.getString("cc");
-                        if(jsonObject.getString("gvw")!=null &&
-                            !jsonObject.getString("gvw").equalsIgnoreCase("") &&
-                            !jsonObject.getString("gvw").equalsIgnoreCase("null")) {
-                            StrGVW = jsonObject.getString("gvw");
-                        }else {
-                            StrGVW="";
-                        }
-                        StrFuelType = jsonObject.getString("fuel");
-                        StrFuelTypeCleaned = jsonObject.getString("fuel_cleaned");
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        String URL = RestClient.ROOT_URL2+"getquote";
-        ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
-        boolean isInternetPresent = cd.isConnectingToInternet();
-        if (isInternetPresent) {
-            Log.d("URL", "" + URL);
-            StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-
-                    if (myDialog != null && myDialog.isShowing()) {
-                        myDialog.dismiss();
-                    }
-                    try {
-
-                        Log.d("Response", "" + response);
-                        JSONObject jsonresponse = new JSONObject(response);
-
-                        JSONObject data_obj = jsonresponse.getJSONObject("data");
-                        JSONObject mpn_data = data_obj.getJSONObject("mpn_data");
-                        JSONObject user_action_data = data_obj.getJSONObject("user_action_data");
-
-
-                        UtilitySharedPreferences.setPrefs(getApplicationContext(),"MpnData",mpn_data.toString());
-                        UtilitySharedPreferences.setPrefs(getApplicationContext(),"UserActionData",user_action_data.toString());
-
-                        Intent intent = new Intent(getApplicationContext(),IcListingQuoteScreen.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.animator.move_left,R.animator.move_right);
-
-
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-                    if (myDialog != null && myDialog.isShowing()) {
-                        myDialog.dismiss();
-                    }
-                    CommonMethods.DisplayToastInfo(getApplicationContext(),"Something went wrong. Please try again later.");
-
-                }
-            }) {
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> map = new HashMap<String, String>();
-                    map.put("agent_id", StrAgentId);
-                    map.put("vehicle_id", StrVehicleId);
-                    map.put("vehicle_fuel", StrFuelType.toLowerCase());
-                    map.put("policy_type", StrPolicyType.toLowerCase());
-                    map.put("policy_package_type", policy_package_type);
-                    map.put("policy_type_selection", policy_type_selection);
-                    map.put("rto_id", SelectedRtoId);
-                    map.put("make_id", SelectedMakeId);
-                    map.put("model_id", SelectedModelId);
-                    map.put("variant_id", SelectedVaraintId);
-                    map.put("manufacturing_year", String.valueOf(registration_year));
-                    map.put("manufacturing_date", manufacturing_date);
-                    map.put("manufacturing_month", StrRegistration_monthId);
-                    map.put("purchase_invoice_date", StrRegistrationDate);
-                    map.put("policy_holder_type", StrPolicyHolder.toLowerCase());
-                    map.put("is_changes_in_ownership", is_changes_in_ownership);
-                    map.put("is_previous_policy", is_previous_policy);
-                    map.put("previous_yr_policy_type", previous_yr_policy_type);
-                    map.put("previous_policy_expiry_date", StrExpiryDate);
-                    map.put("is_claimed", is_claimed);
-                    map.put("previous_policy_ncb", previous_policy_ncb);
-                    map.put("selected_od_discount", selected_od_discount);
-                    map.put("invoice_price", StrInvoicePrice);
-                    map.put("selected_od_year", selected_od_year);
-                    map.put("have_motor_license", have_motor_license);
-                    map.put("have_motor_policy", have_motor_policy);
-                    map.put("have_pa_policy", have_pa_policy);
-                    map.put("selected_pa_year", selected_pa_year);
-                    map.put("product_type_id", ProductTypeId);
-                    map.put("previous_policy_nil_dep", previous_policy_nil_dep);
-                    map.put("product_type", product_type);
-                    map.put("rto_code", StrRtoCode);
-                    map.put("rto_label", StrRtoLabel);
-                    map.put("rto_city", StrRtoCity);
-                    map.put("rto_zone_type_id", StrRtoZoneTypeId);
-                    map.put("rto_state_id", StrRtoStateId);
-                    map.put("rto_city_id", StrRtoCityId);
-                    map.put("cc", StrCC);
-                    map.put("ex_showroom_price", ex_showroom_price);
-                    map.put("seating_capacity", StrSeatingCapacity);
-                    map.put("gvw", StrGVW);
-                    map.put("make_cleaned", make_cleaned.toLowerCase());
-                    map.put("make", StrSelectedMake.toLowerCase());
-                    map.put("model_cleaned", model_cleaned.toLowerCase());
-                    map.put("model", SelectedModel.toLowerCase());
-                    map.put("variant_cleaned", StrVariantCleaned.toLowerCase());
-                    map.put("variant", StrVariant.toLowerCase());
-                    map.put("fuel_cleaned", StrFuelTypeCleaned);
-                    map.put("fuel", StrFuelType);
-                    Log.d("QuotationData",""+map);
-                    return map;
-                }
-            };
-
-
-            int socketTimeout = 50000; //30 seconds - change to what you want
-            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-            request.setRetryPolicy(policy);
-            // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
-            requestQueue.add(request);
-        }else {
-            CommonMethods.DisplayToast(getApplicationContext(),"Please check Internet Connection");
-        }
-
-
-    }
-
-    private boolean validateFields() {
-
-        boolean result = true;
-
-        if(!MyValidator.isValidSearchableSpinner(Spn_RTO)){
-            result = false;
-            CommonMethods.DisplayToastError(getApplicationContext(),"Select RTO");
-        }
-
-        if(!MyValidator.isValidSearchableSpinner(Spn_Make)){
-            result = false;
-            CommonMethods.DisplayToastError(getApplicationContext(),"Select Make");
-        }
-
-        if(!MyValidator.isValidSearchableSpinner(Spn_Model)){
-            result = false;
-            CommonMethods.DisplayToastError(getApplicationContext(),"Select Model");
-        }
-
-        if(!MyValidator.isValidSearchableSpinner(Spn_Variant)){
-            result = false;
-            CommonMethods.DisplayToastError(getApplicationContext(),"Select Variant");
-        }
-
-        if(!MyValidator.isValidSpinner(Spn_ManufacturingYear)){
-            result = false;
-            CommonMethods.DisplayToastError(getApplicationContext(),"Select Manufacturing Year");
-        }
-
-        if(!MyValidator.isValidSpinner(Spn_ManufacturingMonth)){
-            result = false;
-            CommonMethods.DisplayToastError(getApplicationContext(),"Select Manufacturing Month");
-        }
-
-        if(!MyValidator.isValidField(EdtRegistrationDate)){
-            result = false;
-            CommonMethods.DisplayToastError(getApplicationContext(),"Select Valid Registration Date");
-        }
-
-        if(!MyValidator.isValidSpinner(Spn_PolicyHolder)){
-            result = false;
-            CommonMethods.DisplayToastError(getApplicationContext(),"Select Policy Holder Type");
-        }
-
-        if(LayoutODDisount.getVisibility()==View.VISIBLE) {
-            if (!MyValidator.isValidSpinner(Spn_ODDiscount)) {
-                result = false;
-                CommonMethods.DisplayToastError(getApplicationContext(), "Select Policy OD Discount");
-            }
-        }
-
-
-
-        if(StrPolicyType.equalsIgnoreCase("New")){
-            if(InvoiceLayout.getVisibility()==View.VISIBLE) {
-
-
-
-                if(EdtInvoicePrice.getText().toString()!=null && EdtInvoicePrice.getText().toString().length()>0){
-
-                    String InvoicePrice = EdtInvoicePrice.getText().toString();
-                    int invoice_price = Integer.valueOf(InvoicePrice);
-                    if(min_ex_showroom_price!=0 && max_ex_showroom_price!=0){
-                        if(invoice_price < min_ex_showroom_price){
-                            result = false;
-                            CommonMethods.DisplayToastError(getApplicationContext(),"Min: "+min_ex_showroom_price +" & Max: "+max_ex_showroom_price);
-                        }
-
-                        if(invoice_price > max_ex_showroom_price){
-                            result = false;
-                            CommonMethods.DisplayToastError(getApplicationContext(),"Min: "+min_ex_showroom_price +" & Max: "+max_ex_showroom_price);
-                        }
-                    }
-
-                }
-
-            }
-
-            if(LinearNewPolicyWanted.getVisibility()==View.VISIBLE) {
-                if (!MyValidator.isValidRadioGroup(RG_NewPolicyRequired)) {
-                    result = false;
-                    CommonMethods.DisplayToastError(getApplicationContext(), "Select New Policy Required");
-                }
-            }
-        }else if (StrPolicyType.equalsIgnoreCase("Renew")){
-            if(LinearChangeInOwnership.getVisibility()==View.VISIBLE){
-                if(!MyValidator.isValidRadioGroup(RG_ChangeInOwnership)){
-                    result = false;
-                    CommonMethods.DisplayToastError(getApplicationContext(),"Select Is there a change in ownership in last one year?");
-                }
-            }
-
-            if(SameOwnerLayout.getVisibility()==View.VISIBLE){
-                if(!MyValidator.isValidRadioGroup(RG_PreviousPolicy)){
-                    result = false;
-                    CommonMethods.DisplayToastError(getApplicationContext(),"Select Do you have previous policy?");
-                }
-            }
-
-            if(LinearPreviousPolicyType.getVisibility()==View.VISIBLE){
-                if(!MyValidator.isValidRadioGroup(RG_PreviousPolicyType)){
-                    result = false;
-                    CommonMethods.DisplayToastError(getApplicationContext(),"Select previous policy type");
-                }
-            }
-
-            if(LinearExpiryDate.getVisibility()==View.VISIBLE){
-                if(!MyValidator.isValidField(EdtPreviousPolicyExpiryDate)){
-                    result = false;
-                    CommonMethods.DisplayToastError(getApplicationContext(),"Select Previous Policy Expiry Date");
-                }
-            }
-
-            if(LinearHaveMadeClaim.getVisibility()==View.VISIBLE){
-                if(!MyValidator.isValidRadioGroup(RG_HaveMadeClaim)){
-                    result = false;
-                    CommonMethods.DisplayToastError(getApplicationContext(),"Select Have you made a claim?");
-                }
-            }
-
-            if(LinearNCB_Per.getVisibility()==View.VISIBLE){
-                if(!MyValidator.isValidSpinner(Spn_NCB_Percent)){
-                    result = false;
-                    CommonMethods.DisplayToastError(getApplicationContext(),"Select NCB Percent");
-                }
-            }
-
-            /*if(LayoutNilDept.getVisibility()==View.VISIBLE){
-                if(!MyValidator.isValidCheckBox(ChkNilDept)){
-                    result = false;
-                    CommonMethods.DisplayToastError(getApplicationContext(),"Select Nil Dept Policy or Not");
-                }
-            }*/
-
-
-
-
-        }
-
-
-        if(IndividualPolicyHolderLayout.getVisibility()==View.VISIBLE){
-            if(!MyValidator.isValidRadioGroup(RG_ValidLicence)){
-                result = false;
-                CommonMethods.DisplayToastError(getApplicationContext(),"Select Do you have valid license ?");
-            }
-
-        }
-
-        if(LinearValidMotorPolicy.getVisibility()==View.VISIBLE){
-            if(!MyValidator.isValidRadioGroup(RG_AnotherPolicy)){
-                result = false;
-                CommonMethods.DisplayToastError(getApplicationContext(),"Select Do you have another Motor Insurance Policy with 15 lakhs PA owner cover ? ");
-            }
-
-        }
-
-        if(LinearAnotherPA_Policy.getVisibility()==View.VISIBLE){
-            if(!MyValidator.isValidRadioGroup(RG_AnotherPA_Policy)){
-                result = false;
-                CommonMethods.DisplayToastError(getApplicationContext(),"Select Do you have PA Policy of 15 lakhs and above ? ");
-            }
-
-        }
-
-        if(LinearPA_Cover.getVisibility()==View.VISIBLE){
-            if(!MyValidator.isValidRadioGroup(RG_PA_Cover)){
-                result = false;
-                CommonMethods.DisplayToastError(getApplicationContext(),"Select PA COVER FOR  ");
-            }
-
-        }
-
-        return result;
     }
 
     private void GetMasterFor(String policy_type) {
@@ -1511,7 +1034,177 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
     }
 
+    private void GetModelList(String selectedMakeId) {
 
+        modelValue = new ArrayList<>();
+        modelDisplayValue = new ArrayList<>();
+        modelValue.add("0");
+        modelDisplayValue.add("Select Model");
+
+
+
+        String URL = RestClient.ROOT_URL2+"getmodel";
+        ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
+        boolean isInternetPresent = cd.isConnectingToInternet();
+        if (isInternetPresent) {
+            Log.d("URL", "" + URL);
+            StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+
+                    if (myDialog != null && myDialog.isShowing()) {
+                        myDialog.dismiss();
+                    }
+                    try {
+
+                        Log.d("Response", "" + response);
+                        JSONObject jsonresponse = new JSONObject(response);
+
+
+                        JSONArray model_arry = jsonresponse.getJSONArray("data");
+
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(), "ModelMasterArryList", model_arry.toString());
+
+
+                        for (int k = 0; k < model_arry.length(); k++) {
+                            JSONObject modelObj = model_arry.getJSONObject(k);
+                            String model_id = modelObj.getString("id");
+                            String model_name = modelObj.getString("model");
+
+                            modelValue.add(model_id);
+                            modelDisplayValue.add(model_name.toUpperCase());
+                        }
+
+                        ArrayAdapter<String> modelAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, modelDisplayValue);
+                        Spn_Model.setAdapter(modelAdapter);
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    if (myDialog != null && myDialog.isShowing()) {
+                        myDialog.dismiss();
+                    }
+                    CommonMethods.DisplayToastInfo(getApplicationContext(),"Something went wrong. Please try again later.");
+
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("agent_id", StrAgentId);
+                    map.put("make_id", selectedMakeId);
+                    map.put("product_type_id", ProductTypeId);
+
+                    return map;
+                }
+            };
+
+
+            int socketTimeout = 50000; //30 seconds - change to what you want
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            request.setRetryPolicy(policy);
+            // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(request);
+        }else {
+            CommonMethods.DisplayToast(getApplicationContext(),"Please check Internet Connection");
+        }
+    }
+
+    private void GetVariantList(String selectedMakeId,String selectedModelId) {
+
+        variantValue = new ArrayList<>();
+        variantDisplayValue = new ArrayList<>();
+        variantVehicleIdValue = new ArrayList<>();
+        variantValue.add("0");
+        variantDisplayValue.add("Select Variant");
+        variantVehicleIdValue.add("0");
+
+        String URL = RestClient.ROOT_URL2+"getvariant";
+        ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
+        boolean isInternetPresent = cd.isConnectingToInternet();
+        if (isInternetPresent) {
+            StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+
+                    if (myDialog != null && myDialog.isShowing()) {
+                        myDialog.dismiss();
+                    }
+                    try {
+
+                        Log.d("Response", "" + response);
+                        JSONObject jsonresponse = new JSONObject(response);
+
+
+                        JSONArray variant_arry = jsonresponse.getJSONArray("data");
+
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(), "VariantMasterArryList", variant_arry.toString());
+
+
+                        for (int k = 0; k < variant_arry.length(); k++) {
+                            JSONObject variantObj = variant_arry.getJSONObject(k);
+                            String variant_id = variantObj.getString("id");
+                            String variant_name = variantObj.getString("variant");
+                            String seating_capacity = variantObj.getString("seating_capacity");
+                            String cc = variantObj.getString("cc");
+                            String vehicle_id = variantObj.getString("vehicle_id");
+                            String fuel_cleaned = variantObj.getString("fuel_cleaned");
+
+                            variantValue.add(variant_id);
+                            variantVehicleIdValue.add(vehicle_id);
+                            variantDisplayValue.add(variant_name.toUpperCase() + " ("+ seating_capacity + "SEATER) ("+fuel_cleaned.toUpperCase()+") ("+cc+" CC)");
+                        }
+
+                        ArrayAdapter<String> variantAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, variantDisplayValue);
+                        Spn_Variant.setAdapter(variantAdapter);
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    if (myDialog != null && myDialog.isShowing()) {
+                        myDialog.dismiss();
+                    }
+                    CommonMethods.DisplayToastInfo(getApplicationContext(),"Something went wrong. Please try again later.");
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("agent_id", StrAgentId);
+                    map.put("make_id", selectedMakeId);
+                    map.put("model_id", selectedModelId);
+                    map.put("product_type_id", ProductTypeId);
+
+                    return map;
+                }
+            };
+
+
+            int socketTimeout = 50000; //30 seconds - change to what you want
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            request.setRetryPolicy(policy);
+            // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(request);
+        }else {
+            CommonMethods.DisplayToast(getApplicationContext(),"Please check Internet Connection");
+        }
+
+
+    }
 
     private void checkIsBreakInCase() {
 
@@ -1561,7 +1254,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date mDate = sdf.parse(givenDateString);
-             timeInMilliseconds = mDate.getTime();
+            timeInMilliseconds = mDate.getTime();
             System.out.println("Date in milli :: " + timeInMilliseconds);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -1653,6 +1346,8 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
     }
 
     private void setChangeInOwnserhipVisibility() {
+        cpaDisplayValue = new ArrayList<>();
+        cpaDisplayValue.add("Select CPA Cover *");
 
         if(PolicyType!=null && PolicyType.equalsIgnoreCase("Comprehensive")) {
             if (StrPolicyType!=null && StrPolicyType.equalsIgnoreCase("Renew")) {
@@ -1668,15 +1363,18 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                     @Override
                     public void onClick(View v) {
 
-                            if (registration_year != 0 && registration_month != 0) {
-                                setRegistrationDate(registration_year, registration_month, 1);
-                            } else {
-                                setRegistrationDate(mYear, mMonth, mDay);
-                            }
+                        if (registration_year != 0 && registration_month != 0) {
+                            setRegistrationDate(registration_year, registration_month, 1);
+                        } else {
+                            setRegistrationDate(mYear, mMonth, mDay);
+                        }
 
                     }
                 });
 
+
+                cpaDisplayValue.add("0 Year");
+                cpaDisplayValue.add("1 Year");
 
             } else if (StrPolicyType!=null &&StrPolicyType.equalsIgnoreCase("New")) {
                 LinearChangeInOwnership.setVisibility(View.GONE);
@@ -1686,6 +1384,16 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                 SameOwnerLayout.setVisibility(View.GONE);
                 EdtRegistrationDate.setText(StrRegistrationDate);
                 EdtRegistrationDate.setEnabled(false);
+
+                if(ProductTypeId!=null && ProductTypeId.equalsIgnoreCase("2")) {
+                    cpaDisplayValue.add("0 Year");
+                    cpaDisplayValue.add("1 Year");
+                    cpaDisplayValue.add("5 Year");
+                }else if(ProductTypeId!=null && ProductTypeId.equalsIgnoreCase("1")){
+                    cpaDisplayValue.add("0 Year");
+                    cpaDisplayValue.add("1 Year");
+                    cpaDisplayValue.add("3 Year");
+                }
             }
         }else  if(PolicyType!=null && PolicyType.equalsIgnoreCase("ThirdParty")) {
             if (StrPolicyType!=null && StrPolicyType.equalsIgnoreCase("Renew")) {
@@ -1700,14 +1408,18 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                     @Override
                     public void onClick(View v) {
 
-                            if (registration_year != 0 && registration_month != 0) {
-                                setRegistrationDate(registration_year, registration_month, 1);
-                            } else {
-                                setRegistrationDate(mYear, mMonth, mDay);
-                            }
+                        if (registration_year != 0 && registration_month != 0) {
+                            setRegistrationDate(registration_year, registration_month, 1);
+                        } else {
+                            setRegistrationDate(mYear, mMonth, mDay);
+                        }
 
                     }
                 });
+
+                cpaDisplayValue.add("0 Year");
+                cpaDisplayValue.add("1 Year");
+
             } else if (StrPolicyType!=null &&StrPolicyType.equalsIgnoreCase("New")) {
                 LinearChangeInOwnership.setVisibility(View.GONE);
                 InvoiceLayout.setVisibility(View.GONE);
@@ -1716,6 +1428,16 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                 SameOwnerLayout.setVisibility(View.GONE);
                 EdtRegistrationDate.setText(StrRegistrationDate);
                 EdtRegistrationDate.setEnabled(false);
+
+                if(ProductTypeId!=null && ProductTypeId.equalsIgnoreCase("2")) {
+                    cpaDisplayValue.add("0 Year");
+                    cpaDisplayValue.add("1 Year");
+                    cpaDisplayValue.add("5 Year");
+                }else if(ProductTypeId!=null && ProductTypeId.equalsIgnoreCase("1")){
+                    cpaDisplayValue.add("0 Year");
+                    cpaDisplayValue.add("1 Year");
+                    cpaDisplayValue.add("3 Year");
+                }
             }
         }else  if(PolicyType!=null && PolicyType.equalsIgnoreCase("StandaloneOD")) {
             if (StrPolicyType!=null && StrPolicyType.equalsIgnoreCase("Renew")) {
@@ -1730,18 +1452,24 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                     @Override
                     public void onClick(View v) {
 
-                            if (registration_year != 0 && registration_month != 0) {
-                                setRegistrationDate(registration_year, registration_month, 1);
-                            } else {
-                                setRegistrationDate(mYear, mMonth, mDay);
-                            }
+                        if (registration_year != 0 && registration_month != 0) {
+                            setRegistrationDate(registration_year, registration_month, 1);
+                        } else {
+                            setRegistrationDate(mYear, mMonth, mDay);
+                        }
 
 
 
                     }
                 });
+
+                cpaDisplayValue.add("0 Year");
+                cpaDisplayValue.add("1 Year");
             }
         }
+
+        ArrayAdapter<String> cpaAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, cpaDisplayValue);
+        Spn_CPASelection.setAdapter(cpaAdapter);
 
     }
 
@@ -1812,74 +1540,6 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
         super.onBackPressed();
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        int id = adapterView.getId();
-
-        if(id== R.id.Spn_RTO){
-
-           String StrRtoSelected = Spn_RTO.getSelectedItem().toString();
-
-            int pos_rto = Spn_RTO.getSelectedItemPosition();
-            SelectedRtoId = rtoValue.get(pos_rto).toString();
-
-
-        }else if(id== R.id.Spn_Make){
-
-            StrSelectedMake = Spn_Make.getSelectedItem().toString().toLowerCase();
-            int pos_make = Spn_Make.getSelectedItemPosition();
-            SelectedMakeId = makeValue.get(pos_make).toString();
-            GetModelList(SelectedMakeId);
-
-
-        }else if(id== R.id.Spn_Model){
-
-            SelectedModel = Spn_Model.getSelectedItem().toString().toLowerCase();
-            int pos_model = Spn_Model.getSelectedItemPosition();
-            SelectedModelId = modelValue.get(pos_model).toString();
-            GetVariantList(SelectedMakeId,SelectedModelId);
-
-
-        }else if(id== R.id.Spn_Variant){
-
-            String SelectedVariant = Spn_Variant.getSelectedItem().toString().toLowerCase();
-            int pos_varaint = Spn_Variant.getSelectedItemPosition();
-            SelectedVaraintId = variantValue.get(pos_varaint).toString();
-            SelectedVehicleId = variantVehicleIdValue.get(pos_varaint).toString();
-            getInvoicePriceRange();
-
-        }else if (id == R.id.Spn_ManufacturingYear) {
-            StrManufacturingYear = Spn_ManufacturingYear.getSelectedItem().toString().trim();
-            if (Spn_ManufacturingYear.getSelectedItemPosition() > 0) {
-                registration_year = Integer.valueOf(StrManufacturingYear);
-                ManufacturingMonthApi();
-                GetNCBListApi();
-            }
-        } else if (id == R.id.Spn_ManufacturingMonth) {
-            StrManufacturingMonth = Spn_ManufacturingMonth.getSelectedItem().toString().trim();
-
-            if (Spn_ManufacturingMonth.getSelectedItemPosition() > 0) {
-                int pos_month = Spn_ManufacturingMonth.getSelectedItemPosition();
-
-                StrRegistration_monthId = manufacturingMonthValue.get(pos_month).toString();
-                registration_month = Integer.valueOf(StrRegistration_monthId);
-
-                if(StrPolicyType.equalsIgnoreCase("Renew")){
-                    if(registration_year!=0 && registration_month!=0) {
-                        setRegistrationDate(registration_year, registration_month, 1);
-                    }else {
-                        setRegistrationDate(mYear, mMonth, mDay);
-                    }
-                }else {
-                    StrRegistrationDate = CommonMethods.DisplayCurrentDate();
-                    EdtRegistrationDate.setText(StrRegistrationDate);
-
-                }
-
-
-            }
-        }
-    }
 
     private void getInvoicePriceRange() {
         String URL = RestClient.ROOT_URL2+"front/Quotation/getInvoicePriceRange";
@@ -2032,6 +1692,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
 
     }
+
     private void GetNCBListApi(){
 
         ncbDisplayValue = new ArrayList<>();
@@ -2110,16 +1771,185 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
     }
 
-    private void GetModelList(String selectedMakeId) {
+    private void API_GET_QUOTE() {
+        if(myDialog!=null) {
+            myDialog.show();
+        }
 
-        modelValue = new ArrayList<>();
-        modelDisplayValue = new ArrayList<>();
-        modelValue.add("0");
-        modelDisplayValue.add("Select Model");
+        if(PolicyType!=null && PolicyType.equalsIgnoreCase("Comprehensive")) {
+            if (StrPolicyType!=null && StrPolicyType.equalsIgnoreCase("Renew")) {
+                policy_package_type= "comprehensive";
+                policy_type_selection = "comprehensive_renewal";
+                selected_od_year = "1";
+                StrInvoicePrice = "";
+                StrExpiryDate = EdtPreviousPolicyExpiryDate.getText().toString();
+            } else if (StrPolicyType!=null &&StrPolicyType.equalsIgnoreCase("New")) {
+                policy_package_type= "comprehensive";
+                policy_type_selection = "comprehensive_new";
+                is_changes_in_ownership= "no";
+                is_previous_policy = "no";
+                previous_yr_policy_type="";
+                StrExpiryDate="";
+                is_claimed="no";
+                previous_policy_ncb = "0";
+                previous_policy_nil_dep = "no";
+            }
+        }else  if(PolicyType!=null && PolicyType.equalsIgnoreCase("ThirdParty")) {
+            if (StrPolicyType!=null && StrPolicyType.equalsIgnoreCase("Renew")) {
+                policy_package_type= "thirdparty";
+                policy_type_selection = "thirdparty_renewal";
+                selected_od_year = "1";
+                StrExpiryDate = EdtPreviousPolicyExpiryDate.getText().toString();
+            } else if (StrPolicyType!=null &&StrPolicyType.equalsIgnoreCase("New")) {
+                policy_package_type= "thirdparty";
+                policy_type_selection = "thirdparty_new";
+                is_changes_in_ownership= "no";
+                is_previous_policy = "no";
+                previous_yr_policy_type="";
+                StrExpiryDate="";
+                is_claimed="no";
+                previous_policy_ncb = "0";
+                previous_policy_nil_dep = "no";
+
+            }
+        }else  if(PolicyType!=null && PolicyType.equalsIgnoreCase("StandaloneOD")) {
+            if (StrPolicyType!=null && StrPolicyType.equalsIgnoreCase("Renew")) {
+                policy_package_type= "standalone od";
+                policy_type_selection = "standalone_renewal";
+                selected_od_year = "1";
+
+            }
+        }
+
+        if(Spn_NCB_Percent.getSelectedItemPosition()>0) {
+            previous_policy_ncb = Spn_NCB_Percent.getSelectedItem().toString();
+        }else {
+            previous_policy_ncb = "0";
+        }
+
+        if(StrRegistration_monthId!=null && StrRegistration_monthId.length()==1){
+            manufacturing_date = "01/0"+StrRegistration_monthId+"/"+StrManufacturingYear;
+        }else {
+            manufacturing_date = "01/"+StrRegistration_monthId+"/"+StrManufacturingYear;
+        }
+
+        String ODDiscountPer = Spn_ODDiscount.getSelectedItem().toString();
+        if(ODDiscountPer.equalsIgnoreCase("MAX DISCOUNT")){
+            selected_od_discount = "max";
+
+        }else {
+            selected_od_discount = ODDiscountPer.replace("%","");
+        }
 
 
+        StrInvoicePrice = EdtInvoicePrice.getText().toString();
 
-        String URL = RestClient.ROOT_URL2+"getmodel";
+        String make_arry =  UtilitySharedPreferences.getPrefs(getApplicationContext(), "MakeMasterArryList");
+        String rto_array = UtilitySharedPreferences.getPrefs(getApplicationContext(), "RtoMasterArryList");
+        String model_arry = UtilitySharedPreferences.getPrefs(getApplicationContext(), "ModelMasterArryList");
+        String variant_arry = UtilitySharedPreferences.getPrefs(getApplicationContext(), "VariantMasterArryList");
+
+
+        if(rto_array!=null){
+
+            try {
+                JSONArray jsonArray = new JSONArray(rto_array);
+                for(int k =0; k<jsonArray.length();k++){
+                    JSONObject jsonObject = jsonArray.getJSONObject(k);
+                    String id = jsonObject.getString("id");
+                    if(SelectedRtoId.equalsIgnoreCase(id)){
+                        StrRtoCode = jsonObject.getString("code");
+                        StrRtoLabel = jsonObject.getString("label");
+                        StrRtoCity = jsonObject.getString("rto_city");
+                        StrRtoCityId = jsonObject.getString("city_id");
+                        StrRtoStateId = jsonObject.getString("state_id");
+                        StrRtoZoneTypeId = jsonObject.getString("zone_type_id");
+
+                    }
+
+                }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+        if(make_arry!=null){
+
+            try {
+                JSONArray jsonArray = new JSONArray(make_arry);
+                for(int k =0; k<jsonArray.length();k++){
+                    JSONObject jsonObject = jsonArray.getJSONObject(k);
+                    String id = jsonObject.getString("id");
+                    if(SelectedMakeId.equalsIgnoreCase(id)){
+                        make_cleaned = jsonObject.getString("make_cleaned");
+                        StrSelectedMake = jsonObject.getString("make");
+
+
+                    }
+
+                }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+
+        if(model_arry!=null){
+            try {
+                JSONArray jsonArray = new JSONArray(model_arry);
+                for(int k =0; k<jsonArray.length();k++){
+                    JSONObject jsonObject = jsonArray.getJSONObject(k);
+                    String id = jsonObject.getString("id");
+                    if(SelectedModelId.equalsIgnoreCase(id)){
+                        model_cleaned = jsonObject.getString("model_cleaned");
+                        SelectedModel = jsonObject.getString("model");
+                    }
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        if(variant_arry!=null){
+            try {
+                JSONArray jsonArray = new JSONArray(variant_arry);
+                for(int k =0; k<jsonArray.length();k++){
+                    JSONObject jsonObject = jsonArray.getJSONObject(k);
+                    String id = jsonObject.getString("id");
+                    if(SelectedVaraintId.equalsIgnoreCase(id)){
+                        StrVehicleId = jsonObject.getString("vehicle_id");
+                        StrVariantCleaned = jsonObject.getString("variant_cleaned");
+                        StrVariant = jsonObject.getString("variant");
+                        StrSeatingCapacity = jsonObject.getString("seating_capacity");
+                        StrCC = jsonObject.getString("cc");
+                        if(jsonObject.getString("gvw")!=null &&
+                                !jsonObject.getString("gvw").equalsIgnoreCase("") &&
+                                !jsonObject.getString("gvw").equalsIgnoreCase("null")) {
+                            StrGVW = jsonObject.getString("gvw");
+                        }else {
+                            StrGVW="";
+                        }
+                        StrFuelType = jsonObject.getString("fuel");
+                        StrFuelTypeCleaned = jsonObject.getString("fuel_cleaned");
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        String URL = RestClient.ROOT_URL2+"getquote";
         ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
         boolean isInternetPresent = cd.isConnectingToInternet();
         if (isInternetPresent) {
@@ -2136,26 +1966,22 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                         Log.d("Response", "" + response);
                         JSONObject jsonresponse = new JSONObject(response);
 
-
-                        JSONArray model_arry = jsonresponse.getJSONArray("data");
-
-                        UtilitySharedPreferences.setPrefs(getApplicationContext(), "ModelMasterArryList", model_arry.toString());
-
-
-                        for (int k = 0; k < model_arry.length(); k++) {
-                            JSONObject modelObj = model_arry.getJSONObject(k);
-                            String model_id = modelObj.getString("id");
-                            String model_name = modelObj.getString("model");
-
-                            modelValue.add(model_id);
-                            modelDisplayValue.add(model_name.toUpperCase());
-                        }
-
-                        ArrayAdapter<String> modelAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, modelDisplayValue);
-                        Spn_Model.setAdapter(modelAdapter);
+                        JSONObject data_obj = jsonresponse.getJSONObject("data");
+                        JSONObject mpn_data = data_obj.getJSONObject("mpn_data");
+                        JSONObject user_action_data = data_obj.getJSONObject("user_action_data");
 
 
-                    } catch (JSONException e) {
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(),"MpnData",mpn_data.toString());
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(),"UserActionData",user_action_data.toString());
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(),"PolicyHolder",StrPolicyHolder.toLowerCase());
+
+                        Intent intent = new Intent(getApplicationContext(),IcListingQuoteScreen.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.animator.move_left,R.animator.move_right);
+
+
+
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 
@@ -2174,9 +2000,56 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                 protected Map<String, String> getParams() {
                     Map<String, String> map = new HashMap<String, String>();
                     map.put("agent_id", StrAgentId);
-                    map.put("make_id", selectedMakeId);
+                    map.put("vehicle_id", StrVehicleId);
+                    map.put("vehicle_fuel", StrFuelType.toLowerCase());
+                    map.put("policy_type", StrPolicyType.toLowerCase());
+                    map.put("policy_package_type", policy_package_type);
+                    map.put("policy_type_selection", policy_type_selection);
+                    map.put("rto_id", SelectedRtoId);
+                    map.put("make_id", SelectedMakeId);
+                    map.put("model_id", SelectedModelId);
+                    map.put("variant_id", SelectedVaraintId);
+                    map.put("manufacturing_year", String.valueOf(registration_year));
+                    map.put("manufacturing_date", manufacturing_date);
+                    map.put("manufacturing_month", StrRegistration_monthId);
+                    map.put("purchase_invoice_date", StrRegistrationDate);
+                    map.put("policy_holder_type", StrPolicyHolder.toLowerCase());
+                    map.put("is_changes_in_ownership", is_changes_in_ownership);
+                    map.put("is_previous_policy", is_previous_policy);
+                    map.put("previous_yr_policy_type", previous_yr_policy_type);
+                    map.put("previous_policy_expiry_date", StrExpiryDate);
+                    map.put("is_claimed", is_claimed);
+                    map.put("previous_policy_ncb", previous_policy_ncb);
+                    map.put("selected_od_discount", selected_od_discount);
+                    map.put("invoice_price", StrInvoicePrice);
+                    map.put("selected_od_year", selected_od_year);
+                    map.put("have_motor_license", have_motor_license);
+                    map.put("have_motor_policy", have_motor_policy);
+                    map.put("have_pa_policy", have_pa_policy);
+                    map.put("other_pa_policy", other_pa_policy);
+                    map.put("selected_pa_year",selected_pa_year);
                     map.put("product_type_id", ProductTypeId);
-
+                    map.put("previous_policy_nil_dep", previous_policy_nil_dep);
+                    map.put("product_type", product_type);
+                    map.put("rto_code", StrRtoCode);
+                    map.put("rto_label", StrRtoLabel);
+                    map.put("rto_city", StrRtoCity);
+                    map.put("rto_zone_type_id", StrRtoZoneTypeId);
+                    map.put("rto_state_id", StrRtoStateId);
+                    map.put("rto_city_id", StrRtoCityId);
+                    map.put("cc", StrCC);
+                    map.put("ex_showroom_price", ex_showroom_price);
+                    map.put("seating_capacity", StrSeatingCapacity);
+                    map.put("gvw", StrGVW);
+                    map.put("make_cleaned", make_cleaned.toLowerCase());
+                    map.put("make", StrSelectedMake.toLowerCase());
+                    map.put("model_cleaned", model_cleaned.toLowerCase());
+                    map.put("model", SelectedModel.toLowerCase());
+                    map.put("variant_cleaned", StrVariantCleaned.toLowerCase());
+                    map.put("variant", StrVariant.toLowerCase());
+                    map.put("fuel_cleaned", StrFuelTypeCleaned);
+                    map.put("fuel", StrFuelType);
+                    Log.d("QuotationData",""+map);
                     return map;
                 }
             };
@@ -2191,96 +2064,301 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
         }else {
             CommonMethods.DisplayToast(getApplicationContext(),"Please check Internet Connection");
         }
+
+
     }
-    private void GetVariantList(String selectedMakeId,String selectedModelId) {
 
-        variantValue = new ArrayList<>();
-        variantDisplayValue = new ArrayList<>();
-        variantVehicleIdValue = new ArrayList<>();
-        variantValue.add("0");
-        variantDisplayValue.add("Select Variant");
-        variantVehicleIdValue.add("0");
+    private boolean validateFields() {
 
-        String URL = RestClient.ROOT_URL2+"getvariant";
-        ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
-        boolean isInternetPresent = cd.isConnectingToInternet();
-        if (isInternetPresent) {
-            StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
+        boolean result = true;
 
-                    if (myDialog != null && myDialog.isShowing()) {
-                        myDialog.dismiss();
-                    }
-                    try {
+        if(!MyValidator.isValidSearchableSpinner(Spn_RTO)){
+            result = false;
+            CommonMethods.DisplayToastError(getApplicationContext(),"Select RTO");
+        }
 
-                        Log.d("Response", "" + response);
-                        JSONObject jsonresponse = new JSONObject(response);
+        if(!MyValidator.isValidSearchableSpinner(Spn_Make)){
+            result = false;
+            CommonMethods.DisplayToastError(getApplicationContext(),"Select Make");
+        }
+
+        if(!MyValidator.isValidSearchableSpinner(Spn_Model)){
+            result = false;
+            CommonMethods.DisplayToastError(getApplicationContext(),"Select Model");
+        }
+
+        if(!MyValidator.isValidSearchableSpinner(Spn_Variant)){
+            result = false;
+            CommonMethods.DisplayToastError(getApplicationContext(),"Select Variant");
+        }
+
+        if(!MyValidator.isValidSpinner(Spn_ManufacturingYear)){
+            result = false;
+            CommonMethods.DisplayToastError(getApplicationContext(),"Select Manufacturing Year");
+        }
+
+        if(!MyValidator.isValidSpinner(Spn_ManufacturingMonth)){
+            result = false;
+            CommonMethods.DisplayToastError(getApplicationContext(),"Select Manufacturing Month");
+        }
+
+        if(!MyValidator.isValidField(EdtRegistrationDate)){
+            result = false;
+            CommonMethods.DisplayToastError(getApplicationContext(),"Select Valid Registration Date");
+        }
+
+        if(!MyValidator.isValidSpinner(Spn_PolicyHolder)){
+            result = false;
+            CommonMethods.DisplayToastError(getApplicationContext(),"Select Policy Holder Type");
+        }
+
+       /* if(LayoutODDisount.getVisibility()==View.VISIBLE) {
+            if (!MyValidator.isValidSpinner(Spn_ODDiscount)) {
+                result = false;
+                CommonMethods.DisplayToastError(getApplicationContext(), "Select Policy OD Discount");
+            }
+        }*/
 
 
-                        JSONArray variant_arry = jsonresponse.getJSONArray("data");
 
-                        UtilitySharedPreferences.setPrefs(getApplicationContext(), "VariantMasterArryList", variant_arry.toString());
+        if(StrPolicyType.equalsIgnoreCase("New")){
+            if(InvoiceLayout.getVisibility()==View.VISIBLE) {
 
 
-                        for (int k = 0; k < variant_arry.length(); k++) {
-                            JSONObject variantObj = variant_arry.getJSONObject(k);
-                            String variant_id = variantObj.getString("id");
-                            String variant_name = variantObj.getString("variant");
-                            String seating_capacity = variantObj.getString("seating_capacity");
-                            String cc = variantObj.getString("cc");
-                            String vehicle_id = variantObj.getString("vehicle_id");
-                            String fuel_cleaned = variantObj.getString("fuel_cleaned");
 
-                            variantValue.add(variant_id);
-                            variantVehicleIdValue.add(vehicle_id);
-                            variantDisplayValue.add(variant_name.toUpperCase() + " ("+ seating_capacity + "SEATER) ("+fuel_cleaned.toUpperCase()+") ("+cc+" CC)");
+                if(EdtInvoicePrice.getText().toString()!=null && EdtInvoicePrice.getText().toString().length()>0){
+
+                    String InvoicePrice = EdtInvoicePrice.getText().toString();
+                    int invoice_price = Integer.valueOf(InvoicePrice);
+                    if(min_ex_showroom_price!=0 && max_ex_showroom_price!=0){
+                        if(invoice_price < min_ex_showroom_price){
+                            result = false;
+                            CommonMethods.DisplayToastError(getApplicationContext(),"Min: "+min_ex_showroom_price +" & Max: "+max_ex_showroom_price);
                         }
 
-                        ArrayAdapter<String> variantAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, variantDisplayValue);
-                        Spn_Variant.setAdapter(variantAdapter);
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        if(invoice_price > max_ex_showroom_price){
+                            result = false;
+                            CommonMethods.DisplayToastError(getApplicationContext(),"Min: "+min_ex_showroom_price +" & Max: "+max_ex_showroom_price);
+                        }
                     }
 
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-                    if (myDialog != null && myDialog.isShowing()) {
-                        myDialog.dismiss();
-                    }
-                    CommonMethods.DisplayToastInfo(getApplicationContext(),"Something went wrong. Please try again later.");
+
+            }
+
+            if(LinearNewPolicyWanted.getVisibility()==View.VISIBLE) {
+                if (!MyValidator.isValidRadioGroup(RG_NewPolicyRequired)) {
+                    result = false;
+                    CommonMethods.DisplayToastError(getApplicationContext(), "Select New Policy Required");
                 }
-            }) {
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> map = new HashMap<String, String>();
-                    map.put("agent_id", StrAgentId);
-                    map.put("make_id", selectedMakeId);
-                    map.put("model_id", selectedModelId);
-                    map.put("product_type_id", ProductTypeId);
-
-                    return map;
+            }
+        }else if (StrPolicyType.equalsIgnoreCase("Renew")){
+            if(LinearChangeInOwnership.getVisibility()==View.VISIBLE){
+                if(!MyValidator.isValidRadioGroup(RG_ChangeInOwnership)){
+                    result = false;
+                    CommonMethods.DisplayToastError(getApplicationContext(),"Select Is there a change in ownership in last one year?");
                 }
-            };
+            }
+
+            if(SameOwnerLayout.getVisibility()==View.VISIBLE){
+                if(!MyValidator.isValidRadioGroup(RG_PreviousPolicy)){
+                    result = false;
+                    CommonMethods.DisplayToastError(getApplicationContext(),"Select Do you have previous policy?");
+                }
+            }
+
+            if(LinearPreviousPolicyType.getVisibility()==View.VISIBLE){
+                if(!MyValidator.isValidRadioGroup(RG_PreviousPolicyType)){
+                    result = false;
+                    CommonMethods.DisplayToastError(getApplicationContext(),"Select previous policy type");
+                }
+            }
+
+            if(LinearExpiryDate.getVisibility()==View.VISIBLE){
+                if(!MyValidator.isValidField(EdtPreviousPolicyExpiryDate)){
+                    result = false;
+                    CommonMethods.DisplayToastError(getApplicationContext(),"Select Previous Policy Expiry Date");
+                }
+            }
+
+            if(LinearHaveMadeClaim.getVisibility()==View.VISIBLE){
+                if(!MyValidator.isValidRadioGroup(RG_HaveMadeClaim)){
+                    result = false;
+                    CommonMethods.DisplayToastError(getApplicationContext(),"Select Have you made a claim?");
+                }
+            }
+
+            if(LinearNCB_Per.getVisibility()==View.VISIBLE){
+                if(!MyValidator.isValidSpinner(Spn_NCB_Percent)){
+                    result = false;
+                    CommonMethods.DisplayToastError(getApplicationContext(),"Select NCB Percent");
+                }
+            }
+
+            /*if(LayoutNilDept.getVisibility()==View.VISIBLE){
+                if(!MyValidator.isValidCheckBox(ChkNilDept)){
+                    result = false;
+                    CommonMethods.DisplayToastError(getApplicationContext(),"Select Nil Dept Policy or Not");
+                }
+            }*/
 
 
-            int socketTimeout = 50000; //30 seconds - change to what you want
-            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-            request.setRetryPolicy(policy);
-            // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
-            requestQueue.add(request);
-        }else {
-            CommonMethods.DisplayToast(getApplicationContext(),"Please check Internet Connection");
+
+
         }
 
 
+        if(IndividualPolicyHolderLayout.getVisibility()==View.VISIBLE){
+            if(!MyValidator.isValidSpinner(Spn_CPASelection)){
+                result = false;
+                CommonMethods.DisplayToastError(getApplicationContext(),"Select CPA");
+            }
+        }
+
+        /*if(LinearValidMotorPolicy.getVisibility()==View.VISIBLE){
+            if(!MyValidator.isValidRadioGroup(RG_AnotherPolicy)){
+                result = false;
+                CommonMethods.DisplayToastError(getApplicationContext(),"Select Do you have another Motor Insurance Policy with 15 lakhs PA owner cover ? ");
+            }
+
+        }
+
+        if(LinearAnotherPA_Policy.getVisibility()==View.VISIBLE){
+            if(!MyValidator.isValidRadioGroup(RG_AnotherPA_Policy)){
+                result = false;
+                CommonMethods.DisplayToastError(getApplicationContext(),"Select Do you have PA Policy of 15 lakhs and above ? ");
+            }
+
+        }
+
+        if(LinearPA_Cover.getVisibility()==View.VISIBLE){
+            if(!MyValidator.isValidRadioGroup(RG_PA_Cover)){
+                result = false;
+                CommonMethods.DisplayToastError(getApplicationContext(),"Select PA COVER FOR  ");
+            }
+
+        }*/
+
+        return result;
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        int id = adapterView.getId();
+
+        if(id== R.id.Spn_RTO){
+
+            String StrRtoSelected = Spn_RTO.getSelectedItem().toString();
+
+            int pos_rto = Spn_RTO.getSelectedItemPosition();
+            SelectedRtoId = rtoValue.get(pos_rto).toString();
+
+
+        }else if(id== R.id.Spn_Make){
+
+            StrSelectedMake = Spn_Make.getSelectedItem().toString().toLowerCase();
+            int pos_make = Spn_Make.getSelectedItemPosition();
+            SelectedMakeId = makeValue.get(pos_make).toString();
+            GetModelList(SelectedMakeId);
+
+
+        }else if(id== R.id.Spn_Model){
+
+            SelectedModel = Spn_Model.getSelectedItem().toString().toLowerCase();
+            int pos_model = Spn_Model.getSelectedItemPosition();
+            SelectedModelId = modelValue.get(pos_model).toString();
+            GetVariantList(SelectedMakeId,SelectedModelId);
+
+
+        }else if(id== R.id.Spn_Variant){
+
+            String SelectedVariant = Spn_Variant.getSelectedItem().toString().toLowerCase();
+            int pos_varaint = Spn_Variant.getSelectedItemPosition();
+            SelectedVaraintId = variantValue.get(pos_varaint).toString();
+            SelectedVehicleId = variantVehicleIdValue.get(pos_varaint).toString();
+            getInvoicePriceRange();
+
+        }else if (id == R.id.Spn_ManufacturingYear) {
+            StrManufacturingYear = Spn_ManufacturingYear.getSelectedItem().toString().trim();
+            if (Spn_ManufacturingYear.getSelectedItemPosition() > 0) {
+                registration_year = Integer.valueOf(StrManufacturingYear);
+                ManufacturingMonthApi();
+                GetNCBListApi();
+            }
+        } else if (id == R.id.Spn_ManufacturingMonth) {
+            StrManufacturingMonth = Spn_ManufacturingMonth.getSelectedItem().toString().trim();
+
+            if (Spn_ManufacturingMonth.getSelectedItemPosition() > 0) {
+                int pos_month = Spn_ManufacturingMonth.getSelectedItemPosition();
+
+                if(manufacturingMonthValue.get(pos_month)!=null) {
+                    StrRegistration_monthId = manufacturingMonthValue.get(pos_month).toString();
+                    registration_month = Integer.valueOf(StrRegistration_monthId);
+                }
+                if(StrPolicyType.equalsIgnoreCase("Renew")){
+                    if(registration_year!=0 && registration_month!=0) {
+                        setRegistrationDate(registration_year, registration_month, 1);
+                    }else {
+                        setRegistrationDate(mYear, mMonth, mDay);
+                    }
+                }else {
+                    StrRegistrationDate = CommonMethods.DisplayCurrentDate();
+                    EdtRegistrationDate.setText(StrRegistrationDate);
+
+                }
+
+
+            }
+        } else if (id == R.id.Spn_CPASelection) {
+            String Selected_cpa = Spn_CPASelection.getSelectedItem().toString().trim();
+            if(Selected_cpa!=null && !Selected_cpa.equalsIgnoreCase("")){
+                if(Selected_cpa.equalsIgnoreCase("0 Year")){
+                    selected_pa_year = "0";
+                    LayoutReasonOptingOutCpa.setVisibility(View.VISIBLE);
+                }else if(Selected_cpa.equalsIgnoreCase("1 Year")){
+                    selected_pa_year = "1";
+                    LayoutReasonOptingOutCpa.setVisibility(View.GONE);
+                }else if(Selected_cpa.equalsIgnoreCase("5 Year")){
+                    selected_pa_year = "5";
+                    LayoutReasonOptingOutCpa.setVisibility(View.GONE);
+                }else if(Selected_cpa.equalsIgnoreCase("3 Year")){
+                    selected_pa_year = "3";
+                    LayoutReasonOptingOutCpa.setVisibility(View.GONE);
+                }
+                scrollDown();
+            }
+        }else if (id == R.id.Spn_ReasonOptingOutCPA) {
+            String Selected_ReasonOptingOutCPA = Spn_ReasonOptingOutCPA.getSelectedItem().toString().trim();
+            if (Selected_ReasonOptingOutCPA != null && !Selected_ReasonOptingOutCPA.equalsIgnoreCase("")) {
+                if (Selected_ReasonOptingOutCPA.equalsIgnoreCase("Do not have valid license")) {
+                    have_motor_license = "no";
+                    have_motor_policy = "no";
+                    have_pa_policy = "no";
+                    other_pa_policy = "no";
+                    selected_pa_year = "0";
+                } else if (Selected_ReasonOptingOutCPA.equalsIgnoreCase("Have another Motor Insurance Policy with 15 lakhs PA owner cover")) {
+                    have_motor_license = "yes";
+                    have_motor_policy = "yes";
+                    have_pa_policy = "no";
+                    other_pa_policy = "no";
+                    selected_pa_year = "0";
+                } else if (Selected_ReasonOptingOutCPA.equalsIgnoreCase("Have PA Policy of 15 lakhs and above")) {
+                    have_motor_license = "yes";
+                    have_motor_policy = "no";
+                    have_pa_policy = "yes";
+                    other_pa_policy = "no";
+                    selected_pa_year = "0";
+
+                } else if (Selected_ReasonOptingOutCPA.equalsIgnoreCase("Have Other PA Policy")) {
+                    have_motor_license = "yes";
+                    have_motor_policy = "no";
+                    have_pa_policy = "no";
+                    other_pa_policy = "yes";
+                    selected_pa_year = "0";
+                }
+            }
+        }
+    }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {

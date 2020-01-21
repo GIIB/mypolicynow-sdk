@@ -52,7 +52,11 @@
                         android:layout_weight="5"
                         android:maxLength="2"
                         android:padding="5dp"
+
                         android:editable="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:enabled="false"
                         android:textColor="@color/black"
                         android:textColorHint="@color/grey"
                         android:textSize="17sp" />
@@ -85,7 +89,11 @@
                 android:layout_weight="5"
                 android:maxLength="2"
                 android:padding="5dp"
+
                 android:editable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:enabled="false"
                 android:textColor="@color/black"
                 android:textColorHint="@color/grey"
                 android:textSize="17sp" />

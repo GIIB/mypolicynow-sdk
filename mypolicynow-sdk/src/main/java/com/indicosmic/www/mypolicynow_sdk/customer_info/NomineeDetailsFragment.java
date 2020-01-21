@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -154,94 +155,113 @@ public class NomineeDetailsFragment extends Fragment implements BlockingStep,Ada
 
 
 
-        setValuesToView();
+        setDataToFields();
     }
 
-    private void setValuesToView() {
-
-        Str_NomineeSalutation = UtilitySharedPreferences.getPrefs(context,"NomineeSalutation");
-        Str_NomineeFirstName = UtilitySharedPreferences.getPrefs(context,"NomineeFirstName");
-        Str_NomineeMiddleName = UtilitySharedPreferences.getPrefs(context,"NomineeMiddleName");
-        Str_NomineeLastName = UtilitySharedPreferences.getPrefs(context,"NomineeLastName");
-        Str_NomineeRelationship = UtilitySharedPreferences.getPrefs(context,"NomineeRelationship");
-        Str_NomineeAge = UtilitySharedPreferences.getPrefs(context,"NomineeAge");
-        Str_AppointeeSalutation = UtilitySharedPreferences.getPrefs(context,"AppointeeSalutation");
-        Str_AppointeeFirstName = UtilitySharedPreferences.getPrefs(context,"AppointeeFirstName");
-        Str_AppointeeMiddleName = UtilitySharedPreferences.getPrefs(context,"AppointeeMiddleName");
-        Str_AppointeeLastName = UtilitySharedPreferences.getPrefs(context,"AppointeeLastName");
-        Str_AppointeeRelationship = UtilitySharedPreferences.getPrefs(context,"AppointeeRelationship");
-        Str_AppointeeAge = UtilitySharedPreferences.getPrefs(context,"AppointeeAge");
 
 
-        if(Str_NomineeSalutation!=null && !Str_NomineeSalutation.equalsIgnoreCase("") && !Str_NomineeSalutation.equalsIgnoreCase("null")){
-            int i = getIndex(Spn_NomineeSalutation,Str_NomineeSalutation);
-            Spn_NomineeSalutation.setSelection(i);
-        }
+    private void setDataToFields() {
 
-        if(Str_NomineeFirstName!=null && !Str_NomineeFirstName.equalsIgnoreCase("") && !Str_NomineeFirstName.equalsIgnoreCase("null")){
-            edt_NomineeFirstName.setText(Str_NomineeFirstName);
-        }
+        String StrMpnData = UtilitySharedPreferences.getPrefs(context,"MpnData");
 
-        if(Str_NomineeMiddleName!=null && !Str_NomineeMiddleName.equalsIgnoreCase("") && !Str_NomineeMiddleName.equalsIgnoreCase("null")){
-            edt_NomineeMiddleName.setText(Str_NomineeMiddleName);
-        }
+        try {
+            JSONObject mpnObj = new JSONObject(StrMpnData);
+            JSONObject customer_quoteObj = mpnObj.getJSONObject("customer_quote");
+            if(customer_quoteObj!=null && !customer_quoteObj.toString().contains("nominee_details")){
 
-        if(Str_NomineeLastName!=null && !Str_NomineeLastName.equalsIgnoreCase("") && !Str_NomineeLastName.equalsIgnoreCase("null")){
-            edt_NomineeLastName.setText(Str_NomineeLastName);
-        }
+                JSONObject nominee_detailsObj = customer_quoteObj.getJSONObject("nominee_details");
 
-        if(Str_NomineeRelationship!=null && !Str_NomineeRelationship.equalsIgnoreCase("") && !Str_NomineeRelationship.equalsIgnoreCase("null")){
-            int i = getIndex(Spn_NomineeRelationship,Str_NomineeRelationship);
-            Spn_NomineeRelationship.setSelection(i);
-        }
-        if(Str_NomineeAge!=null && !Str_NomineeAge.equalsIgnoreCase("") && !Str_NomineeAge.equalsIgnoreCase("null")){
-            edt_NomineeAge.setText(Str_NomineeAge);
-            int nominee_age = Integer.valueOf(Str_NomineeAge);
-            if(nominee_age<18){
-                LayoutAppointeeDetails.setVisibility(View.VISIBLE);
-            }else {
-                LayoutAppointeeDetails.setVisibility(View.GONE);
+                Str_NomineeSalutation = nominee_detailsObj.getString("nominee_salutaion");
+                Str_NomineeFirstName = nominee_detailsObj.getString("nominee_first_name");
+                Str_NomineeMiddleName = nominee_detailsObj.getString("nominee_middle_name");
+                Str_NomineeLastName = nominee_detailsObj.getString("nominee_last_name");
+                Str_NomineeRelationship = nominee_detailsObj.getString("nominee_relationship");
+                Str_NomineeAge = nominee_detailsObj.getString("nominee_age");
+
+
+
+                if(customer_quoteObj!=null && !customer_quoteObj.toString().contains("appointee_details")) {
+                    LayoutAppointeeDetails.setVisibility(View.VISIBLE);
+                    JSONObject appointee_detailsObj = customer_quoteObj.getJSONObject("appointee_details");
+
+                    Str_AppointeeSalutation = appointee_detailsObj.getString("appointee_salutaion");
+                    Str_AppointeeFirstName = appointee_detailsObj.getString("appointee_first_name");
+                    Str_AppointeeMiddleName = appointee_detailsObj.getString("appointee_middle_name");
+                    Str_AppointeeLastName = appointee_detailsObj.getString("appointee_last_name");
+                    Str_AppointeeRelationship = appointee_detailsObj.getString("appointee_relationship");
+                    Str_AppointeeAge = appointee_detailsObj.getString("appointee_age");
+
+
+                }
+
+                if(Str_NomineeSalutation!=null && !Str_NomineeSalutation.equalsIgnoreCase("") && !Str_NomineeSalutation.equalsIgnoreCase("null")){
+                    int i = getIndex(Spn_NomineeSalutation,Str_NomineeSalutation);
+                    Spn_NomineeSalutation.setSelection(i);
+                }
+
+                if(Str_NomineeFirstName!=null && !Str_NomineeFirstName.equalsIgnoreCase("") && !Str_NomineeFirstName.equalsIgnoreCase("null")){
+                    edt_NomineeFirstName.setText(Str_NomineeFirstName);
+                }
+
+                if(Str_NomineeMiddleName!=null && !Str_NomineeMiddleName.equalsIgnoreCase("") && !Str_NomineeMiddleName.equalsIgnoreCase("null")){
+                    edt_NomineeMiddleName.setText(Str_NomineeMiddleName);
+                }
+
+                if(Str_NomineeLastName!=null && !Str_NomineeLastName.equalsIgnoreCase("") && !Str_NomineeLastName.equalsIgnoreCase("null")){
+                    edt_NomineeLastName.setText(Str_NomineeLastName);
+                }
+
+                if(Str_NomineeRelationship!=null && !Str_NomineeRelationship.equalsIgnoreCase("") && !Str_NomineeRelationship.equalsIgnoreCase("null")){
+                    int i = getIndex(Spn_NomineeRelationship,Str_NomineeRelationship);
+                    Spn_NomineeRelationship.setSelection(i);
+                }
+                if(Str_NomineeAge!=null && !Str_NomineeAge.equalsIgnoreCase("") && !Str_NomineeAge.equalsIgnoreCase("null")){
+                    edt_NomineeAge.setText(Str_NomineeAge);
+                    int nominee_age = Integer.valueOf(Str_NomineeAge);
+                    if(nominee_age<18){
+                        LayoutAppointeeDetails.setVisibility(View.VISIBLE);
+                    }else {
+                        LayoutAppointeeDetails.setVisibility(View.GONE);
+                    }
+                }
+
+                if(LayoutAppointeeDetails.getVisibility()==View.VISIBLE){
+
+                    if(Str_AppointeeSalutation!=null && !Str_AppointeeSalutation.equalsIgnoreCase("") && !Str_AppointeeSalutation.equalsIgnoreCase("null")){
+                        int i = getIndex(Spn_AppointeeSalutation,Str_AppointeeSalutation);
+                        Spn_AppointeeSalutation.setSelection(i);
+                    }
+
+                    if(Str_AppointeeFirstName!=null && !Str_AppointeeFirstName.equalsIgnoreCase("") && !Str_AppointeeFirstName.equalsIgnoreCase("null")){
+                        edt_AppointeeFirstName.setText(Str_AppointeeFirstName);
+                    }
+
+                    if(Str_AppointeeMiddleName!=null && !Str_AppointeeMiddleName.equalsIgnoreCase("") && !Str_AppointeeMiddleName.equalsIgnoreCase("null")){
+                        edt_AppointeeMiddleName.setText(Str_AppointeeMiddleName);
+                    }
+
+                    if(Str_AppointeeLastName!=null && !Str_AppointeeLastName.equalsIgnoreCase("") && !Str_AppointeeLastName.equalsIgnoreCase("null")){
+                        edt_AppointeeLastName.setText(Str_AppointeeLastName);
+                    }
+
+                    if(Str_AppointeeRelationship!=null && !Str_AppointeeRelationship.equalsIgnoreCase("") && !Str_AppointeeRelationship.equalsIgnoreCase("null")){
+                        int i = getIndex(Spn_AppointeeRelationship,Str_AppointeeRelationship);
+                        Spn_AppointeeRelationship.setSelection(i);
+                    }
+                    if(Str_AppointeeAge!=null && !Str_AppointeeAge.equalsIgnoreCase("") && !Str_AppointeeAge.equalsIgnoreCase("null")){
+                        edt_AppointeeAge.setText(Str_AppointeeAge);
+
+                    }
+
+                }
             }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-
-        if(LayoutAppointeeDetails.getVisibility()==View.VISIBLE){
-
-            if(Str_AppointeeSalutation!=null && !Str_AppointeeSalutation.equalsIgnoreCase("") && !Str_AppointeeSalutation.equalsIgnoreCase("null")){
-                int i = getIndex(Spn_AppointeeSalutation,Str_AppointeeSalutation);
-                Spn_AppointeeSalutation.setSelection(i);
-            }
-
-            if(Str_AppointeeFirstName!=null && !Str_AppointeeFirstName.equalsIgnoreCase("") && !Str_AppointeeFirstName.equalsIgnoreCase("null")){
-                edt_AppointeeFirstName.setText(Str_AppointeeFirstName);
-            }
-
-            if(Str_AppointeeMiddleName!=null && !Str_AppointeeMiddleName.equalsIgnoreCase("") && !Str_AppointeeMiddleName.equalsIgnoreCase("null")){
-                edt_AppointeeMiddleName.setText(Str_AppointeeMiddleName);
-            }
-
-            if(Str_AppointeeLastName!=null && !Str_AppointeeLastName.equalsIgnoreCase("") && !Str_AppointeeLastName.equalsIgnoreCase("null")){
-                edt_AppointeeLastName.setText(Str_AppointeeLastName);
-            }
-
-            if(Str_AppointeeRelationship!=null && !Str_AppointeeRelationship.equalsIgnoreCase("") && !Str_AppointeeRelationship.equalsIgnoreCase("null")){
-                int i = getIndex(Spn_AppointeeRelationship,Str_AppointeeRelationship);
-                Spn_AppointeeRelationship.setSelection(i);
-            }
-            if(Str_AppointeeAge!=null && !Str_AppointeeAge.equalsIgnoreCase("") && !Str_AppointeeAge.equalsIgnoreCase("null")){
-                edt_AppointeeAge.setText(Str_AppointeeAge);
-
-            }
-
-
-        }
-
-
-
-
-
-
 
     }
+
 
     private int getIndex(Spinner spinner, String searchString) {
 
@@ -264,8 +284,6 @@ public class NomineeDetailsFragment extends Fragment implements BlockingStep,Ada
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-
-
         int id = adapterView.getId();
         if (id == R.id.Spn_NomineeSalutation) {
             Str_NomineeSalutation = Spn_NomineeSalutation.getSelectedItem().toString().trim();
@@ -366,7 +384,7 @@ public class NomineeDetailsFragment extends Fragment implements BlockingStep,Ada
 
         return result;
     }
-        //Block Steps Until Operation gets Finished
+    //Block Steps Until Operation gets Finished
 
     @Override
     public void onNextClicked(final StepperLayout.OnNextClickedCallback onNextClickedCallback) {
@@ -401,20 +419,39 @@ public class NomineeDetailsFragment extends Fragment implements BlockingStep,Ada
                 Str_AppointeeAge = "";
             }
 
-            UtilitySharedPreferences.setPrefs(context, "NomineeSalutation", Str_NomineeSalutation);
-            UtilitySharedPreferences.setPrefs(context, "NomineeFirstName", Str_NomineeFirstName);
-            UtilitySharedPreferences.setPrefs(context, "NomineeMiddleName", Str_NomineeMiddleName);
-            UtilitySharedPreferences.setPrefs(context, "NomineeLastName", Str_NomineeLastName);
-            UtilitySharedPreferences.setPrefs(context, "NomineeRelationship", Str_NomineeRelationship);
-            UtilitySharedPreferences.setPrefs(context, "NomineeAge", Str_NomineeAge);
-            UtilitySharedPreferences.setPrefs(context, "AppointeeSalutation", Str_AppointeeSalutation);
-            UtilitySharedPreferences.setPrefs(context, "AppointeeFirstName", Str_AppointeeFirstName);
-            UtilitySharedPreferences.setPrefs(context, "AppointeeMiddleName", Str_AppointeeMiddleName);
-            UtilitySharedPreferences.setPrefs(context, "AppointeeLastName", Str_AppointeeLastName);
-            UtilitySharedPreferences.setPrefs(context, "AppointeeRelationship", Str_AppointeeRelationship);
-            UtilitySharedPreferences.setPrefs(context, "AppointeeAge", Str_AppointeeAge);
+            JSONObject nominee_detailsObj = new JSONObject();
+            JSONObject appointee_detailsObj = new JSONObject();
 
-            mCallback.goToNextStep();
+            try {
+                nominee_detailsObj.put("nominee_salutaion",Str_NomineeSalutation);
+                nominee_detailsObj.put("nominee_first_name",Str_NomineeFirstName);
+                nominee_detailsObj.put("nominee_middle_name",Str_NomineeMiddleName);
+                nominee_detailsObj.put("nominee_last_name",Str_NomineeLastName);
+                nominee_detailsObj.put("nominee_relationship",Str_NomineeRelationship.toLowerCase());
+                nominee_detailsObj.put("nominee_age",Str_NomineeAge);
+
+                appointee_detailsObj.put("appointee_salutaion",Str_AppointeeSalutation);
+                appointee_detailsObj.put("appointee_first_name",Str_AppointeeFirstName);
+                appointee_detailsObj.put("appointee_middle_name",Str_AppointeeMiddleName);
+                appointee_detailsObj.put("appointee_last_name",Str_AppointeeLastName);
+                appointee_detailsObj.put("appointee_relationship",Str_AppointeeRelationship.toLowerCase());
+                appointee_detailsObj.put("appointee_age",Str_AppointeeAge);
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            UtilitySharedPreferences.setPrefs(context,"nominee_detailsObj",nominee_detailsObj.toString());
+            UtilitySharedPreferences.setPrefs(context,"appointee_detailsObj",appointee_detailsObj.toString());
+            Log.d("NomineeDetail",""+nominee_detailsObj.toString());
+            Log.d("AppointeeDetail",""+appointee_detailsObj.toString());
+
+
+            if(mCallback!=null) {
+                mCallback.goToNextStep();
+            }
         }
 
     }
@@ -498,3 +535,4 @@ public class NomineeDetailsFragment extends Fragment implements BlockingStep,Ada
 
 
 }
+

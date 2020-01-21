@@ -282,38 +282,38 @@
 
         function drawTable() {
 
-        var vehicle_idv_year_trObj = [];
-        var start_date_year_trObj = [];
-        var end_date_year_trObj = [];
-        var total_basic_od_yr_trObj = [];
+        var vehicle_idv_yearObj = [];
+        var start_date_yearObj = [];
+        var end_date_yearObj = [];
+        var total_basic_od_yrObj = [];
         var total_electrical_premiumObj = [];
         var total_non_electrical_premiumObj = [];
-        var total_od_yr_wise_trObj = [];
+        var total_od_yr_wiseObj = [];
         var total_geographical_value_odObj = [];
-        var year_wise_trObj = [];
+        var year_wiseObj = [];
 
-        vehicle_idv_year_trObj = JSON.parse(Android.get_vehicle_idv_year_trObj());
-        start_date_year_trObj = JSON.parse(Android.get_start_date_year_trObj());
-        end_date_year_trObj = JSON.parse(Android.get_end_date_year_trObj());
-        total_basic_od_yr_trObj = JSON.parse(Android.get_total_basic_od_yr_trObj());
+        vehicle_idv_yearObj = JSON.parse(Android.get_vehicle_idv_yearObj());
+        start_date_yearObj = JSON.parse(Android.get_start_date_yearObj());
+        end_date_yearObj = JSON.parse(Android.get_end_date_yearObj());
+        total_basic_od_yrObj = JSON.parse(Android.get_total_basic_od_yrObj());
         total_electrical_premiumObj = JSON.parse(Android.get_total_electrical_premiumObj());
         total_non_electrical_premiumObj = JSON.parse(Android.get_total_non_electrical_premiumObj());
-        total_od_yr_wise_trObj = JSON.parse(Android.get_total_od_yr_wise_trObj());
+        total_od_yr_wiseObj = JSON.parse(Android.get_total_od_yr_wiseObj());
         total_geographical_value_odObj = JSON.parse(Android.get_total_geographical_value_odObj());
-        year_wise_trObj= JSON.parse(Android.get_year_wise_trObj());
+        year_wiseObj= JSON.parse(Android.get_year_wiseObj());
 
          /*var idv_data = '{"1":47747,"2":40208,"3":35182,"4":30156,"5":25130}'
-         vehicle_idv_year_trObj = JSON.parse(idv_data);
-         console.log("webOutput--> "+vehicle_idv_year_trObj["1"]);
+         vehicle_idv_yearObj = JSON.parse(idv_data);
+         console.log("webOutput--> "+vehicle_idv_yearObj["1"]);
 
 		 var start_data = '{"1":"02/01/2020","2":"02/01/2021","3":"02/01/2022","4":"02/01/2023","5":"02/01/2024"}'
-         start_date_year_trObj = JSON.parse(start_data);
+         start_date_yearObj = JSON.parse(start_data);
 
 		 var end_data = '{"1":"01/01/2021","2":"01/01/2022","3":"01/01/2023","4":"01/01/2024","5":"01/01/2025"}'
-         end_date_year_trObj = JSON.parse(end_data);
+         end_date_yearObj = JSON.parse(end_data);
 
 		 var basic_od_total = '{"1":366.98,"2":309.04,"3":360.55,"4":309.04,"5":257.53}'
-         total_basic_od_yr_trObj = JSON.parse(basic_od_total);
+         total_basic_od_yrObj = JSON.parse(basic_od_total);
 
 		 var total_electrical_premium = '{"1":0,"2":0,"3":0,"4":0,"5":0}'
          total_electrical_premiumObj = JSON.parse(total_electrical_premium);
@@ -324,30 +324,30 @@
 		 var total_geographical_value_od = '{"1":0,"2":0,"3":0,"4":0,"5":0}'
          total_geographical_value_odObj = JSON.parse(total_geographical_value_od);
 
-		 var total_od_yr_wise_tr = '{"1":"366.98","2":"309.04","3":"360.55","4":"309.04","5":"257.53"}'
-         total_od_yr_wise_trObj = JSON.parse(total_od_yr_wise_tr);*/
+		 var total_od_yr_wise = '{"1":"366.98","2":"309.04","3":"360.55","4":"309.04","5":"257.53"}'
+         total_od_yr_wiseObj = JSON.parse(total_od_yr_wise);*/
 
 
           $(document).ready(function(){
 
 
-            $.each( year_wise_trObj, function( key, value ) {
+            $.each( year_wiseObj, function( key, value ) {
               document.getElementById("test_class").insertCell(key).innerHTML = value+' Year';
             });
 
-            $.each( vehicle_idv_year_trObj, function( key, value ) {
+            $.each( vehicle_idv_yearObj, function( key, value ) {
               document.getElementById("row_idv").insertCell(key).innerHTML = value;
             });
 
-             $.each( start_date_year_trObj, function( key, value ) {
+             $.each( start_date_yearObj, function( key, value ) {
               document.getElementById("row_start_date").insertCell(key).innerHTML = value;
             });
 
-            $.each( end_date_year_trObj, function( key, value ) {
+            $.each( end_date_yearObj, function( key, value ) {
               document.getElementById("row_end_year").insertCell(key).innerHTML = value;
             });
 
-            $.each( total_basic_od_yr_trObj, function( key, value ) {
+            $.each( total_basic_od_yrObj, function( key, value ) {
               document.getElementById("row_basic_od").insertCell(key).innerHTML = value;
             });
 
@@ -360,7 +360,7 @@
              $.each( total_geographical_value_odObj, function( key, value ) {
               document.getElementById("row_geographical").insertCell(key).innerHTML = value;
             });
-             $.each( total_od_yr_wise_trObj, function( key, value ) {
+             $.each( total_od_yr_wiseObj, function( key, value ) {
               document.getElementById("row_total_od_premium_yearly").insertCell(key).innerHTML = value;
             });
 

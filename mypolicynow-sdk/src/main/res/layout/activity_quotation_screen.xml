@@ -28,6 +28,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:weightSum="10">
                 <LinearLayout
@@ -63,6 +65,7 @@
                     android:gravity="center"
                     android:layout_margin="5dp"
                     android:padding="5dp"
+                    android:layout_weight="5"
                     android:orientation="vertical">
 
                     <ImageView
@@ -1001,273 +1004,68 @@
                     android:visibility="gone"
                     android:orientation="vertical">
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5sp"
+                        android:padding="5dp"
+                        android:text="CPA TERM SELECTION *"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5sp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="@drawable/btn_color_white">
+
+                        <Spinner
+                            android:id="@+id/Spn_CPASelection"
+                            style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:padding="5dp"/>
+                    </RelativeLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:weightSum="10"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5sp"
-                            android:padding="5dp"
-                            android:layout_weight="5"
-                            android:layout_gravity="center|start"
-                            android:gravity="center|start"
-                            android:text="Do you have valid license ? *"
-                            android:textColor="@color/black"
-                            android:textSize="14sp" />
-
-                        <RadioGroup
-                            android:id="@+id/RG_ValidLicence"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_weight="5"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:weightSum="10">
-
-
-
-                            <RadioButton
-                                android:id="@+id/Rb_NotValidLicence"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="No"
-                                android:textColor="@color/black"
-                                android:background="@drawable/form_bg_edittext_bg"
-                                android:layout_margin="5dp"
-                                android:padding="5dp"
-                                android:minHeight="30sp"
-                                android:buttonTint="@color/black"
-                                style="@android:style/Widget.CompoundButton.CheckBox"
-                                android:layout_weight="5"/>
-
-                            <RadioButton
-                                android:id="@+id/Rb_ValidLicence"
-
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Yes"
-                                android:textColor="@color/black"
-                                android:background="@drawable/form_bg_edittext_bg"
-                                android:layout_margin="5dp"
-                                android:padding="5dp"
-                                android:buttonTint="@color/black"
-                                style="@android:style/Widget.CompoundButton.CheckBox"
-                                android:minHeight="30sp"
-
-                                android:layout_weight="5"/>
-
-                        </RadioGroup>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/LinearValidMotorPolicy"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="10"
-                        android:layout_gravity="center"
-                        android:gravity="center"
+                        android:orientation="vertical"
                         android:visibility="gone"
-                        android:orientation="horizontal">
+                        android:id="@+id/LayoutReasonOptingOutCpa">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="5sp"
                             android:padding="5dp"
-                            android:layout_weight="5"
-                            android:layout_gravity="center|start"
-                            android:gravity="center|start"
-                            android:text="Do you have another Motor Insurance Policy with 15 lakhs PA owner cover ? *"
+                            android:text="Reason for opting out CPA"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
 
-                        <RadioGroup
-                            android:id="@+id/RG_AnotherPolicy"
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_weight="5"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:weightSum="10">
+                            android:layout_height="55dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5sp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/btn_color_white">
 
-
-
-                            <RadioButton
-                                android:id="@+id/Rb_NoOtherPolicy"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="No"
-                                android:textColor="@color/black"
-                                android:background="@drawable/form_bg_edittext_bg"
-                                android:layout_margin="5dp"
-                                android:padding="5dp"
-                                android:minHeight="30sp"
-                                android:buttonTint="@color/black"
-                                style="@android:style/Widget.CompoundButton.CheckBox"
-                                android:layout_weight="5"/>
-
-                            <RadioButton
-                                android:id="@+id/Rb_YesOtherPolicy"
-
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Yes"
-                                android:textColor="@color/black"
-                                android:background="@drawable/form_bg_edittext_bg"
-                                android:layout_margin="5dp"
-                                android:padding="5dp"
-                                android:buttonTint="@color/black"
-                                style="@android:style/Widget.CompoundButton.CheckBox"
-                                android:minHeight="30sp"
-
-                                android:layout_weight="5"/>
-
-                        </RadioGroup>
+                            <Spinner
+                                android:id="@+id/Spn_ReasonOptingOutCPA"
+                                style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="70dp"
+                                android:entries="@array/reason_opting_out_cpa"
+                                android:padding="5dp"/>
+                        </RelativeLayout>
 
                     </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/LinearAnotherPA_Policy"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="10"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:visibility="gone"
-                        android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5sp"
-                            android:padding="5dp"
-                            android:layout_weight="5"
-                            android:layout_gravity="center|start"
-                            android:gravity="center|start"
-                            android:text="Do you have PA Policy of 15 lakhs and above ? *"
-                            android:textColor="@color/black"
-                            android:textSize="14sp" />
-
-                        <RadioGroup
-                            android:id="@+id/RG_AnotherPA_Policy"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_weight="5"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:weightSum="10">
-
-
-
-                            <RadioButton
-                                android:id="@+id/Rb_NoOtherPA_Policy"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="No"
-                                android:textColor="@color/black"
-                                android:background="@drawable/form_bg_edittext_bg"
-                                android:layout_margin="5dp"
-                                android:padding="5dp"
-                                android:minHeight="30sp"
-                                android:buttonTint="@color/black"
-                                style="@android:style/Widget.CompoundButton.CheckBox"
-                                android:layout_weight="5"/>
-
-                            <RadioButton
-                                android:id="@+id/Rb_YesOtherPA_Policy"
-
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Yes"
-                                android:textColor="@color/black"
-                                android:background="@drawable/form_bg_edittext_bg"
-                                android:layout_margin="5dp"
-                                android:padding="5dp"
-                                android:buttonTint="@color/black"
-                                style="@android:style/Widget.CompoundButton.CheckBox"
-                                android:minHeight="30sp"
-
-                                android:layout_weight="5"/>
-
-                        </RadioGroup>
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/LinearPA_Cover"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="10"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:visibility="gone"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5sp"
-                            android:padding="5dp"
-                            android:layout_weight="5"
-                            android:layout_gravity="center|start"
-                            android:gravity="center|start"
-                            android:text="PA COVER FOR *"
-                            android:textColor="@color/black"
-                            android:textSize="14sp" />
-
-                        <RadioGroup
-                            android:id="@+id/RG_PA_Cover"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_weight="5"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:weightSum="10">
-
-
-
-                            <RadioButton
-                                android:id="@+id/Rb_1YearPACover"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="1 Year PA"
-                                android:textColor="@color/black"
-                                android:background="@drawable/form_bg_edittext_bg"
-                                android:layout_margin="5dp"
-                                android:padding="5dp"
-                                android:minHeight="30sp"
-                                android:buttonTint="@color/black"
-                                style="@android:style/Widget.CompoundButton.CheckBox"
-                                android:layout_weight="5"/>
-
-                            <RadioButton
-                                android:id="@+id/Rb_5YearPACover"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="5 Year PA"
-                                android:textColor="@color/black"
-                                android:background="@drawable/form_bg_edittext_bg"
-                                android:layout_margin="5dp"
-                                android:padding="5dp"
-                                android:minHeight="30sp"
-                                android:buttonTint="@color/black"
-                                style="@android:style/Widget.CompoundButton.CheckBox"
-                                android:layout_weight="5"/>
-
-
-                        </RadioGroup>
-
-                    </LinearLayout>
 
 
 

@@ -1,5 +1,6 @@
 package com.indicosmic.www.mypolicynow_sdk.customer_info;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,9 +16,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.indicosmic.www.mypolicynow_sdk.ProposalPdfActivity;
 import com.indicosmic.www.mypolicynow_sdk.R;
+import com.indicosmic.www.mypolicynow_sdk.utils.CommonMethods;
+import com.indicosmic.www.mypolicynow_sdk.utils.ConnectionDetector;
 import com.indicosmic.www.mypolicynow_sdk.utils.UtilitySharedPreferences;
 import com.indicosmic.www.mypolicynow_sdk.webservices.RestClient;
 import com.stepstone.stepper.BlockingStep;
@@ -26,7 +39,11 @@ import com.stepstone.stepper.VerificationError;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.indicosmic.www.mypolicynow_sdk.utils.CommonMethods.ucFirst;
+import static com.indicosmic.www.mypolicynow_sdk.webservices.RestClient.ROOT_URL2;
 
 
 public class ReviewDetailsFragment extends Fragment implements BlockingStep {
@@ -39,7 +56,7 @@ public class ReviewDetailsFragment extends Fragment implements BlockingStep {
             tv_NomineeAge,tv_NomineeRelation,tv_AppointeeName,tv_AppointeeAge,tv_AppointeeRelation,tv_RegistrationDate,tv_EngineNo,tv_ChassisNo,
             tv_Address1,tv_Address2,tv_City,tv_State,tv_Pincode;
     LinearLayout LayoutAppointeeDetails;
-    String StrAgentId="",StrMpnData="",StrUserActionData="",StrImageUrl="";
+    String StrAgentId="",StrMpnData="",StrUserActionData="",StrImageUrl="",SelectedIcId="";
     String StrRegistrationDate="",Date_of_born = "", StrPolicyType = "";
     String StrSelectedSalutation,StrSelectedGender,StrSelectedMaritalStatus,StrFirstName,StrMiddleName, StrLastName, StrEmailAddress, StrPan, StrAadharCard,StrMobileNo="",StrGstInNumber="";
     String Str_NomineeSalutation,Str_NomineeRelationship,Str_AppointeeSalutation,Str_AppointeeRelationship;
@@ -48,6 +65,8 @@ public class ReviewDetailsFragment extends Fragment implements BlockingStep {
     String Str_Address1,Str_Address2,Str_Pincode,Str_State,Str_City,Str_CityId,Str_StateId;
     String StrPreviousPolicyNo,StrPreviousPolicyIC,StrRtoStateCode,StrRtoCityCode,StrRtoZoneCode,StrVehicleNo,StrEngineNo,StrChassisNo,StrVehicleColor,StrAgreement,
             StrBankName,StrBankId;
+    JSONObject mpn_dataObj = new JSONObject();
+    ProgressDialog myDialog;
 
     public ReviewDetailsFragment() {
         // Required empty public constructor
@@ -55,7 +74,8 @@ public class ReviewDetailsFragment extends Fragment implements BlockingStep {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         // Inflate the layout for context fragment
 
         rootView = inflater.inflate(R.layout.fragment_review_details_info, container, false);
@@ -99,17 +119,39 @@ public class ReviewDetailsFragment extends Fragment implements BlockingStep {
         tv_State= (TextView)rootView.findViewById(R.id.tv_State);
         tv_Pincode= (TextView)rootView.findViewById(R.id.tv_Pincode);
 
-         LayoutAppointeeDetails = (LinearLayout)rootView.findViewById(R.id.LayoutAppointeeDetails);
+        LayoutAppointeeDetails = (LinearLayout)rootView.findViewById(R.id.LayoutAppointeeDetails);
+        myDialog = new ProgressDialog(context);
+        myDialog.setMessage("Please wait...");
+        myDialog.setCancelable(true);
+        myDialog.setCanceledOnTouchOutside(true);
+        setDataToView();
+    }
 
-         setDataToView();
+    @Override
+    public void onResume() {
+        super.onResume();
+        setDataToView();
     }
 
     private void setDataToView() {
 
-        StrMpnData = UtilitySharedPreferences.getPrefs(context,"MpnData");
-        StrUserActionData = UtilitySharedPreferences.getPrefs(context,"UserActionData");
+        JSONObject vehicle_ownerObj = new JSONObject();
+        JSONObject nominee_detailsObj = new JSONObject();
+        JSONObject appointee_detailsObj = new JSONObject();
+        JSONObject address_detailObj = new JSONObject();
+        JSONObject vehicle_detailObj = new JSONObject();
+        JSONObject previous_policyObj = new JSONObject();
 
         try{
+            StrMpnData = UtilitySharedPreferences.getPrefs(context,"MpnData");
+            StrUserActionData = UtilitySharedPreferences.getPrefs(context,"UserActionData");
+            SelectedIcId = UtilitySharedPreferences.getPrefs(context,"SelectedIcId");
+            String StrOwnerDetails = UtilitySharedPreferences.getPrefs(context,"vehicle_ownerObj");
+            String StrNomineeDetails = UtilitySharedPreferences.getPrefs(context,"nominee_detailsObj");
+            String StrAppointeeDetails = UtilitySharedPreferences.getPrefs(context,"appointee_detailsObj");
+            String StrAddressDetails = UtilitySharedPreferences.getPrefs(context,"address_detailObj");
+            String StrVehicleDetails = UtilitySharedPreferences.getPrefs(context,"vehicle_detailObj");
+            String StrPreviousPolicyDetails = UtilitySharedPreferences.getPrefs(context,"previous_policyObj");
 
             JSONObject mpnObj = new JSONObject(StrMpnData);
             JSONObject icQuoteObj = mpnObj.getJSONObject("ic_quote");
@@ -141,99 +183,112 @@ public class ReviewDetailsFragment extends Fragment implements BlockingStep {
 
             tv_RegistrationDate.setText(StrRegistrationDate);
 
+            vehicle_ownerObj = new JSONObject(StrOwnerDetails);
+            nominee_detailsObj = new JSONObject(StrNomineeDetails);
+            appointee_detailsObj = new JSONObject(StrAppointeeDetails);
+            address_detailObj = new JSONObject(StrAddressDetails);
+            vehicle_detailObj = new JSONObject(StrVehicleDetails);
+            previous_policyObj = new JSONObject(StrPreviousPolicyDetails);
+
+            Log.d("OwnerDetails",""+vehicle_ownerObj.toString());
+            Log.d("NomineeDetails",""+nominee_detailsObj.toString());
+            Log.d("appointee_details",""+appointee_detailsObj.toString());
+            Log.d("address_detail",""+address_detailObj.toString());
+            Log.d("VehicleDetails",""+vehicle_detailObj.toString());
+            Log.d("PreviousPolicyDetails",""+previous_policyObj.toString());
+
+
+            StrEmailAddress = vehicle_ownerObj.getString("email");
+            StrMobileNo = vehicle_ownerObj.getString("mobile_no");
+            StrSelectedSalutation = vehicle_ownerObj.getString("salutaion");
+            StrFirstName = vehicle_ownerObj.getString("first_name");
+            StrMiddleName = vehicle_ownerObj.getString("middle_name");
+            StrLastName = vehicle_ownerObj.getString("last_name");
+            Date_of_born =  vehicle_ownerObj.getString("dob");
+            StrGstInNumber = vehicle_ownerObj.getString("individual_gst_no");
+            StrPan = vehicle_ownerObj.getString("pancard");
+            StrAadharCard = vehicle_ownerObj.getString("aadharcard");
+            StrSelectedMaritalStatus =  vehicle_ownerObj.getString("marital_status");
+            StrSelectedGender = vehicle_ownerObj.getString("gender");
+
+            String OwnerFullName = StrSelectedSalutation + " " + StrFirstName + " "+StrMiddleName +" " +StrLastName;
+            tv_OwnerName.setText(OwnerFullName.toUpperCase());
+            tv_OwnerEmail.setText(StrEmailAddress);
+            tv_OwnerPhone.setText(StrMobileNo);
+
+
+            Str_NomineeSalutation = nominee_detailsObj.getString("nominee_salutaion");
+            Str_NomineeFirstName = nominee_detailsObj.getString("nominee_first_name");
+            Str_NomineeMiddleName = nominee_detailsObj.getString("nominee_middle_name");
+            Str_NomineeLastName = nominee_detailsObj.getString("nominee_last_name");
+            Str_NomineeRelationship = nominee_detailsObj.getString("nominee_relationship");
+            Str_NomineeAge = nominee_detailsObj.getString("nominee_age");
+            Str_AppointeeSalutation = appointee_detailsObj.getString("appointee_salutaion");
+            Str_AppointeeFirstName = appointee_detailsObj.getString("appointee_first_name");
+            Str_AppointeeMiddleName = appointee_detailsObj.getString("appointee_middle_name");
+            Str_AppointeeLastName = appointee_detailsObj.getString("appointee_last_name");
+            Str_AppointeeRelationship = appointee_detailsObj.getString("appointee_relationship");
+            Str_AppointeeAge = appointee_detailsObj.getString("appointee_age");
+
+            String NomineeFullName = Str_NomineeSalutation + " " + Str_NomineeFirstName + " "+Str_NomineeMiddleName +" " +Str_NomineeLastName;
+            tv_NomineeName.setText(NomineeFullName.toUpperCase());
+            tv_NomineeRelation.setText(ucFirst(Str_NomineeRelationship));
+
+            if(Str_NomineeAge!=null && !Str_NomineeAge.equalsIgnoreCase("")){
+                tv_NomineeAge.setText(Str_NomineeAge);
+                int nominee_age = Integer.valueOf(Str_NomineeAge);
+                if(nominee_age < 18){
+                    LayoutAppointeeDetails.setVisibility(View.VISIBLE);
+                    String AppointeeFullName = Str_AppointeeSalutation + " " + Str_AppointeeFirstName + " "+Str_AppointeeMiddleName +" " +Str_AppointeeLastName;
+                    tv_AppointeeName.setText(AppointeeFullName.toUpperCase());
+                    tv_AppointeeAge.setText(Str_AppointeeAge);
+                    tv_AppointeeRelation.setText(ucFirst(Str_AppointeeRelationship));
+                }else {
+                    LayoutAppointeeDetails.setVisibility(View.GONE);
+                }
+            }
+
+
+            Str_Address1=  address_detailObj.getString("address1");
+            Str_Address2 = address_detailObj.getString("address2");
+            Str_Pincode = address_detailObj.getString("pincode");
+            Str_State = UtilitySharedPreferences.getPrefs(context,"AddressState");
+            Str_City = UtilitySharedPreferences.getPrefs(context,"AddressCity");
+            Str_StateId = address_detailObj.getString("state_id");
+            Str_CityId = address_detailObj.getString("city_id");
+
+            tv_Address1.setText(Str_Address1);
+            tv_Address2.setText(Str_Address2);
+            tv_City.setText(Str_City);
+            tv_State.setText(Str_State);
+            tv_Pincode.setText(Str_Pincode);
+
+            StrRtoStateCode = vehicle_detailObj.getString( "veh1");
+            StrRtoCityCode = vehicle_detailObj.getString( "veh2");
+            StrRtoZoneCode = vehicle_detailObj.getString( "veh3");
+            StrVehicleNo = vehicle_detailObj.getString( "veh4");
+            StrEngineNo = vehicle_detailObj.getString( "engine_no");
+            StrChassisNo = vehicle_detailObj.getString( "chassis_no");
+            StrVehicleColor = vehicle_detailObj.getString( "car_color");
+            StrAgreement = vehicle_detailObj.getString( "agreement_type");
+            StrBankName = vehicle_detailObj.getString( "agreement_bank");
+
+            StrPreviousPolicyNo = previous_policyObj.getString( "pre_policy_no");
+            StrPreviousPolicyIC = previous_policyObj.getString( "pre_insurance");
+
+
+            if(StrEngineNo!=null && !StrEngineNo.equalsIgnoreCase("")){
+                tv_EngineNo.setText(StrEngineNo.toUpperCase());
+            }
+
+            if(StrChassisNo!=null && !StrChassisNo.equalsIgnoreCase("")){
+                tv_ChassisNo.setText(StrChassisNo.toUpperCase());
+            }
+
+
         }catch (Exception e){
             e.printStackTrace();
         }
-
-
-        StrEmailAddress = UtilitySharedPreferences.getPrefs(context,"OwnerEmail");
-        StrMobileNo = UtilitySharedPreferences.getPrefs(context,"OwnerMobile");
-        StrSelectedSalutation = UtilitySharedPreferences.getPrefs(context,"OwnerSalutation");
-        StrFirstName = UtilitySharedPreferences.getPrefs(context,"OwnerFirstName");
-        StrMiddleName = UtilitySharedPreferences.getPrefs(context,"OwnerMiddleName");
-        StrLastName = UtilitySharedPreferences.getPrefs(context,"OwnerLastName");
-        Date_of_born = UtilitySharedPreferences.getPrefs(context,"OwnerDob");
-        StrSelectedGender = UtilitySharedPreferences.getPrefs(context,"OwnerGender");
-        StrSelectedMaritalStatus = UtilitySharedPreferences.getPrefs(context,"OwnerMaritalStatus");
-
-        StrPan = UtilitySharedPreferences.getPrefs(context,"OwnerPan");
-        StrAadharCard = UtilitySharedPreferences.getPrefs(context,"OwnerAadhar");
-        StrGstInNumber = UtilitySharedPreferences.getPrefs(context,"OwnerGSTInNumber");
-
-        String OwnerFullName = StrSelectedSalutation + " " + StrFirstName + " "+StrMiddleName +" " +StrLastName;
-        tv_OwnerName.setText(OwnerFullName.toUpperCase());
-        tv_OwnerEmail.setText(StrEmailAddress);
-        tv_OwnerPhone.setText(StrMobileNo);
-
-        Str_NomineeSalutation = UtilitySharedPreferences.getPrefs(context,"NomineeSalutation");
-        Str_NomineeFirstName = UtilitySharedPreferences.getPrefs(context,"NomineeFirstName");
-        Str_NomineeMiddleName = UtilitySharedPreferences.getPrefs(context,"NomineeMiddleName");
-        Str_NomineeLastName = UtilitySharedPreferences.getPrefs(context,"NomineeLastName");
-        Str_NomineeRelationship = UtilitySharedPreferences.getPrefs(context,"NomineeRelationship");
-        Str_NomineeAge = UtilitySharedPreferences.getPrefs(context,"NomineeAge");
-        Str_AppointeeSalutation = UtilitySharedPreferences.getPrefs(context,"AppointeeSalutation");
-        Str_AppointeeFirstName = UtilitySharedPreferences.getPrefs(context,"AppointeeFirstName");
-        Str_AppointeeMiddleName = UtilitySharedPreferences.getPrefs(context,"AppointeeMiddleName");
-        Str_AppointeeLastName = UtilitySharedPreferences.getPrefs(context,"AppointeeLastName");
-        Str_AppointeeRelationship = UtilitySharedPreferences.getPrefs(context,"AppointeeRelationship");
-        Str_AppointeeAge = UtilitySharedPreferences.getPrefs(context,"AppointeeAge");
-
-        String NomineeFullName = Str_NomineeSalutation + " " + Str_NomineeFirstName + " "+Str_NomineeMiddleName +" " +Str_NomineeLastName;
-        tv_NomineeName.setText(NomineeFullName.toUpperCase());
-        tv_NomineeRelation.setText(ucFirst(Str_NomineeRelationship));
-
-        if(Str_NomineeAge!=null && !Str_NomineeAge.equalsIgnoreCase("")){
-            tv_NomineeAge.setText(Str_NomineeAge);
-            int nominee_age = Integer.valueOf(Str_NomineeAge);
-            if(nominee_age < 18){
-                LayoutAppointeeDetails.setVisibility(View.VISIBLE);
-                String AppointeeFullName = Str_AppointeeSalutation + " " + Str_AppointeeFirstName + " "+Str_AppointeeMiddleName +" " +Str_AppointeeLastName;
-                tv_AppointeeName.setText(AppointeeFullName.toUpperCase());
-                tv_AppointeeAge.setText(Str_AppointeeAge);
-                tv_AppointeeRelation.setText(ucFirst(Str_AppointeeRelationship));
-            }else {
-                LayoutAppointeeDetails.setVisibility(View.GONE);
-            }
-        }
-
-
-        Str_Address1=  UtilitySharedPreferences.getPrefs(context,"Address1");
-        Str_Address2 = UtilitySharedPreferences.getPrefs(context,"Address2");
-        Str_Pincode = UtilitySharedPreferences.getPrefs(context,"Pincode");
-        Str_State = UtilitySharedPreferences.getPrefs(context,"AddressState");
-        Str_City = UtilitySharedPreferences.getPrefs(context,"AddressCity");
-        Str_StateId = UtilitySharedPreferences.getPrefs(context,"AddressStateId");
-        Str_CityId = UtilitySharedPreferences.getPrefs(context,"AddressCityId");
-
-
-        tv_Address1.setText(Str_Address1);
-        tv_Address2.setText(Str_Address2);
-        tv_City.setText(Str_City);
-        tv_State.setText(Str_State);
-        tv_Pincode.setText(Str_Pincode);
-
-        StrRtoStateCode = UtilitySharedPreferences.getPrefs(context, "RtoStateCode");
-        StrRtoCityCode = UtilitySharedPreferences.getPrefs(context, "RtoCityCode");
-        StrRtoZoneCode = UtilitySharedPreferences.getPrefs(context, "RtoZoneCode");
-        StrVehicleNo = UtilitySharedPreferences.getPrefs(context, "RtoVehicleNo");
-        StrEngineNo = UtilitySharedPreferences.getPrefs(context, "EngineNo");
-        StrChassisNo = UtilitySharedPreferences.getPrefs(context, "ChassisNo");
-        StrVehicleColor = UtilitySharedPreferences.getPrefs(context, "VehicleColor");
-        StrAgreement = UtilitySharedPreferences.getPrefs(context, "AgreementType");
-        StrBankName = UtilitySharedPreferences.getPrefs(context, "BankName");
-        StrBankId =  UtilitySharedPreferences.getPrefs(context, "BankId");
-
-        StrPreviousPolicyNo = UtilitySharedPreferences.getPrefs(context, "PreviousPolicyNo");
-        StrPreviousPolicyIC = UtilitySharedPreferences.getPrefs(context, "PreviousPolicyIC");
-
-        if(StrEngineNo!=null && !StrEngineNo.equalsIgnoreCase("")){
-            tv_EngineNo.setText(StrEngineNo.toUpperCase());
-        }
-
-        if(StrChassisNo!=null && !StrChassisNo.equalsIgnoreCase("")){
-            tv_ChassisNo.setText(StrChassisNo.toUpperCase());
-        }
-
 
     }
 
@@ -253,14 +308,30 @@ public class ReviewDetailsFragment extends Fragment implements BlockingStep {
         JSONObject appointee_detailsObj = new JSONObject();
         JSONObject address_detailObj = new JSONObject();
         JSONObject vehicle_detailObj = new JSONObject();
-
         JSONObject previous_policyObj = new JSONObject();
 
         String cityObjStr = UtilitySharedPreferences.getPrefs(context,"CustomerCityArry");
         String stateObjStr = UtilitySharedPreferences.getPrefs(context,"CustomerStateArry");
+        StrMpnData =  UtilitySharedPreferences.getPrefs(context,"MpnData");
+        StrUserActionData = UtilitySharedPreferences.getPrefs(context,"UserActionData");
+        String StrOwnerDetails = UtilitySharedPreferences.getPrefs(context,"vehicle_ownerObj");
+        String StrNomineeDetails = UtilitySharedPreferences.getPrefs(context,"nominee_detailsObj");
+        String StrAppointeeDetails = UtilitySharedPreferences.getPrefs(context,"appointee_detailsObj");
+        String StrAddressDetails = UtilitySharedPreferences.getPrefs(context,"address_detailObj");
+        String StrVehicleDetails = UtilitySharedPreferences.getPrefs(context,"vehicle_detailObj");
+        String StrPreviousPolicyDetails = UtilitySharedPreferences.getPrefs(context,"previous_policyObj");
+
 
         try {
 
+            vehicle_ownerObj = new JSONObject(StrOwnerDetails);
+            nominee_detailsObj = new JSONObject(StrNomineeDetails);
+            appointee_detailsObj = new JSONObject(StrAppointeeDetails);
+            address_detailObj = new JSONObject(StrAddressDetails);
+            vehicle_detailObj = new JSONObject(StrVehicleDetails);
+            previous_policyObj = new JSONObject(StrPreviousPolicyDetails);
+
+            /*
             vehicle_ownerObj.put("email",StrEmailAddress);
             vehicle_ownerObj.put("mobile_no",StrMobileNo);
             vehicle_ownerObj.put("salutaion",StrSelectedSalutation);
@@ -288,22 +359,22 @@ public class ReviewDetailsFragment extends Fragment implements BlockingStep {
             appointee_detailsObj.put("appointee_relationship",Str_AppointeeRelationship.toLowerCase());
             appointee_detailsObj.put("appointee_age",Str_AppointeeAge);
 
-
-
-
-            previous_policyObj.put("pre_policy_no",StrPreviousPolicyNo);
-            previous_policyObj.put("pre_insurance",StrPreviousPolicyIC);
-
             JSONObject cityObj = new JSONObject(cityObjStr);
             JSONObject stateObj = new JSONObject(stateObjStr);
 
             address_detailObj.put("address1",Str_Address1);
             address_detailObj.put("address2",Str_Address2);
-            address_detailObj.put("pincode",Str_Address1);
+            address_detailObj.put("pincode",Str_Pincode);
             address_detailObj.put("state_id",Str_StateId);
             address_detailObj.put("state",stateObj);
             address_detailObj.put("city_id",Str_CityId);
             address_detailObj.put("city",cityObj);
+
+
+
+
+            previous_policyObj.put("pre_policy_no",StrPreviousPolicyNo);
+            previous_policyObj.put("pre_insurance",StrPreviousPolicyIC);
 
 
             vehicle_detailObj.put("veh1",StrRtoStateCode);
@@ -316,7 +387,7 @@ public class ReviewDetailsFragment extends Fragment implements BlockingStep {
             vehicle_detailObj.put("reg_date", StrRegistrationDate);
             vehicle_detailObj.put("agreement_type", StrAgreement.toLowerCase());
             vehicle_detailObj.put("agreement_bank", StrBankId);
-
+*/
             customerObj.put("vehicle_owner",vehicle_ownerObj);
             customerObj.put("nominee_details",nominee_detailsObj);
 
@@ -338,20 +409,132 @@ public class ReviewDetailsFragment extends Fragment implements BlockingStep {
                 }
             }
 
+            mpn_dataObj = new JSONObject(StrMpnData);
+            mpn_dataObj.put("customer_quote",customerObj);
             //Log.d("customerObj",""+customerObj);
-
+            UtilitySharedPreferences.setPrefs(context,"CustomerMobile",StrMobileNo);
 
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        StrMpnData = mpn_dataObj.toString();
 
         Log.d("customerObj",""+customerObj);
+        API_GET_PROPOSAL_PDF_API();
 
-        Intent intent = new Intent(getContext(), ProposalPdfActivity.class);
-        startActivity(intent);
-        getActivity().overridePendingTransition(R.animator.move_left,R.animator.move_right);
+    }
+
+    private void API_GET_PROPOSAL_PDF_API() {
+
+        String URL_GET_PROPOSAL = ROOT_URL2+"generateProposal";
+        try {
+            Log.d("URL_GET_PROPOSAL", URL_GET_PROPOSAL);
+
+            ConnectionDetector cd = new ConnectionDetector(context);
+            boolean isInternetPresent = cd.isConnectingToInternet();
+            if (isInternetPresent) {
+
+                final StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_GET_PROPOSAL,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                if (myDialog != null && myDialog.isShowing()) {
+                                    myDialog.dismiss();
+                                }
+                                try {
+                                    Log.d("mainResponse", response);
+
+                                    JSONObject jobj = new JSONObject(response);
+                                    boolean status = jobj.getBoolean("status");
+
+                                    if (status) {
+
+                                        JSONObject dataObj = jobj.getJSONObject("data");
+                                        String proposal_no = dataObj.getString("proposal_no");
+                                        String proposal_otp = dataObj.getString("otp");
+                                        String policy_no = dataObj.getString("policy_no");
+                                        String quote_link = dataObj.getString("quote_link");
+                                        String quote_url = dataObj.getString("url");
+
+
+                                        UtilitySharedPreferences.setPrefs(context,"ProposalAry",dataObj.toString());
+
+
+                                        Intent intent = new Intent(getContext(), ProposalPdfActivity.class);
+                                        startActivity(intent);
+                                        getActivity().overridePendingTransition(R.animator.move_left,R.animator.move_right);
+                                    } else {
+                                        String message = jobj.getString("message");
+                                        if(message!=null && !message.equalsIgnoreCase("") && !message.equalsIgnoreCase("null")){
+                                            CommonMethods.DisplayToastWarning(context, message);
+                                        }else{
+                                            CommonMethods.DisplayToastWarning(context, "Failed to generate proposal.");
+                                        }
+
+                                    }
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    if (myDialog != null && myDialog.isShowing()) {
+                                        myDialog.dismiss();
+                                    }
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (myDialog != null && myDialog.isShowing()) {
+                            myDialog.dismiss();
+                        }
+                        VolleyLog.d("volley", "Error: " + error.getMessage());
+                        error.printStackTrace();
+                        CommonMethods.DisplayToastWarning(context, "Something went wrong. Please try again later.");
+                    }
+                }) {
+
+                    @Override
+                    public String getBodyContentType() {
+                        return "application/x-www-form-urlencoded; charset=UTF-8";
+                    }
+
+                    @Override
+                    public Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("agent_id", StrAgentId);
+                        params.put("mpn_data",StrMpnData);
+                        params.put("user_action_data",StrUserActionData);
+                        params.put("ic_id",SelectedIcId);
+                        Log.d("BuyPolicyData",""+params.toString());
+
+                        return params;
+                    }
+
+
+                };
+
+                int socketTimeout = 50000; //30 seconds - change to what you want
+                RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                stringRequest.setRetryPolicy(policy);
+                // RequestQueue requestQueue = Volley.newRequestQueue(context, new HurlStack(null, getSocketFactory()));
+                RequestQueue requestQueue = Volley.newRequestQueue(context);
+                requestQueue.add(stringRequest);
+
+            } else {
+                if (myDialog != null && myDialog.isShowing()) {
+                    myDialog.dismiss();
+                }
+                CommonMethods.DisplayToast(context, "Please check your internet connection");
+            }
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+
+
 
 
     }
@@ -359,6 +542,7 @@ public class ReviewDetailsFragment extends Fragment implements BlockingStep {
     @Override
     public void onBackClicked(StepperLayout.OnBackClickedCallback callback) {
         callback.goToPrevStep();
+
     }
 
     @Nullable
@@ -376,4 +560,6 @@ public class ReviewDetailsFragment extends Fragment implements BlockingStep {
     public void onError(@NonNull VerificationError error) {
 
     }
+
+
 }

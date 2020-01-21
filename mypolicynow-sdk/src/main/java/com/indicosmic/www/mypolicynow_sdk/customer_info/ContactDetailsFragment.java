@@ -34,6 +34,7 @@ import com.stepstone.stepper.BlockingStep;
 import com.stepstone.stepper.StepperLayout;
 import com.stepstone.stepper.VerificationError;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -50,6 +51,7 @@ public class ContactDetailsFragment extends Fragment implements BlockingStep {
     EditText Edt_Address1,Edt_Address2,Edt_AddressPincode,Edt_State,Edt_City;
     String StrAgentId,Str_Address1,Str_Address2,Str_Pincode,Str_State,Str_City,Str_StateId,Str_CityId;
     JSONObject stateObj,cityObj;
+    StepperLayout.OnNextClickedCallback mCallback;
 
     public ContactDetailsFragment() {
         // Required empty public constructor
@@ -102,7 +104,7 @@ public class ContactDetailsFragment extends Fragment implements BlockingStep {
             }
         });
 
-        setValues();
+        setDataToFields();
 
 
     }
@@ -192,36 +194,51 @@ public class ContactDetailsFragment extends Fragment implements BlockingStep {
 
     }
 
-    private void setValues() {
 
-        Str_Address1=  UtilitySharedPreferences.getPrefs(context,"Address1");
-        Str_Address2 = UtilitySharedPreferences.getPrefs(context,"Address2");
-        Str_Pincode = UtilitySharedPreferences.getPrefs(context,"Pincode");
-        Str_State = UtilitySharedPreferences.getPrefs(context,"AddressState");
-        Str_City = UtilitySharedPreferences.getPrefs(context,"AddressCity");
+    private void setDataToFields() {
 
-        if(Str_Address1!=null && !Str_Address1.equalsIgnoreCase("") && !Str_Address1.equalsIgnoreCase("null")){
-            Edt_Address1.setText(Str_Address1);
+        String StrMpnData = UtilitySharedPreferences.getPrefs(context,"MpnData");
+
+        try {
+            JSONObject mpnObj = new JSONObject(StrMpnData);
+            JSONObject customer_quoteObj = mpnObj.getJSONObject("customer_quote");
+            if(customer_quoteObj!=null && !customer_quoteObj.toString().contains("address_detail")){
+
+                JSONObject address_detailObj = customer_quoteObj.getJSONObject("address_detail");
+
+                Str_Address1 = address_detailObj.getString("address1");
+                Str_Address2 = address_detailObj.getString("address2");
+                Str_Pincode = address_detailObj.getString("pincode");
+                Str_StateId = address_detailObj.getString("state_id");
+                stateObj = address_detailObj.getJSONObject("state");
+                Str_CityId = address_detailObj.getString("city_id");
+                cityObj = address_detailObj.getJSONObject("city");
+
+
+                if(Str_Address1!=null && !Str_Address1.equalsIgnoreCase("") && !Str_Address1.equalsIgnoreCase("null")){
+                    Edt_Address1.setText(Str_Address1);
+                }
+
+                if(Str_Address2!=null && !Str_Address2.equalsIgnoreCase("") && !Str_Address2.equalsIgnoreCase("null")){
+                    Edt_Address2.setText(Str_Address2);
+                }
+
+                if(Str_Pincode!=null && !Str_Pincode.equalsIgnoreCase("") && !Str_Pincode.equalsIgnoreCase("null")){
+                    Edt_AddressPincode.setText(Str_Pincode);
+                }
+
+                if(Str_State!=null && !Str_State.equalsIgnoreCase("") && !Str_State.equalsIgnoreCase("null")){
+                    Edt_State.setText(Str_State);
+                }
+
+                if(Str_City!=null && !Str_City.equalsIgnoreCase("") && !Str_City.equalsIgnoreCase("null")){
+                    Edt_City.setText(Str_City);
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-
-        if(Str_Address2!=null && !Str_Address2.equalsIgnoreCase("") && !Str_Address2.equalsIgnoreCase("null")){
-            Edt_Address2.setText(Str_Address2);
-        }
-
-        if(Str_Pincode!=null && !Str_Pincode.equalsIgnoreCase("") && !Str_Pincode.equalsIgnoreCase("null")){
-            Edt_AddressPincode.setText(Str_Pincode);
-        }
-
-        if(Str_State!=null && !Str_State.equalsIgnoreCase("") && !Str_State.equalsIgnoreCase("null")){
-            Edt_State.setText(Str_State);
-        }
-
-        if(Str_City!=null && !Str_City.equalsIgnoreCase("") && !Str_City.equalsIgnoreCase("null")){
-            Edt_City.setText(Str_City);
-        }
-
-
-
 
     }
 
@@ -229,7 +246,7 @@ public class ContactDetailsFragment extends Fragment implements BlockingStep {
     @Override
     public void onNextClicked(StepperLayout.OnNextClickedCallback callback) {
 
-
+        mCallback = callback;
         if (validateFields()) {
             InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(Edt_City.getWindowToken(), 0);
@@ -241,14 +258,36 @@ public class ContactDetailsFragment extends Fragment implements BlockingStep {
             Str_State = Edt_State.getText().toString();
             Str_City = Edt_City.getText().toString();
 
-            UtilitySharedPreferences.setPrefs(context,"Address1",Str_Address1);
-            UtilitySharedPreferences.setPrefs(context,"Address2",Str_Address2);
-            UtilitySharedPreferences.setPrefs(context,"Pincode",Str_Pincode);
+
+
+            JSONObject address_detailObj = new JSONObject();
+
+            try {
+
+
+                address_detailObj.put("address1",Str_Address1);
+                address_detailObj.put("address2",Str_Address2);
+                address_detailObj.put("pincode",Str_Pincode);
+                address_detailObj.put("state_id",Str_StateId);
+                address_detailObj.put("state",stateObj);
+                address_detailObj.put("city_id",Str_CityId);
+                address_detailObj.put("city",cityObj);
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            UtilitySharedPreferences.setPrefs(context,"address_detailObj",address_detailObj.toString());
             UtilitySharedPreferences.setPrefs(context,"AddressState",Str_State);
             UtilitySharedPreferences.setPrefs(context,"AddressCity",Str_City);
 
-            if(callback!=null) {
-                callback.goToNextStep();
+            Log.d("AddressDetails",""+address_detailObj.toString());
+
+
+            if(mCallback!=null) {
+                mCallback.goToNextStep();
             }
         }
 
