@@ -33,7 +33,7 @@ import static com.indicosmic.www.mypolicynow_sdk.utils.CommonMethods.md5;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    String StrMobile,StrEmail;
     String POS_TOKEN="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
         myDialog.setCanceledOnTouchOutside(false);
         myDialog.show();
 
-        final String StrMobile = "8169972611";
-        final String StrEmail = "";
+         StrMobile = "8169972611";
+         StrEmail = "sush.rokade@gmail.com";
 
         String URL = ROOT_URL2+"GetPassword";
         ConnectionDetector cd = new ConnectionDetector(getApplicationContext());

@@ -1261,8 +1261,14 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
         }
 
         registrationDatePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        registrationDatePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-        registrationDatePickerDialog.getDatePicker().setMinDate(timeInMilliseconds);
+        if(System.currentTimeMillis() > timeInMilliseconds) {
+            registrationDatePickerDialog.getDatePicker().setMinDate(timeInMilliseconds);
+            registrationDatePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+
+        }else {
+            registrationDatePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+            registrationDatePickerDialog.getDatePicker().setMaxDate(timeInMilliseconds);
+        }
         //((ViewGroup) datePickerDialog.getDatePicker()).findViewById(Resources.getSystem().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
 
         registrationDatePickerDialog.show();

@@ -36,9 +36,6 @@
             </intent-filter>
         </activity>
 
-
-
-
         <activity
             android:name="com.indicosmic.www.mypolicynow_sdk.QuotationActivity"
             android:screenOrientation="portrait"
