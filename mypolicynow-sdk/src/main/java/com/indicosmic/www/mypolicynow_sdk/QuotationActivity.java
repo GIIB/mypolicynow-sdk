@@ -451,10 +451,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
             @Override
             public void onClick(View v) {
 
-                /*DialogFragment dFragment = new DatePickerFragment();
-
-                // Show the date picker dialog fragment
-                dFragment.show(getFragmentManager(), "Date Picker");*/
+               
                 prePolicyExpiryDatePickerDialog = new DatePickerDialog(QuotationActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog,new DatePickerDialog.OnDateSetListener() {
 
