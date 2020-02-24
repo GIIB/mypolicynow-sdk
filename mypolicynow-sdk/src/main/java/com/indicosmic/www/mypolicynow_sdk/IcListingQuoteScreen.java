@@ -60,6 +60,7 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
+import static com.indicosmic.www.mypolicynow_sdk.utils.CommonMethods.ucFirst;
 import static com.indicosmic.www.mypolicynow_sdk.webservices.RestClient.ROOT_URL2;
 
 public class IcListingQuoteScreen extends AppCompatActivity {
