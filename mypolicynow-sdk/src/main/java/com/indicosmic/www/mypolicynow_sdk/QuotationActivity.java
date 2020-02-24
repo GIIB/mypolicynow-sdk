@@ -34,7 +34,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-
 import com.indicosmic.www.mypolicynow_sdk.utils.CommonMethods;
 import com.indicosmic.www.mypolicynow_sdk.utils.ConnectionDetector;
 import com.indicosmic.www.mypolicynow_sdk.utils.MyValidator;
@@ -60,7 +59,9 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
     ImageView back_btn;
     ProgressDialog myDialog;
     String QuotationFor="Bike",StrPucReminder="0";
+    LinearLayout LayoutCar,LayoutBike;
     ImageView iv_bike,iv_car,iv_commercial;
+    TextView til_commercial_insurance,til_car_insurance,til_bike_insurance;
     DatePickerDialog registrationDatePickerDialog,prePolicyExpiryDatePickerDialog,dateOfExpiryDatePickerDialog;
     String RegistrationDate="",PusDateOfIssue="",PusDateOfExpiry="";
     private SimpleDateFormat dateFormatter,dateFormatter1,dateFormatter2,dateFormatter3;
@@ -91,7 +92,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
     String SelectedRtoId="",SelectedMakeId="",SelectedModelId="",SelectedVaraintId="",SelectedVehicleId="";
     LinearLayout LinearChangeInOwnership,LayoutODDisount,InvoiceLayout,LinearNewPolicyWanted,IndividualPolicyHolderLayout;
     RadioGroup RG_NewPolicyRequired;
-    RadioButton Rb_1OD5TP,Rb_5OD5TP;
+    RadioButton Rb_1OD5TP,Rb_5OD5TP,Rb_3OD3TP;
     TextView til_invoice_price;
 
     Spinner Spn_CPASelection,Spn_ReasonOptingOutCPA;
@@ -118,7 +119,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
     ArrayList<String> ncbDisplayValue = new ArrayList<String>();
 
-    String StrPosToken="",StrAgentId="",ProductTypeId="2",StrPolicyHolder="";
+    String StrProduct="",StrPosToken="",StrAgentId="",ProductTypeId="2",StrPolicyHolder="";
     Button BtnGetQuote;
     String StrRegistrationDate="",StrRegistration_monthId="0";
 
@@ -155,6 +156,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
             StrPosToken = "";
         }
 
+        QuotationFor = UtilitySharedPreferences.getPrefs(getApplicationContext(), "QuotationFor");
 
         getPreveledgesFromToken();
 
@@ -163,7 +165,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
     private void getPreveledgesFromToken() {
         if (StrPosToken != null && !StrPosToken.equalsIgnoreCase("")) {
 
-            String URL = RestClient.ROOT_URL2+"TokenVerify";
+            String URL = RestClient.ROOT_URL2+"tokenverify";
             ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
             boolean isInternetPresent = cd.isConnectingToInternet();
             if (isInternetPresent) {
@@ -197,18 +199,29 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
 
                             JSONObject partner_privilegeObj = data_obj.getJSONObject("partner_privilege");
-                            JSONObject bike_previledgeObj = partner_privilegeObj.getJSONObject("2");
 
-                            ProductTypeId = bike_previledgeObj.getString("product_type_id");
-                            String IcList = bike_previledgeObj.getString("ic_ids");
+                            if(QuotationFor!=null && !QuotationFor.equalsIgnoreCase("")){
+
+                                if(QuotationFor.equalsIgnoreCase("Car")){
+                                    JSONObject car_previledgeObj = partner_privilegeObj.getJSONObject("1");
+                                    ProductTypeId = car_previledgeObj.getString("product_type_id");
+                                    String IcList = car_previledgeObj.getString("ic_ids");
+                                    UtilitySharedPreferences.setPrefs(getApplicationContext(),"IcList",IcList);
+                                    UtilitySharedPreferences.setPrefs(getApplicationContext(),"ProductTypeId",ProductTypeId);
+                                    UtilitySharedPreferences.setPrefs(getApplicationContext(),"CarPreviledges",car_previledgeObj.toString());
+
+                                }else if(QuotationFor.equalsIgnoreCase("Bike")){
+                                    JSONObject bike_previledgeObj = partner_privilegeObj.getJSONObject("2");
+                                    ProductTypeId = bike_previledgeObj.getString("product_type_id");
+                                    String IcList = bike_previledgeObj.getString("ic_ids");
+                                    UtilitySharedPreferences.setPrefs(getApplicationContext(),"IcList",IcList);
+                                    UtilitySharedPreferences.setPrefs(getApplicationContext(),"ProductTypeId",ProductTypeId);
+                                    UtilitySharedPreferences.setPrefs(getApplicationContext(),"BikePreviledges",bike_previledgeObj.toString());
+
+                                }
 
 
-                            UtilitySharedPreferences.setPrefs(getApplicationContext(),"IcList",IcList);
-                            UtilitySharedPreferences.setPrefs(getApplicationContext(),"ProductTypeId",ProductTypeId);
-                            UtilitySharedPreferences.setPrefs(getApplicationContext(),"BikePreviledges",bike_previledgeObj.toString());
-
-
-
+                            }
                             init();
 
                         } catch (Exception e) {
@@ -259,27 +272,52 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
         myDialog.setCancelable(false);
         myDialog.setCanceledOnTouchOutside(false);
 
-        QuotationFor = UtilitySharedPreferences.getPrefs(getApplicationContext(), "QuotationFor");
-        QuotationFor = "Bike";
-        product_type="bike";
+        LayoutCar = (LinearLayout)findViewById(R.id.LayoutCar);
+        LayoutBike = (LinearLayout)findViewById(R.id.LayoutBike);
 
         iv_bike = (ImageView) findViewById(R.id.iv_bike);
         iv_car = (ImageView) findViewById(R.id.iv_car);
         iv_commercial = (ImageView) findViewById(R.id.iv_commercial);
 
+        til_car_insurance = (TextView)findViewById(R.id.til_car_insurance);
+        til_bike_insurance = (TextView)findViewById(R.id.til_bike_insurance);
+        til_commercial_insurance = (TextView)findViewById(R.id.til_commercial_insurance);
+
+
+
         if(QuotationFor!=null && !QuotationFor.equalsIgnoreCase("")){
-            if(QuotationFor.equalsIgnoreCase("Bike")){
-                product_type="bike";
+            if(QuotationFor.equalsIgnoreCase("Car")){
+                product_type="privatecar";
+                LayoutBike.setBackground(getDrawable(R.drawable.form_bg_edittext_bg));
+                LayoutCar.setBackground(getDrawable(R.drawable.form_bg_selected));
+
                 Glide.with(QuotationActivity.this).load(R.drawable.bike).into(iv_bike);
                 Glide.with(QuotationActivity.this).load(R.drawable.car).into(iv_car);
                 Glide.with(QuotationActivity.this).load(R.drawable.commercial_new).into(iv_commercial);
+
+                iv_car.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.white), android.graphics.PorterDuff.Mode.SRC_IN);
+                iv_bike.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary), android.graphics.PorterDuff.Mode.SRC_IN);
+                til_car_insurance.setTextColor(getResources().getColor(R.color.white));
+                til_bike_insurance.setTextColor(getResources().getColor(R.color.black));
+
+
+            }
+            else if(QuotationFor.equalsIgnoreCase("Bike")){
+                product_type="bike";
+                LayoutBike.setBackground(getDrawable(R.drawable.form_bg_selected));
+                LayoutCar.setBackground(getDrawable(R.drawable.form_bg_edittext_bg));
+
+                Glide.with(QuotationActivity.this).load(R.drawable.bike).into(iv_bike);
+                Glide.with(QuotationActivity.this).load(R.drawable.car).into(iv_car);
+                Glide.with(QuotationActivity.this).load(R.drawable.commercial_new).into(iv_commercial);
+
+                iv_bike.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.white), android.graphics.PorterDuff.Mode.SRC_IN);
+                iv_car.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary), android.graphics.PorterDuff.Mode.SRC_IN);
+                til_car_insurance.setTextColor(getResources().getColor(R.color.black));
+                til_bike_insurance.setTextColor(getResources().getColor(R.color.white));
+
             }else if(QuotationFor.equalsIgnoreCase("Commercial")){
                 product_type="commercial";
-                Glide.with(QuotationActivity.this).load(R.drawable.bike).into(iv_bike);
-                Glide.with(QuotationActivity.this).load(R.drawable.car).into(iv_car);
-                Glide.with(QuotationActivity.this).load(R.drawable.commercial_new).into(iv_commercial);
-            }else if(QuotationFor.equalsIgnoreCase("Car")){
-                product_type="car";
                 Glide.with(QuotationActivity.this).load(R.drawable.bike).into(iv_bike);
                 Glide.with(QuotationActivity.this).load(R.drawable.car).into(iv_car);
                 Glide.with(QuotationActivity.this).load(R.drawable.commercial_new).into(iv_commercial);
@@ -288,29 +326,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
         }
 
 
-        iv_bike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                QuotationFor = "Bike";
-                product_type="bike";
-                Glide.with(QuotationActivity.this).load(R.drawable.bike).into(iv_bike);
-                Glide.with(QuotationActivity.this).load(R.drawable.car).into(iv_car);
-                Glide.with(QuotationActivity.this).load(R.drawable.commercial_new).into(iv_commercial);
-                GetMasterFor(QuotationFor);
-            }
-        });
 
-
-        iv_car.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                QuotationFor = "Car";
-                product_type="car";
-                Glide.with(QuotationActivity.this).load(R.drawable.bike).into(iv_bike);
-                Glide.with(QuotationActivity.this).load(R.drawable.car).into(iv_car);
-                Glide.with(QuotationActivity.this).load(R.drawable.commercial_new).into(iv_commercial);
-            }
-        });
 
         iv_commercial.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -367,8 +383,8 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
         Spn_RTO = (SearchableSpinner) findViewById(R.id.Spn_RTO);
         Spn_Make = (SearchableSpinner) findViewById(R.id.Spn_Make);
-
-        GetMasterFor(QuotationFor);
+        //product_type="bike";
+        GetMasterFor();
 
         Spn_Model = (SearchableSpinner) findViewById(R.id.Spn_Model);
         Spn_Variant= (SearchableSpinner) findViewById(R.id.Spn_Variant);
@@ -485,6 +501,62 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
         RG_NewPolicyRequired= (RadioGroup)findViewById(R.id.RG_NewPolicyRequired);
         Rb_1OD5TP = (RadioButton)findViewById(R.id.Rb_1OD5TP);
         Rb_5OD5TP = (RadioButton)findViewById(R.id.Rb_5OD5TP);
+        Rb_3OD3TP = (RadioButton)findViewById(R.id.Rb_3OD3TP);
+
+        if(ProductTypeId.equalsIgnoreCase("2")){
+            Rb_3OD3TP.setVisibility(View.GONE);
+            Rb_5OD5TP.setVisibility(View.VISIBLE);
+        }else if(QuotationFor.equalsIgnoreCase("1")){
+            Rb_3OD3TP.setVisibility(View.VISIBLE);
+            Rb_5OD5TP.setVisibility(View.GONE);
+        }
+
+
+        LayoutBike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                QuotationFor = "Bike";
+                product_type="bike";
+                LayoutBike.setBackground(getDrawable(R.drawable.form_bg_selected));
+                LayoutCar.setBackground(getDrawable(R.drawable.form_bg_edittext_bg));
+
+                Glide.with(QuotationActivity.this).load(R.drawable.bike).into(iv_bike);
+                Glide.with(QuotationActivity.this).load(R.drawable.car).into(iv_car);
+                Glide.with(QuotationActivity.this).load(R.drawable.commercial_new).into(iv_commercial);
+
+                iv_bike.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.white), android.graphics.PorterDuff.Mode.SRC_IN);
+                iv_car.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary), android.graphics.PorterDuff.Mode.SRC_IN);
+                til_car_insurance.setTextColor(getResources().getColor(R.color.black));
+                til_bike_insurance.setTextColor(getResources().getColor(R.color.white));
+                Rb_3OD3TP.setVisibility(View.GONE);
+                Rb_5OD5TP.setVisibility(View.VISIBLE);
+                GetMasterFor();
+            }
+        });
+
+
+        LayoutCar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                QuotationFor = "Car";
+                product_type="privatecar";
+                LayoutBike.setBackground(getDrawable(R.drawable.form_bg_edittext_bg));
+                LayoutCar.setBackground(getDrawable(R.drawable.form_bg_selected));
+
+                Glide.with(QuotationActivity.this).load(R.drawable.bike).into(iv_bike);
+                Glide.with(QuotationActivity.this).load(R.drawable.car).into(iv_car);
+                Glide.with(QuotationActivity.this).load(R.drawable.commercial_new).into(iv_commercial);
+
+                iv_car.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.white), android.graphics.PorterDuff.Mode.SRC_IN);
+                iv_bike.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary), android.graphics.PorterDuff.Mode.SRC_IN);
+                til_car_insurance.setTextColor(getResources().getColor(R.color.white));
+                til_bike_insurance.setTextColor(getResources().getColor(R.color.black));
+                Rb_3OD3TP.setVisibility(View.VISIBLE);
+                Rb_5OD5TP.setVisibility(View.GONE);
+                GetMasterFor();
+            }
+        });
+
 
         RG_ChangeInOwnership= (RadioGroup)findViewById(R.id.RG_ChangeInOwnership);
         Rb_NoChangeInOwnership = (RadioButton)findViewById(R.id.Rb_NoChangeInOwnership);
@@ -540,6 +612,10 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                     Rb_5OD5TP.setBackground(getResources().getDrawable(R.drawable.form_bg_edittext_bg));
                     Rb_5OD5TP.setTextColor(getResources().getColor(R.color.black));
                     Rb_5OD5TP.setButtonTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.black));
+
+                    Rb_3OD3TP.setBackground(getResources().getDrawable(R.drawable.form_bg_edittext_bg));
+                    Rb_3OD3TP.setTextColor(getResources().getColor(R.color.black));
+                    Rb_3OD3TP.setButtonTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.black));
                     selected_od_year = "1";
 
                 }
@@ -551,7 +627,27 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                     Rb_1OD5TP.setBackground(getResources().getDrawable(R.drawable.form_bg_edittext_bg));
                     Rb_1OD5TP.setTextColor(getResources().getColor(R.color.black));
                     Rb_1OD5TP.setButtonTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.black));
+
+                    Rb_3OD3TP.setBackground(getResources().getDrawable(R.drawable.form_bg_edittext_bg));
+                    Rb_3OD3TP.setTextColor(getResources().getColor(R.color.black));
+                    Rb_3OD3TP.setButtonTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.black));
                     selected_od_year = "5";
+
+                }
+
+                if (Rb_3OD3TP.isChecked()){
+                    Rb_3OD3TP.setBackgroundColor(getResources().getColor(R.color.primary_green));
+                    Rb_3OD3TP.setTextColor(getResources().getColor(R.color.white));
+                    Rb_3OD3TP.setButtonTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.white));
+
+                    Rb_5OD5TP.setBackground(getResources().getDrawable(R.drawable.form_bg_edittext_bg));
+                    Rb_5OD5TP.setTextColor(getResources().getColor(R.color.black));
+                    Rb_5OD5TP.setButtonTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.black));
+
+                    Rb_1OD5TP.setBackground(getResources().getDrawable(R.drawable.form_bg_edittext_bg));
+                    Rb_1OD5TP.setTextColor(getResources().getColor(R.color.black));
+                    Rb_1OD5TP.setButtonTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.black));
+                    selected_od_year = "3";
 
                 }
 
@@ -923,7 +1019,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
     }
 
-    private void GetMasterFor(String policy_type) {
+    private void GetMasterFor() {
 
         myDialog.show();
         rtoValue = new ArrayList<>();
@@ -936,10 +1032,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
         makeValue.add("0");
         makeDisplayValue.add("Select Make");
 
-        String URL = "";
-        if(policy_type.equals("Bike")){
-            URL = RestClient.ROOT_URL2+"quotation/bike";
-        }
+        String URL = RestClient.ROOT_URL2+"quotation/"+product_type;
 
 
         ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
@@ -1012,6 +1105,8 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                     Map<String, String> map = new HashMap<String, String>();
                     map.put("agent_id", StrAgentId);
                     //map.put("business_id","");
+
+                    Log.d("MasterQuoteData",""+map);
 
                     return map;
                 }
@@ -1101,6 +1196,8 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                     map.put("make_id", selectedMakeId);
                     map.put("product_type_id", ProductTypeId);
 
+
+                    Log.d("ModelData",""+map);
                     return map;
                 }
             };
@@ -1188,6 +1285,8 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                     map.put("model_id", selectedModelId);
                     map.put("product_type_id", ProductTypeId);
 
+                    Log.d("VariantData",""+map);
+
                     return map;
                 }
             };
@@ -1250,17 +1349,25 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
             }
         }, Year, Month-1, Day);
         long timeInMilliseconds = 0;
+        long currentDatetimeInMilliseconds = 0;
         String givenDateString = Year + "-"+(Month)+"-"+Day;
+        //String today_date = CommonMethods.DisplayCurrentDate();
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        // SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
         try {
             Date mDate = sdf.parse(givenDateString);
             timeInMilliseconds = mDate.getTime();
+
+            /*Date mCurrentDate = sdf1.parse(today_date);
+            currentDatetimeInMilliseconds = mCurrentDate.getTime();*/
             System.out.println("Date in milli :: " + timeInMilliseconds);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
         registrationDatePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
         if(System.currentTimeMillis() > timeInMilliseconds) {
             registrationDatePickerDialog.getDatePicker().setMinDate(timeInMilliseconds);
             registrationDatePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
@@ -1283,7 +1390,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
         if(PolicyType!=null && PolicyType.equalsIgnoreCase("Comprehensive")) {
             if (StrPolicyType!=null && StrPolicyType.equalsIgnoreCase("Renew")) {
                 Log.d("Im here","--->In Renew");
-                for (int k = year; k >= (year - 15); k--) {
+                for (int k = (year-1); k >= ((year-1) - 15); k--) {
                     Log.d("Year", "Renew - " + year);
                     int new_year = k;
                     manufacturingYear.add(String.valueOf(new_year));
@@ -1308,7 +1415,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
         }else  if(PolicyType!=null && PolicyType.equalsIgnoreCase("ThirdParty")) {
             if (StrPolicyType!=null && StrPolicyType.equalsIgnoreCase("Renew")) {
                 Log.d("Im here","--->In Renew");
-                for (int k = year; k >= (year - 25); k--) {
+                for (int k = (year-1); k >= ((year-1) - 15); k--) {
                     Log.d("Year", "Renew - " + year);
                     int new_year = k;
                     manufacturingYear.add(String.valueOf(new_year));
@@ -1333,7 +1440,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
         }else  if(PolicyType!=null && PolicyType.equalsIgnoreCase("StandaloneOD")) {
             if (StrPolicyType!=null && StrPolicyType.equalsIgnoreCase("Renew")) {
                 Log.d("Im here","--->In Renew");
-                for (int k = year; k >= (year - 1); k--) {
+                for (int k = (year-1); k >= ((year-1) - 15); k--) {
                     Log.d("Year", "Renew - " + year);
                     int new_year = k;
                     manufacturingYear.add(String.valueOf(new_year));
@@ -1395,11 +1502,19 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                     cpaDisplayValue.add("0 Year");
                     cpaDisplayValue.add("1 Year");
                     cpaDisplayValue.add("5 Year");
+                    Rb_1OD5TP.setVisibility(View.VISIBLE);
+                    Rb_5OD5TP.setVisibility(View.VISIBLE);
+                    Rb_3OD3TP.setVisibility(View.GONE);
                 }else if(ProductTypeId!=null && ProductTypeId.equalsIgnoreCase("1")){
                     cpaDisplayValue.add("0 Year");
                     cpaDisplayValue.add("1 Year");
                     cpaDisplayValue.add("3 Year");
+                    Rb_1OD5TP.setVisibility(View.VISIBLE);
+                    Rb_5OD5TP.setVisibility(View.GONE);
+                    Rb_3OD3TP.setVisibility(View.VISIBLE);
                 }
+
+
             }
         }else  if(PolicyType!=null && PolicyType.equalsIgnoreCase("ThirdParty")) {
             if (StrPolicyType!=null && StrPolicyType.equalsIgnoreCase("Renew")) {
@@ -1569,6 +1684,8 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                         min_ex_showroom_price = jsonresponse.getInt("min_ex_showroom_price");
                         max_ex_showroom_price = jsonresponse.getInt("max_ex_showroom_price");
 
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(),"ExShowroomPrice",ex_showroom_price);
+
                         if(min_ex_showroom_price!=0 && max_ex_showroom_price!=0) {
                             til_invoice_price.setText("Invoice Price (Min: " + min_ex_showroom_price + "- Max: " + max_ex_showroom_price + ")");
                         }else {
@@ -1680,6 +1797,8 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                     map.put("policy_type", StrPolicyType.toLowerCase());
                     map.put("agent_id", StrAgentId);
                     map.put("access_from", "APP");
+
+                    Log.d("policy_param",""+map);
 
                     return map;
                 }
@@ -2265,6 +2384,8 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
             StrSelectedMake = Spn_Make.getSelectedItem().toString().toLowerCase();
             int pos_make = Spn_Make.getSelectedItemPosition();
             SelectedMakeId = makeValue.get(pos_make).toString();
+            Log.d("StrSelectedMake",StrSelectedMake);
+            Log.d("SelectedMakeId",SelectedMakeId);
             GetModelList(SelectedMakeId);
 
 
@@ -2273,6 +2394,9 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
             SelectedModel = Spn_Model.getSelectedItem().toString().toLowerCase();
             int pos_model = Spn_Model.getSelectedItemPosition();
             SelectedModelId = modelValue.get(pos_model).toString();
+
+            Log.d("SelectedModel",SelectedModel);
+            Log.d("SelectedModelId",SelectedModelId);
             GetVariantList(SelectedMakeId,SelectedModelId);
 
 
@@ -2282,12 +2406,16 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
             int pos_varaint = Spn_Variant.getSelectedItemPosition();
             SelectedVaraintId = variantValue.get(pos_varaint).toString();
             SelectedVehicleId = variantVehicleIdValue.get(pos_varaint).toString();
+            Log.d("SelectedVariant",SelectedVariant);
+            Log.d("SelectedVehicleId",SelectedVehicleId);
             getInvoicePriceRange();
 
         }else if (id == R.id.Spn_ManufacturingYear) {
             StrManufacturingYear = Spn_ManufacturingYear.getSelectedItem().toString().trim();
             if (Spn_ManufacturingYear.getSelectedItemPosition() > 0) {
                 registration_year = Integer.valueOf(StrManufacturingYear);
+                Log.d("StrManufacturingYear",StrManufacturingYear);
+                Log.d("registration_year",""+registration_year);
                 ManufacturingMonthApi();
                 GetNCBListApi();
             }

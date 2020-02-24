@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         getPasswordForMPN();
 
     }
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
          StrMobile = "8169972611";
          StrEmail = "sush.rokade@gmail.com";
 
-        String URL = ROOT_URL2+"GetPassword";
+        String URL = ROOT_URL2+"getpassword";
         ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
         boolean isInternetPresent = cd.isConnectingToInternet();
         if (isInternetPresent) {

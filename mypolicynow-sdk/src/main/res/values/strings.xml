@@ -132,4 +132,7 @@
             <item>20000</item>
             <item>10000</item>
         </string-array>
-</resources>
+
+        <string name="break_in_text">NOTE: Current policy has resulted in BREAK IN CASE. Inspection of your vehicle will be required before you can buy the policy.</string>
+
+    </resources>
