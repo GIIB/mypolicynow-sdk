@@ -168,18 +168,18 @@ public class SplashActivity extends RuntimePermissions {
             @Override
             public void run() {
 
-                if (StrPosToken!=null && !StrPosToken.equalsIgnoreCase("")){
+               /* if (StrPosToken!=null && !StrPosToken.equalsIgnoreCase("")){
 
                     Intent i = new Intent(getApplicationContext(), QuotationActivity.class);
                     i.putExtra("pos_token", StrPosToken);
                     startActivity(i);
                     finish();
-                }else {
+                }else {*/
                     Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(i);
                     overridePendingTransition(R.animator.move_left,R.animator.move_right);
                     finish();
-                }
+                //}
 
             }
         }, SPLASH_TIME_OUT);

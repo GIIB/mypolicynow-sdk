@@ -127,16 +127,19 @@ public class LoginActivity extends AppCompatActivity {
         myDialog.setCancelable(true);
         myDialog.setCanceledOnTouchOutside(true);
         myDialog.show();
+        StrEmail_Mobile = EdtEmail_Mobile.getText().toString();
 
         if(isEmailValid(StrEmail_Mobile)){
             StrEmail = StrEmail_Mobile;
-            StrMobile = "";
+            StrMobile = "8169972611";
         }else {
             StrMobile = StrEmail_Mobile;
             StrEmail = "";
         }
 
-        StrEmail_Mobile = EdtEmail_Mobile.getText().toString();
+        StrMobile = "8169972611";
+
+
 
         String LOGIN_URL = ROOT_URL2+"getpassword";
 
