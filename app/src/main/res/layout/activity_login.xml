@@ -30,8 +30,8 @@
 
             <ImageView
                 android:id="@+id/iv_logo"
-                android:layout_width="150sp"
-                android:layout_height="100sp"
+                android:layout_width="200sp"
+                android:layout_height="200sp"
                 android:visibility="visible"
                 android:src="@drawable/logo"
                 android:layout_marginTop="50sp"

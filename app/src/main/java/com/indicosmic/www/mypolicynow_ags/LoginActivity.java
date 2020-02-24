@@ -31,7 +31,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.indicosmic.www.mypolicynow_sdk.QuotationActivity;
 import com.indicosmic.www.mypolicynow_sdk.utils.CommonMethods;
-import com.indicosmic.www.mypolicynow_sdk.utils.MyValidator;
 import com.indicosmic.www.mypolicynow_sdk.utils.UtilitySharedPreferences;
 
 
@@ -71,58 +70,16 @@ public class LoginActivity extends AppCompatActivity {
 
     private void init() {
 
-        iv_logo = (ImageView) findViewById(R.id.iv_logo);
-        //Glide.with(this).load(R.drawable.logo_spinner).asGif().into(iv_logo);
-        /*Glide.with(this)
-                .load("https://www.mypolicynow.com/assets/images/logo_spinner.gif")
-                .placeholder(R.drawable.logo_spinner)
-                .into(iv_logo);*/
-
-        mTelephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    Activity#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for Activity#requestPermissions for more details.
-                return;
-            }
-        }
-        IMEI = mTelephonyManager.getDeviceId();
-        if (IMEI == null) {
-
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    Activity#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for Activity#requestPermissions for more details.
-                    return;
-                }
-            }
-            IMEI = mTelephonyManager.getSubscriberId();
-        }
-
 
         EdtEmail_Mobile = (EditText)findViewById(R.id.EdtEmail_Mobile);
         EdtEmail_Mobile.setText("8169972611");
-       /* EdtPassword = (EditText)findViewById(R.id.EdtPassword);
-        EdtPassword.setText("8169972611");*/
 
         Tv_InvalidLogin = (TextView)findViewById(R.id.Tv_InvalidLogin);
         Tv_ForgetPassword = (TextView)findViewById(R.id.Tv_ForgetPassword);
 
-        myDialog = new ProgressDialog(this);
+        myDialog = new ProgressDialog(LoginActivity.this);
         myDialog.setMessage("Please wait...");
-        myDialog.setCancelable(false);
-        myDialog.setCanceledOnTouchOutside(false);
+
 
         LayoutLogin = (LinearLayout) findViewById(R.id.LayoutLogin);
         LayoutLogin.setOnClickListener(new View.OnClickListener() {
@@ -135,7 +92,9 @@ public class LoginActivity extends AppCompatActivity {
 
                 if(isValidFields()){
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(EdtEmail_Mobile.getWindowToken(), 0);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(EdtEmail_Mobile.getWindowToken(), 0);
+                    }
                     StrEmail_Mobile = EdtEmail_Mobile.getText().toString();
 
                     requestforLogin();
@@ -153,22 +112,20 @@ public class LoginActivity extends AppCompatActivity {
 
         boolean result = true;
 
-        if (!MyValidator.isValidField(EdtEmail_Mobile)) {
+        if (!MyValidator.isValidEmail_Mobile(EdtEmail_Mobile)) {
             EdtEmail_Mobile.requestFocus();
             CommonMethods.DisplayToastWarning(getApplicationContext(),"Please Enter Valid Email Id or Mobile No.");
             result = false;
         }
 
-       
-
-
-       
         return  result;
         
     }
 
     private void requestforLogin() {
         //dialog.show();
+        myDialog.setCancelable(true);
+        myDialog.setCanceledOnTouchOutside(true);
         myDialog.show();
 
         if(isEmailValid(StrEmail_Mobile)){
@@ -199,20 +156,15 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject data_obj = jsonresponse.getJSONObject("data");
 
                             POS_TOKEN  = data_obj.getString("token");
+                            UtilitySharedPreferences.setPrefs(getApplicationContext(),"POS_TOKEN",POS_TOKEN);
 
-                            TextView BtnBuyInsurance = (TextView)findViewById(R.id.BtnBuyInsurance);
-                            BtnBuyInsurance.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    UtilitySharedPreferences.setPrefs(getApplicationContext(),"QuotationFor","Bike");
-                                    if(POS_TOKEN!=null && !POS_TOKEN.equalsIgnoreCase("")){
-                                        Intent i = new Intent(getApplicationContext(), QuotationActivity.class);
-                                        i.putExtra("pos_token", POS_TOKEN);
-                                        startActivity(i);
-                                        finish();
-                                    }
-                                }
-                            });
+                            UtilitySharedPreferences.setPrefs(getApplicationContext(),"QuotationFor","Bike");
+                            if(POS_TOKEN!=null && !POS_TOKEN.equalsIgnoreCase("")){
+                                Intent i = new Intent(getApplicationContext(), QuotationActivity.class);
+                                i.putExtra("pos_token", POS_TOKEN);
+                                startActivity(i);
+                                finish();
+                            }
 
                         } catch(JSONException e){
                             e.printStackTrace();
