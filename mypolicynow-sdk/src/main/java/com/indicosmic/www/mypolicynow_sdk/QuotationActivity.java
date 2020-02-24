@@ -451,7 +451,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
             @Override
             public void onClick(View v) {
 
-               
+
                 prePolicyExpiryDatePickerDialog = new DatePickerDialog(QuotationActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog,new DatePickerDialog.OnDateSetListener() {
 
