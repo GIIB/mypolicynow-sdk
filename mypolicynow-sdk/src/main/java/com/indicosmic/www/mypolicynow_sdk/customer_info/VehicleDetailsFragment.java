@@ -1,5 +1,6 @@
 package com.indicosmic.www.mypolicynow_sdk.customer_info;
 
+
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
@@ -34,7 +35,6 @@ import com.indicosmic.www.mypolicynow_sdk.utils.CommonMethods;
 import com.indicosmic.www.mypolicynow_sdk.utils.ConnectionDetector;
 import com.indicosmic.www.mypolicynow_sdk.utils.MyValidator;
 import com.indicosmic.www.mypolicynow_sdk.utils.UtilitySharedPreferences;
-import com.indicosmic.www.mypolicynow_sdk.webservices.RestClient;
 import com.stepstone.stepper.BlockingStep;
 import com.stepstone.stepper.StepperLayout;
 import com.stepstone.stepper.VerificationError;
@@ -44,9 +44,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
+import static com.indicosmic.www.mypolicynow_sdk.webservices.RestClient.ROOT_URL2;
+
 
 public class VehicleDetailsFragment extends Fragment implements BlockingStep, AdapterView.OnItemSelectedListener {
 
@@ -184,7 +190,7 @@ public class VehicleDetailsFragment extends Fragment implements BlockingStep, Ad
 
     private  void API_CHECK_CHASSIS_NO(String strChassisNo,String strRegNo){
 
-        String URL_IsChasisSelected = RestClient.ROOT_URL2 +"IsChasisSelected";
+        String URL_IsChasisSelected = ROOT_URL2 +"IsChasisSelected";
 
         try {
             Log.d("URL",URL_IsChasisSelected);
@@ -282,7 +288,7 @@ public class VehicleDetailsFragment extends Fragment implements BlockingStep, Ad
         icDisplayValue.add("Select Insurance Company");
 
 
-        String URL_CUSTOMER_MASTER = RestClient.ROOT_URL2 +"customerMaster";
+        String URL_CUSTOMER_MASTER = ROOT_URL2 +"customerMaster";
 
         try {
             Log.d("URL",URL_CUSTOMER_MASTER);
@@ -464,89 +470,91 @@ public class VehicleDetailsFragment extends Fragment implements BlockingStep, Ad
 
         try {
             JSONObject mpnObj = new JSONObject(StrMpnData);
-            JSONObject customer_quoteObj = mpnObj.getJSONObject("customer_quote");
-            if(customer_quoteObj!=null && !customer_quoteObj.toString().contains("vehicle_detail")){
+            if(StrMpnData.contains("customer_quote")){
+                JSONObject customer_quoteObj = mpnObj.getJSONObject("customer_quote");
+                if(customer_quoteObj!=null && !customer_quoteObj.toString().contains("vehicle_detail")){
 
-                JSONObject vehicle_detailObj = customer_quoteObj.getJSONObject("vehicle_detail");
+                    JSONObject vehicle_detailObj = customer_quoteObj.getJSONObject("vehicle_detail");
 
-                StrRtoStateCode = vehicle_detailObj.getString("veh1");
-                StrRtoCityCode = vehicle_detailObj.getString("veh2");
-                StrRtoZoneCode = vehicle_detailObj.getString("veh3");
-                StrVehicleNo = vehicle_detailObj.getString("veh4");
-                StrEngineNo = vehicle_detailObj.getString("engine_no");
-                StrChassisNo = vehicle_detailObj.getString("chassis_no");
-                StrVehicleColor = vehicle_detailObj.getString("car_color");
-                StrRegistrationDate = vehicle_detailObj.getString("reg_date");
-                StrAgreement = vehicle_detailObj.getString("agreement_type");
-                StrBankId = vehicle_detailObj.getString("agreement_bank");
+                    StrRtoStateCode = vehicle_detailObj.getString("veh1");
+                    StrRtoCityCode = vehicle_detailObj.getString("veh2");
+                    StrRtoZoneCode = vehicle_detailObj.getString("veh3");
+                    StrVehicleNo = vehicle_detailObj.getString("veh4");
+                    StrEngineNo = vehicle_detailObj.getString("engine_no");
+                    StrChassisNo = vehicle_detailObj.getString("chassis_no");
+                    StrVehicleColor = vehicle_detailObj.getString("car_color");
+                    StrRegistrationDate = vehicle_detailObj.getString("reg_date");
+                    StrAgreement = vehicle_detailObj.getString("agreement_type");
+                    StrBankId = vehicle_detailObj.getString("agreement_bank");
 
 
 
-                if(StrRtoZoneCode!=null && !StrRtoZoneCode.equalsIgnoreCase("") && !StrRtoZoneCode.equalsIgnoreCase("null")){
-                    Edt_RtoZoneCode.setText(StrRtoZoneCode);
-                }
-
-                if(StrVehicleNo!=null && !StrVehicleNo.equalsIgnoreCase("") && !StrVehicleNo.equalsIgnoreCase("null")){
-                    Edt_RtoVehicleNo.setText(StrVehicleNo);
-                }
-
-                if(StrEngineNo!=null && !StrEngineNo.equalsIgnoreCase("") && !StrEngineNo.equalsIgnoreCase("null")){
-                    Edt_EngineNo.setText(StrEngineNo);
-                }
-
-                if(StrChassisNo!=null && !StrChassisNo.equalsIgnoreCase("") && !StrChassisNo.equalsIgnoreCase("null")){
-                    Edt_ChassisNo.setText(StrChassisNo);
-                }
-
-                if(StrVehicleColor!=null && !StrVehicleColor.equalsIgnoreCase("") && !StrVehicleColor.equalsIgnoreCase("null")){
-                    int i = getIndex(Spn_VehicleColor,StrVehicleColor);
-                    Spn_VehicleColor.setSelection(i);
-                }
-
-                if(StrAgreement!=null && !StrAgreement.equalsIgnoreCase("") && !StrAgreement.equalsIgnoreCase("null")){
-                    if(StrAgreement.contains("_")){
-                        StrAgreement = StrAgreement.replace("_"," ");
+                    if(StrRtoZoneCode!=null && !StrRtoZoneCode.equalsIgnoreCase("") && !StrRtoZoneCode.equalsIgnoreCase("null")){
+                        Edt_RtoZoneCode.setText(StrRtoZoneCode);
                     }
-                    int i = getIndex(Spn_Agreement,StrAgreement);
-                    Spn_Agreement.setSelection(i);
-                }
 
-                if(StrBankId!=null && !StrBankId.equalsIgnoreCase("")  && !StrBankId.equalsIgnoreCase("null")){
-                    int pos = bankValue.indexOf(StrBankId);
-                    Spn_Bank.setSelection(pos);
-                }
+                    if(StrVehicleNo!=null && !StrVehicleNo.equalsIgnoreCase("") && !StrVehicleNo.equalsIgnoreCase("null")){
+                        Edt_RtoVehicleNo.setText(StrVehicleNo);
+                    }
 
+                    if(StrEngineNo!=null && !StrEngineNo.equalsIgnoreCase("") && !StrEngineNo.equalsIgnoreCase("null")){
+                        Edt_EngineNo.setText(StrEngineNo);
+                    }
 
+                    if(StrChassisNo!=null && !StrChassisNo.equalsIgnoreCase("") && !StrChassisNo.equalsIgnoreCase("null")){
+                        Edt_ChassisNo.setText(StrChassisNo);
+                    }
 
-                if(StrPolicyType!=null && !StrPolicyType.equalsIgnoreCase("null") && !StrPolicyType.equalsIgnoreCase("")){
-                    if(StrPolicyType.equalsIgnoreCase("new")){
-                        LayoutPreviousPolicyRenewalData.setVisibility(View.GONE);
-                    }else if(StrPolicyType.equalsIgnoreCase("renew")){
-                        LayoutPreviousPolicyRenewalData.setVisibility(View.VISIBLE);
+                    if(StrVehicleColor!=null && !StrVehicleColor.equalsIgnoreCase("") && !StrVehicleColor.equalsIgnoreCase("null")){
+                        int i = getIndex(Spn_VehicleColor,StrVehicleColor);
+                        Spn_VehicleColor.setSelection(i);
+                    }
 
-                        if(customer_quoteObj!=null && !customer_quoteObj.toString().contains("previous_policy_details")) {
-
-                            JSONObject previous_policy_detailsObj = customer_quoteObj.getJSONObject("previous_policy_details");
-                            StrPreviousPolicyNo  = previous_policy_detailsObj.getString("pre_policy_no");
-                            StrPreviousPolicyIC = previous_policy_detailsObj.getString("pre_insurance");
-
+                    if(StrAgreement!=null && !StrAgreement.equalsIgnoreCase("") && !StrAgreement.equalsIgnoreCase("null")){
+                        if(StrAgreement.contains("_")){
+                            StrAgreement = StrAgreement.replace("_"," ");
                         }
-                        if (StrPreviousPolicyNo != null && !StrPreviousPolicyNo.equalsIgnoreCase("") && !StrPreviousPolicyNo.equalsIgnoreCase("null")) {
-                            Edt_PreviousPolicyNo.setText(StrPreviousPolicyNo);
-                        }else {
-                            Edt_PreviousPolicyNo.setText("");
-                        }
+                        int i = getIndex(Spn_Agreement,StrAgreement);
+                        Spn_Agreement.setSelection(i);
+                    }
 
-                        if (StrPreviousPolicyIC != null && !StrPreviousPolicyIC.equalsIgnoreCase("") && !StrPreviousPolicyIC.equalsIgnoreCase("null")) {
+                    if(StrBankId!=null && !StrBankId.equalsIgnoreCase("")  && !StrBankId.equalsIgnoreCase("null")){
+                        int pos = bankValue.indexOf(StrBankId);
+                        Spn_Bank.setSelection(pos);
+                    }
 
-                            String[] separated = StrPreviousPolicyIC.split(",");
-                            String ic_id =  separated[0]; // this will contain "Fruit"
-                            StrPreviousPolicyIC = separated[1];
 
-                            int i = getIndex(Spn_Ic, StrPreviousPolicyIC);
-                            Spn_Ic.setSelection(i);
-                        }else {
-                            Spn_Ic.setSelection(0);
+
+                    if(StrPolicyType!=null && !StrPolicyType.equalsIgnoreCase("null") && !StrPolicyType.equalsIgnoreCase("")) {
+                        if (StrPolicyType.equalsIgnoreCase("new")) {
+                            LayoutPreviousPolicyRenewalData.setVisibility(View.GONE);
+                        } else if (StrPolicyType.equalsIgnoreCase("renew")) {
+                            LayoutPreviousPolicyRenewalData.setVisibility(View.VISIBLE);
+
+                            if (customer_quoteObj != null && !customer_quoteObj.toString().contains("previous_policy_details")) {
+
+                                JSONObject previous_policy_detailsObj = customer_quoteObj.getJSONObject("previous_policy_details");
+                                StrPreviousPolicyNo = previous_policy_detailsObj.getString("pre_policy_no");
+                                StrPreviousPolicyIC = previous_policy_detailsObj.getString("pre_insurance");
+
+                            }
+                            if (StrPreviousPolicyNo != null && !StrPreviousPolicyNo.equalsIgnoreCase("") && !StrPreviousPolicyNo.equalsIgnoreCase("null")) {
+                                Edt_PreviousPolicyNo.setText(StrPreviousPolicyNo);
+                            } else {
+                                Edt_PreviousPolicyNo.setText("");
+                            }
+
+                            if (StrPreviousPolicyIC != null && !StrPreviousPolicyIC.equalsIgnoreCase("") && !StrPreviousPolicyIC.equalsIgnoreCase("null")) {
+
+                                String[] separated = StrPreviousPolicyIC.split(",");
+                                String ic_id = separated[0]; // this will contain "Fruit"
+                                StrPreviousPolicyIC = separated[1];
+
+                                int i = getIndex(Spn_Ic, StrPreviousPolicyIC);
+                                Spn_Ic.setSelection(i);
+                            } else {
+                                Spn_Ic.setSelection(0);
+                            }
                         }
                     }
                 }
@@ -606,8 +614,10 @@ public class VehicleDetailsFragment extends Fragment implements BlockingStep, Ad
         if(IsExistRTOCode_ChassisNo==0) {
             if (IsValidFields()) {
 
-                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(Edt_ChassisNo.getWindowToken(), 0);
+                InputMethodManager imm = (InputMethodManager) Objects.requireNonNull(getContext()).getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(Edt_ChassisNo.getWindowToken(), 0);
+                }
 
                 StrRtoStateCode = Edt_RtoStateCode.getText().toString().toLowerCase();
                 StrRtoCityCode = Edt_RtoCityCode.getText().toString().toLowerCase();
@@ -715,7 +725,7 @@ public class VehicleDetailsFragment extends Fragment implements BlockingStep, Ad
             result = false;
         }*/
 
-        if(Spn_Agreement.getSelectedItemPosition()!=0) {
+        if(Spn_Agreement.getSelectedItemPosition() > 0) {
             if (!MyValidator.isValidSearchableSpinner(Spn_Bank)) {
                 CommonMethods.DisplayToastWarning(context, "Please Select Bank");
                 result = false;
@@ -795,6 +805,11 @@ public class VehicleDetailsFragment extends Fragment implements BlockingStep, Ad
         } else if (id == R.id.Spn_Bank) {
             if (Spn_Bank.getSelectedItemPosition() > 0) {
                 StrBankName = Spn_Bank.getSelectedItem().toString().trim();
+                InputMethodManager imm = (InputMethodManager) Objects.requireNonNull(getContext()).getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(Edt_ChassisNo.getWindowToken(), 0);
+                }
+
             } else {
                 StrBankName = "";
             }

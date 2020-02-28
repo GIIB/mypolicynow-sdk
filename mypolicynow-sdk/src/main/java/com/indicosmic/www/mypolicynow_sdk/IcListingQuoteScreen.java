@@ -24,11 +24,14 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -40,11 +43,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-
 import com.indicosmic.www.mypolicynow_sdk.utils.CommonMethods;
 import com.indicosmic.www.mypolicynow_sdk.utils.ConnectionDetector;
 import com.indicosmic.www.mypolicynow_sdk.utils.UtilitySharedPreferences;
-import com.indicosmic.www.mypolicynow_sdk.webservices.RestClient;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -54,6 +55,7 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -63,62 +65,63 @@ import java.util.Map;
 import static com.indicosmic.www.mypolicynow_sdk.utils.CommonMethods.ucFirst;
 import static com.indicosmic.www.mypolicynow_sdk.webservices.RestClient.ROOT_URL2;
 
+
 public class IcListingQuoteScreen extends AppCompatActivity {
 
     ImageView iv_vehicle_type;
-    TextView tv_vehicle_make_model_variant_name, tv_vehicle_id, tv_vehicle_make_id, tv_vehicle_model_id, tv_vehicle_variant_id,
-            tv_cc, tv_fuel, tv_rto, tv_rto_id, tv_policy_package_type, tv_policy_start_date, tv_previous_ncb, tv_policy_type, tv_policy_end_date,
-            tv_current_ncb, tv_policy_holder_type, tv_claimed_in_past_year, tv_plan_type, tv_previous_policy_type, tv_previous_policy_expiry_date,
+    TextView tv_vehicle_make_model_variant_name,tv_vehicle_id,tv_vehicle_make_id,tv_vehicle_model_id,tv_vehicle_variant_id,
+            tv_cc,tv_fuel,tv_rto,tv_rto_id,tv_policy_package_type,tv_policy_start_date,tv_previous_ncb,tv_policy_type,tv_policy_end_date,
+            tv_current_ncb,tv_policy_holder_type,tv_claimed_in_past_year,tv_plan_type,tv_previous_policy_type,tv_previous_policy_expiry_date,
             tv_pa_cover_tenure;
-    LinearLayout LinearPA_Cover, LinearIsClaimed, LinearPreviousPolicyData, LinearEdit;
+    LinearLayout LinearPA_Cover,LinearIsClaimed,LinearPreviousPolicyData,LinearEdit;
 
-    String StrAgentId = "", StrMpnData = "", StrUserActionData = "", StrImageUrl = "", StrPlanTypeData = "", selected_od_year, ProductTypeId = "", StrExShowRoomPrice = "";
-    String StrMake, StrModel, StrVariant, Str_vehicle_make_model_variant_name = "", Str_vehicle_id = "", Str_vehicle_make_id = "", Str_vehicle_model_id = "", Str_vehicle_variant_id = "",
-            Str_cc = "", Str_fuel = "", Str_rto = "", Str_policy_package_type = "", Str_policy_start_date = "", Str_previous_ncb = "", Str_policy_type = "", Str_policy_end_date = "",
-            Str_current_ncb = "", Str_policy_holder_type = "", Str_claimed_in_past_year = "", Str_plan_type = "", Str_previous_policy_type = "", Str_previous_policy_expiry_date = "",
-            Str_pa_cover_tenure = "", Str_rto_id = "", Str_have_pa_policy = "", Str_product_type_id = "", Str_vehicle_min_idv = "",
-            Str_vehicle_max_idv = "", Str_total_vehicle_idv = "";
+    String StrAgentId="",StrMpnData="",StrUserActionData="",StrImageUrl="",StrPlanTypeData="",selected_od_year,ProductTypeId="",StrExShowRoomPrice="";
+    String StrMake,StrModel,StrVariant,Str_vehicle_make_model_variant_name="",Str_vehicle_id="",Str_vehicle_make_id="",Str_vehicle_model_id="",Str_vehicle_variant_id="",
+            Str_cc="",Str_fuel="",Str_rto="",Str_policy_package_type="",Str_policy_start_date="",Str_previous_ncb="",Str_policy_type="",Str_policy_end_date="",
+            Str_current_ncb="",Str_policy_holder_type="",Str_claimed_in_past_year="",Str_plan_type="",Str_previous_policy_type="",Str_previous_policy_expiry_date="",
+            Str_pa_cover_tenure="",Str_rto_id="",Str_have_pa_policy="",Str_product_type_id="",Str_vehicle_min_idv="",
+            Str_vehicle_max_idv="",Str_total_vehicle_idv="";
     boolean is_breakin;
     ProgressDialog myDialog;
     LinearLayout ll_parent_portfolio;
     Dialog DialogBreakUpDetail;
 
     //JSONObject  selected_addonObj=null;
-    String error_message, vehicle_idv, available_od_discount, total_addon_premium, gross_premium, addon_button_html_message = "";
-    JSONObject vehicle_idv_yearObj, start_date_yearObj, end_date_yearObj, total_basic_od_yrObj,
-            total_electrical_premiumObj, total_non_electrical_premiumObj,
-            total_od_yr_wiseObj, total_geographical_value_odObj, year_wiseObj, total_bifuel_premiumObj;
-    String total_basic_od_year_amount, total_electrical_year_amount, total_non_electrical_year_amount, total_geographical_year_amount,
-            total_basic_od_premium, total_bifuel_value, b_addOn_Premium;
+    String error_message,vehicle_idv,available_od_discount,total_addon_premium,gross_premium,addon_button_html_message="";
+    JSONObject vehicle_idv_yearObj,start_date_yearObj,end_date_yearObj,total_basic_od_yrObj,
+            total_electrical_premiumObj,total_non_electrical_premiumObj,
+            total_od_yr_wiseObj,total_geographical_value_odObj,year_wiseObj,total_bifuel_premiumObj;
+    String total_basic_od_year_amount,total_electrical_year_amount,total_non_electrical_year_amount,total_geographical_year_amount,
+            total_basic_od_premium,total_bifuel_value,b_addOn_Premium;
 
-    JSONObject deductibles_year_wiseObj, antitheft_value_year_wiseObj, total_automobile_association_premium_year_wiseObj,
-            ncb_valueObj, deductibles_total_year_wiseObj;
-    String total_antitheft_value, total_automobile_association_value, total_ncb_value, deductibles_total_year_value;
+    JSONObject deductibles_year_wiseObj,antitheft_value_year_wiseObj,total_automobile_association_premium_year_wiseObj,
+            ncb_valueObj,deductibles_total_year_wiseObj;
+    String total_antitheft_value,total_automobile_association_value,total_ncb_value,deductibles_total_year_value;
 
-    JSONObject Addon_headerObj, Addon_valueObj, Addon_totalObj;
+    JSONObject Addon_headerObj,Addon_valueObj,Addon_totalObj;
 
-    CheckBox CB_Accessories, CB_Deductibles, CB_GeographicalExtension, CB_PACovers;
-    public String[] IcList;
+    CheckBox CB_Accessories,CB_Deductibles,CB_GeographicalExtension,CB_PACovers;
+    public  String[] IcList;
 
-    LinearLayout LayoutIDV, LayoutExtendIdv;
-    TextView BreakInTxt, Tv_ExShowroom, TV_MinIdv, TV_MaxIdv;
-    ImageView iv_idv, iv_edit_idv;
+    LinearLayout LayoutIDV,LayoutExtendIdv;
+    TextView BreakInTxt,Tv_ExShowroom,TV_MinIdv,TV_MaxIdv;
+    ImageView iv_idv,iv_edit_idv;
     EditText EdtIdvValue;
-    String StrIdvNewValue = "";
-    LinearLayout LayoutAccessories_Covers, LayoutExtendAccessories_Covers;
+    String StrIdvNewValue="";
+    LinearLayout LayoutAccessories_Covers,LayoutExtendAccessories_Covers;
     JSONObject addon_apiObject;
     ImageView iv_accessories_covers;
     CheckBox CB_AddONs;
-    Dialog DialogAccessiores, DialogDeductibles, DialogGeographicalExtension, DialogPACovers, DialogAddOns;
-    String electrical_val = "", non_electrical_val = "", cng_value = "";
-    String aa_membership_name = "", aa_membership_no = "", aa_expirty_date = "";
+    Dialog DialogAccessiores,DialogDeductibles,DialogGeographicalExtension,DialogPACovers,DialogAddOns;
+    String electrical_val="",non_electrical_val="",cng_value="";
+    String aa_membership_name="",aa_membership_no="",aa_expirty_date="";
     DatePickerDialog AA_ExpiryDatePickerDialog;
     private int mYear1, mMonth1, mDay1, mHour1, mMinute1;
     JSONArray AddOnArray = new JSONArray();
-    boolean is_antitheft = false, is_automobile_association = false;
-    String geographical = "";
-    String pa_unnamed_persons_no = "", pa_unnamed_persons_value = "", ll_paid_driver_value = "", ll_paid_driver_name = "";
-    String addons_data = "";
+    boolean is_antitheft = false,is_automobile_association = false;
+    String geographical="";
+    String pa_unnamed_persons_no="",pa_unnamed_persons_value="",ll_paid_driver_value="",ll_paid_driver_name="";
+    String addons_data="";
     JSONObject selected_addonsObj;
 
     @Override
@@ -130,60 +133,60 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         init();
     }
 
-    public void init() {
+    public void init(){
 
         myDialog = new ProgressDialog(IcListingQuoteScreen.this);
         myDialog.setMessage("Please wait...");
         myDialog.setCancelable(false);
         myDialog.setCanceledOnTouchOutside(false);
 
-        StrAgentId = UtilitySharedPreferences.getPrefs(getApplicationContext(), "PosId");
-        StrMpnData = UtilitySharedPreferences.getPrefs(getApplicationContext(), "MpnData");
-        StrUserActionData = UtilitySharedPreferences.getPrefs(getApplicationContext(), "UserActionData");
-        String ic_list = UtilitySharedPreferences.getPrefs(getApplicationContext(), "IcList");
-        ProductTypeId = UtilitySharedPreferences.getPrefs(getApplicationContext(), "ProductTypeId");
-        StrExShowRoomPrice = UtilitySharedPreferences.getPrefs(getApplicationContext(), "ExShowroomPrice");
+        StrAgentId =   UtilitySharedPreferences.getPrefs(getApplicationContext(),"PosId");
+        StrMpnData = UtilitySharedPreferences.getPrefs(getApplicationContext(),"MpnData");
+        StrUserActionData = UtilitySharedPreferences.getPrefs(getApplicationContext(),"UserActionData");
+        String ic_list =  UtilitySharedPreferences.getPrefs(getApplicationContext(),"IcList");
+        ProductTypeId = UtilitySharedPreferences.getPrefs(getApplicationContext(),"ProductTypeId");
+        StrExShowRoomPrice = UtilitySharedPreferences.getPrefs(getApplicationContext(),"ExShowroomPrice");
 
         IcList = ic_list.split("\\s*,\\s*");
 
 
-        iv_vehicle_type = (ImageView) findViewById(R.id.iv_vehicle_type);
+        iv_vehicle_type = (ImageView)findViewById(R.id.iv_vehicle_type);
         //
 
-        tv_vehicle_make_model_variant_name = (TextView) findViewById(R.id.tv_vehicle_make_model_variant_name);
-        tv_vehicle_id = (TextView) findViewById(R.id.tv_vehicle_id);
-        tv_vehicle_make_id = (TextView) findViewById(R.id.tv_vehicle_make_id);
-        tv_vehicle_model_id = (TextView) findViewById(R.id.tv_vehicle_model_id);
-        tv_vehicle_variant_id = (TextView) findViewById(R.id.tv_vehicle_variant_id);
+        tv_vehicle_make_model_variant_name = (TextView)findViewById(R.id.tv_vehicle_make_model_variant_name);
+        tv_vehicle_id = (TextView)findViewById(R.id.tv_vehicle_id);
+        tv_vehicle_make_id = (TextView)findViewById(R.id.tv_vehicle_make_id);
+        tv_vehicle_model_id = (TextView)findViewById(R.id.tv_vehicle_model_id);
+        tv_vehicle_variant_id = (TextView)findViewById(R.id.tv_vehicle_variant_id);
 
-        tv_cc = (TextView) findViewById(R.id.tv_cc);
-        tv_fuel = (TextView) findViewById(R.id.tv_fuel);
-        tv_rto = (TextView) findViewById(R.id.tv_rto);
-        tv_rto_id = (TextView) findViewById(R.id.tv_rto_id);
+        tv_cc = (TextView)findViewById(R.id.tv_cc);
+        tv_fuel = (TextView)findViewById(R.id.tv_fuel);
+        tv_rto = (TextView)findViewById(R.id.tv_rto);
+        tv_rto_id = (TextView)findViewById(R.id.tv_rto_id);
 
-        tv_policy_package_type = (TextView) findViewById(R.id.tv_policy_package_type);
-        tv_policy_start_date = (TextView) findViewById(R.id.tv_policy_start_date);
-        tv_previous_ncb = (TextView) findViewById(R.id.tv_previous_ncb);
-        tv_policy_type = (TextView) findViewById(R.id.tv_policy_type);
-        tv_policy_end_date = (TextView) findViewById(R.id.tv_policy_end_date);
-        tv_current_ncb = (TextView) findViewById(R.id.tv_current_ncb);
-        tv_policy_holder_type = (TextView) findViewById(R.id.tv_policy_holder_type);
-        tv_claimed_in_past_year = (TextView) findViewById(R.id.tv_claimed_in_past_year);
+        tv_policy_package_type = (TextView)findViewById(R.id.tv_policy_package_type);
+        tv_policy_start_date = (TextView)findViewById(R.id.tv_policy_start_date);
+        tv_previous_ncb = (TextView)findViewById(R.id.tv_previous_ncb);
+        tv_policy_type = (TextView)findViewById(R.id.tv_policy_type);
+        tv_policy_end_date = (TextView)findViewById(R.id.tv_policy_end_date);
+        tv_current_ncb = (TextView)findViewById(R.id.tv_current_ncb);
+        tv_policy_holder_type = (TextView)findViewById(R.id.tv_policy_holder_type);
+        tv_claimed_in_past_year = (TextView)findViewById(R.id.tv_claimed_in_past_year);
 
-        tv_plan_type = (TextView) findViewById(R.id.tv_plan_type);
-        tv_previous_policy_type = (TextView) findViewById(R.id.tv_previous_policy_type);
-        tv_previous_policy_expiry_date = (TextView) findViewById(R.id.tv_previous_policy_expiry_date);
-        tv_pa_cover_tenure = (TextView) findViewById(R.id.tv_pa_cover_tenure);
-        BreakInTxt = (TextView) findViewById(R.id.BreakInTxt);
-        Tv_ExShowroom = (TextView) findViewById(R.id.Tv_ExShowroom);
+        tv_plan_type = (TextView)findViewById(R.id.tv_plan_type);
+        tv_previous_policy_type = (TextView)findViewById(R.id.tv_previous_policy_type);
+        tv_previous_policy_expiry_date = (TextView)findViewById(R.id.tv_previous_policy_expiry_date);
+        tv_pa_cover_tenure = (TextView)findViewById(R.id.tv_pa_cover_tenure);
+        BreakInTxt =  (TextView)findViewById(R.id.BreakInTxt);
+        Tv_ExShowroom = (TextView)findViewById(R.id.Tv_ExShowroom);
 
-        if (StrExShowRoomPrice != null && !StrExShowRoomPrice.equalsIgnoreCase("")) {
-            Tv_ExShowroom.setText("Ex Showroom : \u20B9 " + StrExShowRoomPrice);
+        if(StrExShowRoomPrice!=null && !StrExShowRoomPrice.equalsIgnoreCase("")){
+            Tv_ExShowroom.setText("Ex Showroom : \u20B9 "+StrExShowRoomPrice);
         }
-        LinearPA_Cover = (LinearLayout) findViewById(R.id.LinearPA_Cover);
-        LinearIsClaimed = (LinearLayout) findViewById(R.id.LinearIsClaimed);
-        LinearPreviousPolicyData = (LinearLayout) findViewById(R.id.LinearPreviousPolicyData);
-        LinearEdit = (LinearLayout) findViewById(R.id.LinearEdit);
+        LinearPA_Cover = (LinearLayout)findViewById(R.id.LinearPA_Cover);
+        LinearIsClaimed = (LinearLayout)findViewById(R.id.LinearIsClaimed);
+        LinearPreviousPolicyData= (LinearLayout)findViewById(R.id.LinearPreviousPolicyData);
+        LinearEdit = (LinearLayout)findViewById(R.id.LinearEdit);
         LinearEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -209,76 +212,142 @@ public class IcListingQuoteScreen extends AppCompatActivity {
             Str_policy_type = user_action_dataObj.getString("policy_type");
             Str_policy_holder_type = user_action_dataObj.getString("policy_holder_type");
 
-            if (Str_policy_holder_type.equalsIgnoreCase("individual")) {
+            if(Str_policy_holder_type.equalsIgnoreCase("individual")){
                 Str_pa_cover_tenure = user_action_dataObj.getString("selected_pa_year");
             }
 
-            if (Str_policy_type.equalsIgnoreCase("renew")) {
+            if(Str_policy_type.equalsIgnoreCase("renew")) {
                 Str_claimed_in_past_year = user_action_dataObj.getString("is_claimed");
                 Str_previous_policy_type = user_action_dataObj.getString("previous_yr_policy_type");
                 Str_previous_policy_expiry_date = user_action_dataObj.getString("previous_policy_expiry_date");
                 Str_previous_ncb = user_action_dataObj.getString("previous_policy_ncb");
 
-            } else {
+            }else {
                 Str_previous_ncb = "0";
 
             }
 
 
-            if (Str_product_type_id.equalsIgnoreCase("2")) {
-                StrImageUrl = ROOT_URL2 + "assets/images/car/bike.jpg";
+            if(Str_product_type_id.equalsIgnoreCase("2")){
+                StrImageUrl = ROOT_URL2+"assets/images/car/bike.jpg";
             } else if (Str_product_type_id.equalsIgnoreCase("1")) {
-                StrImageUrl = ROOT_URL2 + "assets/images/car/hondacity-img.jpg";
+                StrImageUrl = ROOT_URL2+"assets/images/car/hondacity-img.jpg";
             } else if (Str_product_type_id.equalsIgnoreCase("3")) {
-                StrImageUrl = ROOT_URL2 + "assets/images/car/taxi.jpg";
+                StrImageUrl = ROOT_URL2+"assets/images/car/taxi.jpg";
             } else if ((Str_product_type_id.equalsIgnoreCase("4")) || Str_product_type_id.equalsIgnoreCase("5")) {
-                StrImageUrl = ROOT_URL2 + "assets/images/car/truck.jpg";
+                StrImageUrl = ROOT_URL2+"assets/images/car/truck.jpg";
             } else if (Str_product_type_id.equalsIgnoreCase("6")) {
-                StrImageUrl = ROOT_URL2 + "assets/images/car/bus.jpg";
+                StrImageUrl = ROOT_URL2+"assets/images/car/bus.jpg";
             } else if (Str_product_type_id.equalsIgnoreCase("7") || Str_product_type_id.equalsIgnoreCase("8") ||
-                    Str_product_type_id.equalsIgnoreCase("9") || Str_product_type_id.equalsIgnoreCase("10") ||
+                    Str_product_type_id.equalsIgnoreCase("9")|| Str_product_type_id.equalsIgnoreCase("10")||
                     Str_product_type_id.equalsIgnoreCase("11") || Str_product_type_id.equalsIgnoreCase("12") ||
                     Str_product_type_id.equalsIgnoreCase("13")) {
-                StrImageUrl = ROOT_URL2 + "assets/images/car/auto.jpg";
+                StrImageUrl = ROOT_URL2+"assets/images/car/auto.jpg";
             } else if (Str_product_type_id.equalsIgnoreCase("15")) {
-                StrImageUrl = ROOT_URL2 + "assets/images/car/miscd.jpg";
+                StrImageUrl = ROOT_URL2+"assets/images/car/miscd.jpg";
             } else if (Str_product_type_id.equalsIgnoreCase("16") || Str_product_type_id.equalsIgnoreCase("17")) {
-                StrImageUrl = ROOT_URL2 + "assets/images/car/trailer.jpg";
+                StrImageUrl = ROOT_URL2+"assets/images/car/trailer.jpg";
             }
 
             Glide.with(IcListingQuoteScreen.this).load(StrImageUrl).into(iv_vehicle_type);
 
-            if (Str_product_type_id.equalsIgnoreCase("2")) {
-                if (Str_policy_type.equalsIgnoreCase("new")) {
-                    selected_od_year = user_action_dataObj.getString("selected_od_year");
-                    if (selected_od_year.equalsIgnoreCase("1")) {
-                        Str_plan_type = "1 year OD And 5 year TP";
-                    } else if (selected_od_year.equalsIgnoreCase("5")) {
-                        Str_plan_type = "5 year OD And 5 year TP";
-                    }
 
-                } else if (Str_policy_type.equalsIgnoreCase("renew")) {
-                    selected_od_year = user_action_dataObj.getString("selected_od_year");
-                    if (selected_od_year.equalsIgnoreCase("1")) {
-                        Str_plan_type = "1 year OD And 1 year TP";
+
+            selected_od_year = user_action_dataObj.getString("selected_od_year");
+            if(Str_product_type_id!=null && !Str_product_type_id.equalsIgnoreCase("") && Str_product_type_id.equalsIgnoreCase("1")) {
+                if (Str_policy_package_type != null && Str_policy_package_type.equalsIgnoreCase("Comprehensive")) {
+                    if (Str_policy_type != null && Str_policy_type.equalsIgnoreCase("New")) {
+                        if(selected_od_year.equalsIgnoreCase("1")){
+                            Str_plan_type = "1 year OD And 3 year TP";
+                        }else if(selected_od_year.equalsIgnoreCase("3")){
+                            Str_plan_type = "3 year OD And 3 year TP";
+                        }
+
+                    }
+                    else if (Str_policy_type != null && Str_policy_type.equalsIgnoreCase("Renew")) {
+                        if(selected_od_year.equalsIgnoreCase("1")){
+                            Str_plan_type = "1 year OD And 1 year TP";
+                        }
+
                     }
                 }
-            } else if (Str_product_type_id.equalsIgnoreCase("1")) {
-                if (Str_policy_type.equalsIgnoreCase("new")) {
-                    selected_od_year = user_action_dataObj.getString("selected_od_year");
-                    if (selected_od_year.equalsIgnoreCase("1")) {
-                        Str_plan_type = "1 year OD And 3 year TP";
-                    } else if (selected_od_year.equalsIgnoreCase("3")) {
-                        Str_plan_type = "3 year OD And 3 year TP";
+                if (Str_policy_package_type != null && Str_policy_package_type.equalsIgnoreCase("ThirdParty")) {
+
+                    if (Str_policy_type != null && Str_policy_type.equalsIgnoreCase("New")) {
+
+                        if(selected_od_year.equalsIgnoreCase("0")){
+                            Str_plan_type = "0 year OD And 3 year TP";
+                        }
+
+
+                    }
+                    else if (Str_policy_type != null && Str_policy_type.equalsIgnoreCase("Renew")) {
+                        if(selected_od_year.equalsIgnoreCase("0")){
+                            Str_plan_type = "0 year OD And 1 year TP";
+                        }
                     }
 
-                } else if (Str_policy_type.equalsIgnoreCase("renew")) {
-                    String selected_od_year = user_action_dataObj.getString("selected_od_year");
-                    if (selected_od_year.equalsIgnoreCase("1")) {
-                        Str_plan_type = "1 year OD And 1 year TP";
+
+                } else if (Str_policy_package_type != null && Str_policy_package_type.equalsIgnoreCase("standalone od")) {
+                    if (Str_policy_type != null && Str_policy_type.equalsIgnoreCase("Renew")) {
+
+                        if(selected_od_year.equalsIgnoreCase("1")){
+                            Str_plan_type = "1 year OD And 1 year TP";
+                        }
+
+
                     }
                 }
             }
+            else  if(Str_product_type_id!=null && !Str_product_type_id.equalsIgnoreCase("") && Str_product_type_id.equalsIgnoreCase("2")) {
+                if (Str_policy_package_type != null && Str_policy_package_type.equalsIgnoreCase("Comprehensive")) {
+                    if (Str_policy_type != null && Str_policy_type.equalsIgnoreCase("New")) {
+
+                        if(selected_od_year.equalsIgnoreCase("1")){
+                            Str_plan_type = "1 year OD And 5 year TP";
+                        }else if(selected_od_year.equalsIgnoreCase("5")){
+                            Str_plan_type = "5 year OD And 5 year TP";
+                        }
+
+                    }
+                    else if (Str_policy_type != null && Str_policy_type.equalsIgnoreCase("Renew")) {
+                        if(selected_od_year.equalsIgnoreCase("1")){
+                            Str_plan_type = "1 year OD And 1 year TP";
+                        }
+
+                    }
+                }
+                if (Str_policy_package_type != null && Str_policy_package_type.equalsIgnoreCase("ThirdParty")) {
+
+                    if (Str_policy_type != null && Str_policy_type.equalsIgnoreCase("New")) {
+
+                        if(selected_od_year.equalsIgnoreCase("0")){
+                            Str_plan_type = "0 year OD And 5 year TP";
+                        }
+
+
+                    }
+                    else if (Str_policy_type != null && Str_policy_type.equalsIgnoreCase("Renew")) {
+                        if(selected_od_year.equalsIgnoreCase("0")){
+                            Str_plan_type = "0 year OD And 1 year TP";
+                        }
+
+                    }
+
+
+                } else if (Str_policy_package_type != null && Str_policy_package_type.equalsIgnoreCase("standalone od")) {
+                    if (Str_policy_type != null && Str_policy_type.equalsIgnoreCase("Renew")) {
+
+                        if(selected_od_year.equalsIgnoreCase("1")){
+                            Str_plan_type = "1 year OD And 1 year TP";
+                        }
+
+                    }
+                }
+            }
+
+
+
 
 
             JSONObject mpn_dataObj = new JSONObject(StrMpnData);
@@ -295,13 +364,13 @@ public class IcListingQuoteScreen extends AppCompatActivity {
             Str_vehicle_max_idv = mpn_dataObj.getString("vehicle_max_idv");
             Str_total_vehicle_idv = mpn_dataObj.getString("total_vehicle_idv");
 
-            if (Str_product_type_id.equalsIgnoreCase("2")) {
+            if(Str_product_type_id.equalsIgnoreCase("2")){
 
                 BreakInTxt.setVisibility(View.GONE);
-            } else if (Str_product_type_id.equalsIgnoreCase("1")) {
-                if (is_breakin) {
+            }else if(Str_product_type_id.equalsIgnoreCase("1")){
+                if(is_breakin){
                     BreakInTxt.setVisibility(View.VISIBLE);
-                } else {
+                }else {
                     BreakInTxt.setVisibility(View.GONE);
                 }
             }
@@ -310,12 +379,12 @@ public class IcListingQuoteScreen extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        tv_vehicle_make_model_variant_name.setText(StrMake.toUpperCase() + " " + StrModel.toUpperCase() + " " + StrVariant.toUpperCase());
+        tv_vehicle_make_model_variant_name.setText(StrMake.toUpperCase()+" "+StrModel.toUpperCase()+ " "+StrVariant.toUpperCase());
         tv_vehicle_id.setText(Str_vehicle_id);
         tv_vehicle_make_id.setText(Str_vehicle_make_id);
         tv_vehicle_model_id.setText(Str_vehicle_model_id);
         tv_vehicle_variant_id.setText(Str_vehicle_variant_id);
-        tv_cc.setText("(" + Str_cc.toUpperCase() + " CC)");
+        tv_cc.setText("("+Str_cc.toUpperCase()+" CC)");
         tv_fuel.setText(Str_fuel.toUpperCase());
         tv_rto.setText(Str_rto.toUpperCase());
         tv_rto_id.setText(Str_rto_id);
@@ -325,51 +394,50 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         tv_policy_start_date.setText(Str_policy_start_date);
         tv_policy_end_date.setText(Str_policy_end_date);
 
-        tv_previous_ncb.setText("(" + Str_previous_ncb + " %)");
-        tv_current_ncb.setText("(" + Str_current_ncb + " %)");
+        tv_previous_ncb.setText("("+Str_previous_ncb +" %)");
+        tv_current_ncb.setText("("+Str_current_ncb +" %)");
 
         tv_policy_holder_type.setText(ucFirst(Str_policy_holder_type));
         tv_plan_type.setText(ucFirst(Str_plan_type));
-        if (Str_pa_cover_tenure != null && !Str_pa_cover_tenure.equalsIgnoreCase("")) {
-            tv_pa_cover_tenure.setText(ucFirst(Str_pa_cover_tenure + " Year"));
+        if(Str_pa_cover_tenure!=null && !Str_pa_cover_tenure.equalsIgnoreCase("")){
+            tv_pa_cover_tenure.setText(ucFirst(Str_pa_cover_tenure +" Year") );
             LinearPA_Cover.setVisibility(View.VISIBLE);
-        } else {
+        }else {
             LinearPA_Cover.setVisibility(View.GONE);
         }
 
 
-        if (Str_policy_type.equalsIgnoreCase("renew")) {
+        if(Str_policy_type.equalsIgnoreCase("renew")) {
             LinearIsClaimed.setVisibility(View.VISIBLE);
             LinearPreviousPolicyData.setVisibility(View.VISIBLE);
             tv_claimed_in_past_year.setText(ucFirst(Str_claimed_in_past_year));
             tv_previous_policy_type.setText(ucFirst(Str_previous_policy_type));
             tv_previous_policy_expiry_date.setText(Str_previous_policy_expiry_date);
 
-        } else {
+        }else {
             LinearIsClaimed.setVisibility(View.INVISIBLE);
             LinearPreviousPolicyData.setVisibility(View.GONE);
         }
-        ll_parent_portfolio = (LinearLayout) findViewById(R.id.ll_parent_portfolio);
-        Log.d("IcList", "" + IcList.toString());
-        IcList = new String[]{"3", "6"};
-        for (int k = 0; k < IcList.length; k++) {
-            String ic_id = IcList[k];
-            LoadQuotation(ic_id);
-        }
+
+
+        ll_parent_portfolio = (LinearLayout)findViewById(R.id.ll_parent_portfolio);
+        Log.d("IcList",""+IcList.toString());
+
+
 
 
         // Accessories & Covers
-        LayoutAccessories_Covers = (LinearLayout) findViewById(R.id.LayoutAccessories_Covers);
-        LayoutExtendAccessories_Covers = (LinearLayout) findViewById(R.id.LayoutExtendAccessories_Covers);
-        iv_accessories_covers = (ImageView) findViewById(R.id.iv_accessories_covers);
+        LayoutAccessories_Covers = (LinearLayout)findViewById(R.id.LayoutAccessories_Covers);
+        LayoutExtendAccessories_Covers = (LinearLayout)findViewById(R.id.LayoutExtendAccessories_Covers);
+        iv_accessories_covers = (ImageView)findViewById(R.id.iv_accessories_covers);
         LayoutAccessories_Covers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (LayoutExtendAccessories_Covers.getVisibility() == View.GONE) {
+                if(LayoutExtendAccessories_Covers.getVisibility()==View.GONE){
                     LayoutExtendAccessories_Covers.setVisibility(View.VISIBLE);
                     iv_accessories_covers.setImageDrawable(getDrawable(R.drawable.ic_arrow_drop_up));
 
-                } else {
+                }else {
                     LayoutExtendAccessories_Covers.setVisibility(View.GONE);
                     iv_accessories_covers.setImageDrawable(getDrawable(R.drawable.ic_arrow_drop_down_black_24dp));
                 }
@@ -377,18 +445,18 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         });
 
         //IDV Layout
-        LayoutIDV = (LinearLayout) findViewById(R.id.LayoutIDV);
-        LayoutExtendIdv = (LinearLayout) findViewById(R.id.LayoutExtendIdv);
-        iv_idv = (ImageView) findViewById(R.id.iv_idv);
+        LayoutIDV= (LinearLayout)findViewById(R.id.LayoutIDV);
+        LayoutExtendIdv = (LinearLayout)findViewById(R.id.LayoutExtendIdv);
+        iv_idv = (ImageView)findViewById(R.id.iv_idv);
 
         LayoutIDV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (LayoutExtendIdv.getVisibility() == View.GONE) {
+                if(LayoutExtendIdv.getVisibility()==View.GONE){
                     LayoutExtendIdv.setVisibility(View.VISIBLE);
                     iv_idv.setImageDrawable(getDrawable(R.drawable.ic_arrow_drop_up));
 
-                } else {
+                }else {
                     LayoutExtendIdv.setVisibility(View.GONE);
                     iv_idv.setImageDrawable(getDrawable(R.drawable.ic_arrow_drop_down_black_24dp));
                 }
@@ -396,23 +464,23 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         });
 
 
-        TV_MinIdv = (TextView) findViewById(R.id.TV_MinIdv);
-        TV_MaxIdv = (TextView) findViewById(R.id.TV_MaxIdv);
-        iv_edit_idv = (ImageView) findViewById(R.id.iv_edit_idv);
+        TV_MinIdv= (TextView) findViewById(R.id.TV_MinIdv);
+        TV_MaxIdv= (TextView)findViewById(R.id.TV_MaxIdv);
+        iv_edit_idv= (ImageView) findViewById(R.id.iv_edit_idv);
 
 
-        EdtIdvValue = (EditText) findViewById(R.id.EdtIdvValue);
+        EdtIdvValue= (EditText)findViewById(R.id.EdtIdvValue);
         EdtIdvValue.setEnabled(false);
 
-        if (Str_vehicle_min_idv != null && !Str_vehicle_min_idv.equalsIgnoreCase("")) {
+        if(Str_vehicle_min_idv!=null && !Str_vehicle_min_idv.equalsIgnoreCase("")) {
             TV_MinIdv.setText("Min: " + Str_vehicle_min_idv);
         }
 
-        if (Str_vehicle_max_idv != null && !Str_vehicle_max_idv.equalsIgnoreCase("")) {
+        if(Str_vehicle_max_idv!=null && !Str_vehicle_max_idv.equalsIgnoreCase("")) {
             TV_MaxIdv.setText("Max: " + Str_vehicle_max_idv);
         }
 
-        if (Str_total_vehicle_idv != null && !Str_total_vehicle_idv.equalsIgnoreCase("")) {
+        if(Str_total_vehicle_idv!=null && !Str_total_vehicle_idv.equalsIgnoreCase("")) {
             EdtIdvValue.setText(Str_total_vehicle_idv);
         }
 
@@ -420,11 +488,11 @@ public class IcListingQuoteScreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (Str_policy_type.equalsIgnoreCase("renew")) {
+                if(Str_policy_type.equalsIgnoreCase("renew")) {
                     EdtIdvValue.setEnabled(true);
                     EdtIdvValue.requestFocus();
-                } else {
-                    CommonMethods.DisplayToastInfo(getApplicationContext(), "Cannot Edit IDV for New Vehicle");
+                }else {
+                    CommonMethods.DisplayToastInfo(getApplicationContext(),"Cannot Edit IDV for New Vehicle");
                     EdtIdvValue.setEnabled(false);
                 }
 
@@ -435,18 +503,18 @@ public class IcListingQuoteScreen extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 boolean result = false;
-                if (EdtIdvValue.getText().toString().length() > 0) {
+                if(EdtIdvValue.getText().toString().length()>0){
                     StrIdvNewValue = EdtIdvValue.getText().toString();
                     double new_idv_value = Double.parseDouble(StrIdvNewValue);
                     double min_idv_value = Double.parseDouble(Str_vehicle_min_idv);
                     double max_idv_value = Double.parseDouble(Str_vehicle_max_idv);
-                    if (new_idv_value < min_idv_value || new_idv_value > max_idv_value) {
-                        EdtIdvValue.setError("Min: " + Str_vehicle_min_idv + "& Max: " + Str_vehicle_max_idv);
+                    if(new_idv_value < min_idv_value || new_idv_value > max_idv_value){
+                        EdtIdvValue.setError("Min: "+Str_vehicle_min_idv +"& Max: "+Str_vehicle_max_idv);
                         //CommonMethods.DisplayToastInfo(getApplicationContext(),"New IDV cannot less than "+Str_vehicle_min_idv +" \n& cannot be more than "+Str_vehicle_max_idv);
                         result = false;
-                    } else {
+                    }else {
                         StrIdvNewValue = EdtIdvValue.getText().toString();
-                        API_UPDATE_QUOTE("change_idv", "");
+                        API_UPDATE_QUOTE("change_idv","");
                         result = true;
                     }
                 }
@@ -458,18 +526,18 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         //Accessories & Covers
 
 
-        CB_Accessories = (CheckBox) findViewById(R.id.CB_Accessories);
-        CB_Deductibles = (CheckBox) findViewById(R.id.CB_Deductibles);
-        CB_GeographicalExtension = (CheckBox) findViewById(R.id.CB_GeographicalExtension);
-        CB_PACovers = (CheckBox) findViewById(R.id.CB_PACovers);
+        CB_Accessories = (CheckBox)findViewById(R.id.CB_Accessories);
+        CB_Deductibles = (CheckBox)findViewById(R.id.CB_Deductibles);
+        CB_GeographicalExtension = (CheckBox)findViewById(R.id.CB_GeographicalExtension);
+        CB_PACovers = (CheckBox)findViewById(R.id.CB_PACovers);
 
 
         setValuesToAccesories();
 
-        if (Str_policy_type != null && Str_policy_type.equalsIgnoreCase("new")) {
+        if(Str_policy_type!=null && Str_policy_type.equalsIgnoreCase("new")){
             CB_GeographicalExtension.setVisibility(View.GONE);
             CB_GeographicalExtension.setChecked(false);
-        } else if (Str_policy_type != null && Str_policy_type.equalsIgnoreCase("renew")) {
+        }else if (Str_policy_type!=null && Str_policy_type.equalsIgnoreCase("renew")) {
             CB_GeographicalExtension.setVisibility(View.VISIBLE);
             CB_GeographicalExtension.setChecked(false);
         }
@@ -503,70 +571,106 @@ public class IcListingQuoteScreen extends AppCompatActivity {
             }
         });
 
+
+
+        IcList = new String[] {"3","6"};
+        for(int k=0; k< IcList.length; k++){
+            String ic_id = IcList[k];
+            LoadQuotation(ic_id);
+        }
+
     }
 
     private void setValuesToAccesories() {
-        if (StrMpnData != null && !StrMpnData.equalsIgnoreCase("")) {
+        if(StrMpnData!=null && !StrMpnData.equalsIgnoreCase("")){
 
-            try {
+            try{
                 JSONObject mpn_dataObj = new JSONObject(StrMpnData);
-                Object accessories = mpn_dataObj.get("accessories");
 
-                if (accessories instanceof JSONArray) {
-                    // It's an array
-                    JSONArray interventionJsonArray = (JSONArray) accessories;
-                    if (interventionJsonArray.length() == 0) {
-                        CB_Accessories.setChecked(false);
+                if(StrMpnData.contains("accessories")) {
+                    Object accessories = mpn_dataObj.get("accessories");
+
+                    if (accessories instanceof JSONArray) {
+                        // It's an array
+                        JSONArray interventionJsonArray = (JSONArray) accessories;
+                        if (interventionJsonArray.length() == 0) {
+                            CB_Accessories.setChecked(false);
+                        }
+                    } else if (accessories instanceof JSONObject) {
+                        // It's an object
+                        JSONObject interventionObject = (JSONObject) accessories;
+                        CB_Accessories.setChecked(true);
+                        electrical_val = interventionObject.getString("elec_value");
+                        non_electrical_val = interventionObject.getString("non_elec_value");
+
                     }
-                } else if (accessories instanceof JSONObject) {
-                    // It's an object
-                    JSONObject interventionObject = (JSONObject) accessories;
-                    CB_Accessories.setChecked(true);
-                    electrical_val = interventionObject.getString("elec_value");
-                    non_electrical_val = interventionObject.getString("non_elec_value");
+                }else {
 
+                    CB_Accessories.setChecked(false);
+                    electrical_val = "";
+                    non_electrical_val = "";
                 }
 
-                JSONObject geographical_extention_Obj = mpn_dataObj.getJSONObject("geographical_extention");
-                String country_selected = geographical_extention_Obj.getString("country_selected");
-                if (country_selected != null && !country_selected.equalsIgnoreCase("")) {
-                    CB_GeographicalExtension.setChecked(true);
-                    geographical = country_selected;
-                } else {
+                if(StrMpnData.contains("geographical_extention")) {
+                    JSONObject geographical_extention_Obj = mpn_dataObj.getJSONObject("geographical_extention");
+                    String country_selected = geographical_extention_Obj.getString("country_selected");
+                    if (country_selected != null && !country_selected.equalsIgnoreCase("")) {
+                        CB_GeographicalExtension.setChecked(true);
+                        geographical = country_selected;
+                    } else {
+                        CB_GeographicalExtension.setChecked(false);
+                        geographical = "";
+                    }
+                }else {
                     CB_GeographicalExtension.setChecked(false);
                     geographical = "";
                 }
 
-                JSONObject deductibles_Obj = mpn_dataObj.getJSONObject("deductibles");
-                is_antitheft = deductibles_Obj.getBoolean("anti_theft");
-                is_automobile_association = deductibles_Obj.getBoolean("automobile_association");
+                if(StrMpnData.contains("deductibles")){
+                    JSONObject deductibles_Obj = mpn_dataObj.getJSONObject("deductibles");
+                    is_antitheft = deductibles_Obj.getBoolean("anti_theft");
 
-                if (is_antitheft || is_automobile_association) {
+                    if(StrMpnData.contains("automobile_association")) {
+                        is_automobile_association = deductibles_Obj.getBoolean("automobile_association");
+                    }else {
+                        is_automobile_association = false;
+                    }
+                }else {
+                    is_antitheft = false;
+                    is_automobile_association = false;
+                }
+
+                if(is_antitheft || is_automobile_association){
                     CB_Deductibles.setChecked(true);
-                } else {
+                }else {
                     CB_Deductibles.setChecked(false);
                 }
 
                 //Condition for car aa_member_name, to set here
+                if(StrMpnData.contains("pa_covers")) {
+                    Object pa_covers = mpn_dataObj.get("pa_covers");
 
-                Object pa_covers = mpn_dataObj.get("pa_covers");
+                    if (pa_covers instanceof JSONArray) {
+                        // It's an array
+                        JSONArray pa_coversJsonArray = (JSONArray) pa_covers;
+                        if (pa_coversJsonArray.length() == 0) {
+                            CB_PACovers.setChecked(false);
+                        }
+                    } else if (pa_covers instanceof JSONObject) {
+                        // It's an object
+                        JSONObject pa_coversObject = (JSONObject) pa_covers;
+                        CB_Accessories.setChecked(true);
+                        pa_unnamed_persons_no = pa_coversObject.getString("pa_unnamed_persons_no");
+                        pa_unnamed_persons_value = pa_coversObject.getString("pa_unnamed_persons_value");
 
-                if (pa_covers instanceof JSONArray) {
-                    // It's an array
-                    JSONArray pa_coversJsonArray = (JSONArray) pa_covers;
-                    if (pa_coversJsonArray.length() == 0) {
-                        CB_PACovers.setChecked(false);
+                        if (pa_unnamed_persons_no != null && !pa_unnamed_persons_no.equalsIgnoreCase("")) {
+                            pa_unnamed_persons_no = "on";
+                        }
                     }
-                } else if (pa_covers instanceof JSONObject) {
-                    // It's an object
-                    JSONObject pa_coversObject = (JSONObject) pa_covers;
-                    CB_Accessories.setChecked(true);
-                    pa_unnamed_persons_no = pa_coversObject.getString("pa_unnamed_persons_no");
-                    pa_unnamed_persons_value = pa_coversObject.getString("pa_unnamed_persons_value");
-
-                    if (pa_unnamed_persons_no != null && !pa_unnamed_persons_no.equalsIgnoreCase("")) {
-                        pa_unnamed_persons_no = "on";
-                    }
+                }else {
+                    CB_PACovers.setChecked(false);
+                    pa_unnamed_persons_no = "";
+                    pa_unnamed_persons_value = "";
                 }
 
                 /*if(StrMpnData!=null && StrMpnData.contains("addons")) {
@@ -574,11 +678,15 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                 }*/
 
 
-            } catch (Exception e) {
+
+
+
+            }catch (Exception e){
                 e.printStackTrace();
             }
 
         }
+
 
 
     }
@@ -592,37 +700,37 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         DialogAccessiores.setContentView(R.layout.layout_dailog_accessiores);
         DialogAccessiores.getWindow().setBackgroundDrawable(
                 new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        TextView title = (TextView) DialogAccessiores.findViewById(R.id.title);
-        ImageView iv_close = (ImageView) DialogAccessiores.findViewById(R.id.iv_close);
+        TextView title = (TextView)DialogAccessiores.findViewById(R.id.title) ;
+        ImageView iv_close = (ImageView)DialogAccessiores.findViewById(R.id.iv_close);
 
 
-        EditText EdtElectrical = (EditText) DialogAccessiores.findViewById(R.id.EdtElectrical);
-        EditText EdtNonElectrical = (EditText) DialogAccessiores.findViewById(R.id.EdtNonElectrical);
+        EditText EdtElectrical = (EditText)DialogAccessiores.findViewById(R.id.EdtElectrical);
+        EditText EdtNonElectrical = (EditText)DialogAccessiores.findViewById(R.id.EdtNonElectrical);
 
-        LinearLayout Cng_LpgLayout = (LinearLayout) DialogAccessiores.findViewById(R.id.Cng_LpgLayout);
-        EditText EdtCNG_LPG = (EditText) DialogAccessiores.findViewById(R.id.EdtCNG_LPG);
+        LinearLayout Cng_LpgLayout = (LinearLayout)DialogAccessiores.findViewById(R.id.Cng_LpgLayout);
+        EditText EdtCNG_LPG = (EditText)DialogAccessiores.findViewById(R.id.EdtCNG_LPG);
 
-        Button Btn_submit = (Button) DialogAccessiores.findViewById(R.id.Btn_submit);
-        Button Btn_reset = (Button) DialogAccessiores.findViewById(R.id.Btn_reset);
+        Button Btn_submit = (Button)DialogAccessiores.findViewById(R.id.Btn_submit);
+        Button Btn_reset = (Button)DialogAccessiores.findViewById(R.id.Btn_reset);
 
-        if (electrical_val != null && !electrical_val.equalsIgnoreCase("") && !electrical_val.equalsIgnoreCase("null")) {
+        if(electrical_val!=null && !electrical_val.equalsIgnoreCase("") && !electrical_val.equalsIgnoreCase("null")){
             EdtElectrical.setText(electrical_val);
         }
 
-        if (non_electrical_val != null && !non_electrical_val.equalsIgnoreCase("") && !non_electrical_val.equalsIgnoreCase("null")) {
+        if(non_electrical_val!=null && !non_electrical_val.equalsIgnoreCase("") && !non_electrical_val.equalsIgnoreCase("null")){
             EdtNonElectrical.setText(non_electrical_val);
         }
-        if (Str_product_type_id != null && !Str_product_type_id.equalsIgnoreCase("")) {
-            if (Str_product_type_id.equalsIgnoreCase("1")) {
+        if(Str_product_type_id!=null && !Str_product_type_id.equalsIgnoreCase("")) {
+            if (Str_product_type_id.equalsIgnoreCase("1")){
                 Cng_LpgLayout.setVisibility(View.VISIBLE);
 
-                if (cng_value != null && !cng_value.equalsIgnoreCase("") && !cng_value.equalsIgnoreCase("null")) {
+                if(cng_value!=null && !cng_value.equalsIgnoreCase("") && !cng_value.equalsIgnoreCase("null")){
                     EdtCNG_LPG.setText(cng_value);
-                } else {
+                }else {
                     EdtCNG_LPG.setText("");
                 }
 
-            } else if (Str_product_type_id.equalsIgnoreCase("2")) {
+            }else if(Str_product_type_id.equalsIgnoreCase("2")){
                 Cng_LpgLayout.setVisibility(View.GONE);
 
             }
@@ -632,7 +740,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (DialogAccessiores != null && DialogAccessiores.isShowing()) {
+                if(DialogAccessiores!=null && DialogAccessiores.isShowing()) {
                     DialogAccessiores.dismiss();
                 }
 
@@ -647,11 +755,13 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                 EdtElectrical.setText("");
                 EdtNonElectrical.setText("");
                 EdtCNG_LPG.setText("");
+                electrical_val = "";
+                non_electrical_val = "";
+                cng_value = "";
                 Cng_LpgLayout.setVisibility(View.GONE);
-                API_UPDATE_QUOTE("accessories", "");
-                if (CB_Accessories.isChecked()) {
-                    CB_Accessories.setChecked(false);
-                }
+
+                API_UPDATE_QUOTE("accessories","");
+
             }
         });
 
@@ -663,29 +773,29 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                 non_electrical_val = EdtNonElectrical.getText().toString();
                 cng_value = EdtCNG_LPG.getText().toString();
 
-                if (Str_product_type_id != null && !Str_product_type_id.equalsIgnoreCase("")) {
-                    if (Str_product_type_id.equalsIgnoreCase("1")) {
-                        if (electrical_val != null && non_electrical_val != null && cng_value != null) {
+                if(Str_product_type_id!=null && !Str_product_type_id.equalsIgnoreCase("")) {
+                    if (Str_product_type_id.equalsIgnoreCase("1")){
+                        if(electrical_val!=null && non_electrical_val!=null && cng_value!=null){
 
-                            if (electrical_val.equalsIgnoreCase("") && non_electrical_val.equalsIgnoreCase("") && cng_value.equalsIgnoreCase("")) {
-                                CommonMethods.DisplayToastError(getApplicationContext(), "Please Enter Valid Value.");
-                            } else {
+                            if(electrical_val.equalsIgnoreCase("") && non_electrical_val.equalsIgnoreCase("") && cng_value.equalsIgnoreCase("")){
+                                CommonMethods.DisplayToastError(getApplicationContext(),"Please Enter Valid Value.");
+                            }else {
 
-                                API_UPDATE_QUOTE("accessories", "");
+                                API_UPDATE_QUOTE("accessories","");
 
                             }
 
 
                         }
 
-                    } else if (Str_product_type_id.equalsIgnoreCase("2")) {
-                        if (electrical_val != null && non_electrical_val != null) {
+                    }else if(Str_product_type_id.equalsIgnoreCase("2")){
+                        if(electrical_val!=null && non_electrical_val!=null){
 
-                            if (electrical_val.equalsIgnoreCase("") && non_electrical_val.equalsIgnoreCase("")) {
-                                CommonMethods.DisplayToastError(getApplicationContext(), "Please Enter Valid Value.");
-                            } else {
+                            if(electrical_val.equalsIgnoreCase("") && non_electrical_val.equalsIgnoreCase("")){
+                                CommonMethods.DisplayToastError(getApplicationContext(),"Please Enter Valid Value.");
+                            }else {
 
-                                API_UPDATE_QUOTE("accessories", "");
+                                API_UPDATE_QUOTE("accessories","");
 
                             }
 
@@ -708,24 +818,26 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         DialogDeductibles.setContentView(R.layout.layout_dailog_deductibles);
         DialogDeductibles.getWindow().setBackgroundDrawable(
                 new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        TextView title = (TextView) DialogDeductibles.findViewById(R.id.title);
-        ImageView iv_close = (ImageView) DialogDeductibles.findViewById(R.id.iv_close);
+        TextView title = (TextView)DialogDeductibles.findViewById(R.id.title) ;
+        ImageView iv_close = (ImageView)DialogDeductibles.findViewById(R.id.iv_close);
 
 
-        CheckBox CB_Antitheft = (CheckBox) DialogDeductibles.findViewById(R.id.CB_Antitheft);
-        CheckBox CB_AutomobileAssociation = (CheckBox) DialogDeductibles.findViewById(R.id.CB_AutomobileAssociation);
-        LinearLayout LayoutAA_MemberDetails = (LinearLayout) DialogDeductibles.findViewById(R.id.LayoutAA_MemberDetails);
-        EditText EdtAA_MembershipName = (EditText) DialogDeductibles.findViewById(R.id.EdtAA_MembershipName);
-        EditText EdtAA_MembershipNo = (EditText) DialogDeductibles.findViewById(R.id.EdtAA_MembershipNo);
-        EditText EdtAA_ExpiryDate = (EditText) DialogDeductibles.findViewById(R.id.EdtAA_ExpiryDate);
+        CheckBox CB_Antitheft = (CheckBox)DialogDeductibles.findViewById(R.id.CB_Antitheft);
+        CheckBox CB_AutomobileAssociation = (CheckBox)DialogDeductibles.findViewById(R.id.CB_AutomobileAssociation);
+        LinearLayout LayoutAA_MemberDetails = (LinearLayout)DialogDeductibles.findViewById(R.id.LayoutAA_MemberDetails);
+        EditText EdtAA_MembershipName = (EditText)DialogDeductibles.findViewById(R.id.EdtAA_MembershipName);
+        EditText EdtAA_MembershipNo = (EditText)DialogDeductibles.findViewById(R.id.EdtAA_MembershipNo);
+        EditText EdtAA_ExpiryDate = (EditText)DialogDeductibles.findViewById(R.id.EdtAA_ExpiryDate);
 
         EdtAA_ExpiryDate.setInputType(InputType.TYPE_NULL);
+        Calendar newCalendar = Calendar.getInstance();
+        //newCalendar.add(Calendar.YEAR, -10);
         EdtAA_ExpiryDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 AA_ExpiryDatePickerDialog = new DatePickerDialog(IcListingQuoteScreen.this,
-                        android.R.style.Theme_Holo_Light_Dialog, new DatePickerDialog.OnDateSetListener() {
+                        android.R.style.Theme_Holo_Light_Dialog,new DatePickerDialog.OnDateSetListener() {
 
                     @Override
                     public void onDateSet(DatePicker view, int year,
@@ -734,10 +846,11 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                         mMonth1 = monthOfYear;
                         mDay1 = dayOfMonth;
 
+
                         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
                         SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
 
-                        String ExpiryDate = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+                        String ExpiryDate =year +"-"+ (monthOfYear + 1) + "-" + dayOfMonth ;
                         Date date = null;
                         try {
                             date = inputFormat.parse(ExpiryDate);
@@ -749,68 +862,71 @@ public class IcListingQuoteScreen extends AppCompatActivity {
 
 
                     }
-                }, mYear1, mMonth1 + 1, -1);
+                }, mYear1, mMonth1+1, -1);
 
                 AA_ExpiryDatePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                AA_ExpiryDatePickerDialog.getDatePicker().setMinDate(newCalendar.getTimeInMillis());
                 AA_ExpiryDatePickerDialog.show();
             }
         });
 
 
-        Button Btn_submit = (Button) DialogDeductibles.findViewById(R.id.Btn_submit);
-        Button Btn_reset = (Button) DialogDeductibles.findViewById(R.id.Btn_reset);
+        Button Btn_submit = (Button)DialogDeductibles.findViewById(R.id.Btn_submit);
+        Button Btn_reset = (Button)DialogDeductibles.findViewById(R.id.Btn_reset);
 
-        if (is_antitheft) {
+        if(is_antitheft){
             CB_Antitheft.setChecked(is_antitheft);
         }
 
 
-        if (Str_product_type_id != null && !Str_product_type_id.equalsIgnoreCase("")) {
-            if (Str_product_type_id.equalsIgnoreCase("1")) {
+
+        if(Str_product_type_id!=null && !Str_product_type_id.equalsIgnoreCase("")) {
+            if (Str_product_type_id.equalsIgnoreCase("1")){
                 CB_AutomobileAssociation.setVisibility(View.VISIBLE);
-                if (is_automobile_association) {
+                if(is_automobile_association){
                     CB_AutomobileAssociation.setChecked(is_automobile_association);
                     LayoutAA_MemberDetails.setVisibility(View.VISIBLE);
 
-                } else {
+                }else {
                     CB_AutomobileAssociation.setChecked(is_automobile_association);
                 }
-            } else if (Str_product_type_id.equalsIgnoreCase("2")) {
+            }else if(Str_product_type_id.equalsIgnoreCase("2")){
 
                 CB_AutomobileAssociation.setVisibility(View.GONE);
             }
         }
 
 
-        if (CB_AutomobileAssociation.getVisibility() == View.VISIBLE) {
+
+        if(CB_AutomobileAssociation.getVisibility()==View.VISIBLE){
 
             CB_AutomobileAssociation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
-                    if (compoundButton.isChecked()) {
+                    if(compoundButton.isChecked()){
                         LayoutAA_MemberDetails.setVisibility(View.VISIBLE);
 
-                        if (aa_membership_name != null && !aa_membership_name.equalsIgnoreCase("") && !aa_membership_name.equalsIgnoreCase("null")) {
+                        if(aa_membership_name!=null && !aa_membership_name.equalsIgnoreCase("") && !aa_membership_name.equalsIgnoreCase("null")){
                             EdtAA_MembershipName.setText(aa_membership_name);
-                        } else {
+                        }else {
                             EdtAA_MembershipName.setText("");
 
                         }
 
-                        if (aa_membership_no != null && !aa_membership_no.equalsIgnoreCase("") && !aa_membership_no.equalsIgnoreCase("null")) {
+                        if(aa_membership_no!=null && !aa_membership_no.equalsIgnoreCase("") && !aa_membership_no.equalsIgnoreCase("null")){
                             EdtAA_MembershipNo.setText(aa_membership_no);
-                        } else {
+                        }else {
                             EdtAA_MembershipNo.setText("");
 
                         }
 
-                        if (aa_expirty_date != null && !aa_expirty_date.equalsIgnoreCase("") && !aa_expirty_date.equalsIgnoreCase("null")) {
+                        if(aa_expirty_date!=null && !aa_expirty_date.equalsIgnoreCase("") && !aa_expirty_date.equalsIgnoreCase("null")){
                             EdtAA_ExpiryDate.setText(aa_expirty_date);
-                        } else {
+                        }else {
                             EdtAA_ExpiryDate.setText("");
                         }
-                    } else {
+                    }else {
                         LayoutAA_MemberDetails.setVisibility(View.GONE);
 
 
@@ -834,9 +950,13 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                 EdtAA_MembershipName.setText("");
                 EdtAA_MembershipNo.setText("");
                 EdtAA_ExpiryDate.setText("");
-
-                API_UPDATE_QUOTE("deductibles", "");
-                if (CB_Deductibles.isChecked()) {
+                aa_membership_name = "";
+                aa_membership_no = "";
+                aa_expirty_date = "";
+                is_antitheft = false;
+                is_automobile_association = false;
+                API_UPDATE_QUOTE("deductibles","");
+                if(CB_Deductibles.isChecked()){
                     CB_Deductibles.setChecked(false);
                 }
 
@@ -844,11 +964,13 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         });
 
 
+
+
         DialogDeductibles.show();
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (DialogDeductibles != null && DialogDeductibles.isShowing()) {
+                if(DialogDeductibles!=null && DialogDeductibles.isShowing()) {
                     DialogDeductibles.dismiss();
                 }
                 setValuesToAccesories();
@@ -862,19 +984,19 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                 is_antitheft = CB_Antitheft.isChecked();
 
 
-                if (Str_product_type_id != null && !Str_product_type_id.equalsIgnoreCase("")) {
-                    if (Str_product_type_id.equalsIgnoreCase("1")) {
+                if(Str_product_type_id!=null && !Str_product_type_id.equalsIgnoreCase("")) {
+                    if (Str_product_type_id.equalsIgnoreCase("1")){
 
                         is_automobile_association = CB_AutomobileAssociation.isChecked();
 
-                        if (is_automobile_association && LayoutAA_MemberDetails.getVisibility() == View.VISIBLE) {
+                        if(is_automobile_association && LayoutAA_MemberDetails.getVisibility()==View.VISIBLE){
 
                             aa_membership_name = EdtAA_MembershipName.getText().toString();
                             aa_membership_no = EdtAA_MembershipNo.getText().toString();
                             aa_expirty_date = EdtAA_ExpiryDate.getText().toString();
 
 
-                        } else {
+                        }else {
 
                             aa_membership_name = "";
                             aa_membership_no = "";
@@ -883,18 +1005,19 @@ public class IcListingQuoteScreen extends AppCompatActivity {
 
                         }
 
-                        if (!is_antitheft && !is_automobile_association) {
-                            CommonMethods.DisplayToastError(getApplicationContext(), "Please Check Atleast One Field.");
-                        } else {
-                            API_UPDATE_QUOTE("deductibles", "");
+                        if(!is_antitheft && !is_automobile_association){
+                            CommonMethods.DisplayToastError(getApplicationContext(),"Please Check Atleast One Field.");
+                        }else {
+                            API_UPDATE_QUOTE("deductibles","");
                         }
 
 
-                    } else if (Str_product_type_id.equalsIgnoreCase("2")) {
-                        if (!is_antitheft) {
-                            CommonMethods.DisplayToastError(getApplicationContext(), "Please Check Antitheft.");
-                        } else {
-                            API_UPDATE_QUOTE("deductibles", "");
+
+                    }else if(Str_product_type_id.equalsIgnoreCase("2")){
+                        if(!is_antitheft){
+                            CommonMethods.DisplayToastError(getApplicationContext(),"Please Check Antitheft.");
+                        }else {
+                            API_UPDATE_QUOTE("deductibles","");
                         }
                     }
                 }
@@ -915,17 +1038,17 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         DialogGeographicalExtension.setContentView(R.layout.layout_dailog_geographical_extension);
         DialogGeographicalExtension.getWindow().setBackgroundDrawable(
                 new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        TextView title = (TextView) DialogGeographicalExtension.findViewById(R.id.title);
-        ImageView iv_close = (ImageView) DialogGeographicalExtension.findViewById(R.id.iv_close);
+        TextView title = (TextView)DialogGeographicalExtension.findViewById(R.id.title) ;
+        ImageView iv_close = (ImageView)DialogGeographicalExtension.findViewById(R.id.iv_close);
 
-        Spinner Spn_GeographicalExtension = (Spinner) DialogGeographicalExtension.findViewById(R.id.Spn_GeographicalExtension);
+        Spinner Spn_GeographicalExtension = (Spinner)DialogGeographicalExtension.findViewById(R.id.Spn_GeographicalExtension);
 
-        Button Btn_submit = (Button) DialogGeographicalExtension.findViewById(R.id.Btn_submit);
-        Button Btn_reset = (Button) DialogGeographicalExtension.findViewById(R.id.Btn_reset);
+        Button Btn_submit = (Button)DialogGeographicalExtension.findViewById(R.id.Btn_submit);
+        Button Btn_reset = (Button)DialogGeographicalExtension.findViewById(R.id.Btn_reset);
 
-        if (geographical != null && !geographical.equalsIgnoreCase("") && !geographical.equalsIgnoreCase("null")) {
+        if(geographical!=null && !geographical.equalsIgnoreCase("") && !geographical.equalsIgnoreCase("null")){
 
-            int index = Integer.valueOf(geographical) - 1;
+            int index = Integer.valueOf(geographical)-1;
             Spn_GeographicalExtension.setSelection(index);
         }
 
@@ -933,7 +1056,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (DialogGeographicalExtension != null && DialogGeographicalExtension.isShowing()) {
+                if(DialogGeographicalExtension!=null && DialogGeographicalExtension.isShowing()) {
                     DialogGeographicalExtension.dismiss();
                 }
                 setValuesToAccesories();
@@ -946,8 +1069,8 @@ public class IcListingQuoteScreen extends AppCompatActivity {
             public void onClick(View view) {
                 Spn_GeographicalExtension.setSelection(0);
                 geographical = "";
-                API_UPDATE_QUOTE("geographical_extention", "");
-                if (CB_GeographicalExtension.isChecked()) {
+                API_UPDATE_QUOTE("geographical_extention","");
+                if(CB_GeographicalExtension.isChecked()){
                     CB_GeographicalExtension.setChecked(false);
                 }
             }
@@ -956,15 +1079,15 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         Btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Spn_GeographicalExtension.getSelectedItemPosition() == 0) {
+                if(Spn_GeographicalExtension.getSelectedItemPosition()==0){
                     geographical = "";
-                    CommonMethods.DisplayToastError(getApplicationContext(), "Please Select Atleast One Extension.");
-                } else {
+                    CommonMethods.DisplayToastError(getApplicationContext(),"Please Select Atleast One Extension.");
+                }else {
                     geographical = Spn_GeographicalExtension.getSelectedItem().toString().trim().toLowerCase();
-                    geographical = geographical.replace(" ", "");
+                    geographical = geographical.replace(" ","");
                     int value_selected = Spn_GeographicalExtension.getSelectedItemPosition();
-                    geographical = String.valueOf(value_selected + 1);
-                    API_UPDATE_QUOTE("geographical_extention", "");
+                    geographical = String.valueOf(value_selected+1);
+                    API_UPDATE_QUOTE("geographical_extention","");
 
                 }
             }
@@ -982,73 +1105,76 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         DialogPACovers.setContentView(R.layout.layout_dailog_pa_covers);
         DialogPACovers.getWindow().setBackgroundDrawable(
                 new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        TextView title = (TextView) DialogPACovers.findViewById(R.id.title);
-        ImageView iv_close = (ImageView) DialogPACovers.findViewById(R.id.iv_close);
+        TextView title = (TextView)DialogPACovers.findViewById(R.id.title) ;
+        ImageView iv_close = (ImageView)DialogPACovers.findViewById(R.id.iv_close);
 
-        CheckBox CB_PA_UnnamedPerson = (CheckBox) DialogPACovers.findViewById(R.id.CB_PA_UnnamedPerson);
-        LinearLayout LayoutPA_SumAssured = (LinearLayout) DialogPACovers.findViewById(R.id.LayoutPA_SumAssured);
-        Spinner Spn_Pa_SumAssured = (Spinner) DialogPACovers.findViewById(R.id.Spn_Pa_SumAssured);
-
-
-        CheckBox CB_LLPaidDriver = (CheckBox) DialogPACovers.findViewById(R.id.CB_LLPaidDriver);
-        LinearLayout LayoutLLPaidDriver = (LinearLayout) DialogPACovers.findViewById(R.id.LayoutLLPaidDriver);
-
-        EditText EdtLLPaidDriverName = (EditText) DialogPACovers.findViewById(R.id.EdtLLPaidDriverName);
-
-        Button Btn_submit = (Button) DialogPACovers.findViewById(R.id.Btn_submit);
-        Button Btn_reset = (Button) DialogPACovers.findViewById(R.id.Btn_reset);
+        CheckBox CB_PA_UnnamedPerson = (CheckBox)DialogPACovers.findViewById(R.id.CB_PA_UnnamedPerson);
+        LinearLayout LayoutPA_SumAssured = (LinearLayout)DialogPACovers.findViewById(R.id.LayoutPA_SumAssured);
+        Spinner Spn_Pa_SumAssured = (Spinner)DialogPACovers.findViewById(R.id.Spn_Pa_SumAssured);
 
 
-        if (Str_product_type_id != null && !Str_product_type_id.equalsIgnoreCase("")) {
-            if (Str_product_type_id.equalsIgnoreCase("1")) {
+        CheckBox CB_LLPaidDriver = (CheckBox)DialogPACovers.findViewById(R.id.CB_LLPaidDriver);
+        LinearLayout LayoutLLPaidDriver = (LinearLayout)DialogPACovers.findViewById(R.id.LayoutLLPaidDriver);
+
+        EditText EdtLLPaidDriverName = (EditText)DialogPACovers.findViewById(R.id.EdtLLPaidDriverName);
+
+        Button Btn_submit = (Button)DialogPACovers.findViewById(R.id.Btn_submit);
+        Button Btn_reset = (Button)DialogPACovers.findViewById(R.id.Btn_reset);
+
+
+
+
+        if(Str_product_type_id!=null && !Str_product_type_id.equalsIgnoreCase("")) {
+            if (Str_product_type_id.equalsIgnoreCase("1")){
 
                 CB_PA_UnnamedPerson.setText("PA Unnamed Persons (5)");
                 CB_LLPaidDriver.setVisibility(View.VISIBLE);
                 LayoutLLPaidDriver.setVisibility(View.GONE);
-                if (ll_paid_driver_value != null && !ll_paid_driver_value.equalsIgnoreCase("") && !ll_paid_driver_value.equalsIgnoreCase("null")) {
-                    if (ll_paid_driver_value.equalsIgnoreCase("on")) {
+                if(ll_paid_driver_value!=null && !ll_paid_driver_value.equalsIgnoreCase("") && !ll_paid_driver_value.equalsIgnoreCase("null")){
+                    if(ll_paid_driver_value.equalsIgnoreCase("on")){
                         CB_LLPaidDriver.setChecked(true);
                         LayoutLLPaidDriver.setVisibility(View.VISIBLE);
-                        if (ll_paid_driver_name != null && !ll_paid_driver_name.equalsIgnoreCase("") && !ll_paid_driver_name.equalsIgnoreCase("null")) {
+                        if(ll_paid_driver_name!=null && !ll_paid_driver_name.equalsIgnoreCase("") && !ll_paid_driver_name.equalsIgnoreCase("null")){
                             EdtLLPaidDriverName.setText(ll_paid_driver_name);
-                        } else {
+                        }else {
                             EdtLLPaidDriverName.setText("");
                         }
-                    } else {
+                    }else {
                         CB_LLPaidDriver.setChecked(false);
                     }
                 }
 
-            } else if (Str_product_type_id.equalsIgnoreCase("2")) {
+            }else if(Str_product_type_id.equalsIgnoreCase("2")){
                 CB_PA_UnnamedPerson.setText("PA Unnamed Persons (2)");
                 CB_LLPaidDriver.setVisibility(View.GONE);
                 LayoutLLPaidDriver.setVisibility(View.GONE);
-                ll_paid_driver_value = "";
+                ll_paid_driver_value="";
                 ll_paid_driver_name = "";
                 EdtLLPaidDriverName.setText("");
             }
         }
 
-        if (pa_unnamed_persons_no != null && !pa_unnamed_persons_no.equalsIgnoreCase("") && !pa_unnamed_persons_no.equalsIgnoreCase("null")) {
-            if (pa_unnamed_persons_no.equalsIgnoreCase("on")) {
+        if(pa_unnamed_persons_no!=null && !pa_unnamed_persons_no.equalsIgnoreCase("") && !pa_unnamed_persons_no.equalsIgnoreCase("null")){
+            if(pa_unnamed_persons_no.equalsIgnoreCase("on")){
                 CB_PA_UnnamedPerson.setChecked(true);
                 LayoutPA_SumAssured.setVisibility(View.VISIBLE);
-                if (pa_unnamed_persons_value != null && !pa_unnamed_persons_value.equalsIgnoreCase("") && !pa_unnamed_persons_value.equalsIgnoreCase("null")) {
-                    int i = getIndex(Spn_Pa_SumAssured, pa_unnamed_persons_value);
+                if(pa_unnamed_persons_value!=null && !pa_unnamed_persons_value.equalsIgnoreCase("") && !pa_unnamed_persons_value.equalsIgnoreCase("null")){
+                    int i = getIndex(Spn_Pa_SumAssured,pa_unnamed_persons_value);
                     Spn_Pa_SumAssured.setSelection(i);
                 }
-            } else {
+            }else {
                 CB_PA_UnnamedPerson.setChecked(false);
             }
         }
 
 
+
         CB_PA_UnnamedPerson.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (compoundButton.isChecked()) {
+                if(compoundButton.isChecked()){
                     LayoutPA_SumAssured.setVisibility(View.VISIBLE);
-                } else {
+                }else {
                     LayoutPA_SumAssured.setVisibility(View.GONE);
                 }
             }
@@ -1058,11 +1184,11 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         CB_LLPaidDriver.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (compoundButton.isChecked()) {
+                if(compoundButton.isChecked()){
                     LayoutLLPaidDriver.setVisibility(View.VISIBLE);
                     EdtLLPaidDriverName.setText("");
 
-                } else {
+                }else {
                     LayoutLLPaidDriver.setVisibility(View.GONE);
                     EdtLLPaidDriverName.setText("");
                 }
@@ -1078,8 +1204,8 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                 pa_unnamed_persons_value = "";
                 ll_paid_driver_value = "";
                 ll_paid_driver_name = "";
-                API_UPDATE_QUOTE("pa_covers", "");
-                if (CB_PACovers.isChecked()) {
+                API_UPDATE_QUOTE("pa_covers","");
+                if(CB_PACovers.isChecked()){
                     CB_PACovers.setChecked(false);
                 }
             }
@@ -1090,7 +1216,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (DialogPACovers != null && DialogPACovers.isShowing()) {
+                if(DialogPACovers!=null && DialogPACovers.isShowing()) {
                     DialogPACovers.dismiss();
                 }
                 setValuesToAccesories();
@@ -1104,56 +1230,56 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                 boolean cb_pa_unnamedPersonChecked = CB_PA_UnnamedPerson.isChecked();
 
 
-                if (Str_product_type_id != null && !Str_product_type_id.equalsIgnoreCase("")) {
-                    if (Str_product_type_id.equalsIgnoreCase("1")) {
+                if(Str_product_type_id!=null && !Str_product_type_id.equalsIgnoreCase("")) {
+                    if (Str_product_type_id.equalsIgnoreCase("1")){
                         boolean cb_ll_paidDriverChecked = CB_LLPaidDriver.isChecked();
 
-                        if (cb_pa_unnamedPersonChecked) {
+                        if(cb_pa_unnamedPersonChecked){
                             pa_unnamed_persons_no = "on";
-                            if (Spn_Pa_SumAssured.getSelectedItemPosition() == 0) {
+                            if(Spn_Pa_SumAssured.getSelectedItemPosition()==0){
                                 pa_unnamed_persons_value = "";
-                                CommonMethods.DisplayToastError(getApplicationContext(), "Please Select PA Unnamed Sum Insured");
-                            } else {
+                                CommonMethods.DisplayToastError(getApplicationContext(),"Please Select PA Unnamed Sum Insured");
+                            }else {
                                 pa_unnamed_persons_value = Spn_Pa_SumAssured.getSelectedItem().toString().trim();
-                                API_UPDATE_QUOTE("pa_covers", "");
+                                API_UPDATE_QUOTE("pa_covers","");
                             }
-                        } else {
+                        }else {
                             pa_unnamed_persons_no = "";
                             pa_unnamed_persons_value = "";
-                            CommonMethods.DisplayToastError(getApplicationContext(), "Please Select PA Unnamed Person No");
+                            CommonMethods.DisplayToastError(getApplicationContext(),"Please Select PA Unnamed Person No");
                         }
 
 
-                        if (cb_ll_paidDriverChecked) {
+                        if(cb_ll_paidDriverChecked){
                             ll_paid_driver_value = "on";
-                            if (EdtLLPaidDriverName.getText().toString().length() == 0) {
+                            if(EdtLLPaidDriverName.getText().toString().length()==0){
                                 ll_paid_driver_name = "";
-                                API_UPDATE_QUOTE("pa_covers", "");
-                            } else {
+                                API_UPDATE_QUOTE("pa_covers","");
+                            }else {
                                 ll_paid_driver_name = EdtLLPaidDriverName.getText().toString().trim();
-                                API_UPDATE_QUOTE("pa_covers", "");
+                                API_UPDATE_QUOTE("pa_covers","");
                             }
-                        } else {
+                        }else {
                             ll_paid_driver_value = "";
                             ll_paid_driver_name = "";
-                            API_UPDATE_QUOTE("pa_covers", "");
+                            API_UPDATE_QUOTE("pa_covers","");
                         }
 
 
-                    } else if (Str_product_type_id.equalsIgnoreCase("2")) {
-                        if (cb_pa_unnamedPersonChecked) {
+                    }else if(Str_product_type_id.equalsIgnoreCase("2")){
+                        if(cb_pa_unnamedPersonChecked){
                             pa_unnamed_persons_no = "on";
-                            if (Spn_Pa_SumAssured.getSelectedItemPosition() == 0) {
+                            if(Spn_Pa_SumAssured.getSelectedItemPosition()==0){
                                 pa_unnamed_persons_value = "";
-                                CommonMethods.DisplayToastError(getApplicationContext(), "Please Select PA Unnamed Sum Insured");
-                            } else {
+                                CommonMethods.DisplayToastError(getApplicationContext(),"Please Select PA Unnamed Sum Insured");
+                            }else {
                                 pa_unnamed_persons_value = Spn_Pa_SumAssured.getSelectedItem().toString().trim();
-                                API_UPDATE_QUOTE("pa_covers", "");
+                                API_UPDATE_QUOTE("pa_covers","");
                             }
-                        } else {
+                        }else {
                             pa_unnamed_persons_no = "";
                             pa_unnamed_persons_value = "";
-                            CommonMethods.DisplayToastError(getApplicationContext(), "Please Select PA Unnamed Person No");
+                            CommonMethods.DisplayToastError(getApplicationContext(),"Please Select PA Unnamed Person No");
                         }
                     }
                 }
@@ -1163,9 +1289,9 @@ public class IcListingQuoteScreen extends AppCompatActivity {
 
     }
 
-    private void ShowPopUpAddOns(String strAddon_apiObject, String strSelectedAddOn_Obj, String ic_name, String ic_id) {
+    private void ShowPopUpAddOns(String strAddon_apiObject,String strSelectedAddOn_Obj, String ic_name,String ic_id) {
 
-        Log.d("selected_addonsObj", "" + strSelectedAddOn_Obj);
+        Log.d("selected_addonsObj",""+strSelectedAddOn_Obj);
 
         DialogAddOns = new Dialog(IcListingQuoteScreen.this);
         DialogAddOns.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -1174,22 +1300,22 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         DialogAddOns.setContentView(R.layout.layout_dailog_add_ons);
         DialogAddOns.getWindow().setBackgroundDrawable(
                 new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        TextView title = (TextView) DialogAddOns.findViewById(R.id.title);
-        ImageView iv_close = (ImageView) DialogAddOns.findViewById(R.id.iv_close);
+        TextView title = (TextView)DialogAddOns.findViewById(R.id.title) ;
+        ImageView iv_close = (ImageView)DialogAddOns.findViewById(R.id.iv_close);
 
-        TextView tv_ic_id = (TextView) DialogAddOns.findViewById(R.id.tv_ic_id);
-        TextView tv_ic_name = (TextView) DialogAddOns.findViewById(R.id.tv_ic_name);
+        TextView tv_ic_id = (TextView)DialogAddOns.findViewById(R.id.tv_ic_id) ;
+        TextView tv_ic_name = (TextView)DialogAddOns.findViewById(R.id.tv_ic_name) ;
 
         tv_ic_name.setText(ic_name);
         tv_ic_id.setText(ic_id);
 
-        Button Btn_submit = (Button) DialogAddOns.findViewById(R.id.Btn_submit);
-        Button Btn_reset = (Button) DialogAddOns.findViewById(R.id.Btn_reset);
+        Button Btn_submit = (Button)DialogAddOns.findViewById(R.id.Btn_submit);
+        Button Btn_reset = (Button)DialogAddOns.findViewById(R.id.Btn_reset);
 
 
-        LinearLayout ll_parent_addons = (LinearLayout) DialogAddOns.findViewById(R.id.ll_parent_addons);
+        LinearLayout ll_parent_addons = (LinearLayout)DialogAddOns.findViewById(R.id.ll_parent_addons);
 
-        if (strAddon_apiObject != null && !strAddon_apiObject.equalsIgnoreCase("")) {
+        if(strAddon_apiObject!=null && !strAddon_apiObject.equalsIgnoreCase("")) {
             try {
                 addon_apiObject = new JSONObject(strAddon_apiObject);
             } catch (JSONException e) {
@@ -1233,15 +1359,15 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                                 Log.d("currentDynamicKey1", "" + currentDynamicKey1);
                                 // Get the value of the dynamic key
 
-                                if (currentDynamicKey1.equalsIgnoreCase("addons_sum") ||
+                                if(currentDynamicKey1.equalsIgnoreCase("addons_sum") ||
                                         currentDynamicKey1.equalsIgnoreCase("addons_sum_1year") ||
                                         currentDynamicKey1.equalsIgnoreCase("addons_sum_2year") ||
                                         currentDynamicKey1.equalsIgnoreCase("addons_sum_3year") ||
                                         currentDynamicKey1.equalsIgnoreCase("addon_premium")) {
 
                                     m1++;
-                                } else {
-                                    if (String.valueOf(selected_addonsObj).contains("addon_name")) {
+                                }else {
+                                    if(String.valueOf(selected_addonsObj).contains("addon_name")) {
                                         JSONObject strselected_addonsObj = selected_addonsObj.getJSONObject(currentDynamicKey1);
                                         String selected_addon_id = strselected_addonsObj.getString("addon_id");
 
@@ -1263,6 +1389,8 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                                     }
 
                                 //}*/
+
+
 
 
                         } catch (Exception e) {
@@ -1295,12 +1423,14 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         }*/
 
 
+
+
         Btn_reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addons_data = "";
                 AddOnArray = new JSONArray();
-                API_UPDATE_QUOTE("addons", tv_ic_id.getText().toString());
+                API_UPDATE_QUOTE("addons",tv_ic_id.getText().toString());
             }
         });
 
@@ -1309,7 +1439,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (DialogAddOns != null && DialogAddOns.isShowing()) {
+                if(DialogAddOns!=null && DialogAddOns.isShowing()) {
                     DialogAddOns.dismiss();
                 }
 
@@ -1320,12 +1450,12 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         Btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ll_parent_addons.getChildCount() > 0) {
-                    for (int i = 0; i < ll_parent_addons.getChildCount(); i++) {
+                if(ll_parent_addons.getChildCount()>0){
+                    for(int i =0; i< ll_parent_addons.getChildCount();i++){
                         View view1 = ll_parent_addons.getChildAt(i);
-                        CheckBox Chk_AddOns = (CheckBox) view1.findViewById(i);
+                        CheckBox Chk_AddOns = (CheckBox)view1.findViewById(i);
 
-                        if (Chk_AddOns.isChecked()) {
+                        if(Chk_AddOns.isChecked()) {
                             String AddOnData = Chk_AddOns.getHint().toString();
                             try {
                                 JSONObject addObj = new JSONObject(AddOnData);
@@ -1338,14 +1468,15 @@ public class IcListingQuoteScreen extends AppCompatActivity {
 
                         }
 
-                        Log.d("selectedAddons", "" + selected_addonsObj);
+                        Log.d("selectedAddons",""+selected_addonsObj);
 
                     }
-                    API_UPDATE_QUOTE("addons", tv_ic_id.getText().toString());
+                    API_UPDATE_QUOTE("addons",tv_ic_id.getText().toString());
 
                 }
             }
         });
+
 
 
     }
@@ -1361,7 +1492,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
             for (int i = 0; i < spinner.getCount(); i++) {
                 if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(searchString)) {
                     return i; // Found!
-                } else if (spinner.getItemAtPosition(i).toString().replace(" ", "").equalsIgnoreCase(searchString)) {
+                }else if(spinner.getItemAtPosition(i).toString().replace(" ","").equalsIgnoreCase(searchString)){
                     return i; // Found!
                 }
             }
@@ -1370,7 +1501,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         }
     }
 
-    private void API_UPDATE_QUOTE(String Type, String Ic_Id) {
+    private void API_UPDATE_QUOTE(String Type,String Ic_Id) {
 
        /* if(Type!=null && Type.equalsIgnoreCase("accessories")){
 
@@ -1381,13 +1512,13 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         }else if(Type!=null && Type.equalsIgnoreCase("pa_covers")){
 
         }else*/
-        if (Type != null && Type.equalsIgnoreCase("addons")) {
-            if (AddOnArray != null && AddOnArray.length() > 0) {
+        if(Type!=null && Type.equalsIgnoreCase("addons")){
+            if(AddOnArray!=null && AddOnArray.length()>0) {
                 try {
                     JSONObject mpnObj = new JSONObject(StrMpnData);
                     JSONObject dep_obj = new JSONObject();
                     dep_obj.put(Ic_Id, 1);
-                    Log.d("dep_obj", dep_obj.toString());
+                    Log.d("dep_obj",dep_obj.toString());
                     JSONArray addonArray = new JSONArray();
                     JSONArray addons_obj = new JSONArray();
                     JSONObject list_obj = new JSONObject();
@@ -1400,7 +1531,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                         //addons_obj = new JSONObject();
 
                         list_obj = new JSONObject();
-                        list_obj.put(addon_id, selected_addonObj);
+                        list_obj.put(addon_id,selected_addonObj);
 
                         addonArray.put(list_obj);
 
@@ -1410,31 +1541,31 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                     jsonObject.put(Ic_Id, addonArray);
 
                     addons_obj.put(jsonObject);
-                    Log.d("addons_obj", addons_obj.toString());
+                    Log.d("addons_obj",addons_obj.toString());
 
                     //Log.d("addons",""+addonArray);
-                    mpnObj.put("dep", dep_obj);
-                    mpnObj.put("addons", addons_obj);
+                    mpnObj.put("dep",dep_obj);
+                    mpnObj.put("addons",addons_obj);
 
                     StrMpnData = mpnObj.toString();
 
-                } catch (JSONException e) {
+                } catch(JSONException e){
                     e.printStackTrace();
                 }
 
                 addons_data = AddOnArray.toString();
-            } else {
+            }else {
                 addons_data = "";
-                selected_addonsObj = new JSONObject();
+                selected_addonsObj= new JSONObject();
             }
-            Log.d("AddonData", addons_data);
+            Log.d("AddonData",addons_data);
 
         }/*else if(Type!=null && Type.equalsIgnoreCase("change_idv")){
 
         }*/
 
         myDialog.show();
-        String URL = ROOT_URL2 + "update_quote";
+        String URL = ROOT_URL2+"update_quote";
         ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
         boolean isInternetPresent = cd.isConnectingToInternet();
         if (isInternetPresent) {
@@ -1458,38 +1589,38 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                         StrUserActionData = user_action_dataObj.toString();
 
 
-                        UtilitySharedPreferences.setPrefs(getApplicationContext(), "MpnData", StrMpnData);
-                        UtilitySharedPreferences.setPrefs(getApplicationContext(), "UserActionData", StrUserActionData);
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(),"MpnData",StrMpnData);
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(),"UserActionData",StrUserActionData);
                         setValuesToAccesories();
-                        if (Type != null && Type.equalsIgnoreCase("accessories")) {
-                            if (DialogAccessiores != null && DialogAccessiores.isShowing()) {
+                        if(Type!=null && Type.equalsIgnoreCase("accessories")){
+                            if(DialogAccessiores!=null && DialogAccessiores.isShowing()) {
                                 DialogAccessiores.dismiss();
                             }
-                        } else if (Type != null && Type.equalsIgnoreCase("deductibles")) {
-                            if (DialogDeductibles != null && DialogDeductibles.isShowing()) {
+                        }else if(Type!=null && Type.equalsIgnoreCase("deductibles")){
+                            if(DialogDeductibles!=null && DialogDeductibles.isShowing()) {
                                 DialogDeductibles.dismiss();
                             }
-                        } else if (Type != null && Type.equalsIgnoreCase("geographical_extention")) {
-                            if (DialogGeographicalExtension != null && DialogGeographicalExtension.isShowing()) {
+                        }else if(Type!=null && Type.equalsIgnoreCase("geographical_extention")){
+                            if(DialogGeographicalExtension!=null && DialogGeographicalExtension.isShowing()) {
                                 DialogGeographicalExtension.dismiss();
                             }
-                        } else if (Type != null && Type.equalsIgnoreCase("pa_covers")) {
-                            if (DialogPACovers != null && DialogPACovers.isShowing()) {
+                        }else if(Type!=null && Type.equalsIgnoreCase("pa_covers")){
+                            if(DialogPACovers!=null && DialogPACovers.isShowing()) {
                                 DialogPACovers.dismiss();
                             }
-                        } else if (Type != null && Type.equalsIgnoreCase("addons")) {
-                            if (DialogAddOns != null && DialogAddOns.isShowing()) {
+                        }else if(Type!=null && Type.equalsIgnoreCase("addons")){
+                            if(DialogAddOns!=null && DialogAddOns.isShowing()) {
                                 DialogAddOns.dismiss();
                             }
-                        } else if (Type != null && Type.equalsIgnoreCase("change_idv")) {
+                        }else if(Type!=null && Type.equalsIgnoreCase("change_idv")){
                             EdtIdvValue.setEnabled(false);
                         }
 
-                        if (ll_parent_portfolio != null && ll_parent_portfolio.getChildCount() > 0) {
+                        if(ll_parent_portfolio!=null && ll_parent_portfolio.getChildCount()>0){
                             ll_parent_portfolio.removeAllViews();
                         }
-                        IcList = new String[]{"3", "6"};
-                        for (int k = 0; k < IcList.length; k++) {
+                        IcList = new String[] {"3","6"};
+                        for(int k=0; k< IcList.length; k++){
                             String ic_id = IcList[k];
                             LoadQuotation(ic_id);
                         }
@@ -1505,7 +1636,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                     if (myDialog != null && myDialog.isShowing()) {
                         myDialog.dismiss();
                     }
-                    CommonMethods.DisplayToastInfo(getApplicationContext(), "Something went wrong. Please try again later.");
+                    CommonMethods.DisplayToastInfo(getApplicationContext(),"Something went wrong. Please try again later.");
 
                 }
             }) {
@@ -1513,47 +1644,47 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<String, String>();
                     params.put("agent_id", StrAgentId);
-                    params.put("call_attr", Type);
-                    if (Type != null && Type.equalsIgnoreCase("accessories")) {
-                        if (Str_product_type_id.equalsIgnoreCase("1")) {
-                            params.put("electrical_val", electrical_val);
-                            params.put("non_electrical_val", non_electrical_val);
-                            params.put("cng_value", cng_value);
-                        } else if (Str_product_type_id.equalsIgnoreCase("2")) {
-                            params.put("electrical_val", electrical_val);
-                            params.put("non_electrical_val", non_electrical_val);
+                    params.put("call_attr",Type);
+                    if(Type!=null && Type.equalsIgnoreCase("accessories")){
+                        if(Str_product_type_id.equalsIgnoreCase("1")) {
+                            params.put("electrical_val",electrical_val);
+                            params.put("non_electrical_val",non_electrical_val);
+                            params.put("cng_value",cng_value);
+                        }else if(Str_product_type_id.equalsIgnoreCase("2")){
+                            params.put("electrical_val",electrical_val);
+                            params.put("non_electrical_val",non_electrical_val);
                         }
-                    } else if (Type != null && Type.equalsIgnoreCase("deductibles")) {
-                        if (Str_product_type_id.equalsIgnoreCase("1")) {
-                            params.put("is_antitheft", String.valueOf(is_antitheft));
-                            params.put("is_automobile_association", String.valueOf(is_automobile_association));
-                            params.put("aa_membership_no", aa_membership_no);
-                            params.put("aa_membership_name", aa_membership_name);
-                            params.put("aa_expirty_date", aa_expirty_date);
-                        } else if (Str_product_type_id.equalsIgnoreCase("2")) {
-                            params.put("is_antitheft", String.valueOf(is_antitheft));
+                    }else if(Type!=null && Type.equalsIgnoreCase("deductibles")){
+                        if(Str_product_type_id.equalsIgnoreCase("1")) {
+                            params.put("is_antitheft",String.valueOf(is_antitheft));
+                            params.put("is_automobile_association",String.valueOf(is_automobile_association));
+                            params.put("aa_membership_no",aa_membership_no);
+                            params.put("aa_membership_name",aa_membership_name);
+                            params.put("aa_expirty_date",aa_expirty_date);
+                        }else if(Str_product_type_id.equalsIgnoreCase("2")){
+                            params.put("is_antitheft",String.valueOf(is_antitheft));
                         }
-                    } else if (Type != null && Type.equalsIgnoreCase("geographical_extention")) {
-                        params.put("geographical", geographical);
-                    } else if (Type != null && Type.equalsIgnoreCase("pa_covers")) {
-                        if (Str_product_type_id.equalsIgnoreCase("1")) {
+                    }else if(Type!=null && Type.equalsIgnoreCase("geographical_extention")){
+                        params.put("geographical",geographical);
+                    }else if(Type!=null && Type.equalsIgnoreCase("pa_covers")){
+                        if(Str_product_type_id.equalsIgnoreCase("1")) {
                             params.put("pa_unnamed_persons_no", pa_unnamed_persons_no);
                             params.put("pa_unnamed_persons_value", pa_unnamed_persons_value);
                             params.put("ll_paid_driver_value", ll_paid_driver_value);
                             params.put("ll_paid_driver_name", ll_paid_driver_name);
-                        } else if (Str_product_type_id.equalsIgnoreCase("2")) {
+                        }else if(Str_product_type_id.equalsIgnoreCase("2")){
                             params.put("pa_unnamed_persons_no", pa_unnamed_persons_no);
                             params.put("pa_unnamed_persons_value", pa_unnamed_persons_value);
                         }
-                    } else if (Type != null && Type.equalsIgnoreCase("addons")) {
-                        params.put("ic_id", Ic_Id);
-                        params.put("addons_data", addons_data);
-                    } else if (Type != null && Type.equalsIgnoreCase("change_idv")) {
-                        params.put("new_idv", StrIdvNewValue);
+                    }else if(Type!=null && Type.equalsIgnoreCase("addons")){
+                        params.put("ic_id",Ic_Id);
+                        params.put("addons_data",addons_data);
+                    }else if(Type!=null && Type.equalsIgnoreCase("change_idv")){
+                        params.put("new_idv",StrIdvNewValue);
                     }
-                    params.put("mpn_data", StrMpnData);
-                    params.put("user_action_data", StrUserActionData);
-                    Log.d("BuyPolicyData", "" + params);
+                    params.put("mpn_data",StrMpnData);
+                    params.put("user_action_data",StrUserActionData);
+                    Log.d("BuyPolicyData",""+params);
                     return params;
                 }
             };
@@ -1565,16 +1696,17 @@ public class IcListingQuoteScreen extends AppCompatActivity {
             // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
             RequestQueue requestQueue = Volley.newRequestQueue(this);
             requestQueue.add(request);
-        } else {
-            CommonMethods.DisplayToast(getApplicationContext(), "Please check Internet Connection");
+        }else {
+            CommonMethods.DisplayToast(getApplicationContext(),"Please check Internet Connection");
         }
 
     }
 
 
+
     private void LoadQuotation(String ic_id) {
 
-        String URL = ROOT_URL2 + "loadquotation";
+        String URL = ROOT_URL2+"loadquotation";
         ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
         boolean isInternetPresent = cd.isConnectingToInternet();
         if (isInternetPresent) {
@@ -1602,9 +1734,33 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                         //boolean is_addon = quote_html.getBoolean("is_addon");
 
 
-                        if (error.equalsIgnoreCase("1")) {
+
+                        if(error!=null && !error.equalsIgnoreCase("") && error.equalsIgnoreCase("1")){
                             error_message = quote_html.getString("error_message");
-                        } else {
+                            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                            final View rowView = inflater.inflate(R.layout.scheme_list_row1, null);
+                            rowView.setPadding(10,10,10,10);
+                            ImageView iv_IC_Img = (ImageView) rowView.findViewById(R.id.iv_IC_Img);
+
+                            Glide.with(IcListingQuoteScreen.this)
+                                    .load(logo_url)
+                                    .into(iv_IC_Img);
+
+                            TextView row_ic_id = (TextView)rowView.findViewById(R.id.row_ic_id);
+                            row_ic_id.setText(ic_id);
+
+                            TextView row_ic_name= (TextView)rowView.findViewById(R.id.row_ic_name);
+                            if(error_message!=null && !error_message.equalsIgnoreCase("")) {
+                                row_ic_name.setText(error_message.toUpperCase());
+                                row_ic_name.setVisibility(View.VISIBLE);
+                            }else {
+                                row_ic_name.setText(ic_id_name);
+                                row_ic_name.setVisibility(View.GONE);
+                            }
+
+                            ll_parent_portfolio.addView(rowView);
+
+                        }else {
 
                             vehicle_idv = quote_html.getString("vehicle_idv");
                             available_od_discount = quote_html.getString("maxdisc");
@@ -1613,13 +1769,14 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                             Object selected_addon = quote_html.get("selected_addon");
 
 
+
                             Object addon_api = dataObj.get("addon_api");
                             if (addon_api instanceof JSONObject) {
                                 // It's an array
-                                addon_apiObject = (JSONObject) addon_api;
+                                addon_apiObject = (JSONObject)addon_api;
 
                                 addon_button_html_message = "ADDONS";
-                            } else {
+                            }else {
                                 addon_apiObject = null;
                                 addon_button_html_message = "NO ADDONS";
                             }
@@ -1629,64 +1786,66 @@ public class IcListingQuoteScreen extends AppCompatActivity {
 
                             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                             final View rowView = inflater.inflate(R.layout.scheme_list_row1, null);
-                            rowView.setPadding(10, 10, 10, 10);
+                            rowView.setPadding(10,10,10,10);
                             ImageView iv_IC_Img = (ImageView) rowView.findViewById(R.id.iv_IC_Img);
 
                             Glide.with(IcListingQuoteScreen.this)
                                     .load(logo_url)
                                     .into(iv_IC_Img);
 
-                            TextView row_ic_id = (TextView) rowView.findViewById(R.id.row_ic_id);
+                            TextView row_ic_id = (TextView)rowView.findViewById(R.id.row_ic_id);
                             row_ic_id.setText(ic_id);
 
-                            TextView row_ic_name = (TextView) rowView.findViewById(R.id.row_ic_name);
+                            TextView row_ic_name= (TextView)rowView.findViewById(R.id.row_ic_name);
                             row_ic_name.setText(ic_id_name);
 
-                            TextView row_net_premium_amt = (TextView) rowView.findViewById(R.id.row_net_premium_amt);
-                            TextView row_addon_txt = (TextView) rowView.findViewById(R.id.row_addon_txt);
-                            if (addon_apiObject.toString() != null && !addon_apiObject.toString().equalsIgnoreCase("")) {
+                            TextView row_net_premium_amt = (TextView)rowView.findViewById(R.id.row_net_premium_amt);
+                            TextView row_addon_txt = (TextView)rowView.findViewById(R.id.row_addon_txt);
+                            if(addon_apiObject!=null &&  !addon_apiObject.toString().equalsIgnoreCase("")) {
                                 row_addon_txt.setText(addon_apiObject.toString());
-                            } else {
+                            }else {
                                 row_addon_txt.setText("");
                             }
 
-                            TextView row_selected_addon_txt = (TextView) rowView.findViewById(R.id.row_selected_addon_txt);
+                            TextView row_selected_addon_txt = (TextView)rowView.findViewById(R.id.row_selected_addon_txt);
 
-                            Button btn_add_on = (Button) rowView.findViewById(R.id.btn_add_on);
-                            Button btn_breakup = (Button) rowView.findViewById(R.id.btn_breakup);
-                            Button btn_buy_policy = (Button) rowView.findViewById(R.id.btn_buy_policy);
+                            Button btn_add_on = (Button)rowView.findViewById(R.id.btn_add_on);
+                            Button btn_breakup = (Button)rowView.findViewById(R.id.btn_breakup);
+                            Button btn_buy_policy = (Button)rowView.findViewById(R.id.btn_buy_policy);
 
-                            LinearLayout Linear_row_Premium = (LinearLayout) rowView.findViewById(R.id.Linear_row_Premium);
-                            LinearLayout row_linear_idv = (LinearLayout) rowView.findViewById(R.id.row_linear_idv);
-                            LinearLayout row_linear_buy_policy = (LinearLayout) rowView.findViewById(R.id.row_linear_buy_policy);
-                            LinearLayout LayoutSelectedAddon = (LinearLayout) rowView.findViewById(R.id.LayoutSelectedAddon);
+                            LinearLayout Linear_row_Premium = (LinearLayout)rowView.findViewById(R.id.Linear_row_Premium);
+                            LinearLayout row_linear_idv = (LinearLayout)rowView.findViewById(R.id.row_linear_idv);
+                            LinearLayout row_linear_buy_policy = (LinearLayout)rowView.findViewById(R.id.row_linear_buy_policy);
+                            LinearLayout LayoutSelectedAddon = (LinearLayout)rowView.findViewById(R.id.LayoutSelectedAddon);
 
 
-                            if (error.equalsIgnoreCase("1")) {
+
+                            if(error.equalsIgnoreCase("1"))
+                            {
                                 btn_add_on.setText(error_message);
                                 Linear_row_Premium.setVisibility(View.GONE);
                                 btn_breakup.setVisibility(View.GONE);
                                 row_linear_idv.setVisibility(View.GONE);
                                 row_linear_buy_policy.setVisibility(View.GONE);
-                            } else {
+                            }else {
                                 btn_breakup.setVisibility(View.VISIBLE);
                                 row_linear_buy_policy.setVisibility(View.VISIBLE);
                                 row_linear_idv.setVisibility(View.VISIBLE);
                                 Linear_row_Premium.setVisibility(View.VISIBLE);
 
-                                row_net_premium_amt.setText("\u20B9 " + gross_premium);
+                                row_net_premium_amt.setText("\u20B9 "+gross_premium);
 
                                 TextView tv_idv_in_rupees = (TextView) rowView.findViewById(R.id.tv_idv_in_rupees);
-                                tv_idv_in_rupees.setText("\u20B9 " + vehicle_idv);
+                                tv_idv_in_rupees.setText("\u20B9 "+vehicle_idv);
 
-                                TextView row_addon_premium_amt = (TextView) rowView.findViewById(R.id.row_addon_premium_amt);
-                                row_addon_premium_amt.setText("\u20B9 " + total_addon_premium + " (excl. tax)");
+                                TextView row_addon_premium_amt = (TextView)rowView.findViewById(R.id.row_addon_premium_amt);
+                                row_addon_premium_amt.setText("\u20B9 "+total_addon_premium + " (excl. tax)");
                                 if (selected_addon instanceof JSONObject) {
                                     // It's an array
-                                    selected_addonsObj = (JSONObject) selected_addon;
+                                    selected_addonsObj = (JSONObject)selected_addon;
                                     row_selected_addon_txt.setText(selected_addonsObj.toString());
                                     LayoutSelectedAddon.setVisibility(View.VISIBLE);
-                                    if (selected_addonsObj != null) {
+                                    if(selected_addonsObj!=null) {
                                         Iterator keys = selected_addonsObj.keys();
                                         int k = 0;
                                         while (keys.hasNext()) {
@@ -1697,7 +1856,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                                             Log.d("currentDynamicKey", "" + currentDynamicKey);
                                             // Get the value of the dynamic key
                                             try {
-                                                if (currentDynamicKey.equalsIgnoreCase("addons_sum") ||
+                                                if(currentDynamicKey.equalsIgnoreCase("addons_sum") ||
                                                         currentDynamicKey.equalsIgnoreCase("addons_sum_1year") ||
                                                         currentDynamicKey.equalsIgnoreCase("addons_sum_2year") ||
                                                         currentDynamicKey.equalsIgnoreCase("addons_sum_3year") ||
@@ -1705,8 +1864,8 @@ public class IcListingQuoteScreen extends AppCompatActivity {
 
                                                     k++;
 
-                                                } else {
-                                                    if (String.valueOf(selected_addonsObj).contains("addon_name")) {
+                                                }else {
+                                                    if(String.valueOf(selected_addonsObj).contains("addon_name")) {
 
                                                         JSONObject strselected_addonsObj = selected_addonsObj.getJSONObject(currentDynamicKey);
                                                         String addon_id = strselected_addonsObj.getString("addon_id");
@@ -1720,7 +1879,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
 
 
                                                         LayoutSelectedAddon.addView(rowView1);
-                                                    } else {
+                                                    }else {
                                                         LayoutSelectedAddon.setVisibility(View.GONE);
                                                     }
                                                     k++;
@@ -1733,7 +1892,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                                         }
                                     }
 
-                                } else {
+                                }else {
                                     LayoutSelectedAddon.setVisibility(View.GONE);
                                     selected_addonsObj = null;
                                     row_selected_addon_txt.setText("");
@@ -1745,11 +1904,11 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                                 btn_add_on.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        if (btn_add_on.getText().toString() != null && !btn_add_on.getText().toString().equalsIgnoreCase("null") && !addon_button_html_message.equalsIgnoreCase("")) {
+                                        if (btn_add_on.getText().toString()!= null && !btn_add_on.getText().toString().equalsIgnoreCase("null") && !addon_button_html_message.equalsIgnoreCase("")) {
                                             if (btn_add_on.getText().toString().equalsIgnoreCase("No Addons")) {
                                                 CommonMethods.DisplayToastInfo(getApplicationContext(), "No AddOns Available");
-                                            } else if (btn_add_on.getText().toString().equalsIgnoreCase("ADDONS")) {
-                                                ShowPopUpAddOns(row_addon_txt.getText().toString(), row_selected_addon_txt.getText().toString(), row_ic_name.getText().toString(), row_ic_id.getText().toString());
+                                            }else if (btn_add_on.getText().toString().equalsIgnoreCase("ADDONS")) {
+                                                ShowPopUpAddOns(row_addon_txt.getText().toString(),row_selected_addon_txt.getText().toString(),row_ic_name.getText().toString(),row_ic_id.getText().toString());
                                             }
                                         }
                                     }
@@ -1786,7 +1945,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                     if (myDialog != null && myDialog.isShowing()) {
                         myDialog.dismiss();
                     }
-                    CommonMethods.DisplayToastInfo(getApplicationContext(), "Something went wrong. Please try again later.");
+                    CommonMethods.DisplayToastInfo(getApplicationContext(),"Something went wrong. Please try again later.");
 
                 }
             }) {
@@ -1794,10 +1953,10 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                 protected Map<String, String> getParams() {
                     Map<String, String> map = new HashMap<String, String>();
                     map.put("agent_id", StrAgentId);
-                    map.put("mpn_data", StrMpnData);
-                    map.put("user_action_data", StrUserActionData);
-                    map.put("ic_id", ic_id);
-                    Log.d("MapLoadIcList", "" + map);
+                    map.put("mpn_data",StrMpnData);
+                    map.put("user_action_data",StrUserActionData);
+                    map.put("ic_id",ic_id);
+                    Log.d("MapLoadIcList",""+map);
                     return map;
                 }
             };
@@ -1809,18 +1968,19 @@ public class IcListingQuoteScreen extends AppCompatActivity {
             // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
             RequestQueue requestQueue = Volley.newRequestQueue(this);
             requestQueue.add(request);
-        } else {
-            CommonMethods.DisplayToast(getApplicationContext(), "Please check Internet Connection");
+        }else {
+            CommonMethods.DisplayToast(getApplicationContext(),"Please check Internet Connection");
         }
 
 
     }
 
 
+
     private void API_BUY_POLICY(String ic_id) {
 
         myDialog.show();
-        String URL = ROOT_URL2 + "buypolicy";
+        String URL = ROOT_URL2+"buypolicy";
         ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
         boolean isInternetPresent = cd.isConnectingToInternet();
         if (isInternetPresent) {
@@ -1844,13 +2004,13 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                         mpn_dataObj.put("customer_quote",customerObj);
 */
 
-                        UtilitySharedPreferences.setPrefs(getApplicationContext(), "MpnData", mpn_dataObj.toString());
-                        UtilitySharedPreferences.setPrefs(getApplicationContext(), "UserActionData", user_action_dataObj.toString());
-                        UtilitySharedPreferences.setPrefs(getApplicationContext(), "SelectedIcId", ic_id);
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(),"MpnData",mpn_dataObj.toString());
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(),"UserActionData",user_action_dataObj.toString());
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(),"SelectedIcId",ic_id);
 
-                        Intent i = new Intent(getApplicationContext(), CustomerPage.class);
+                        Intent i = new Intent(getApplicationContext(),CustomerPage.class);
                         startActivity(i);
-                        overridePendingTransition(R.animator.move_left, R.animator.move_right);
+                        overridePendingTransition(R.animator.move_left,R.animator.move_right);
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -1863,7 +2023,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                     if (myDialog != null && myDialog.isShowing()) {
                         myDialog.dismiss();
                     }
-                    CommonMethods.DisplayToastInfo(getApplicationContext(), "Something went wrong. Please try again later.");
+                    CommonMethods.DisplayToastInfo(getApplicationContext(),"Something went wrong. Please try again later.");
 
                 }
             }) {
@@ -1871,10 +2031,10 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                 protected Map<String, String> getParams() {
                     Map<String, String> map = new HashMap<String, String>();
                     map.put("agent_id", StrAgentId);
-                    map.put("mpn_data", StrMpnData);
-                    map.put("user_action_data", StrUserActionData);
-                    map.put("ic_id", ic_id);
-                    Log.d("BuyPolicyData", "" + map);
+                    map.put("mpn_data",StrMpnData);
+                    map.put("user_action_data",StrUserActionData);
+                    map.put("ic_id",ic_id);
+                    Log.d("BuyPolicyData",""+map);
                     return map;
                 }
             };
@@ -1886,9 +2046,10 @@ public class IcListingQuoteScreen extends AppCompatActivity {
             // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
             RequestQueue requestQueue = Volley.newRequestQueue(this);
             requestQueue.add(request);
-        } else {
-            CommonMethods.DisplayToast(getApplicationContext(), "Please check Internet Connection");
+        }else {
+            CommonMethods.DisplayToast(getApplicationContext(),"Please check Internet Connection");
         }
+
 
 
     }
@@ -1904,17 +2065,17 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         DialogBreakUpDetail.setContentView(R.layout.layout_scheme_detail_break_up);
         DialogBreakUpDetail.getWindow().setBackgroundDrawable(
                 new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        TextView title = (TextView) DialogBreakUpDetail.findViewById(R.id.title);
-        ImageView iv_close = (ImageView) DialogBreakUpDetail.findViewById(R.id.iv_close);
+        TextView title = (TextView)DialogBreakUpDetail.findViewById(R.id.title) ;
+        ImageView iv_close = (ImageView)DialogBreakUpDetail.findViewById(R.id.iv_close);
 
         CardView CardVehicleDetails = (CardView) DialogBreakUpDetail.findViewById(R.id.CardVehicleDetails);
         CardView CardTPBreakup = (CardView) DialogBreakUpDetail.findViewById(R.id.CardTPBreakup);
         CardView CardODBreakup = (CardView) DialogBreakUpDetail.findViewById(R.id.CardODBreakup);
-        CardView CardAddOnsBreakup = (CardView) DialogBreakUpDetail.findViewById(R.id.CardAddOnsBreakup);
+        CardView CardAddOnsBreakup = (CardView)DialogBreakUpDetail.findViewById(R.id.CardAddOnsBreakup);
         CardView CardDeductibles = (CardView) DialogBreakUpDetail.findViewById(R.id.CardDeductibles);
         CardView CardPremiumSummary = (CardView) DialogBreakUpDetail.findViewById(R.id.CardPremiumSummary);
 
-        ImageView iv_Ic_Img = (ImageView) DialogBreakUpDetail.findViewById(R.id.iv_Ic_Img);
+        ImageView iv_Ic_Img = (ImageView)DialogBreakUpDetail.findViewById(R.id.iv_Ic_Img);
         final TextView row_make_model_variant = (TextView) DialogBreakUpDetail.findViewById(R.id.row_make_model_variant);
         final TextView tv_vehicle_age = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_vehicle_age);
         final TextView tv_cc = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_cc);
@@ -1925,8 +2086,8 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         final TextView tv_rto = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_rto);
         final TextView tv_zone = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_zone);
 
-        LinearLayout LayoutOd_Renew = (LinearLayout) DialogBreakUpDetail.findViewById(R.id.LayoutOd_Renew);
-        WebView Wb_OD_BreakUp = (WebView) DialogBreakUpDetail.findViewById(R.id.Wb_OD_BreakUp);
+        LinearLayout LayoutOd_Renew = (LinearLayout)DialogBreakUpDetail.findViewById(R.id.LayoutOd_Renew);
+        WebView Wb_OD_BreakUp = (WebView)DialogBreakUpDetail.findViewById(R.id.Wb_OD_BreakUp);
         final TextView tv_basic_od_odbp = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_basic_od_odbp);
         final TextView tv_electrical_accessory_premium = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_electrical_accessory_premium);
         final TextView tv_non_electric_accessory = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_non_electric_accessory);
@@ -1960,8 +2121,8 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         final TextView tv_total_premium_with_gst_18_m = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_total_premium_with_gst_18_m);
         final TextView tv_total_total_premium_payable_n = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_total_total_premium_payable_n);
 
-        LinearLayout LayoutDeductibles_Renew = (LinearLayout) DialogBreakUpDetail.findViewById(R.id.LayoutDeductibles_Renew);
-        WebView Wb_Deductibles = (WebView) DialogBreakUpDetail.findViewById(R.id.Wb_Deductibles);
+        LinearLayout LayoutDeductibles_Renew = (LinearLayout)DialogBreakUpDetail.findViewById(R.id.LayoutDeductibles_Renew);
+        WebView Wb_Deductibles = (WebView)DialogBreakUpDetail.findViewById(R.id.Wb_Deductibles);
         final TextView tv_deduct_anti_theft = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_deduct_anti_theft);
         final TextView tv_automobile_deductible = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_automobile_deductible);
 
@@ -1971,27 +2132,29 @@ public class IcListingQuoteScreen extends AppCompatActivity {
 
 
         //ADDONS
-        WebView Wb_AddOns_BreakUp = (WebView) DialogBreakUpDetail.findViewById(R.id.Wb_AddOns_BreakUp);
-        LinearLayout LayoutAddOns_Renew = (LinearLayout) DialogBreakUpDetail.findViewById(R.id.LayoutAddOns_Renew);
-        LinearLayout LayoutDepCoverAddons = (LinearLayout) DialogBreakUpDetail.findViewById(R.id.LayoutDepCoverAddons);
+        WebView Wb_AddOns_BreakUp = (WebView)DialogBreakUpDetail.findViewById(R.id.Wb_AddOns_BreakUp);
+        LinearLayout LayoutAddOns_Renew = (LinearLayout)DialogBreakUpDetail.findViewById(R.id.LayoutAddOns_Renew);
+        LinearLayout LayoutDepCoverAddons = (LinearLayout)DialogBreakUpDetail.findViewById(R.id.LayoutDepCoverAddons);
 
         final TextView til_addon_header_name = (TextView) DialogBreakUpDetail.findViewById(R.id.til_addon_header_name);
         final TextView tv_dep_cover_addon_value = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_dep_cover_addon_value);
         final TextView tv_total_net_addons_premium = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_total_net_addons_premium);
 
 
+
+
         DialogBreakUpDetail.show();
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (DialogBreakUpDetail != null && DialogBreakUpDetail.isShowing()) {
+                if(DialogBreakUpDetail!=null && DialogBreakUpDetail.isShowing()) {
                     DialogBreakUpDetail.dismiss();
                 }
 
             }
         });
 
-        Log.d("Response Of Detail", response);
+        Log.d("Response Of Detail",response);
 
         try {
 
@@ -2015,9 +2178,11 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                 JSONObject breakup_html = dataObj.getJSONObject("breakup_api");
 
 
-                if (error.equalsIgnoreCase("1")) {
+
+                if(error.equalsIgnoreCase("1")){
                     error_message = quote_html.getString("error_message");
-                } else {
+                }else {
+
 
 
                     CardVehicleDetails.setVisibility(View.VISIBLE);
@@ -2041,7 +2206,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                     row_make_model_variant.setText(make_model_variant.toUpperCase());
                     tv_idv.setText("\u20B9 " + idv);
                     tv_vehicle_age.setText(vehicle_age_year);
-                    tv_cc.setText(cc + " CC");
+                    tv_cc.setText(cc +" CC");
                     tv_seating_capacity.setText(seating_capacity);
                     tv_fuel.setText(fuel);
                     tv_year.setText(manufacturing_year);
@@ -2060,6 +2225,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                     tv_pa_to_other_person.setText(pa_cover_to_persons_other_than_owner_driver);
                     tv_total_geographical_tp.setText(total_geographical_extension_tp);
                     tv_total_tp_premium.setText(total_tp_premium);
+
 
 
                     // Premium Summary
@@ -2092,10 +2258,10 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                     tv_net_od_premium_gst_e.setText(e_net_od_premium_gst);
                     tv_net_od_premium_gst_f.setText(f_net_od_Premium_with_gst);
 
-                    til_g_label.setText("(G) " + basic_cngailer_label);
+                    til_g_label.setText("(G) "+basic_cngailer_label);
                     tv_basic_tp_g.setText(basic_cngailer_tp);
 
-                    til_h_label.setText("(H) " + basic_cngailer_tp_gst_label);
+                    til_h_label.setText("(H) "+basic_cngailer_tp_gst_label);
                     tv_basic_tp_18_h.setText(basic_cngailer_tp_gst);
 
                     tv_tp_other_i.setText(i_tp_other);
@@ -2107,7 +2273,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
 
                     // OD BreakUp
                     JSONObject basic_od_htmlObj = breakup_html.getJSONObject("basic_od");
-                    if (Str_policy_type.equalsIgnoreCase("renew")) {
+                    if(Str_policy_type.equalsIgnoreCase("renew")) {
                         LayoutOd_Renew.setVisibility(View.VISIBLE);
                         Wb_OD_BreakUp.setVisibility(View.GONE);
                         String basic_od = basic_od_htmlObj.getString("basic_od");
@@ -2123,9 +2289,9 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                         tv_total_net_od_premium.setText(net_od);
 
 
-                    } else {
+                    }else {
 
-                        if (selected_od_year != null && !selected_od_year.equalsIgnoreCase("") && (selected_od_year.equalsIgnoreCase("5") || selected_od_year.equalsIgnoreCase("3"))) {
+                        if(selected_od_year!=null && !selected_od_year.equalsIgnoreCase("") && (selected_od_year.equalsIgnoreCase("5")|| selected_od_year.equalsIgnoreCase("3"))) {
                             LayoutOd_Renew.setVisibility(View.GONE);
                             Wb_OD_BreakUp.setVisibility(View.VISIBLE);
                             vehicle_idv_yearObj = basic_od_htmlObj.getJSONObject("vehicle_idv_year");
@@ -2156,7 +2322,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                             Wb_OD_BreakUp.addJavascriptInterface(new WebAppInterfaceOdBreakup(), "Android");
                             Wb_OD_BreakUp.getSettings().setJavaScriptEnabled(true);
                             Wb_OD_BreakUp.loadUrl("file:///android_asset/www/web_od_breakup.html");
-                        } else {
+                        }else {
 
                             LayoutOd_Renew.setVisibility(View.VISIBLE);
                             Wb_OD_BreakUp.setVisibility(View.GONE);
@@ -2178,7 +2344,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
 
                     // Deductibles
                     JSONObject antitheft = breakup_html.getJSONObject("antitheft");
-                    if (Str_policy_type.equalsIgnoreCase("renew")) {
+                    if(Str_policy_type.equalsIgnoreCase("renew")) {
                         LayoutDeductibles_Renew.setVisibility(View.VISIBLE);
                         Wb_Deductibles.setVisibility(View.GONE);
                         String total_antitheft_value = antitheft.getString("antitheft_value");
@@ -2189,13 +2355,13 @@ public class IcListingQuoteScreen extends AppCompatActivity {
 
                         tv_deduct_anti_theft.setText(total_antitheft_value);
                         tv_automobile_deductible.setText(total_automobile_association_value);
-                        til_ncb_percentage.setText("No Claim Bonus (" + ncbpercentage + ")%");
+                        til_ncb_percentage.setText("No Claim Bonus ("+ncbpercentage+")%");
                         tv_ncb_deductibles.setText(total_ncb_value);
                         tv_total_discount_deductibles.setText(deductibles_total_year_value);
 
 
-                    } else {
-                        if (selected_od_year != null && !selected_od_year.equalsIgnoreCase("") && (selected_od_year.equalsIgnoreCase("5") || selected_od_year.equalsIgnoreCase("3"))) {
+                    }else {
+                        if(selected_od_year!=null && !selected_od_year.equalsIgnoreCase("") && (selected_od_year.equalsIgnoreCase("5")|| selected_od_year.equalsIgnoreCase("3"))) {
                             LayoutDeductibles_Renew.setVisibility(View.GONE);
                             Wb_Deductibles.setVisibility(View.VISIBLE);
                             deductibles_year_wiseObj = antitheft.getJSONObject("deductibles_year_wise");
@@ -2216,7 +2382,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                             Wb_Deductibles.addJavascriptInterface(new WebAppInterfaceDeductibles(), "Android");
                             Wb_Deductibles.getSettings().setJavaScriptEnabled(true);
                             Wb_Deductibles.loadUrl("file:///android_asset/www/web_deductibles.html");
-                        } else {
+                        }else {
                             LayoutDeductibles_Renew.setVisibility(View.VISIBLE);
                             Wb_Deductibles.setVisibility(View.GONE);
                             String total_antitheft_value = antitheft.getString("antitheft_value");
@@ -2227,7 +2393,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
 
                             tv_deduct_anti_theft.setText(total_antitheft_value);
                             tv_automobile_deductible.setText(total_automobile_association_value);
-                            til_ncb_percentage.setText("No Claim Bonus (" + ncbpercentage + ")%");
+                            til_ncb_percentage.setText("No Claim Bonus ("+ncbpercentage+")%");
                             tv_ncb_deductibles.setText(total_ncb_value);
                             tv_total_discount_deductibles.setText(deductibles_total_year_value);
 
@@ -2239,20 +2405,19 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                     Object addon = breakup_html.get("addon");
                     if (addon instanceof String) {
                         // It's an object
-                        String strAddOns = (String) addon;
-                        if (strAddOns != null && !strAddOns.equalsIgnoreCase("")) {
-                            if (strAddOns.equalsIgnoreCase("No Addon Selected")) {
+                        String strAddOns = (String)addon;
+                        if(strAddOns!=null && !strAddOns.equalsIgnoreCase("")){
+                            if(strAddOns.equalsIgnoreCase("No Addon Selected")){
                                 CardAddOnsBreakup.setVisibility(View.GONE);
                             }
                         }
 
-                    }
-                    if (addon instanceof JSONObject) {
+                    }if (addon instanceof JSONObject) {
                         // It's an object
-                        JSONObject addonObj = (JSONObject) addon;
-                        if (addonObj != null) {
+                        JSONObject addonObj = (JSONObject)addon;
+                        if(addonObj!=null){
 
-                            if (Str_policy_type.equalsIgnoreCase("renew")) {
+                            if(Str_policy_type.equalsIgnoreCase("renew")) {
                                 LayoutAddOns_Renew.setVisibility(View.VISIBLE);
                                 Wb_AddOns_BreakUp.setVisibility(View.GONE);
                                 String addon_name = addonObj.getString("addon_name");
@@ -2262,8 +2427,8 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                                 tv_dep_cover_addon_value.setText(addon_premium);
                                 tv_total_net_addons_premium.setText(net_addons_premium);
 
-                            } else {
-                                if (selected_od_year != null && !selected_od_year.equalsIgnoreCase("") && (selected_od_year.equalsIgnoreCase("5") || selected_od_year.equalsIgnoreCase("3"))) {
+                            }else {
+                                if(selected_od_year!=null && !selected_od_year.equalsIgnoreCase("") && (selected_od_year.equalsIgnoreCase("5")|| selected_od_year.equalsIgnoreCase("3"))) {
                                     LayoutAddOns_Renew.setVisibility(View.GONE);
                                     Wb_AddOns_BreakUp.setVisibility(View.VISIBLE);
                                     Addon_headerObj = addonObj.getJSONObject("Addon_header");
@@ -2273,7 +2438,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                                     Wb_AddOns_BreakUp.addJavascriptInterface(new WebAppInterfaceAddOns(), "Android");
                                     Wb_AddOns_BreakUp.getSettings().setJavaScriptEnabled(true);
                                     Wb_AddOns_BreakUp.loadUrl("file:///android_asset/www/web_add_ons.html");
-                                } else {
+                                }else {
                                     LayoutAddOns_Renew.setVisibility(View.VISIBLE);
                                     Wb_AddOns_BreakUp.setVisibility(View.GONE);
                                     String addon_name = addonObj.getString("addon_name");
@@ -2287,6 +2452,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                             }
 
 
+
                             CardAddOnsBreakup.setVisibility(View.VISIBLE);
 
                         }
@@ -2294,16 +2460,20 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                     }
 
 
+
+
+
+
                 }
             }
-        } catch (Exception e) {
+        }catch (Exception e){
             e.printStackTrace();
         }
 
     }
 
 
-    private class WebAppInterfaceOdBreakup {
+    private class WebAppInterfaceOdBreakup{
 
         @JavascriptInterface
         public String get_vehicle_idv_yearObj() {
@@ -2342,6 +2512,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
             Log.d("total_non_elect_premObj", "" + total_non_electrical_premiumObj);
             return total_non_electrical_premiumObj.toString();
         }
+
 
 
         @JavascriptInterface
@@ -2395,7 +2566,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
 
     }
 
-    private class WebAppInterfaceDeductibles {
+    private class WebAppInterfaceDeductibles{
 
 
         @JavascriptInterface
@@ -2403,6 +2574,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
             Log.d("deduct_year_wiseObj", "" + deductibles_year_wiseObj);
             return deductibles_year_wiseObj.toString();
         }
+
 
 
         @JavascriptInterface
@@ -2456,15 +2628,17 @@ public class IcListingQuoteScreen extends AppCompatActivity {
         }
 
 
+
     }
 
-    private class WebAppInterfaceAddOns {
+    private class WebAppInterfaceAddOns{
 
         @JavascriptInterface
         public String get_addon_headerObj() {
             Log.d("Addon_headerObj", "" + Addon_headerObj);
             return Addon_headerObj.toString();
         }
+
 
 
         @JavascriptInterface
@@ -2490,6 +2664,6 @@ public class IcListingQuoteScreen extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        overridePendingTransition(R.animator.left_right, R.animator.right_left);
+        overridePendingTransition(R.animator.left_right,R.animator.right_left);
     }
 }

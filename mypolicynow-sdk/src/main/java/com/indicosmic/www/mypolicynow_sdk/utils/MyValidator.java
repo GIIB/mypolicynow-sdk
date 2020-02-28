@@ -73,7 +73,24 @@ public class MyValidator {
 
     }
 
+    public static boolean isValidAdultAge(EditText editText) {
+        boolean result = false;
 
+        String txtValue = editText.getText().toString().trim();
+        if(txtValue.length() == 0){
+            editText.setError(REQUIRED_MSG);
+            result =   false;
+        }else if(txtValue.length() > 0) {
+
+            if (txtValue != null && !txtValue.equalsIgnoreCase("") && Integer.valueOf(txtValue) < 18) {
+                editText.setError("Age cannot be less than 18 years");
+                result =  false;
+            }else {
+                result = true;
+            }
+        }
+        return  result;
+    }
 
     // validating email id
     public static boolean isValidEmail(EditText editText) {

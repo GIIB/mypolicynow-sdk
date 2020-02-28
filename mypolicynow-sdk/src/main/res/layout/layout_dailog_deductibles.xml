@@ -71,6 +71,7 @@
                     android:minHeight="30sp"
                     android:layout_margin="5dp"
                     android:padding="5dp"
+                    android:textColor="@color/black"
                     android:visibility="visible"
                     android:layout_weight="4"
                     android:buttonTint="@color/primary_green"
@@ -84,6 +85,8 @@
                     android:minHeight="30sp"
                     android:layout_margin="5dp"
                     android:padding="5dp"
+                    android:textColor="@color/black"
+
                     android:layout_weight="6"
                     android:visibility="gone"
                     android:buttonTint="@color/primary_green"
@@ -108,6 +111,7 @@
                         android:layout_weight="5"
                         android:layout_gravity="center|start"
                         android:gravity="center|start"
+
                         android:text="AA Membership Name:"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
@@ -168,41 +172,41 @@
 
 
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="15sp"
-                            android:layout_marginEnd="15dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:padding="5dp"
-                            android:layout_weight="5"
-                            android:layout_gravity="center|start"
-                            android:gravity="center|start"
-                            android:text="AA Expiry Date:"
-                            android:textColor="@color/black"
-                            android:textSize="14sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15sp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:padding="5dp"
+                        android:layout_weight="5"
+                        android:layout_gravity="center|start"
+                        android:gravity="center|start"
+                        android:text="AA Expiry Date:"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
 
-                        <EditText
-                            android:id="@+id/EdtAA_ExpiryDate"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:minHeight="55dp"
-                            android:hint="AA Expiry Date"
-                            android:layout_gravity="center"
-                            android:gravity="center|start"
-                            android:textColorHint="@color/dark_grey"
-                            android:layout_marginStart="10sp"
-                            android:layout_marginEnd="10sp"
-                            android:textSize="14sp"
-                            android:background="@drawable/form_bg_edittext_bg"
-                            android:maxLength="18"
-                            android:inputType="date"
-                            android:focusable="false"
-                            android:editable="false"
-                            android:imeOptions="actionDone"
-                            android:importantForAutofill="no"
-                            />
+                    <EditText
+                        android:id="@+id/EdtAA_ExpiryDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="55dp"
+                        android:hint="AA Expiry Date"
+                        android:layout_gravity="center"
+                        android:gravity="center|start"
+                        android:textColorHint="@color/dark_grey"
+                        android:layout_marginStart="10sp"
+                        android:layout_marginEnd="10sp"
+                        android:textSize="14sp"
+                        android:background="@drawable/form_bg_edittext_bg"
+                        android:maxLength="18"
+                        android:inputType="date"
+                        android:focusable="false"
+                        android:editable="false"
+                        android:imeOptions="actionDone"
+                        android:importantForAutofill="no"
+                        />
 
 
 
@@ -221,17 +225,6 @@
                     android:weightSum="10">
 
                     <Button
-                        android:id="@+id/Btn_submit"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/cw_button_shadow_primary"
-                        android:layout_margin="5dp"
-                        android:text="Submit"
-                        android:layout_weight="5"
-                        android:textColor="@color/white"
-                        />
-
-                    <Button
                         android:id="@+id/Btn_reset"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -243,6 +236,19 @@
 
                         android:textColor="@color/white"
                         />
+
+                    <Button
+                        android:id="@+id/Btn_submit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/cw_button_shadow_primary"
+                        android:layout_margin="5dp"
+                        android:text="Submit"
+                        android:layout_weight="5"
+                        android:textColor="@color/white"
+                        />
+
+
 
 
                 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.indicosmic.www.mypolicynow_sdk.customer_info;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
@@ -29,7 +30,6 @@ import com.indicosmic.www.mypolicynow_sdk.utils.CommonMethods;
 import com.indicosmic.www.mypolicynow_sdk.utils.ConnectionDetector;
 import com.indicosmic.www.mypolicynow_sdk.utils.MyValidator;
 import com.indicosmic.www.mypolicynow_sdk.utils.UtilitySharedPreferences;
-import com.indicosmic.www.mypolicynow_sdk.webservices.RestClient;
 import com.stepstone.stepper.BlockingStep;
 import com.stepstone.stepper.StepperLayout;
 import com.stepstone.stepper.VerificationError;
@@ -39,8 +39,10 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.indicosmic.www.mypolicynow_sdk.utils.CommonMethods.ucFirst;
+import static com.indicosmic.www.mypolicynow_sdk.webservices.RestClient.ROOT_URL2;
 
 
 public class ContactDetailsFragment extends Fragment implements BlockingStep {
@@ -68,7 +70,6 @@ public class ContactDetailsFragment extends Fragment implements BlockingStep {
         context = getContext();
 
         init();
-
 
         return rootView;
 
@@ -111,7 +112,7 @@ public class ContactDetailsFragment extends Fragment implements BlockingStep {
 
     private void API_GET_CITY_STATE_BY_PINCODE(String str_Pincode) {
 
-        String URL_Check_Pincode = RestClient.ROOT_URL2 +"getStateCityByPinCode";
+        String URL_Check_Pincode = ROOT_URL2 +"getStateCityByPinCode";
 
         try {
             Log.d("URL",URL_Check_Pincode);
@@ -201,41 +202,42 @@ public class ContactDetailsFragment extends Fragment implements BlockingStep {
 
         try {
             JSONObject mpnObj = new JSONObject(StrMpnData);
-            JSONObject customer_quoteObj = mpnObj.getJSONObject("customer_quote");
-            if(customer_quoteObj!=null && !customer_quoteObj.toString().contains("address_detail")){
+            if(StrMpnData.contains("customer_quote")) {
+                JSONObject customer_quoteObj = mpnObj.getJSONObject("customer_quote");
+                if (customer_quoteObj != null && !customer_quoteObj.toString().contains("address_detail")) {
 
-                JSONObject address_detailObj = customer_quoteObj.getJSONObject("address_detail");
+                    JSONObject address_detailObj = customer_quoteObj.getJSONObject("address_detail");
 
-                Str_Address1 = address_detailObj.getString("address1");
-                Str_Address2 = address_detailObj.getString("address2");
-                Str_Pincode = address_detailObj.getString("pincode");
-                Str_StateId = address_detailObj.getString("state_id");
-                stateObj = address_detailObj.getJSONObject("state");
-                Str_CityId = address_detailObj.getString("city_id");
-                cityObj = address_detailObj.getJSONObject("city");
+                    Str_Address1 = address_detailObj.getString("address1");
+                    Str_Address2 = address_detailObj.getString("address2");
+                    Str_Pincode = address_detailObj.getString("pincode");
+                    Str_StateId = address_detailObj.getString("state_id");
+                    stateObj = address_detailObj.getJSONObject("state");
+                    Str_CityId = address_detailObj.getString("city_id");
+                    cityObj = address_detailObj.getJSONObject("city");
 
 
-                if(Str_Address1!=null && !Str_Address1.equalsIgnoreCase("") && !Str_Address1.equalsIgnoreCase("null")){
-                    Edt_Address1.setText(Str_Address1);
-                }
+                    if (Str_Address1 != null && !Str_Address1.equalsIgnoreCase("") && !Str_Address1.equalsIgnoreCase("null")) {
+                        Edt_Address1.setText(Str_Address1);
+                    }
 
-                if(Str_Address2!=null && !Str_Address2.equalsIgnoreCase("") && !Str_Address2.equalsIgnoreCase("null")){
-                    Edt_Address2.setText(Str_Address2);
-                }
+                    if (Str_Address2 != null && !Str_Address2.equalsIgnoreCase("") && !Str_Address2.equalsIgnoreCase("null")) {
+                        Edt_Address2.setText(Str_Address2);
+                    }
 
-                if(Str_Pincode!=null && !Str_Pincode.equalsIgnoreCase("") && !Str_Pincode.equalsIgnoreCase("null")){
-                    Edt_AddressPincode.setText(Str_Pincode);
-                }
+                    if (Str_Pincode != null && !Str_Pincode.equalsIgnoreCase("") && !Str_Pincode.equalsIgnoreCase("null")) {
+                        Edt_AddressPincode.setText(Str_Pincode);
+                    }
 
-                if(Str_State!=null && !Str_State.equalsIgnoreCase("") && !Str_State.equalsIgnoreCase("null")){
-                    Edt_State.setText(Str_State);
-                }
+                    if (Str_State != null && !Str_State.equalsIgnoreCase("") && !Str_State.equalsIgnoreCase("null")) {
+                        Edt_State.setText(Str_State);
+                    }
 
-                if(Str_City!=null && !Str_City.equalsIgnoreCase("") && !Str_City.equalsIgnoreCase("null")){
-                    Edt_City.setText(Str_City);
+                    if (Str_City != null && !Str_City.equalsIgnoreCase("") && !Str_City.equalsIgnoreCase("null")) {
+                        Edt_City.setText(Str_City);
+                    }
                 }
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -248,8 +250,10 @@ public class ContactDetailsFragment extends Fragment implements BlockingStep {
 
         mCallback = callback;
         if (validateFields()) {
-            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(Edt_City.getWindowToken(), 0);
+            InputMethodManager imm = (InputMethodManager) Objects.requireNonNull(getContext()).getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm != null) {
+                imm.hideSoftInputFromWindow(Edt_City.getWindowToken(), 0);
+            }
 
 
             Str_Address1 = Edt_Address1.getText().toString();
