@@ -26,7 +26,7 @@ import java.util.Locale;
 public class AppUtill {
 
     // directory name to store captured images and videos
-    private static final String IMAGE_DIRECTORY_NAME = "ClaimPic";
+    public static final String IMAGE_DIRECTORY_NAME = "AGS";
     private static final String VIDEO_DIRECTORY_NAME = "ClaimVideo";
     static File mediaFile;
 
@@ -217,7 +217,7 @@ public class AppUtill {
     public static void deleteFolder(){
 
         File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+"/ClaimPic");
-       // File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), IMAGE_DIRECTORY_NAME);
+        // File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), IMAGE_DIRECTORY_NAME);
         //   Toast.makeText(this, "dir="+dir, Toast.LENGTH_LONG).show();
         Log.d("deleteFolder: ",dir.toString());
 
@@ -331,5 +331,6 @@ public class AppUtill {
 
 
 }
+
 
 

@@ -73,24 +73,7 @@ public class MyValidator {
 
     }
 
-    public static boolean isValidAdultAge(EditText editText) {
-        boolean result = false;
 
-        String txtValue = editText.getText().toString().trim();
-        if(txtValue.length() == 0){
-            editText.setError(REQUIRED_MSG);
-            result =   false;
-        }else if(txtValue.length() > 0) {
-
-            if (txtValue != null && !txtValue.equalsIgnoreCase("") && Integer.valueOf(txtValue) < 18) {
-                editText.setError("Age cannot be less than 18 years");
-                result =  false;
-            }else {
-                result = true;
-            }
-        }
-        return  result;
-    }
 
     // validating email id
     public static boolean isValidEmail(EditText editText) {
@@ -162,7 +145,7 @@ public class MyValidator {
     public static boolean isValidName(EditText editText) {
         String txtValue = editText.getText().toString().trim();
 
-        if (txtValue.length() <= 3) {
+        if (txtValue.length() < 2) {
             editText.setError(REQUIRED_MSG);
             return false;
         }
@@ -193,6 +176,25 @@ public class MyValidator {
 
         editText.setError(null);
         return true;
+    }
+
+    public static boolean isValidAdultAge(EditText editText) {
+        boolean result = false;
+
+        String txtValue = editText.getText().toString().trim();
+        if(txtValue.length() == 0){
+            editText.setError(REQUIRED_MSG);
+            result =   false;
+        }else if(txtValue.length() > 0) {
+
+            if (txtValue != null && !txtValue.equalsIgnoreCase("") && Integer.valueOf(txtValue) < 18) {
+                editText.setError("Age cannot be less than 18 years");
+                result =  false;
+            }else {
+                result = true;
+            }
+        }
+        return  result;
     }
 
     public static boolean isValidSpinner(Spinner spinner) {
@@ -348,6 +350,7 @@ public class MyValidator {
         return b;
     }
 
+
     public static boolean isValidGSTIN(EditText editText){
         boolean result = false;
         String gst_in = editText.getText().toString().trim();
@@ -457,7 +460,7 @@ public class MyValidator {
     public static boolean isValidEngine_ChassisNumber(EditText edt_engineNo) {
 
         String engine_no = edt_engineNo.getText().toString().trim();
-        if (engine_no != null && (engine_no.length() > 5 && engine_no.length() <= 22 )){
+        if (engine_no != null && (engine_no.length() > 4 && engine_no.length() <= 22 )){
             edt_engineNo.setError(null);
             return true;
         }
@@ -465,7 +468,4 @@ public class MyValidator {
         return false;
 
     }
-
-
-
 }

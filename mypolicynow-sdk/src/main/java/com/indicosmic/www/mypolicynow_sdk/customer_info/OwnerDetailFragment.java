@@ -356,6 +356,32 @@ public class OwnerDetailFragment extends Fragment implements BlockingStep, View.
             result = false;
         }
 
+
+        if(edt_Pan_Card.getText().toString().length()>0){
+            if (!MyValidator.isValidPan(edt_Pan_Card)) {
+                CommonMethods.DisplayToastWarning(context, "Please Enter Valid Pan");
+                edt_Pan_Card.requestFocus();
+                result = false;
+            }
+        }
+
+        if(edt_Aadhar_Card.getText().toString().length()>0){
+            if (!MyValidator.isValidAadhaar(edt_Aadhar_Card)) {
+                CommonMethods.DisplayToastWarning(context, "Please Enter Valid Aadhaar");
+                edt_Aadhar_Card.requestFocus();
+                result = false;
+            }
+        }
+
+        if(Edt_GstInNumber.getText().toString().length()>0) {
+            if (!MyValidator.isValidGSTIN(Edt_GstInNumber)) {
+                CommonMethods.DisplayToastWarning(context, "Please Enter Valid GSTIN  Number");
+                Edt_GstInNumber.requestFocus();
+                result = false;
+            }
+        }
+
+
         if(StrPolicyHolder!=null && !StrPolicyHolder.equalsIgnoreCase("") && !StrPolicyHolder.equalsIgnoreCase("null")){
 
             if(StrPolicyHolder.equalsIgnoreCase("CORPORATE")){
@@ -372,11 +398,7 @@ public class OwnerDetailFragment extends Fragment implements BlockingStep, View.
                     result = false;
                 }
 
-                if (!MyValidator.isValidPan(edt_Pan_Card)) {
-                    CommonMethods.DisplayToastWarning(context, "Please Enter Valid Pan");
-                    edt_Pan_Card.requestFocus();
-                    result = false;
-                }
+
 
                 if (!MyValidator.isValidGSTIN(Edt_GstInNumber)) {
                     CommonMethods.DisplayToastWarning(context, "Please Enter Valid GSTIN  Number");
@@ -426,5 +448,4 @@ public class OwnerDetailFragment extends Fragment implements BlockingStep, View.
 
     }
 }
-
 

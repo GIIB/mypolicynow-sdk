@@ -42,7 +42,6 @@ import com.indicosmic.www.mypolicynow_sdk.utils.CommonMethods;
 import com.indicosmic.www.mypolicynow_sdk.utils.ConnectionDetector;
 import com.indicosmic.www.mypolicynow_sdk.utils.MyValidator;
 import com.indicosmic.www.mypolicynow_sdk.utils.UtilitySharedPreferences;
-import com.indicosmic.www.mypolicynow_sdk.webservices.RestClient;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import org.json.JSONArray;
@@ -57,8 +56,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 
+
+import static com.indicosmic.www.mypolicynow_sdk.webservices.RestClient.ROOT_URL2;
 
 public class QuotationActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -145,7 +145,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
             have_motor_policy="no",have_pa_policy="no",other_pa_policy="no",selected_pa_year="",previous_policy_nil_dep="no",
             ownership_change="no",product_type="",is_cng_lpg_tp="no",commercial_idv="0",no_of_trailer="0",
             vehicledisplaytype="0",body_type_id="0",frame_type_id="";
-
+    JSONObject user_action_data_obj;
     String StrSelectedMake="",make_cleaned="",SelectedModel="",model_cleaned="";
 
 
@@ -170,8 +170,8 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
     private void getPreveledgesFromToken() {
         if (StrPosToken != null && !StrPosToken.equalsIgnoreCase("")) {
-
-            String URL = RestClient.ROOT_URL2+"tokenverify";
+            user_action_data_obj = new JSONObject();
+            String URL = ROOT_URL2+"tokenverify";
             ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
             boolean isInternetPresent = cd.isConnectingToInternet();
             if (isInternetPresent) {
@@ -217,6 +217,8 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                                     UtilitySharedPreferences.setPrefs(getApplicationContext(),"ProductTypeId",ProductTypeId);
                                     UtilitySharedPreferences.setPrefs(getApplicationContext(),"CarPreviledges",car_previledgeObj.toString());
                                     Log.d("ProductTypeId",""+ProductTypeId);
+
+
                                 }else if(QuotationFor.equalsIgnoreCase("Bike")){
                                     JSONObject bike_previledgeObj = partner_privilegeObj.getJSONObject("2");
                                     ProductTypeId = bike_previledgeObj.getString("product_type_id");
@@ -439,7 +441,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                     }
                 }, mYear1, mMonth1+1, -1);
 
-                Objects.requireNonNull(prePolicyExpiryDatePickerDialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
+                prePolicyExpiryDatePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 //prePolicyExpiryDatePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
                 //((ViewGroup) datePickerDialog.getDatePicker()).findViewById(Resources.getSystem().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
 
@@ -1377,7 +1379,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
         makeValue.add("0");
         makeDisplayValue.add("Select Make");
 
-        String URL = RestClient.ROOT_URL2+"quotation/"+product_type;
+        String URL = ROOT_URL2+"quotation/"+product_type;
 
 
         ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
@@ -1450,7 +1452,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                 protected Map<String, String> getParams() {
                     Map<String, String> map = new HashMap<String, String>();
                     map.put("agent_id", StrAgentId);
-                    //map.put("business_id","");
+                    //map.put("user_action_data",user_action_data_obj.toString());
 
                     Log.d("MasterQuoteData",""+map);
 
@@ -1484,7 +1486,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
 
 
-        String URL = RestClient.ROOT_URL2+"getmodel";
+        String URL = ROOT_URL2+"getmodel";
         ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
         boolean isInternetPresent = cd.isConnectingToInternet();
         if (isInternetPresent) {
@@ -1569,7 +1571,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
         variantDisplayValue.add("Select Variant");
         variantVehicleIdValue.add("0");
 
-        String URL = RestClient.ROOT_URL2+"getvariant";
+        String URL = ROOT_URL2+"getvariant";
         ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
         boolean isInternetPresent = cd.isConnectingToInternet();
         if (isInternetPresent) {
@@ -2012,7 +2014,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
 
     private void getInvoicePriceRange() {
-        String URL = RestClient.ROOT_URL2+"front/Quotation/getInvoicePriceRange";
+        String URL = ROOT_URL2+"front/Quotation/getInvoicePriceRange";
         ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
         boolean isInternetPresent = cd.isConnectingToInternet();
         if (isInternetPresent) {
@@ -2091,7 +2093,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
 
 
-        String URL = RestClient.ROOT_URL2+"front/Quotation/setManufacturingMonth";
+        String URL = ROOT_URL2+"front/Quotation/setManufacturingMonth";
         ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
         boolean isInternetPresent = cd.isConnectingToInternet();
         if (isInternetPresent) {
@@ -2174,7 +2176,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
 
 
-        String URL = RestClient.ROOT_URL2+"getNcb";
+        String URL = ROOT_URL2+"getNcb";
         ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
         boolean isInternetPresent = cd.isConnectingToInternet();
         if (isInternetPresent) {
@@ -2424,7 +2426,7 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
         }
 
 
-        String URL = RestClient.ROOT_URL2+"getquote";
+        String URL = ROOT_URL2+"getquote";
         ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
         boolean isInternetPresent = cd.isConnectingToInternet();
         if (isInternetPresent) {
@@ -2852,4 +2854,5 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
     }
 }
+
 

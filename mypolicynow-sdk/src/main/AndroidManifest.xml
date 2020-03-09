@@ -5,19 +5,31 @@
     <application
         android:allowBackup="true"
         android:supportsRtl="true"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="stateHidden"
         android:theme="@style/Theme.Design.NoActionBar">
         <activity
         android:name=".QuotationActivity"
-        android:label="Quotation Screen" />
+        android:label="Quotation Screen"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
 
         <activity
             android:name=".IcListingQuoteScreen"
-            android:label="IC Quote" />
+            android:label="IC Quote"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
 
         <activity
             android:name=".CustomerPage"
-            android:label="Customer Screen" />
-
+            android:label="Customer Screen"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".ReviewDetailsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+            />
         <activity
             android:name=".ProposalPdfActivity"
             android:label="Proposal Pdf Screen" />
@@ -36,7 +48,8 @@
 
         <uses-library android:name="org.apache.http.legacy"
             android:required="false"/>
-
+        <meta-data android:name="android.webkit.WebView.EnableSafeBrowsing"
+            android:value="false" />
 
     </application>
 
