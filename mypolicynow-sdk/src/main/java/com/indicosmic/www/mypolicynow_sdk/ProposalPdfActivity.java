@@ -1081,7 +1081,7 @@ public class ProposalPdfActivity extends AppCompatActivity {
     private void BUY_POLICY() {
 
         CommonMethods.DisplayToastInfo(getApplicationContext(),"Redirected to Payment Gateway.");
-        myDialog.show();
+        //myDialog.show();
         //PostPaymentAPI();
 
 
