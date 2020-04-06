@@ -1,5 +1,7 @@
 package com.indicosmic.www.mypolicynow_sdk.webservices;
 
+import com.indicosmic.www.mypolicynow_sdk.utils.CommonMethods;
+
 public class RestClient
 	{
 		private static API REST_CLIENT;
@@ -14,6 +16,12 @@ public class RestClient
 		public static String URLUAT = "http://uat.mypolicynow.com/";
 
 		public static String GenerateQrCode = "https://pierre2106j-qrcode.p.rapidapi.com/api?backcolor=ffffff&pixel=10&ecl=L+%7C+M%7C+Q+%7C+H&forecolor=000000&type=json+%7C+url+%7C+tel+%7C+sms+%7C+email&";
+
+
+		public static String x_api_key = "ags_87674599009";
+		public static String api_user_name = "admin";
+		public static String api_password = "1234";
+		public static String Basic_auth = CommonMethods.Base64_Encode(api_user_name + ":" + api_password);
 
 
 		public static String Development = "http://www.mymfnow.com/api";

@@ -28,6 +28,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -59,6 +60,9 @@ import java.util.Map;
 
 
 import static com.indicosmic.www.mypolicynow_sdk.webservices.RestClient.ROOT_URL2;
+import static com.indicosmic.www.mypolicynow_sdk.webservices.RestClient.api_password;
+import static com.indicosmic.www.mypolicynow_sdk.webservices.RestClient.api_user_name;
+import static com.indicosmic.www.mypolicynow_sdk.webservices.RestClient.x_api_key;
 
 public class QuotationActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -256,6 +260,17 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                         map.put("token_number", StrPosToken);
                         Log.d("Token_verify",""+map);
                         return map;
+                    }
+
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        //  Authorization: Basic $auth
+                        HashMap<String, String> headers = new HashMap<String, String>();
+                        //headers.put("Content-Type", "application/x-www-form-urlencoded");
+                        //headers.put("Content-Type", "application/json; charset=utf-8");
+                        headers.put("x-api-key",x_api_key);
+                        headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
+                        return headers;
                     }
                 };
 
@@ -1458,6 +1473,17 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
                     return map;
                 }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    //  Authorization: Basic $auth
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    //headers.put("Content-Type", "application/x-www-form-urlencoded");
+                    //headers.put("Content-Type", "application/json; charset=utf-8");
+                    headers.put("x-api-key",x_api_key);
+                    headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
+                    return headers;
+                }
             };
 
 
@@ -1548,6 +1574,17 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                     Log.d("ModelData",""+map);
                     return map;
                 }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    //  Authorization: Basic $auth
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    //headers.put("Content-Type", "application/x-www-form-urlencoded");
+                    //headers.put("Content-Type", "application/json; charset=utf-8");
+                    headers.put("x-api-key",x_api_key);
+                    headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
+                    return headers;
+                }
             };
 
 
@@ -1636,6 +1673,17 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                     Log.d("VariantData",""+map);
 
                     return map;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    //  Authorization: Basic $auth
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    //headers.put("Content-Type", "application/x-www-form-urlencoded");
+                    //headers.put("Content-Type", "application/json; charset=utf-8");
+                    headers.put("x-api-key",x_api_key);
+                    headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
+                    return headers;
                 }
             };
 
@@ -2068,6 +2116,17 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
                     return map;
                 }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    //  Authorization: Basic $auth
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    //headers.put("Content-Type", "application/x-www-form-urlencoded");
+                    //headers.put("Content-Type", "application/json; charset=utf-8");
+                    headers.put("x-api-key",x_api_key);
+                    headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
+                    return headers;
+                }
             };
 
 
@@ -2153,6 +2212,17 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
                     return map;
                 }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    //  Authorization: Basic $auth
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    //headers.put("Content-Type", "application/x-www-form-urlencoded");
+                    //headers.put("Content-Type", "application/json; charset=utf-8");
+                    headers.put("x-api-key",x_api_key);
+                    headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
+                    return headers;
+                }
             };
 
 
@@ -2230,6 +2300,17 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
 
 
                     return map;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    //  Authorization: Basic $auth
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    //headers.put("Content-Type", "application/x-www-form-urlencoded");
+                    //headers.put("Content-Type", "application/json; charset=utf-8");
+                    headers.put("x-api-key",x_api_key);
+                    headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
+                    return headers;
                 }
             };
 
@@ -2528,6 +2609,17 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
                     map.put("fuel", StrFuelType);
                     Log.d("QuotationData",""+map);
                     return map;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    //  Authorization: Basic $auth
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    //headers.put("Content-Type", "application/x-www-form-urlencoded");
+                    //headers.put("Content-Type", "application/json; charset=utf-8");
+                    headers.put("x-api-key",x_api_key);
+                    headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
+                    return headers;
                 }
             };
 

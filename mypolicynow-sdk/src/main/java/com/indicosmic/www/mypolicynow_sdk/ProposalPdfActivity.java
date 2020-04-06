@@ -56,6 +56,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.content.FileProvider;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -99,6 +100,9 @@ import java.util.TreeSet;
 import java.util.UUID;
 
 import static com.indicosmic.www.mypolicynow_sdk.webservices.RestClient.ROOT_URL2;
+import static com.indicosmic.www.mypolicynow_sdk.webservices.RestClient.api_password;
+import static com.indicosmic.www.mypolicynow_sdk.webservices.RestClient.api_user_name;
+import static com.indicosmic.www.mypolicynow_sdk.webservices.RestClient.x_api_key;
 
 
 public class ProposalPdfActivity extends AppCompatActivity {
@@ -413,6 +417,17 @@ public class ProposalPdfActivity extends AppCompatActivity {
                     Log.d("Params",""+map);
                     return map;
                 }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    //  Authorization: Basic $auth
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    //headers.put("Content-Type", "application/x-www-form-urlencoded");
+                    //headers.put("Content-Type", "application/json; charset=utf-8");
+                    headers.put("x-api-key",x_api_key);
+                    headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
+                    return headers;
+                }
             };
 
 
@@ -548,6 +563,17 @@ public class ProposalPdfActivity extends AppCompatActivity {
                     map.put("mobile_no",StrCustomerMobile);
                     Log.d("Params",""+map);
                     return map;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    //  Authorization: Basic $auth
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    //headers.put("Content-Type", "application/x-www-form-urlencoded");
+                    //headers.put("Content-Type", "application/json; charset=utf-8");
+                    headers.put("x-api-key",x_api_key);
+                    headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
+                    return headers;
                 }
             };
 
@@ -765,7 +791,8 @@ public class ProposalPdfActivity extends AppCompatActivity {
 
                     .addFileToUpload(imageFile.getAbsolutePath(), "other_document") //
                     // Adding file
-
+                    .addHeader("x-api-key",x_api_key)
+                    .addHeader("Authorization","Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password))
                     .addParameter("document_name", document_type)
                     .addParameter("quote_forward_link", Quote_Link)
 
@@ -905,6 +932,17 @@ public class ProposalPdfActivity extends AppCompatActivity {
 
                     Log.d("Params",""+map);
                     return map;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    //  Authorization: Basic $auth
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    //headers.put("Content-Type", "application/x-www-form-urlencoded");
+                    //headers.put("Content-Type", "application/json; charset=utf-8");
+                    headers.put("x-api-key",x_api_key);
+                    headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
+                    return headers;
                 }
             };
 
@@ -1152,6 +1190,17 @@ public class ProposalPdfActivity extends AppCompatActivity {
                     map.put("msg",responseObj.toString());
                     Log.d("Params",""+map);
                     return map;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    //  Authorization: Basic $auth
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    //headers.put("Content-Type", "application/x-www-form-urlencoded");
+                    //headers.put("Content-Type", "application/json; charset=utf-8");
+                    headers.put("x-api-key",x_api_key);
+                    headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
+                    return headers;
                 }
             };
 

@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -52,6 +53,9 @@ import java.util.Map;
 import java.util.Objects;
 
 import static com.indicosmic.www.mypolicynow_sdk.webservices.RestClient.ROOT_URL2;
+import static com.indicosmic.www.mypolicynow_sdk.webservices.RestClient.api_password;
+import static com.indicosmic.www.mypolicynow_sdk.webservices.RestClient.api_user_name;
+import static com.indicosmic.www.mypolicynow_sdk.webservices.RestClient.x_api_key;
 
 
 public class VehicleDetailsFragment extends Fragment implements BlockingStep, AdapterView.OnItemSelectedListener {
@@ -249,6 +253,17 @@ public class VehicleDetailsFragment extends Fragment implements BlockingStep, Ad
                         Log.d("strChassisNoParam",""+map);
                         return map;
                     }
+
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        //  Authorization: Basic $auth
+                        HashMap<String, String> headers = new HashMap<String, String>();
+                        //headers.put("Content-Type", "application/x-www-form-urlencoded");
+                        //headers.put("Content-Type", "application/json; charset=utf-8");
+                        headers.put("x-api-key",x_api_key);
+                        headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
+                        return headers;
+                    }
                 };
 
                 int socketTimeout = 50000;//30 seconds - change to what you want
@@ -400,6 +415,17 @@ public class VehicleDetailsFragment extends Fragment implements BlockingStep, Ad
                         map.put("agent_id", StrAgentId);
                         Log.d("MapLoadIcList",""+map);
                         return map;
+                    }
+
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        //  Authorization: Basic $auth
+                        HashMap<String, String> headers = new HashMap<String, String>();
+                        //headers.put("Content-Type", "application/x-www-form-urlencoded");
+                        //headers.put("Content-Type", "application/json; charset=utf-8");
+                        headers.put("x-api-key",x_api_key);
+                        headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
+                        return headers;
                     }
                 };
 

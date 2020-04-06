@@ -22,8 +22,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
@@ -75,7 +77,28 @@ public class CommonMethods
 		Toasty.info(context, message, Toast.LENGTH_SHORT).show();;
 	}
 
+	public static String Base64_Encode(String input_string){
 
+		String encoded_string = "";
+
+		byte[] data = new byte[0];
+		try {
+			data = input_string.getBytes("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		encoded_string = Base64.encodeToString(data, Base64.DEFAULT);
+		return encoded_string;
+	}
+
+	public static String Base64_Decode(String base64){
+
+		String decoded_string = "";
+		byte[] data = Base64.decode(base64, Base64.DEFAULT);
+		decoded_string = new String(data, StandardCharsets.UTF_8);
+		return decoded_string;
+
+	}
 
 	public static String md5(String s) {
 		MessageDigest digest;
