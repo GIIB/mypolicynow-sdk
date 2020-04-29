@@ -595,7 +595,6 @@ public class ReviewDetailsActivity extends AppCompatActivity {
                     .setDelegate(new UploadStatusDelegate() {
                         @Override
                         public void onProgress(UploadInfo uploadInfo) {
-
                         }
 
                         @Override

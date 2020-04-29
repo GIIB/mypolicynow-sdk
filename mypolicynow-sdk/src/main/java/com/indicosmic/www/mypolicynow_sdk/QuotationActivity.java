@@ -153,7 +153,6 @@ public class QuotationActivity extends AppCompatActivity implements AdapterView.
     String StrSelectedMake="",make_cleaned="",SelectedModel="",model_cleaned="";
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

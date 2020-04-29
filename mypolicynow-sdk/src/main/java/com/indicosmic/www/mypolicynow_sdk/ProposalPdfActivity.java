@@ -1121,6 +1121,7 @@ public class ProposalPdfActivity extends AppCompatActivity implements OnPaxPOSTr
 
     private void BUY_POLICY() {
 
+
         merchant_id =  UtilitySharedPreferences.getPrefs(getApplicationContext(),"MerchantId");
         terminal_id =  UtilitySharedPreferences.getPrefs(getApplicationContext(),"TerminalId");
         terminal_id="PX918512";

@@ -2022,6 +2022,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                     }
                     try {
 
+
                         Log.d("Response", "" + response);
                         JSONObject responseObj = new JSONObject(response);
                         JSONObject dataObj = responseObj.getJSONObject("data");
