@@ -1813,6 +1813,9 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                             row_ic_name.setText(ic_id_name);
 
                             TextView row_net_premium_amt = (TextView)rowView.findViewById(R.id.row_net_premium_amt);
+                            TextView net_premium_amt = (TextView)rowView.findViewById(R.id.net_premium_amt);
+
+
                             TextView row_addon_txt = (TextView)rowView.findViewById(R.id.row_addon_txt);
                             if(addon_apiObject!=null &&  !addon_apiObject.toString().equalsIgnoreCase("")) {
                                 row_addon_txt.setText(addon_apiObject.toString());
@@ -1847,7 +1850,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                                 Linear_row_Premium.setVisibility(View.VISIBLE);
 
                                 row_net_premium_amt.setText("\u20B9 "+gross_premium);
-
+                                net_premium_amt.setText(gross_premium);
                                 TextView tv_idv_in_rupees = (TextView) rowView.findViewById(R.id.tv_idv_in_rupees);
                                 tv_idv_in_rupees.setText("\u20B9 "+vehicle_idv);
 
@@ -1939,6 +1942,7 @@ public class IcListingQuoteScreen extends AppCompatActivity {
                             btn_buy_policy.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
+                                    UtilitySharedPreferences.setPrefs(getApplicationContext(),"total_premium_payable",net_premium_amt.getText().toString());
                                     API_BUY_POLICY(row_ic_id.getText().toString());
                                 }
                             });

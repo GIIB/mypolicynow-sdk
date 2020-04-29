@@ -68,6 +68,8 @@ import com.android.volley.toolbox.Volley;
 import com.indicosmic.www.mypolicynow_sdk.utils.CommonMethods;
 import com.indicosmic.www.mypolicynow_sdk.utils.ConnectionDetector;
 import com.indicosmic.www.mypolicynow_sdk.utils.UtilitySharedPreferences;
+import com.interfaces.ClsPAXInf;
+import com.interfaces.OnPaxPOSTransactionListerner;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.ServerResponse;
@@ -105,7 +107,7 @@ import static com.indicosmic.www.mypolicynow_sdk.webservices.RestClient.api_user
 import static com.indicosmic.www.mypolicynow_sdk.webservices.RestClient.x_api_key;
 
 
-public class ProposalPdfActivity extends AppCompatActivity {
+public class ProposalPdfActivity extends AppCompatActivity implements OnPaxPOSTransactionListerner {
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
 
@@ -143,6 +145,7 @@ public class ProposalPdfActivity extends AppCompatActivity {
     File myFileToUpload = null;
     String PreviousPolicyFileName;
     byte[] bbytesFile;
+    String merchant_id="",terminal_id="",total_premium_payable="1";
 
     String file_base;
     String filePath,picturePath,b64,filename,file_extension;
@@ -1118,14 +1121,32 @@ public class ProposalPdfActivity extends AppCompatActivity {
 
     private void BUY_POLICY() {
 
-        CommonMethods.DisplayToastInfo(getApplicationContext(),"Redirected to Payment Gateway.");
-        //myDialog.show();
-        //PostPaymentAPI();
+        merchant_id =  UtilitySharedPreferences.getPrefs(getApplicationContext(),"MerchantId");
+        terminal_id =  UtilitySharedPreferences.getPrefs(getApplicationContext(),"TerminalId");
+        terminal_id="PX918512";
+        merchant_id = "PX9400000000012";
+        total_premium_payable =  UtilitySharedPreferences.getPrefs(getApplicationContext(),"total_premium_payable");
 
+        Log.d("total_premium_payable",""+total_premium_payable);
+        Log.d("terminal_id",""+terminal_id);
+        Log.d("merchant_id",""+merchant_id);
+
+        ClsPAXInf objClsPAXInf=new ClsPAXInf(this);
+        objClsPAXInf.sale(total_premium_payable,"Tip","Extra_field", terminal_id,merchant_id, "AddPrivateDataprint");
 
     }
 
-    private void PostPaymentAPI() {
+    private void PostPaymentAPI(String ResponseResult) {
+        String WS_P_ID,TID,PGID,Premium,Response = "";
+
+
+        String[] separated = ResponseResult.split("|");
+        if(separated.length==1){
+            Response = separated[0];
+        }else if(separated.length==8 || separated.length==9){
+            Response = separated[8];
+
+        }
 
         JSONObject responseObj = new JSONObject();
 
@@ -1134,7 +1155,7 @@ public class ProposalPdfActivity extends AppCompatActivity {
             responseObj.put("TID","123251572592696");
             responseObj.put("PGID","9291344799");
             responseObj.put("Premium","16083.00");
-            responseObj.put("Response","Success");
+            responseObj.put("Response",Response);
             responseObj.put("return_url","https://www.mypolicynow.com/future/privatecar/transaction_status");
 
         } catch (JSONException e) {
@@ -1164,6 +1185,7 @@ public class ProposalPdfActivity extends AppCompatActivity {
 
                         if(status) {
                             String message = jsonresponse.getString("message");
+
                             MessagePopUp(status,message);
                         }
 
@@ -1225,6 +1247,26 @@ public class ProposalPdfActivity extends AppCompatActivity {
         super.onBackPressed();
         overridePendingTransition(R.animator.left_right,R.animator.right_left);
     }
+
+    @Override
+    public void OnError(String s) {
+        String StrPaymentResponse_failure = "Result";
+        StrPaymentResponse_failure = s;
+
+        Log.d("failure-payment-string",s);
+        //PostPaymentAPI(StrPaymentResponse_failure);
+    }
+
+    @Override
+    public void OnSuccess(String s) {
+
+        String StrPaymentResponse_success = "Masked_Pan|Card_Holder_Name|Card_Type|Auth_Code|RRN|Stan|Batch_Number|Result|IS_SUCCESS|IS_PIN_ENTERED";
+        StrPaymentResponse_success = s;
+
+        Log.d("success-payment-string",s);
+        // PostPaymentAPI(StrPaymentResponse_success);
+    }
+
 }
 
 

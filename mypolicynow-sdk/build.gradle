@@ -75,7 +75,7 @@ dependencies {
     //video Library
     implementation 'com.iceteck.silicompressorr:silicompressor:2.1'
 
-
+    implementation project(path: ':ONGOMPOS')
 
     // Add the SDKs for any other Firebase products you want to use in your app
     // For example, to use Firebase Authentication and Cloud Firestore

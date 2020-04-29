@@ -214,15 +214,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void getPasswordForMPN() {
+  /*  private void getMpnDataFromPOS() {
         final ProgressDialog myDialog = new ProgressDialog(MainActivity.this);
         myDialog.setMessage("Please wait...");
         myDialog.setCancelable(false);
         myDialog.setCanceledOnTouchOutside(false);
         myDialog.show();
 
-         StrMobile = "8169972611";
+      *//*   StrMobile = "8169972611";
          StrEmail = "sush.rokade@gmail.com";
+
+        String terminal_id="PX918512";
+        String merchant_id = "PX9400000000012";
+*//*
 
         String URL = ROOT_URL2+"getpassword";
         ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
@@ -243,8 +247,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         JSONObject data_obj = jsonresponse.getJSONObject("data");
 
-                        POS_TOKEN  = data_obj.getString("token");
-/*
+                          = data_obj.getString("token");
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(),"MerchantId",merchant_id);
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(),"TerminalId",terminal_id);
+
+*//*
 
                         //TextView BtnBuyInsurance = (TextView)findViewById(R.id.BtnBuyInsurance);
                         BtnBuyInsurance.setOnClickListener(new View.OnClickListener() {
@@ -259,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 }
                             }
                         });
-*/
+*//*
 
 
                     } catch (Exception e) {
@@ -280,14 +287,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> map = new HashMap<String, String>();
-                    map.put("mobile_number", StrMobile);
-                    map.put("email_id", StrEmail);
-                    if(StrMobile!=null && !StrMobile.equalsIgnoreCase("")){
-                        map.put("access_key", md5(StrMobile));
-                    }else if(StrEmail!=null && !StrEmail.equalsIgnoreCase("")){
-                        map.put("access_key", md5(StrEmail));
-                    }
-                    Log.d("GetPasswordToken",""+map);
+
+                    map.put("POS_TOKEN", POS_TOKEN);
+
                     return map;
                 }
             };
@@ -306,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-    }
+    }*/
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

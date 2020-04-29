@@ -1,2 +1,1 @@
-include ':app', ':mypolicynow-sdk'
-rootProject.name='mypolicynow-ags'
+include ':app', ':mypolicynow-sdk', ':ONGOMPOS'
