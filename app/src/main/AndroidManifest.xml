@@ -23,6 +23,7 @@
 
 
     <application
+        android:name=".application.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -33,8 +34,10 @@
         android:largeHeap="true"
         android:screenOrientation="portrait"
         android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme.NoActionBar"
-        tools:replace="android:theme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:overrideLibrary="com.steelkiwi.library"
+        >
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
@@ -53,6 +56,7 @@
             android:name=".AboutUsActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"
+
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
             android:name=".ContactUsActivity"
@@ -68,35 +72,127 @@
 
 
         <activity
-            android:name="com.indicosmic.www.mypolicynow_sdk.QuotationActivity"
+            android:name=".QuotationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name="com.indicosmic.www.mypolicynow_sdk.IcListingQuoteScreen"
+            android:name=".IcListingQuoteScreen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name="com.indicosmic.www.mypolicynow_sdk.CustomerPage"
+            android:name=".CustomerPage"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden"
             />
 
         <activity
-            android:name="com.indicosmic.www.mypolicynow_sdk.ProposalPdfActivity"
+            android:name=".ProposalPdfActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden"
             />
 
 
+        <activity
+            android:name=".ReviewDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden"
+            />
+
+        <!--PAX PAYMENT GATEWAY-->
+
+        <activity
+            android:name="com.swipeit2.Start"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.interfaces.InitiatePaymentActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.swipeit2.Prefs"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyMaterialTheme"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.swipeit2.Sale"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyMaterialTheme"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.swipeit2.Void"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyMaterialTheme"/>
+        <activity
+            android:name="com.swipeit2.TransactionSummary"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyMaterialTheme"/>
+        <activity
+            android:name="com.swipeit2.CaptureSignature"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyMaterialTheme"/>
+        <activity
+            android:name="com.interfaces.CashAtPOSActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyMaterialTheme"/>
+        <activity
+            android:name="com.swipeit2.SendReceiptToCustomer"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyMaterialTheme"/>
+        <activity
+            android:name="com.swipeit2.Receipt"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyMaterialTheme"/>
+        <activity
+            android:name="com.loyalty.loyaltyapp.loyalty_main.TransactionHistory"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyMaterialTheme"/>
+        <activity
+            android:name="com.swipeit2.AnyReceiptActivtiy"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyMaterialTheme"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.swipeit2.BharatQRActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyMaterialTheme"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.tradepaypw.SwingCardActivity"
+            android:process="com.pax.detectCard"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyMaterialTheme"/>
+        <activity
+            android:name="com.tradepaypw.view.ConsumeActivity"
+            android:process="com.pax.detectCard"
+            android:screenOrientation="portrait"/>
+        <service
+            android:name="com.swipeit2.MyServices"
+            android:enabled="true"/>
+        <service android:name="com.android.printing.PrintService"/>
+        <service
+            android:name="com.tradepaypw.service.OtherDetectCard"
+            android:enabled="true"
+            android:exported="false"/>
 
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
 
         <uses-library android:name="org.apache.http.legacy"
             android:required="false"/>
+        <meta-data android:name="android.webkit.WebView.EnableSafeBrowsing"
+            android:value="false" />
 
     </application>
 

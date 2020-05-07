@@ -14,11 +14,11 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.indicosmic.www.mypolicynow_sdk.QuotationActivity;
-import com.indicosmic.www.mypolicynow_sdk.utils.RuntimePermissions;
-import com.indicosmic.www.mypolicynow_sdk.utils.SharedPrefManager;
-import com.indicosmic.www.mypolicynow_sdk.utils.SingletonClass;
-import com.indicosmic.www.mypolicynow_sdk.utils.UtilitySharedPreferences;
+import com.indicosmic.www.mypolicynow_ags.QuotationActivity;
+import com.indicosmic.www.mypolicynow_ags.utils.RuntimePermissions;
+import com.indicosmic.www.mypolicynow_ags.utils.SharedPrefManager;
+import com.indicosmic.www.mypolicynow_ags.utils.SingletonClass;
+import com.indicosmic.www.mypolicynow_ags.utils.UtilitySharedPreferences;
 
 import java.util.ArrayList;
 

@@ -1,1 +1,1 @@
-include ':app', ':mypolicynow-sdk', ':ONGOMPOS'
+include ':app', ':Pax_Lib_UAT'

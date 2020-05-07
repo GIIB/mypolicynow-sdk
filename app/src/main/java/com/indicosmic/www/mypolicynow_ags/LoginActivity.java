@@ -29,9 +29,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.indicosmic.www.mypolicynow_sdk.QuotationActivity;
-import com.indicosmic.www.mypolicynow_sdk.utils.CommonMethods;
-import com.indicosmic.www.mypolicynow_sdk.utils.UtilitySharedPreferences;
+import com.indicosmic.www.mypolicynow_ags.QuotationActivity;
+import com.indicosmic.www.mypolicynow_ags.utils.CommonMethods;
+import com.indicosmic.www.mypolicynow_ags.utils.MyValidator;
+import com.indicosmic.www.mypolicynow_ags.utils.UtilitySharedPreferences;
 
 
 import org.json.JSONException;
@@ -41,7 +42,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.indicosmic.www.mypolicynow_ags.RestClient.ROOT_URL2;
-import static com.indicosmic.www.mypolicynow_sdk.utils.CommonMethods.md5;
+import static com.indicosmic.www.mypolicynow_ags.utils.CommonMethods.md5;
 
 
 public class LoginActivity extends AppCompatActivity {

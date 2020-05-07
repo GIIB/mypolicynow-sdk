@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,11 +29,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
-import com.indicosmic.www.mypolicynow_sdk.QuotationActivity;
-import com.indicosmic.www.mypolicynow_sdk.utils.CommonMethods;
-import com.indicosmic.www.mypolicynow_sdk.utils.ConnectionDetector;
-import com.indicosmic.www.mypolicynow_sdk.utils.UtilitySharedPreferences;
-import com.indicosmic.www.mypolicynow_sdk.webservices.RestClient;
+import com.indicosmic.www.mypolicynow_ags.utils.CommonMethods;
+import com.indicosmic.www.mypolicynow_ags.utils.UtilitySharedPreferences;
+import com.indicosmic.www.mypolicynow_ags.QuotationActivity;
+import com.indicosmic.www.mypolicynow_ags.utils.CommonMethods;
+import com.indicosmic.www.mypolicynow_ags.utils.ConnectionDetector;
+import com.indicosmic.www.mypolicynow_ags.utils.UtilitySharedPreferences;
+import com.indicosmic.www.mypolicynow_ags.webservices.RestClient;
 
 import org.json.JSONObject;
 
@@ -40,7 +43,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.indicosmic.www.mypolicynow_ags.RestClient.ROOT_URL2;
-import static com.indicosmic.www.mypolicynow_sdk.utils.CommonMethods.md5;
+import static com.indicosmic.www.mypolicynow_ags.utils.CommonMethods.md5;
+import static com.indicosmic.www.mypolicynow_ags.webservices.RestClient.api_password;
+import static com.indicosmic.www.mypolicynow_ags.webservices.RestClient.api_user_name;
+import static com.indicosmic.www.mypolicynow_ags.webservices.RestClient.x_api_key;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -65,9 +71,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if(POS_TOKEN!=null && POS_TOKEN.equalsIgnoreCase("")){
             CommonMethods.DisplayToast(this,"Invalid Access. Please try again.");
+            //getPasswordForMPN();
         }
 
-        //getPasswordForMPN();
 
     }
 
@@ -169,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 UtilitySharedPreferences.setPrefs(getApplicationContext(),"QuotationFor","Car");
                 if(POS_TOKEN!=null && !POS_TOKEN.equalsIgnoreCase("")){
                     Intent i = new Intent(getApplicationContext(), QuotationActivity.class);
-                    i.putExtra("pos_token", POS_TOKEN);
+                    //i.putExtra("pos_token", POS_TOKEN);
                     startActivity(i);
                     overridePendingTransition(R.animator.move_left,R.animator.move_right);
                     finish();
@@ -214,21 +220,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-  /*  private void getMpnDataFromPOS() {
-        final ProgressDialog myDialog = new ProgressDialog(MainActivity.this);
-        myDialog.setMessage("Please wait...");
-        myDialog.setCancelable(false);
-        myDialog.setCanceledOnTouchOutside(false);
-        myDialog.show();
-
-      *//*   StrMobile = "8169972611";
-         StrEmail = "sush.rokade@gmail.com";
+    private void getPasswordForMPN() {
 
         String terminal_id="PX918512";
         String merchant_id = "PX9400000000012";
-*//*
 
-        String URL = ROOT_URL2+"getpassword";
+
+        myDialog.show();
+
+        String URL = RestClient.ROOT_URL2+"getpassword";
         ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
         boolean isInternetPresent = cd.isConnectingToInternet();
         if (isInternetPresent) {
@@ -247,26 +247,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         JSONObject data_obj = jsonresponse.getJSONObject("data");
 
-                          = data_obj.getString("token");
+                        POS_TOKEN  = data_obj.getString("token");
                         UtilitySharedPreferences.setPrefs(getApplicationContext(),"MerchantId",merchant_id);
                         UtilitySharedPreferences.setPrefs(getApplicationContext(),"TerminalId",terminal_id);
-
-*//*
-
-                        //TextView BtnBuyInsurance = (TextView)findViewById(R.id.BtnBuyInsurance);
-                        BtnBuyInsurance.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                UtilitySharedPreferences.setPrefs(getApplicationContext(),"QuotationFor","Bike");
-                                if(POS_TOKEN!=null && !POS_TOKEN.equalsIgnoreCase("")){
-                                    Intent i = new Intent(getApplicationContext(), QuotationActivity.class);
-                                    i.putExtra("pos_token", POS_TOKEN);
-                                    startActivity(i);
-                                    finish();
-                                }
-                            }
-                        });
-*//*
 
 
                     } catch (Exception e) {
@@ -287,10 +270,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> map = new HashMap<String, String>();
+                            /*map.put("mobile_number", StrMobile);
+                            map.put("email_id", StrEmail);
+                            if(StrMobile!=null && !StrMobile.equalsIgnoreCase("")){
+                                map.put("access_key", md5(StrMobile));
+                            }else if(StrEmail!=null && !StrEmail.equalsIgnoreCase("")){
+                                map.put("access_key", md5(StrEmail));
+                            }*/
+                    map.put("merchant_id", merchant_id);
+                    map.put("terminal_id", terminal_id);
+                    map.put("access_key", md5(terminal_id));
 
-                    map.put("POS_TOKEN", POS_TOKEN);
-
+                    Log.d("GetPasswordToken",""+map);
                     return map;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    //  Authorization: Basic $auth
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    //headers.put("Content-Type", "application/x-www-form-urlencoded");
+                    //headers.put("Content-Type", "application/json; charset=utf-8");
+                    headers.put("x-api-key",x_api_key);
+                    headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
+
+                    Log.d("Headers",""+headers);
+                    return headers;
                 }
             };
 
@@ -308,7 +313,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-    }*/
+    }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

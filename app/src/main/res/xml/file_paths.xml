@@ -3,9 +3,9 @@
     <external-path name="external_files" path="."/>
     <external-path
         name="my_images"
-        path="Android/data/com.indicosmic.www.mypolicynow.app/files/Downloads" />
+        path="Android/data/com.indicosmic.www.mypolicynow_ags.app/files/Downloads" />
 
-    <external-files-path name="vivalinkComProp" path="Android/data/com.indicosmic.www.mypolicynow.app/vivalinkComProp/docs"/>
+    <external-files-path name="vivalinkComProp" path="Android/data/com.indicosmic.www.mypolicynow_ags.app/vivalinkComProp/docs"/>
     <external-path
         name="external"
         path="." />

@@ -39,4 +39,139 @@
     <string name="youtube_page"><a href="https://www.youtube.com/channel/UC-A1U-wcz9rbVujn-5Cg2jg" rel="nofollow">https://www.youtube.com/channel/UC-A1U-wcz9rbVujn-5Cg2jg</a></string>
     <string name="linked_in_page"><a href="https://www.linkedin.com/company/global-india-insurance-brokers-pvt-ltd/" rel="nofollow">https://www.linkedin.com/company/global-india-insurance-brokers-pvt-ltd</a></string>
 
+
+    <string-array name="spin_item_policy_holder">
+        <item>Select Policy Holder Type</item>
+        <item>INDIVIDUAL</item>
+        <item>CORPORATE</item>
+    </string-array>
+
+    <string-array name="spin_item_ncb_per">
+        <item>Select NCB</item>
+        <item>0%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>35%</item>
+        <item>45%</item>
+        <item>50%</item>
+    </string-array>
+
+    <string-array name="spin_item_od_discount">
+        <item>MAX DISCOUNT</item>
+        <item>0%</item>
+        <item>5%</item>
+        <item>10%</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>55%</item>
+        <item>60%</item>
+        <item>65%</item>
+        <item>70%</item>
+        <item>75%</item>
+    </string-array>
+
+    <string-array name="spin_item_marital_status">
+        <item>Select Marital Status *</item>
+        <item>Single</item>
+        <item>Married</item>
+
+    </string-array>
+
+    <string-array name="spin_item_nominee_relationship">
+        <item>Select Relationship *</item>
+        <item>Son</item>
+        <item>Daughter</item>
+        <item>Brother</item>
+        <item>Father</item>
+        <item>Mother</item>
+        <item>Spouse</item>
+        <item>Father-in-law</item>
+    </string-array>
+
+    <string-array name="spin_item_appointtee_relationship">
+        <item>Select Relationship *</item>
+        <item>Son</item>
+        <item>Daughter</item>
+        <item>Brother</item>
+        <item>Father</item>
+        <item>Mother</item>
+        <item>Spouse</item>
+        <item>Father-in-law</item>
+        <item>Mother-in-law</item>
+        <item>OTHERS</item>
+        <item>Child</item>
+        <item>Sibling</item>
+    </string-array>
+
+
+    <string-array name="spin_item_agreement">
+        <item>Select Agreement Type</item>
+        <item>Hypothecation</item>
+        <item>Hire Purchase</item>
+        <item>Lease Agreement</item>
+    </string-array>
+
+    <string-array name="spin_item_salutation">
+        <item>Select Salutation *</item>
+        <item>MR.</item>
+        <item>MS.</item>
+        <item>MRS.</item>
+    </string-array>
+
+
+    <string-array name="spin_item_gender">
+        <item>Select Gender *</item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+    <string-array name="spin_item_spouse_gender">
+        <item>Select Spouse Gender</item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+    <string-array name="spin_item_geographical_extension_countries">
+
+        <item>Select Select Country</item>
+        <item>Bangladesh</item>
+        <item>Bhutan</item>
+        <item>Pakistan</item>
+        <item>Maldives</item>
+        <item>Nepal</item>
+        <item>Sri Lanka</item>
+
+    </string-array>
+
+    <string-array name="reason_opting_out_cpa">
+        <item>Do not have valid license</item>
+        <item>Have another Motor Insurance Policy with 15 lakhs PA owner cover</item>
+        <item>Have PA Policy of 15 lakhs and above</item>
+        <item>Have Other PA Policy</item>
+    </string-array>
+
+    <string-array name="spin_item_pa_sum_assured">
+
+        <item>Select Sum Insured(Rs)</item>
+        <item>200000</item>
+        <item>100000</item>
+        <item>90000</item>
+        <item>80000</item>
+        <item>70000</item>
+        <item>60000</item>
+        <item>50000</item>
+        <item>40000</item>
+        <item>30000</item>
+        <item>20000</item>
+        <item>10000</item>
+    </string-array>
+
+    <string name="break_in_text">NOTE: Current policy has resulted in BREAK IN CASE. Inspection of your vehicle will be required before you can buy the policy.</string>
+
 </resources>
