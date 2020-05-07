@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LLtv"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:padding="@dimen/padding_5"
+    android:cacheColorHint="#00000000" >
+
+    <TextView
+        android:id="@+id/txtTransactionID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TRANSACTION ID : "
+        android:layout_alignParentLeft="true"
+        android:textSize="@dimen/font_12"
+        android:textColor="#000"/>
+
+    <TextView
+        android:id="@+id/txtTransactionType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TRANSACTION TYPE : "
+        android:layout_alignParentRight="true"
+        android:textSize="@dimen/font_12"
+        android:textColor="#000"/>
+
+    <TextView
+        android:id="@+id/txtTransactionCardNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CARD NUMBER : "
+        android:layout_marginTop="@dimen/padding_5"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/txtTransactionID"
+        android:textSize="@dimen/font_15"
+        android:textColor="#000"/>
+
+    <TextView
+        android:id="@+id/txtTransactionAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AMOUNT : "
+        android:layout_marginTop="@dimen/padding_5"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/txtTransactionID"
+        android:textSize="@dimen/font_15"
+        android:textColor="#000"/>
+
+    <TextView
+        android:id="@+id/txtTransactionBatchNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BATCH NUMBER : "
+        android:layout_marginTop="@dimen/padding_5"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/txtTransactionCardNumber"
+        android:textSize="@dimen/font_12"
+        android:textColor="#000"/>
+
+    <TextView
+        android:id="@+id/txtTransactionAuthCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AUTH CODE : "
+        android:layout_marginTop="@dimen/padding_5"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/txtTransactionCardNumber"
+        android:textSize="@dimen/font_12"
+        android:textColor="#000"/>
+
+
+
+</RelativeLayout>

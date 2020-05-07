@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="Cbsem"
+        android:summary="Ask For Customer Phone no And Email id For Each Transaction"
+        android:title="Send Email And Phone No" >
+    </CheckBoxPreference>
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="PL4"
+        android:summary="Ask For Last Four Digits Validation"
+        android:title="Card No Validation" >
+    </CheckBoxPreference>
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="PTxn"
+        android:summary="Show Transaction History For Customer"
+        android:title="Customer Txn Summary" >
+    </CheckBoxPreference>
+    
+</PreferenceScreen>

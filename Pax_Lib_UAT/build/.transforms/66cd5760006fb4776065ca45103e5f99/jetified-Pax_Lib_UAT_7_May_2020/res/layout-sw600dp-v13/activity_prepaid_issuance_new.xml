@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transaction_page_bg"
+    android:orientation="vertical"
+    android:focusableInTouchMode="true">
+
+
+    <RelativeLayout
+        android:id="@+id/imagell"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="top"
+        android:gravity="top"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <include
+            android:id="@+id/headerView"
+            layout="@layout/header_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/txtSaleTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/headerView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/padding_20"
+            android:text="Prepaid / Issue Card "
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/header_text_size" />
+
+        <LinearLayout
+            android:id="@+id/logosView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtSaleTitle"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/img_text_gap"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/imgCirclePrepaid"
+                android:layout_width="@dimen/padding_100"
+                android:layout_height="@dimen/padding_100"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/circle_bg">
+
+                <ImageView
+                    android:layout_width="@dimen/padding_50"
+                    android:layout_height="@dimen/padding_50"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/issucard_prepaid_icon" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_action_more_black" />
+
+            <RelativeLayout
+                android:id="@+id/imgCircleSale"
+                android:layout_width="@dimen/padding_85"
+                android:layout_height="@dimen/padding_85"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/circle_bg">
+
+                <ImageView
+                    android:layout_width="@dimen/padding_50"
+                    android:layout_height="@dimen/padding_50"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/issue_card_issuecard_icon" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/logosView"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="35dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_20"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/llMerId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/llTerId"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/padding_5"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginRight="@dimen/padding_10"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/etdFirstName"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/padding_40"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:hint="Enter first name"
+                        android:inputType="text"
+                        android:singleLine="true"
+                        android:textColor="@color/header_text"
+                        android:textColorHint="@color/header_text"
+                        android:textSize="@dimen/normal_text_size" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/view_border"></View>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginLeft="@dimen/padding_10"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/etdLastName"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/padding_40"
+
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:hint="Enter last name"
+                        android:inputType="text"
+                        android:singleLine="true"
+                        android:textColor="@color/header_text"
+                        android:textColorHint="@color/header_text"
+                        android:textSize="@dimen/normal_text_size" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/view_border"></View>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/llTerId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/padding_10"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/etdMobile"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/padding_40"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="Enter Mobile No"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:singleLine="true"
+                    android:textColor="@color/header_text"
+                    android:textColorHint="@color/header_text"
+                    android:textSize="@dimen/normal_text_size" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/view_border"></View>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/llValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/padding_10"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <EditText
+                    android:id="@+id/etdEmail"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/padding_40"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="Enter email"
+                    android:inputType="textEmailAddress"
+                    android:singleLine="true"
+                    android:textColor="@color/header_text"
+                    android:textColorHint="@color/header_text"
+                    android:textSize="@dimen/normal_text_size" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/view_border"></View>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/datePickerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:id="@+id/fromdate"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/padding_40"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="Date Of Birth"
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/normal_text_size" />
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/ic_calender" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/datePickerLayout2"
+                android:layout_width="260dp"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/padding_5"
+
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/todate"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@null"
+                    android:drawableRight="@drawable/ic_calender"
+                    android:gravity="center"
+                    android:hint="End Date"
+
+                    android:maxLength="10"
+                    android:singleLine="true"
+                    android:textColor="#567295"
+                    android:textColorHint="#567295"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/detail"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/padding_20">
+
+                <Button
+                    android:id="@+id/btnCreate"
+                    android:layout_width="230dp"
+                    android:layout_height="@dimen/padding_40"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/rounded_button_with_dblue_background"
+                    android:gravity="center"
+                    android:text="Done"
+                    android:textAllCaps="false"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/sub_header_text_size" />
+
+                <Button
+                    android:id="@+id/btnCancel"
+                    android:layout_width="90dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/rounded_button_with_color_background"
+                    android:paddingLeft="@dimen/padding_10"
+                    android:paddingRight="@dimen/padding_10"
+                    android:text="Cancel"
+                    android:textColor="#fff"
+                    android:visibility="gone" />
+
+
+            </RelativeLayout>
+        </LinearLayout>
+
+
+        <include
+            android:id="@+id/footerLayout"
+            layout="@layout/footer_view_bank_logo"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/padding_40"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"></include>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
+

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transaction_page_bg">
+
+    <include
+        android:id="@+id/headerView"
+        layout="@layout/header_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/titleAndLogo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/headerView"
+        android:layout_marginTop="@dimen/padding_15"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvlogotext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/sale"
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/header_text_size" />
+
+        <RelativeLayout
+            android:id="@+id/imgCircleSale"
+            android:layout_width="@dimen/padding_100"
+            android:layout_height="@dimen/padding_100"
+            android:layout_below="@+id/txtSaleTitle"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/img_text_gap"
+            android:background="@drawable/circle_bg">
+
+            <ImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="@dimen/padding_50"
+                android:layout_height="@dimen/padding_50"
+                android:layout_centerInParent="true"
+                android:src="@drawable/sale_transaction_icon" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleAndLogo"
+        android:layout_margin="@dimen/padding_5">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_25"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/signText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_10"
+                android:gravity="center"
+                android:text="@string/signature"
+                android:textColor="@color/header_text"
+                android:textSize="@dimen/sub_header_text_size" />
+
+            <LinearLayout
+                android:id="@+id/ifSignView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/padding_190"
+                android:layout_below="@+id/signText"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/padding_30"
+                android:layout_marginRight="@dimen/padding_30"
+                android:layout_marginTop="@dimen/padding_15"
+                android:background="@drawable/rounded_button_with_white_background"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:id="@+id/Llsignpanel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal" />
+
+
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical|center"
+                android:layout_marginTop="@dimen/padding_20"
+                android:gravity="center"
+                android:layout_below="@+id/ifSignView">
+
+                <Button
+                    android:id="@+id/Bclear"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_margin="@dimen/padding_10"
+                    android:background="@drawable/rounded_button_with_dblue_background"
+                    android:text="@string/clear"
+                    android:textAllCaps="false"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/sub_header_text_size" />
+
+                <Button
+                    android:id="@+id/Bdone"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_margin="@dimen/padding_10"
+                    android:layout_toRightOf="@+id/Bclear"
+                    android:background="@drawable/rounded_button_with_dblue_background"
+                    android:text="@string/submit"
+                    android:textAllCaps="false"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/sub_header_text_size" />
+
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <include
+        android:id="@+id/footerLayout"
+        layout="@layout/footer_view"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"></include>
+
+    <include
+        android:id="@+id/footerLayoutITSL"
+        layout="@layout/footer_view_itsl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:visibility="visible"></include>
+
+</RelativeLayout>
+

@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainLayouths"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <RelativeLayout
+            android:id="@+id/tab"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_weight="0.91"
+            android:background="#003778"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/homeButton"
+                android:layout_width="45dp"
+                android:layout_height="fill_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:src="@drawable/drawer" />
+
+            <!--<ImageView
+                android:id="@+id/title_text"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/logo"
+                android:layout_toRightOf="@+id/homeButton" />-->
+
+            <include
+                layout="@layout/ongowallet_small_title_view"
+                android:layout_width="70dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/homeButton"></include>
+
+            <!--<RelativeLayout
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/notiView">
+
+                <ImageView
+                    android:id="@+id/buttonOffer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/offer_logo_white" />
+
+                &lt;!&ndash;<TextView
+                    android:id="@+id/txtOfferCount"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:text="1"
+                    android:gravity="center"
+                    android:textSize="10dp"
+                    android:textColor="#ffffff"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/circle_shape_view" />&ndash;&gt;
+            </RelativeLayout>-->
+
+            <!--<RelativeLayout
+                android:id="@+id/notiView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/buttonSetting">
+
+                <ImageView
+                    android:id="@+id/buttonNotification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/notification_logo_white" />
+
+                &lt;!&ndash;<TextView
+                    android:id="@+id/txtNotificationCount"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:text="1"
+                    android:gravity="center"
+                    android:textSize="10dp"
+                    android:textColor="#ffffff"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/circle_shape_view" />&ndash;&gt;
+            </RelativeLayout>-->
+
+            <ImageView
+                android:id="@+id/buttonSetting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="2dp"
+                android:src="@drawable/three_dots" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/pro"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/tab"
+            android:background="#144681"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:id="@+id/viewProfile"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/circle_bg"
+                android:visibility="invisible">
+
+                <ImageView
+                    android:id="@+id/userProfile"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/ic_action_person"
+                    android:scaleType="fitXY"
+                    android:visibility="invisible" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txtUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/viewProfile"
+                android:background="@null"
+                android:text=""
+                android:textColor="#ffffff"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/txtBuild"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtUserName"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/viewProfile"
+                android:background="@null"
+                android:text=""
+                android:textColor="#ffffff"
+                android:textSize="10dp"
+                android:visibility="gone" />
+
+            <!--<RelativeLayout
+                android:layout_width="110dp"
+                android:layout_height="fill_parent"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/balance_logo">
+
+            </RelativeLayout>-->
+
+            <TextView
+                android:id="@+id/txtSymbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@+id/txtBalanceRs"
+                android:gravity="center_vertical"
+                android:text="₹"
+                android:textColor="#ffffff"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/txtBalanceRs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@+id/txtAddMoney"
+                android:gravity="center_vertical"
+                android:text=""
+                android:textColor="#ffffff"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtAddMoney"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/ic_action_refresh"
+                android:gravity="center_vertical"
+                android:textColor="#ffffff"
+                android:textSize="14dp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/pro">
+
+
+            <LinearLayout
+
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
+
+                <androidx.viewpager.widget.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <!-- <androidx.viewpager.widget.PagerTabStrip
+                         android:id="@+id/pgstrip"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_gravity="top"
+                         android:paddingBottom="10dp"
+                         android:paddingTop="10dp"
+                         android:textColor="#000000" />-->
+
+                </androidx.viewpager.widget.ViewPager>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <!--<LinearLayout
+
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/pro">
+
+            <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/drawer_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:orientation="vertical">
+
+                        <androidx.viewpager.widget.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:id="@+id/pager"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                           &lt;!&ndash; <androidx.viewpager.widget.PagerTabStrip
+                                android:id="@+id/pgstrip"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top"
+                                android:paddingBottom="10dp"
+                                android:paddingTop="10dp"
+                                android:textColor="#000000" />&ndash;&gt;
+
+                        </androidx.viewpager.widget.ViewPager>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="280dp"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="start"
+                    android:background="#02254D"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:orientation="vertical">
+
+                    <ListView
+                        android:id="@+id/left_drawer"
+                        android:layout_width="280dp"
+                        android:layout_height="fill_parent"
+                        android:choiceMode="singleChoice"
+                        android:divider="#344E6E"
+                        android:dividerHeight="1dp" />
+
+                </LinearLayout>
+            </androidx.drawerlayout.widget.DrawerLayout>
+        </LinearLayout>-->
+
+        <FrameLayout
+            android:id="@+id/offerView"
+            android:layout_width="230dp"
+            android:layout_height="180dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tab"
+            android:layout_marginRight="5dp"
+            android:background="#c0c0c0"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="1dp"
+                android:background="#ffffff">
+
+                <RelativeLayout
+                    android:id="@+id/offerHeader"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:background="#ffffff">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:drawableLeft="@drawable/offer_logo_color"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:text="Offers"
+                        android:textColor="#003778"
+                        android:textSize="15dp" />
+
+                    <ImageView
+                        android:id="@+id/btnCancelOffer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/ic_action_cancel" />
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/offerSeparator"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/offerHeader"
+                    android:background="#c0c0c0"></View>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Coming Soon !" />
+
+                <!--<ListView
+                    android:id="@+id/listOfOffers"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_below="@+id/offerSeparator"></ListView>-->
+            </RelativeLayout>
+
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/notificationView"
+            android:layout_width="230dp"
+            android:layout_height="180dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tab"
+            android:layout_marginRight="5dp"
+            android:background="#c0c0c0"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="1dp"
+                android:background="#ffffff">
+
+                <RelativeLayout
+                    android:id="@+id/notificationHeader"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:background="#ffffff">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:drawableLeft="@drawable/notification_logo_color"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:text="Notifications"
+                        android:textColor="#003778"
+                        android:textSize="15dp" />
+
+                    <ImageView
+                        android:id="@+id/btnCancelNotification"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/ic_action_cancel" />
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/NotificationSeparator"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/notificationHeader"
+                    android:background="#c0c0c0"></View>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Coming Soon !" />
+                <!--<ListView-->
+                <!--android:id="@+id/listOfNotifications"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="fill_parent"-->
+                <!--android:layout_below="@+id/NotificationSeparator"></ListView>-->
+            </RelativeLayout>
+
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/settingView"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tab"
+            android:layout_marginRight="5dp"
+            android:background="#c0c0c0"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="1dp"
+                android:background="#ffffff">
+
+                <RelativeLayout
+                    android:id="@+id/settingHeader"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:background="#ffffff">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:drawableLeft="@drawable/setting_icon_color"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:text="Settings"
+                        android:textColor="#003778"
+                        android:textSize="15dp" />
+
+                    <ImageView
+                        android:id="@+id/btnCancelSetting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/ic_action_cancel" />
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/settingSeparator"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/settingHeader"
+                    android:background="#c0c0c0"></View>
+
+                <!--<ListView-->
+                <!--android:id="@+id/listOfNotifications"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="fill_parent"-->
+                <!--android:layout_below="@+id/NotificationSeparator"></ListView>-->
+                <TextView
+                    android:id="@+id/txtAccount"
+                    android:layout_width="fill_parent"
+                    android:layout_height="35dp"
+                    android:layout_below="@+id/settingSeparator"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:text="1.    User Profile."
+                    android:textColor="#003778" />
+
+                <TextView
+                    android:id="@+id/txtShare"
+                    android:layout_width="fill_parent"
+                    android:layout_height="35dp"
+                    android:layout_below="@+id/txtAccount"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:text="2.    Share the app."
+                    android:textColor="#003778"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/txtHelpAndFaq"
+                    android:layout_width="fill_parent"
+                    android:layout_height="35dp"
+                    android:layout_below="@+id/txtShare"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:text="2.    Help and FAQ."
+                    android:textColor="#003778" />
+
+                <!--<TextView
+                    android:id="@+id/txtSignOut"
+                    android:layout_width="fill_parent"
+                    android:layout_height="35dp"
+                    android:layout_below="@+id/txtHelpAndFaq"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:textColor="#003778"
+                    android:text="3.    Sign Out." />-->
+            </RelativeLayout>
+
+
+        </FrameLayout>
+
+
+        <!--<FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="#FCAF31"
+            android:visibility="visible">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+                <TextView
+                    android:id="@+id/txtComingSoon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:textColor="#ffffff"
+                    android:layout_centerInParent="true"
+                    android:text="Coming soon !"/>
+            </RelativeLayout>
+        </FrameLayout>-->
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

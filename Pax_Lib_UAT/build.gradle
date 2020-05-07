@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('Pax_Lib_UAT_7_May_2020.aar'))

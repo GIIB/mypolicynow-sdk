@@ -1,0 +1,1161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Admin">
+        <item>Clear Reversal</item>
+        <item>My Account Details</item>
+        <item>Device Info</item>
+        <item>Update</item>
+        <item>Change Password</item>
+        <item>NFC Settings</item>
+    </string-array>
+    <string-array name="BatchSummary">
+
+    </string-array>
+    <string-array name="BharatQR">
+        <!--<item>Static QR</item>-->
+        <!--<item>Dynamic QR</item>-->
+    </string-array>
+    <string-array name="CardBins">
+
+        <item>400000-499999|VISA|0|true</item>
+        <!--<item>400000-499999|RUPAIYA|0|true</item>-->
+        <item>508500-508999|RUPAY1|0|true</item>
+        <item>606985-607984|RUPAY2|0|true</item>
+        <item>608001-608300|RUPAY3|0|true</item>
+        <item>608301-608500|RUPAY4|0|true</item>
+        <item>652150-653049|RUPAY5|0|true</item>
+        <item>653050-653149|RUPAY6|0|true</item>
+        <item>300000-305999|RUPAY7|0|true</item>
+        <item>309500-309599|RUPAY8|0|true</item>
+        <item>360000-369999|RUPAY9|0|true</item>
+        <item>380000-399999|RUPAY10|0|true</item>
+        <item>601100-601109|RUPAY11|0|true</item>
+        <item>601120-601149|RUPAY12|0|true</item>
+        <item>601174-601174|RUPAY13|0|true</item>
+        <item>601177-601179|RUPAY14|0|true</item>
+        <item>601186-601199|RUPAY15|0|true</item>
+        <item>644000-659999|RUPAY16|0|true</item>
+        <item>817200-819899|RUPAY1|0|true</item>
+        <item>819900-820199|RUPAY1|0|true</item>
+        <item>508500-508999|RUPAYJI|0|true</item>
+        <item>606985-607984|RUPAYJI|0|true</item>
+        <item>608001-608200|RUPAYJI|0|true</item>
+        <item>608201-608300|RUPAYJI|0|true</item>
+        <item>608301-608350|RUPAYJI|0|true</item>
+        <item>608351-608500|RUPAYJI|0|true</item>
+        <item>652150-652849|RUPAYJI|0|true</item>
+        <item>652850-653049|RUPAYJI|0|true</item>
+        <item>653050-653149|RUPAYJI|0|true</item>
+        <item>352800-358999|RUPAYJI|0|true</item>
+        <item>300000-305999|RUPAYJI|0|true</item>
+        <item>309500-309599|RUPAYJI|0|true</item>
+        <item>360000-369999|RUPAYJI|0|true</item>
+        <item>380000-399999|RUPAYJI|0|true</item>
+        <item>601100-601103|RUPAYJI|0|true</item>
+        <item>601105-601109|RUPAYJI|0|true</item>
+        <item>601120-601149|RUPAYJI|0|true</item>
+        <item>601174-601174|RUPAYJI|0|true</item>
+        <item>601177-601179|RUPAYJI|0|true</item>
+        <item>601186-601199|RUPAYJI|0|true</item>
+        <item>644000-652149|RUPAYJI|0|true</item>
+        <item>653150-659999|RUPAYJI|0|true</item>
+        <item>817200-819899|RUPAYJI|0|true</item>
+        <item>819900-820199|RUPAYJI|0|true</item>
+        <item>620003-620003|RUPAYUI|0|true</item>
+        <item>620009-620011|RUPAYUI|0|true</item>
+        <item>620013-620013|RUPAYUI|0|true</item>
+        <item>620015-620017|RUPAYUI|0|true</item>
+        <item>620019-620019|RUPAYUI|0|true</item>
+        <item>620021-620021|RUPAYUI|0|true</item>
+        <item>620024-620031|RUPAYUI|0|true</item>
+        <item>620035-620035|RUPAYUI|0|true</item>
+        <item>620037-620041|RUPAYUI|0|true</item>
+        <item>620043-620043|RUPAYUI|0|true</item>
+        <item>620046-620046|RUPAYUI|0|true</item>
+        <item>620048-620048|RUPAYUI|0|true</item>
+        <item>620050-620056|RUPAYUI|0|true</item>
+        <item>620058-620064|RUPAYUI|0|true</item>
+        <item>620067-620068|RUPAYUI|0|true</item>
+        <item>620070-620070|RUPAYUI|0|true</item>
+        <item>620072-620073|RUPAYUI|0|true</item>
+        <item>620076-620077|RUPAYUI|0|true</item>
+        <item>620079-620079|RUPAYUI|0|true</item>
+        <item>620081-620082|RUPAYUI|0|true</item>
+        <item>620085-620091|RUPAYUI|0|true</item>
+        <item>620093-620094|RUPAYUI|0|true</item>
+        <item>620096-620096|RUPAYUI|0|true</item>
+        <item>620101-620101|RUPAYUI|0|true</item>
+        <item>620103-620103|RUPAYUI|0|true</item>
+        <item>620105-620108|RUPAYUI|0|true</item>
+        <item>620110-620110|RUPAYUI|0|true</item>
+        <item>620114-620114|RUPAYUI|0|true</item>
+        <item>620118-620118|RUPAYUI|0|true</item>
+        <item>620120-620121|RUPAYUI|0|true</item>
+        <item>620123-620126|RUPAYUI|0|true</item>
+        <item>620129-620129|RUPAYUI|0|true</item>
+        <item>620131-620132|RUPAYUI|0|true</item>
+        <item>620134-620134|RUPAYUI|0|true</item>
+        <item>620136-620136|RUPAYUI|0|true</item>
+        <item>620138-620144|RUPAYUI|0|true</item>
+        <item>620146-620150|RUPAYUI|0|true</item>
+        <item>620152-620153|RUPAYUI|0|true</item>
+        <item>620155-620156|RUPAYUI|0|true</item>
+        <item>620158-620159|RUPAYUI|0|true</item>
+        <item>620161-620163|RUPAYUI|0|true</item>
+        <item>620175-620175|RUPAYUI|0|true</item>
+        <item>620180-620181|RUPAYUI|0|true</item>
+        <item>620183-620187|RUPAYUI|0|true</item>
+        <item>620190-620194|RUPAYUI|0|true</item>
+        <item>620196-620200|RUPAYUI|0|true</item>
+        <item>620202-620211|RUPAYUI|0|true</item>
+        <item>620213-620214|RUPAYUI|0|true</item>
+        <item>620218-620218|RUPAYUI|0|true</item>
+        <item>620220-620221|RUPAYUI|0|true</item>
+        <item>620223-620226|RUPAYUI|0|true</item>
+        <item>620228-620236|RUPAYUI|0|true</item>
+        <item>620239-620239|RUPAYUI|0|true</item>
+        <item>620242-620242|RUPAYUI|0|true</item>
+        <item>620244-620251|RUPAYUI|0|true</item>
+        <item>620253-620254|RUPAYUI|0|true</item>
+        <item>620256-620257|RUPAYUI|0|true</item>
+        <item>620259-620259|RUPAYUI|0|true</item>
+        <item>620262-620268|RUPAYUI|0|true</item>
+        <item>620271-620299|RUPAYUI|0|true</item>
+        <item>620500-620599|RUPAYUI|0|true</item>
+        <item>620614-621109|RUPAYUI|0|true</item>
+        <item>621120-621829|RUPAYUI|0|true</item>
+        <item>621840-621859|RUPAYUI|0|true</item>
+        <item>621870-621877|RUPAYUI|0|true</item>
+        <item>621879-621879|RUPAYUI|0|true</item>
+        <item>621890-621975|RUPAYUI|0|true</item>
+        <item>622126-623796|RUPAYUI|0|true</item>
+        <item>623798-627081|RUPAYUI|0|true</item>
+        <item>628183-628998|RUPAYUI|0|true</item>
+        <item>629030-629440|RUPAYUI|0|true</item>
+        <item>638888-638888|RUPAYUI|0|true</item>
+        <item>685800-685800|RUPAYUI|0|true</item>
+        <item>810000-817199|RUPAYUI|0|true</item>
+        <item>601382-601382|RUPAYUI|0|true</item>
+        <item>601428-601428|RUPAYUI|0|true</item>
+        <item>602907-602907|RUPAYUI|0|true</item>
+        <item>602969-602969|RUPAYUI|0|true</item>
+        <item>603265-603265|RUPAYUI|0|true</item>
+        <item>603367-603367|RUPAYUI|0|true</item>
+        <item>603601-603601|RUPAYUI|0|true</item>
+        <item>603694-603694|RUPAYUI|0|true</item>
+        <item>603708-603708|RUPAYUI|0|true</item>
+        <item>621977-621977|RUPAYUI|0|true</item>
+        <item>632062-632062|RUPAYUI|0|true</item>
+        <item>690750-690759|RUPAYUI|0|true</item>
+        <item>900105-900105|RUPAYUI|0|true</item>
+        <item>900205-900205|RUPAYUI|0|true</item>
+        <item>900300-900309|RUPAYUI|0|true</item>
+        <item>905920-905929|RUPAYUI|0|true</item>
+        <item>911100-911199|RUPAYUI|0|true</item>
+        <item>940001-940001|RUPAYUI|0|true</item>
+        <item>940003-940003|RUPAYUI|0|true</item>
+        <item>940010-940010|RUPAYUI|0|true</item>
+        <item>940013-940013|RUPAYUI|0|true</item>
+        <item>940015-940015|RUPAYUI|0|true</item>
+        <item>940018-940018|RUPAYUI|0|true</item>
+        <item>940020-940021|RUPAYUI|0|true</item>
+        <item>940023-940023|RUPAYUI|0|true</item>
+        <item>940027-940028|RUPAYUI|0|true</item>
+        <item>940030-940031|RUPAYUI|0|true</item>
+        <item>940035-940035|RUPAYUI|0|true</item>
+        <item>940037-940037|RUPAYUI|0|true</item>
+        <item>940039-940040|RUPAYUI|0|true</item>
+        <item>940046-940050|RUPAYUI|0|true</item>
+        <item>940055-940056|RUPAYUI|0|true</item>
+        <item>940061-940063|RUPAYUI|0|true</item>
+        <item>940066-940066|RUPAYUI|0|true</item>
+        <item>940068-940068|RUPAYUI|0|true</item>
+        <item>940073-940074|RUPAYUI|0|true</item>
+        <item>955100-955100|RUPAYUI|0|true</item>
+        <item>955550-955550|RUPAYUI|0|true</item>
+        <item>955590-955593|RUPAYUI|0|true</item>
+        <item>955880-955882|RUPAYUI|0|true</item>
+        <item>955888-955888|RUPAYUI|0|true</item>
+        <item>955990-955999|RUPAYUI|0|true</item>
+        <item>966666-966666|RUPAYUI|0|true</item>
+        <item>968807-968809|RUPAYUI|0|true</item>
+        <item>984300-984303|RUPAYUI|0|true</item>
+        <item>990027-990027|RUPAYUI|0|true</item>
+        <item>998800-998802|RUPAYUI|0|true</item>
+        <item>637676-637676|RUPAIYA|0|true</item>
+        <item>510000-599999|MASTERCARD1|0|true</item>
+        <item>222100-272099|MASTERCARD2|0|true</item>
+        <item>370000-389999|AMEX1|0|true</item>
+        <item>340000-349999|AMEX2|0|true</item>
+        <item>352800-358999|AMEX3|0|true</item>
+        <item>340000-349999|JCB|0|true</item>
+        <item>100000-999999|MAESTRO|0|true</item>
+        <item>260150-999999|PREPAID|0|true</item>
+    </string-array>
+    <string-array name="ClearReversal"/>
+    <string-array name="DMT">
+        <item>DMT-Transaction</item>
+        <item>DMT-Sender</item>
+        <item>DMT-Beneficiary</item>
+    </string-array>
+    <string-array name="DTHOperators">
+        <item>Airtel DTH</item>
+        <item>Big TV</item>
+        <item>Dish TV</item>
+        <item>Sun Direct</item>
+        <item>TATA Sky</item>
+        <item>VideoconDth</item>
+    </string-array>
+    <string-array name="Last_TXN_Details">last_txn_details</string-array>
+    <string-array name="Merchant_Referral"/>
+    <integer-array name="Merchant_Referral_icon">
+        <item>@drawable/sale</item>
+    </integer-array>
+    <string-array name="MiniAtm"/>
+    <string-array name="MobileOperators">
+        <item>Aircel</item>
+        <item>Airtel</item>
+        <item>Idea</item>
+        <item>Reliance</item>
+        <item>TATA</item>
+        <item>TATA Docomo</item>
+        <item>Vodafone</item>
+    </string-array>
+    <string-array name="Prepaid">
+        <item>Issuance</item>
+        <item>TopUp</item>
+        <item>Withdrawal</item>
+        <item>Balance Enquiry</item>
+    </string-array>
+    <string-array name="Refund">
+
+    </string-array>
+    <string-array name="Reports">
+        <item>Transaction Details Report</item>
+        <item>Batch Summary</item>
+    </string-array>
+    <integer-array name="Reportsicon">
+        <item>@drawable/sale</item>
+        <item>@drawable/void_logo</item>
+    </integer-array>
+    <string-array name="Reprint">
+        <item>Last Receipt</item>
+        <item>Any Receipt</item>
+    </string-array>
+    <integer-array name="Reprinticon">
+        <item>@drawable/sale</item>
+        <item>@drawable/void_logo</item>
+    </integer-array>
+    <string-array name="ResponseCodes">
+        <item>00|Approved or completed successfully</item>
+        <item>01|Refer to card issuer</item>
+        <item>02|Refer to card issuer, special condition</item>
+        <item>03|Invalid merchant</item>
+        <item>04|Pick-up card</item>
+        <item>05|Do not honor</item>
+        <item>06|Error</item>
+        <item>07|Pick-up card, special condition</item>
+        <item>08|Honor with identification</item>
+        <item>09|Request in progress</item>
+        <item>10|Approved, partial</item>
+        <item>11|Approved, VIP</item>
+        <item>12|Invalid transaction</item>
+        <item>13|Invalid amount</item>
+        <item>14|Invalid card number</item>
+        <item>15|No such issuer</item>
+        <item>16|Approved, update track 3</item>
+        <item>17|Customer cancellation</item>
+        <item>18|Customer dispute</item>
+        <item>19|Re-enter transaction</item>
+        <item>20|Invalid response</item>
+        <item>21|No action taken</item>
+        <item>22|Suspected malfunction</item>
+        <item>23|Unacceptable transaction fee</item>
+        <item>24|File update not supported</item>
+        <item>25|Unable to locate record</item>
+        <item>26|Duplicate record</item>
+        <item>27|File update field edit error</item>
+        <item>28|File update file locked</item>
+        <item>29|File update failed</item>
+        <item>30|Format error</item>
+        <item>31|Bank not supported</item>
+        <item>32|Completed partially</item>
+        <item>33|Expired card, pick-up</item>
+        <item>34|Suspected fraud, pick-up</item>
+        <item>35|Contact acquirer, pick-up</item>
+        <item>36|Restricted card, pick-up</item>
+        <item>37|Call acquirer security, pick-up</item>
+        <item>38|PIN tries exceeded, pick-up</item>
+        <item>39|No credit account</item>
+        <item>40|Function not supported</item>
+        <item>41|Lost card, pick-up</item>
+        <item>42|No universal account</item>
+        <item>43|Stolen card, pick-up</item>
+        <item>44|No investment account</item>
+        <item>45|Account closed</item>
+        <item>46|Identification required</item>
+        <item>47|Identification cross-check required</item>
+        <item>48|No customer record</item>
+        <item>49 to 50 |Reserved for future Realtime use</item>
+        <item>51|Not sufficient funds</item>
+        <item>52|No check account</item>
+        <item>53|No savings account</item>
+        <item>54|Expired card</item>
+        <item>55|Incorrect PIN</item>
+        <item>56|No card record</item>
+        <item>57|Transaction not permitted to cardholder</item>
+        <item>58|Transaction not permitted on terminal</item>
+        <item>59|Suspected fraud</item>
+        <item>60|Contact acquirer</item>
+        <item>61|Exceeds withdrawal limit</item>
+        <item>62|Restricted card</item>
+        <item>63|Security violation</item>
+        <item>64|Original amount incorrect</item>
+        <item>65|Exceeds withdrawal frequency</item>
+        <item>66|Call acquirer security</item>
+        <item>67|Hard capture</item>
+        <item>68|Response received too late</item>
+        <item>69|Advice received too late</item>
+        <item>75|PIN tries exceeded</item>
+        <item>76|Reserved for future Realtime use</item>
+        <item>77|Intervene, bank approval required</item>
+        <item>78|Intervene, bank approval required for partial amount</item>
+        <item>87|Invalid track data</item>
+        <item>90|Cut-off in progress</item>
+        <item>91|Issuer or switch inoperative</item>
+        <item>92|Routing error</item>
+        <item>93|Violation of law</item>
+        <item>94|Duplicate transaction</item>
+        <item>95|Reconcile error</item>
+        <item>96|System malfunction</item>
+        <item>97|Reserved for future Realtime use</item>
+        <item>98|Exceeds cash limit</item>
+        <item>99|Reserved for future Realtime use</item>
+        <item>A1|ATC not incremented</item>
+        <item>A2|ATC limit exceeded</item>
+        <item>A3|ATC configuration error</item>
+        <item>A4|CVR check failure</item>
+        <item>A5|CVR configuration error</item>
+        <item>A6|TVR check failure</item>
+        <item>A7|TVR configuration error</item>
+        <item>C Zero  |Unacceptable PIN</item>
+        <item>C1|PIN Change failed</item>
+        <item>C2|PIN Unblock failed</item>
+        <item>D1|MAC Error</item>
+        <item>E1|Prepay error</item>
+        <item>CI|Refer to card issuer</item>
+        <item>CA|Acquire Compliance</item>
+        <item>84|SE Number not present</item>
+        <item>83|SE Number mismatch</item>
+
+    </string-array>
+    <string-array name="Reward">
+        <item>Program</item>
+        <item>Issuance</item>
+        <item>Balance Enquiry</item>
+        <item>Awards</item>
+        <item>Program Linkage</item>
+    </string-array>
+    <string-array name="Sale"/>
+    <integer-array name="Saleicon">
+        <item>@drawable/sale</item>
+    </integer-array>
+    <string-array name="Settlement"/>
+    <string-array name="Support">
+        <!--<item>Technical support/Contact us</item>-->
+        <item>New User Guide</item>
+        <!--<item>Technical Problem</item>-->
+        <!--<item>Service Activation</item>-->
+    </string-array>
+    <string-array name="TransactionSummary"/>
+    <string-array name="Transactions">
+        <item>Void</item>
+        <item>Tip-Adjustment</item>
+        <item>Pre-auth Sale</item>
+        <item>Pre-auth Completion</item>
+        <item>EMI Sale</item>
+    </string-array>
+    <integer-array name="Transactionsicon">
+        <item>@drawable/sale</item>
+        <item>@drawable/void_logo</item>
+        <item>@drawable/dmt</item>
+        <item>@drawable/dmt</item>
+        <item>@drawable/sale</item>
+    </integer-array>
+    <string-array name="Void">
+
+    </string-array>
+    <integer-array name="dmtsubheader">
+        <item>@drawable/transaction_white</item>
+        <item>@drawable/sender_white</item>
+        <item>@drawable/beneficiary_white</item>
+    </integer-array>
+    <string-array name="header">
+        <item>Sale</item>
+        <item>Transactions</item>
+        <item>Mini-ATM</item>
+        <item>Bharat QR</item>
+        <!--<item>DMT</item>-->
+        <item>Reports</item>
+        <item>Reprint</item>
+        <item>Settlement</item>
+        <item>Admin</item>
+        <item>@string/reward_text</item>
+        <item>@string/prepaid_text</item>
+        <item>@string/Last_TXN_Details</item>
+        <item>Merchant Referral</item>
+        <item>@string/support</item>
+        <item>Need Help?</item>
+
+
+    </string-array>
+    <integer-array name="headericon">
+        <item>@drawable/sale</item>
+        <item>@drawable/void_logo</item>
+        <item>@drawable/dmt</item>
+        <item>@drawable/dmt</item>
+        <item>@drawable/dmt</item>
+        <item>@drawable/dmt</item>
+        <item>@drawable/dmt</item>
+        <item>@drawable/dmt</item>
+        <item>@drawable/dmt</item>
+        <item>@drawable/dmt</item>
+        <item>@drawable/dmt</item>
+        <item>@drawable/dmt</item>
+        <item>@drawable/dmt</item>
+        <item>@drawable/dmt</item>
+
+    </integer-array>
+    <string-array name="need_help">
+        <item>mPOS Transaction Flow</item>
+        <item>Technical Support</item>
+    </string-array>
+    <attr format="boolean" name="centered"/>
+    <attr format="color" name="selectedColor"/>
+    <attr format="dimension" name="strokeWidth"/>
+    <attr format="color" name="unselectedColor"/>
+    <bool name="default_circle_indicator_centered">true</bool>
+    <bool name="default_circle_indicator_snap">false</bool>
+    <bool name="default_line_indicator_centered">true</bool>
+    <bool name="default_title_indicator_selected_bold">true</bool>
+    <bool name="default_underline_indicator_fades">true</bool>
+    <color name="accent">#0B0B61</color>
+    <color name="account_xian">#ffb1b5bb</color>
+    <color name="amount_green">#94E920</color>
+    <color name="bl_list_item_color">#656855</color>
+    <color name="blue_btn_bg_color">#AEDEF4</color>
+    <color name="blue_btn_bg_pressed_color">#96BFD2</color>
+    <color name="btn_blue_n">#167EFB</color>
+    <color name="btn_blue_p">#00A2FF</color>
+    <color name="btn_gray_n">#8F9296</color>
+    <color name="button_bg1_col">#1B367E</color>
+    <color name="button_cancel">#426A9A</color>
+    <color name="button_color">#FCAF31</color>
+    <color name="button_end">#FCAF31</color>
+    <color name="button_start">#FCAF31</color>
+    <color name="cancel_button_text">#333333</color>
+    <color name="colorAccent">#FF80AB</color>
+    <color name="colorPrimary">#72761f</color>
+    <color name="colorPrimaryBackground">#ebebeb</color>
+    <color name="colorPrimaryDark">#72761f</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="color_theme">#99D8E032</color>
+    <color name="common_text_color">#ff333333</color>
+    <color name="counter_text_bg">#fff</color>
+    <color name="counter_text_color">#9a9aff</color>
+    <color name="darkgray">#918b8b</color>
+    <color name="darkgreen">#71c16f</color>
+    <color name="default_circle_indicator_fill_color">#FFFFFFFF</color>
+    <color name="default_circle_indicator_page_color">#00000000</color>
+    <color name="default_circle_indicator_stroke_color">#FFDDDDDD</color>
+    <color name="default_line_indicator_selected_color">#FF33B5E5</color>
+    <color name="default_line_indicator_unselected_color">#FFBBBBBB</color>
+    <color name="default_title_indicator_footer_color">#FF33B5E5</color>
+    <color name="default_title_indicator_selected_color">#FFFFFFFF</color>
+    <color name="default_title_indicator_text_color">#BBFFFFFF</color>
+    <color name="default_underline_indicator_selected_color">#FF33B5E5</color>
+    <color name="drawer_text">#5d5d5d</color>
+    <color name="error_stroke_color">#FF0000</color>
+    <color name="float_transparent">#00000000</color>
+    <color name="gray">#808080</color>
+    <color name="gray_btn_bg_color">#D0D0D0</color>
+    <color name="gray_btn_bg_pressed_color">#B6B6B6</color>
+    <color name="gray_input_pin_bg">#DDDDDD</color>
+    <color name="green">#c9ee67</color>
+    <color name="grid_item_bg">#ffe8ecef</color>
+    <color name="header_text">#58585b</color>
+    <color name="hint_color">#706e6e</color>
+    <color name="key_normal_color">#ffffff</color>
+    <color name="layoutcolor1">#00284d</color>
+    <color name="layoutcolor2">#62d2f2</color>
+    <color name="layoutcolor3">#B8ECD4</color>
+    <color name="layoutcolor4">#00BC6A</color>
+    <color name="light_blue">#2C9BBE</color>
+    <color name="line">#ffd3dde6</color>
+    <color name="list_background">#fff</color>
+    <color name="list_background_pressed">#e0e0e0</color>
+    <color name="list_divider">#e8e8e8</color>
+    <color name="list_item_title">#b9b4ff</color>
+    <color name="login_btn_bg_color">#DB7D25</color>
+    <color name="login_btn_bg_pressed_color">#BE6D1E</color>
+    <color name="menu_text">#4b4b4b</color>
+    <color name="navigationBarColor">#000000</color>
+    <color name="new_bg_color">#D8E035</color>
+    <color name="new_splash_bg">#B7BE34</color>
+    <color name="new_text_bg">#00B8B5</color>
+    <color name="ongo_text_color">#1B4376</color>
+    <color name="primary">#0d47a1</color>
+    <color name="primary_dark">#003778</color>
+    <color name="prompt_no_pwd_color">#666666</color>
+    <color name="prompt_text_color">#858585</color>
+    <color name="red">#FF0000</color>
+    <color name="rippelColor">#FFFFFF</color>
+    <color name="secondaryColorBlack">#918b8b</color>
+    <color name="success_stroke_color">#008B8B</color>
+    <color name="sweet_dialog_bg_color">#FFFFFF</color>
+    <color name="tab">#90d7ec</color>
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="textedit_hint">#999999</color>
+    <color name="textview_infos">#ff666666</color>
+    <color name="trans_amount_color">#FD4800</color>
+    <color name="transaction_page_bg">#FAFAF8</color>
+    <color name="view_border">#414141</color>
+    <color name="vpi__background_holo_dark">#ff000000</color>
+    <color name="vpi__background_holo_light">#fff3f3f3</color>
+    <color name="vpi__bright_foreground_disabled_holo_dark">#ff4c4c4c</color>
+    <color name="vpi__bright_foreground_disabled_holo_light">#ffb2b2b2</color>
+    <color name="vpi__bright_foreground_holo_dark">@color/vpi__background_holo_light</color>
+    <color name="vpi__bright_foreground_holo_light">@color/vpi__background_holo_dark</color>
+    <color name="vpi__bright_foreground_inverse_holo_dark">@color/vpi__bright_foreground_holo_light</color>
+    <color name="vpi__bright_foreground_inverse_holo_light">@color/vpi__bright_foreground_holo_dark</color>
+    <color name="white">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="award_button_size">120dp</dimen>
+    <dimen name="award_option_width">220dp</dimen>
+    <dimen name="button_height">40dp</dimen>
+    <dimen name="button_width">120dp</dimen>
+    <dimen name="cardissuance_button_height">40dp</dimen>
+    <dimen name="cardissuance_option_text_size">16sp</dimen>
+    <dimen name="cardissuance_option_width">250dp</dimen>
+    <dimen name="cardissuance_selection_image">30dp</dimen>
+    <dimen name="cardissuance_text_size">18sp</dimen>
+    <dimen name="cardissuance_textadv_size">15sp</dimen>
+    <dimen name="circle_weight">2.9dp</dimen>
+    <dimen name="default_circle_indicator_radius">3dp</dimen>
+    <dimen name="default_circle_indicator_stroke_width">1dp</dimen>
+    <dimen name="default_line_indicator_gap_width">4dp</dimen>
+    <dimen name="default_line_indicator_line_width">12dp</dimen>
+    <dimen name="default_line_indicator_stroke_width">1dp</dimen>
+    <dimen name="default_title_indicator_clip_padding">4dp</dimen>
+    <dimen name="default_title_indicator_footer_indicator_height">4dp</dimen>
+    <dimen name="default_title_indicator_footer_indicator_underline_padding">20dp</dimen>
+    <dimen name="default_title_indicator_footer_line_height">2dp</dimen>
+    <dimen name="default_title_indicator_footer_padding">7dp</dimen>
+    <dimen name="default_title_indicator_text_size">15dp</dimen>
+    <dimen name="default_title_indicator_title_padding">5dp</dimen>
+    <dimen name="default_title_indicator_top_padding">7dp</dimen>
+    <dimen name="drawer_width">280dp</dimen>
+    <dimen name="font_10">10sp</dimen>
+    <dimen name="font_12">12sp</dimen>
+    <dimen name="font_14">14sp</dimen>
+    <dimen name="font_15">15sp</dimen>
+    <dimen name="font_16">16sp</dimen>
+    <dimen name="font_18">18sp</dimen>
+    <dimen name="font_20">20sp</dimen>
+    <dimen name="font_24">24sp</dimen>
+    <dimen name="font_28">28sp</dimen>
+    <dimen name="font_8">8sp</dimen>
+    <dimen name="footer_height">50dp</dimen>
+    <dimen name="footer_heights">20dp</dimen>
+    <dimen name="footer_width">100dp</dimen>
+    <dimen name="header_height">180dp</dimen>
+    <dimen name="header_image_height">45dp</dimen>
+    <dimen name="header_image_width">45dp</dimen>
+    <dimen name="header_text_size">22sp</dimen>
+    <dimen name="headingtext_size">20sp</dimen>
+    <dimen name="homescreen_circle_size">330dp</dimen>
+    <dimen name="image_width">150dp</dimen>
+    <dimen name="img_edit_gap">20dp</dimen>
+    <dimen name="img_text_gap">40dp</dimen>
+    <dimen name="listview_width">300dp</dimen>
+    <dimen name="ll_button_width">200dp</dimen>
+    <dimen name="normal_text_size">15sp</dimen>
+    <dimen name="ongo_image_width">90dp</dimen>
+    <dimen name="opt_text_size">20sp</dimen>
+    <dimen name="option_text_size">14sp</dimen>
+    <dimen name="option_width">220dp</dimen>
+    <dimen name="padding_1">1dp</dimen>
+    <dimen name="padding_10">10dp</dimen>
+    <dimen name="padding_100">100dp</dimen>
+    <dimen name="padding_12">12dp</dimen>
+    <dimen name="padding_120">120dp</dimen>
+    <dimen name="padding_14">14dp</dimen>
+    <dimen name="padding_140">140dp</dimen>
+    <dimen name="padding_15">15dp</dimen>
+    <dimen name="padding_17">17dp</dimen>
+    <dimen name="padding_170">170dp</dimen>
+    <dimen name="padding_180">180dp</dimen>
+    <dimen name="padding_2">2dp</dimen>
+    <dimen name="padding_20">20dp</dimen>
+    <dimen name="padding_22">22dp</dimen>
+    <dimen name="padding_24">24dp</dimen>
+    <dimen name="padding_25">25dp</dimen>
+    <dimen name="padding_260">260dp</dimen>
+    <dimen name="padding_290">290dp</dimen>
+    <dimen name="padding_30">30dp</dimen>
+    <dimen name="padding_35">35dp</dimen>
+    <dimen name="padding_4">4dp</dimen>
+    <dimen name="padding_40">40dp</dimen>
+    <dimen name="padding_45">45dp</dimen>
+    <dimen name="padding_5">5dp</dimen>
+    <dimen name="padding_50">50dp</dimen>
+    <dimen name="padding_55">55dp</dimen>
+    <dimen name="padding_60">60dp</dimen>
+    <dimen name="padding_65">65dp</dimen>
+    <dimen name="padding_7">7dp</dimen>
+    <dimen name="padding_70">70dp</dimen>
+    <dimen name="padding_75">75dp</dimen>
+    <dimen name="padding_80">80dp</dimen>
+    <dimen name="padding_85">85dp</dimen>
+    <dimen name="padding_90">90dp</dimen>
+    <dimen name="prog_edit_delete_width">60dp</dimen>
+    <dimen name="pt_option_heigth">30dp</dimen>
+    <dimen name="pt_option_width">210dp</dimen>
+    <dimen name="sub_header_text_size">18sp</dimen>
+    <dimen name="text_size">18sp</dimen>
+    <dimen name="top_circle_width">290dp</dimen>
+    <dimen name="top_width">200dp</dimen>
+    <dimen name="visit_option_heigth">35dp</dimen>
+    <dimen name="visit_option_width">250dp</dimen>
+    <dimen name="visit_padding">7dp</dimen>
+    <dimen name="visit_textsize">14sp</dimen>
+    <integer name="default_circle_indicator_orientation">0</integer>
+    <integer name="default_title_indicator_footer_indicator_style">2</integer>
+    <integer name="default_title_indicator_line_position">0</integer>
+    <integer name="default_underline_indicator_fade_delay">300</integer>
+    <integer name="default_underline_indicator_fade_length">400</integer>
+    <string name="AgreementSale"><![CDATA[I AGREE TO PAY THE ABOVE TOTAL AMOUNT\nACCORDING TO CARD ISSUER AGREEMENT]]></string>
+    <string name="AgreementSaleCS"><![CDATA[I Agree to Pay The Above Total Amount\nAccording to Card Issuer Agreement]]></string>
+    <string name="AgreementVR"><![CDATA[I AGREE TO RECEIVo o9 9zc6E THE MENTIONED AMOUNT\nABOVE AS PER CARD ISSUER AGREEMENT]]></string>
+    <string name="Favourites">Favourites</string>
+    <string name="Iinternation_card_alert"> Please Verify Card holder ID details</string>
+    <string name="Indusand_bank">In association with </string>
+    <string name="Last_TXN_Details">Last TXN Details</string>
+    <string name="Noaccess">Please Contact ITSL adminstrator</string>
+    <string name="Noaccess_haratQR">Coming Soon.</string>
+    <string name="OTPInstruction">An OTP was sent to your Mobile Number, please enter it below to set your password.</string>
+    <string name="OTPInstructionWithPassword">An OTP was sent to your Mobile Number, please enter OTP and new password below to set your password.</string>
+    <string name="Tveight">8</string>
+    <string name="Tvfive">5</string>
+    <string name="Tvfour">4</string>
+    <string name="Tvnine">9</string>
+    <string name="Tvone">1</string>
+    <string name="Tvseven">7</string>
+    <string name="Tvsix">6</string>
+    <string name="Tvthree">3</string>
+    <string name="Tvtwo">2</string>
+    <string name="Tvzero">0</string>
+    <string name="_confirm_">Confirm</string>
+    <string name="account_details">Account Details</string>
+    <string name="action_example">Example action</string>
+    <string name="action_settings">Sync Data</string>
+    <string name="address">Address</string>
+    <string name="admin">Admin</string>
+    <string name="amount_default">0.00</string>
+    <string name="amount_exceed">Your amount exceeds limit</string>
+    <string name="amount_exceed_contactless">Amount exceeds contactless transaction limit</string>
+    <string name="amount_less_2000">Amount should be less than 2000</string>
+    <string name="amount_multiples_100">Amount should be multiples of 100</string>
+    <string name="any_receipt">Any Receipt</string>
+    <string name="app_name">ongo mPOS</string>
+    <string name="app_verno">ONGOP Ver 1.0.0.1</string>
+    <string name="app_verno1">ongo mPOS Ver 1.0.3.9</string>
+    <string name="application_version">Application\nversion</string>
+    <string name="approved_sucess">Approved successfully</string>
+    <string name="awards">Awards</string>
+    <string name="bal_enq">Balance\nEnquiry</string>
+    <string name="balance_enquiry">Balance Enquiry</string>
+    <string name="battery_level">Battery Level</string>
+    <string name="bharat_qr">Bharat QR</string>
+    <string name="bharat_qr_description">Standardizing QR code payment method across payment networks such as Visa, Master Card, Rupay and Amex </string>
+    <string name="cancel">cancel</string>
+    <string name="card_cannot_issued">Card already has a program</string>
+    <string name="card_count">Card\nCount</string>
+    <string name="card_issuance">Card Issuance</string>
+    <string name="care_mail">care@myongo.co.in</string>
+    <string name="cash_at_pos">Cash At POS</string>
+    <string name="checksum">Check sum</string>
+    <string name="chip_error_use_chip">USE CHIP</string>
+    <string name="chip_error_use_mag">CHIP ERROR\n   USE MAGSTRIP</string>
+    <string name="chip_txn">CHIP</string>
+    <string name="ciit_bank_sixth_point">6. It may take up to 90 working days for
+        the merchant/manufacturer to process cash back and will be credited by issuer on receipt of applicable cash back from merchant/manufacturer.</string>
+    <string name="citi_bank_fifth_point">5. Merchant cash back(if applicable), is being provided
+        by respective merchant/manufacturer and not by Bank/Issuer.</string>
+    <string name="citi_bank_first_point">1. I have been offered the choice of normal as well as EMI for this
+        purchase and I have chosen EMI.</string>
+    <string name="citi_bank_fourth_point">4. EMI is applicable on select Credit Cards only.</string>
+    <string name="citi_bank_second_point">2. I have fully understood and accept the terms
+        of EMI scheme and applicable charges mentioned in the charge slip.</string>
+    <string name="citi_bank_seventh_point">7. Visit citibank.com/India for detailed terms and conditions.</string>
+    <string name="citi_bank_third_point">3. EMI conversion is subject to Bank/Issuer discretion
+        and may take minimum 8 working days.</string>
+    <string name="clear">Clear</string>
+    <string name="clts_disable">Contactless disabled</string>
+    <string name="clts_enable">Contactless enabled</string>
+    <string name="coming_soon">Coming Soon</string>
+    <string name="consent_emi">Customer Consent for EMI</string>
+    <string name="create_dynamic_qr">Create Dynamic QR</string>
+    <string name="create_program">please create program</string>
+    <string name="currency_txt">INR</string>
+    <string name="customer_care">+91 8976003000</string>
+    <string name="detail_auth_code">Authorization code</string>
+    <string name="detail_trans_no">Serial number</string>
+    <string name="detect_card_again">Failed to read card, please try again</string>
+    <string name="device_info">Device Information</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_clear">Clear</string>
+    <string name="dialog_delete">Delete</string>
+    <string name="dialog_enter">Enter</string>
+    <string name="dialog_ok">OK</string>
+    <string name="diff_merchant">This card doesnot belongs to this merchant</string>
+    <string name="divided_sale_amnt">Total Amount payable by each person is ₹ </string>
+    <string name="dmt">DMT</string>
+    <string name="dmt_description">Direct Money Transfer/Domestic Money transfer is a process
+        where in any person can send money to any bank account in india</string>
+    <string name="do_you_want_exit">Do you want to exit?</string>
+    <string name="done">Done</string>
+    <string name="dot">.</string>
+    <string name="download">DOWNLOAD</string>
+    <string name="dynamic_qr">Dynamic QR</string>
+    <string name="ec_trans_amount">Transaction Amount:</string>
+    <string name="emi_sale">EMI Sale</string>
+    <string name="emv_app_block">EMV Application blocked</string>
+    <string name="emv_application_choose">APP Choose</string>
+    <string name="emv_application_choose_again">APP Choose[Choose Again]</string>
+    <string name="emv_card_block">CARD BLOCKED</string>
+    <string name="emv_card_denied">TRANSACTION NOT ALLOWED</string>
+    <string name="enter">Enter</string>
+    <string name="enter_additional_data">Enter Additional Data</string>
+    <string name="enter_amount">Enter Amount</string>
+    <string name="enter_confirm_pass">Enter Confirm Password</string>
+    <string name="enter_email_id">Enter E-mail ID</string>
+    <string name="enter_invoice">Enter Invoice No.</string>
+    <string name="enter_invoice_number">Enter Invoice Number</string>
+    <string name="enter_new_password">Enter New Password</string>
+    <string name="enter_order_id">Enter order id</string>
+    <string name="enter_otp">Enter OTP.</string>
+    <string name="enter_otp_hint">Enter OTP</string>
+    <string name="enter_password">Enter password</string>
+    <string name="enter_split_number">Enter split number</string>
+    <string name="enter_tip_amount">Please enter tip amount</string>
+    <string name="enter_valid_amount">Enter valid amount</string>
+    <string name="enter_valid_tip_amount">Enter valid tip amount</string>
+    <string name="entry_card_password">Please input the bank card password</string>
+    <string name="err_password">Password Error</string>
+    <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
+    <string name="footer_text">© India Transact Services Ltd.</string>
+    <string name="forgotPassword">Forgot Password ?</string>
+    <string name="from_rupees">\u20B9\t</string>
+    <string name="header_title">APPT</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="india_transact">indiatransact</string>
+    <string name="invalid_amount">Invalid Amount</string>
+    <string name="invalid_card">Invalid Card</string>
+    <string name="invalid_otp">Invalid OTP.</string>
+    <string name="last_txn">Last Txn Details</string>
+    <string name="last_txn_details">Last TXN Details</string>
+    <string name="link">www.myongo.co.in</string>
+    <string name="load_keys">Load keys</string>
+    <string name="login">Login</string>
+    <string name="mcc_value">5426</string>
+    <string name="menu_settings">Settings</string>
+    <string name="merchant_id">MID</string>
+    <string name="message">Message</string>
+    <string name="mini_atm">Mini-ATM</string>
+    <string name="mini_atm_description">Mini ATM is a facility using which debit card holders can withdraw cash by swiping their
+        debit/prepaid cards (issued in india) at POS Terminals at merchant locations.</string>
+    <string name="msg_bluetooth_is_not_supported">Bluetooth is not supported on this hardware platform</string>
+    <string name="msg_failed_to_connect_to_pinpad">Failed to connect to Pinpad</string>
+    <string name="msg_pinpad_connected">Pinpad connected</string>
+    <string name="msg_pinpad_connection_is_closed">Pinpad connection is closed</string>
+    <string name="msg_please_present">Please present card on device</string>
+    <string name="msg_please_select_device">Please, select a device from list</string>
+    <string name="msg_please_wait">Waiting for device…</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="need_help">Need Help?</string>
+    <string name="net_connection_unavailable">Net connection unavailable</string>
+    <string name="new_pass_start">Password cannot start with space.</string>
+    <string name="nfc_txn">TAP</string>
+    <string name="no">No</string>
+    <string name="no_merc_id">This card doesnt belong to this merchant please go for card issuance option</string>
+    <string name="no_receipts_show">No recipts to show</string>
+    <string name="no_response_server">No response from server</string>
+    <string name="no_version">No update avaialable</string>
+    <string name="offer_elligible">You have qualified for Redemption, Redeem Now?</string>
+    <string name="offline_denied">Offline Denied</string>
+    <string name="ok">OK</string>
+    <string name="ower_name">Name</string>
+    <string name="password">Password</string>
+    <string name="passwordMismatch">New Password and Confirm Password don not match.</string>
+    <string name="password_dont_match">Password donot match!!,please re-enter</string>
+    <string name="password_missing">Password is missing</string>
+    <string name="password_time_out">Input password timeout</string>
+    <string name="platform_type">mPOS</string>
+    <string name="please_wait">Please wait...</string>
+    <string name="powered_by">Powered by</string>
+    <string name="powered_by_str">Powered by India Transact Services Limited</string>
+    <string name="pre_auth_comp">Pre Auth Completion</string>
+    <string name="pre_auth_sale">Pre Auth Sale</string>
+    <string name="preauth_sale_description">Pre Auth Sale is a facility using which debit/credit/prepaid card holders can make card payments by swiping their credit/debit/prepaid cards
+        (issued in india) at POS Terminals at merchant locations.</string>
+    <string name="prepaid">Prepaid</string>
+    <string name="prepaid_description">Prepaid++ allows merchant to add top-up values in the prepaid card, along with the amount loaded as per customer requirement. If desired
+        the merchant can set-up points program over and above the additional top-up</string>
+    <string name="prepaid_text">Prepaid</string>
+    <string name="pro_dialog_title">Processing...</string>
+    <string name="processing">Processing....</string>
+    <string name="prog_code">Program\nName</string>
+    <string name="programLinkage">Card is already issued to a Merchant please go for program linkage option</string>
+    <string name="program_expired">Your program has expired.</string>
+    <string name="program_linkage">Program Linkage</string>
+    <string name="prompt_card_date">Card expiration date</string>
+    <string name="prompt_card_num">Card number</string>
+    <string name="prompt_date_default">MM/YY</string>
+    <string name="prompt_not_remove_card">Do not remove card</string>
+    <string name="prompt_offline">offline Approved...</string>
+    <string name="prompt_online">Online Processing...</string>
+    <string name="prompt_use_bankcard">Please use your bank card</string>
+    <string name="redeem_card">Redeem\nCard</string>
+    <string name="redeem_success">Congratulations, Your Rewards Redemption has been processed successfully!!</string>
+    <string name="refer_msg">Check out Ongo mPOS application for your smartphone! Download it from ....\n https://play.google.com/store/apps/details?id=com.swipeit2</string>
+    <string name="refund">Refund</string>
+    <string name="register_now">Register Now</string>
+    <string name="remove_card">Please Remove Card…</string>
+    <string name="reports">Reports</string>
+    <string name="reprint">Reprint</string>
+    <string name="resend">Resend</string>
+    <string name="reversal_cleared_successfully">Reversal Cleared Successfully</string>
+    <string name="reversal_failed">Reversal Failed</string>
+    <string name="reversal_success">Reversal successfull</string>
+    <string name="reversal_txn_not_found">No Records Available to Reverse</string>
+    <string name="reward">Reward</string>
+    <string name="reward_description">Reward++ empowers the merchant to create their own
+        loyalty program basis visit, value spent and or both for specified feature. Under this
+        program the merchant shall issue contact less cards to its customers the customer offering
+        as per choice</string>
+    <string name="reward_text">Reward</string>
+    <string name="rup_sym">₹</string>
+    <string name="rupee">\u20B9</string>
+    <string name="sale">Sale</string>
+    <string name="sale_description">Sale is a facility using which debit/credit/prepaid card holders can make card payments by swiping their
+        credit/debit/prepaid cards (issued in india) at POS Terminals at merchant locations.</string>
+    <string name="sale_success">Sale Success</string>
+    <string name="scan_here_to_pay">Scan Here to Pay</string>
+    <string name="see_phone">Please See Phone…</string>
+    <string name="select_account">Select Account</string>
+    <string name="serial_number">Serial Number</string>
+    <string name="settlement">Settlement</string>
+    <string name="settlement_cannot_be_zero">Settlment amount cannot be zero</string>
+    <string name="settlement_success">Settlement successfull</string>
+    <string name="share">SHARE</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_required">Signature is required!</string>
+    <string name="signature">Signature</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="split_max">Split number cannot be more than 10</string>
+    <string name="split_min">Split number cannot be less than 2</string>
+    <string name="split_radio_group_validation">Please select whether you want to split amount or not</string>
+    <string name="split_validation">Please enter valid split number</string>
+    <string name="start_transaction">Start transaction</string>
+    <string name="static_qr">Static QR</string>
+    <string name="str_BQ_header">How would you like to use Bharat QR today ?</string>
+    <string name="str_bharat_qr">Bharat QR</string>
+    <string name="str_qr_id">QR ID</string>
+    <string name="str_update_check">Check for update</string>
+    <string name="string_ip">221.135.139.43</string>
+    <string name="string_port_request">31000</string>
+    <string name="string_port_transaction">30000</string>
+    <string name="submit">Submit</string>
+    <string name="submit_otp">Submit</string>
+    <string name="summary_report">Summary Report</string>
+    <string name="support">Support</string>
+    <string name="swipe_txn">SWIPE</string>
+    <string name="tap_error_">EMV DENIAL</string>
+    <string name="terminal_id">TID</string>
+    <string name="timeout">Timeout</string>
+    <string name="tip_adjusted">Already Tip Adjusted</string>
+    <string name="tip_adjustment">Tip Adjustment</string>
+    <string name="tip_amount_exceed">Tip amount exceeds limit</string>
+    <string name="title_activity_login">Swipe-it</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="tran_rupee">+\u20B9\t</string>
+    <string name="trans_amount">Transaction Amount</string>
+    <string name="trans_hist">Transaction\nCount</string>
+    <string name="trans_oridate">Original transaction date</string>
+    <string name="trans_sale">SALE</string>
+    <string name="transaction_aborted">Transaction Aborted</string>
+    <string name="transaction_detail_report">Last Transaction</string>
+    <string name="transaction_failed">Transaction Failed</string>
+    <string name="transaction_history">Transaction History</string>
+    <string name="transaction_not_found">Transaction not found</string>
+    <string name="transactions">Transactions</string>
+    <string name="txt_card_issuer">Card Issuer :</string>
+    <string name="txt_mer_cashback">Merchant Cashback :</string>
+    <string name="txt_mer_cashback_amt">Merchant Cashback Amt :</string>
+    <string name="txt_rate_of_interest">Rate of interest( p.a.):</string>
+    <string name="txt_tenure">Tenure :</string>
+    <string name="unable_to_process">Unable to process your request</string>
+    <string name="upi">UPI</string>
+    <string name="user_cancel">Transaction Cancelled</string>
+    <string name="username">Username</string>
+    <string name="username_missing">Username is missing</string>
+    <string name="username_passowrd_incorrect">username or password incorrect</string>
+    <string name="version">Version 1.0.0.1</string>
+    <string name="void_header">Void</string>
+    <string name="want_clear_reversal">Do you want to clear reversal ?</string>
+    <string name="want_settlement">Do you want to request settlement ?</string>
+    <string name="without_password">Without a password, press the Enter key</string>
+    <string name="yes">Yes</string>
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
+        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="DialogTheme" parent="android:Theme.Dialog">
+
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+
+
+        <!-- No backgrounds, titles or window float -->
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+    <style name="MyMaterialTheme" parent="MyMaterialTheme.Base">
+
+    </style>
+    <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="PopupMenu" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:popupBackground">@android:color/white</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">18sp</item>
+
+    </style>
+    <style name="StyledIndicators" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
+    </style>
+    <style name="TextAppearance.TabPageIndicator" parent="Widget">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/vpi__dark_theme</item>
+    </style>
+    <style name="Theme.Default" parent="@android:style/Theme"/>
+    <style name="Theme.FullScreen" parent="@android:style/Theme.NoTitleBar.Fullscreen"/>
+    <style name="Theme.NoTitle" parent="@android:style/Theme.NoTitleBar"/>
+    <style name="Theme.PageIndicatorDefaults" parent="android:Theme">
+        <item name="vpiIconPageIndicatorStyle">@style/Widget.IconPageIndicator</item>
+        <item name="vpiTabPageIndicatorStyle">@style/Widget.TabPageIndicator</item>
+    </style>
+    <style name="Theme.Transparent" parent="android:Theme.Dialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+    <style name="Widget">
+    </style>
+    <style name="Widget.IconPageIndicator" parent="Widget">
+        <item name="android:layout_marginLeft">6dp</item>
+        <item name="android:layout_marginRight">6dp</item>
+    </style>
+    <style name="Widget.TabPageIndicator" parent="Widget">
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/vpi__tab_indicator</item>
+        <item name="android:paddingLeft">22dip</item>
+        <item name="android:paddingRight">22dip</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.TabPageIndicator</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:maxLines">1</item>
+    </style>
+    <style name="alert_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowBackground">@color/float_transparent</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.4</item>
+    </style>
+    <style name="dialog_blue_button" parent="android:Widget.Button">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:background">@color/new_text_bg</item>
+        <item name="android:textSize">@dimen/font_14</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:textColor">@color/prompt_text_color</item>
+    </style>
+    <style name="popup_anim_style" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/dialog_enter</item>
+        <item name="android:windowExitAnimation">@anim/dialog_exit</item>
+    </style>
+    <style name="popup_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@color/colorPrimaryBackground</item>
+    </style>
+    <declare-styleable name="CirclePageIndicator">
+        <!-- Whether or not the indicators should be centered. -->
+        <attr name="centered"/>
+        <!-- Color of the filled circle that represents the current page. -->
+        <attr format="color" name="fillColor"/>
+        <!-- Color of the filled circles that represents pages. -->
+        <attr format="color" name="pageColor"/>
+        <!-- Orientation of the indicator. -->
+        <attr name="android:orientation"/>
+        <!-- Radius of the circles. This is also the spacing between circles. -->
+        <attr format="dimension" name="radius"/>
+        <!-- Whether or not the selected indicator snaps to the circles. -->
+        <attr format="boolean" name="snap"/>
+        <!-- Color of the open circles. -->
+        <attr format="color" name="strokeColor"/>
+        <!-- Width of the stroke used to draw the circles. -->
+        <attr name="strokeWidth"/>
+        <!-- View background -->
+        <attr name="android:background"/>
+    </declare-styleable>
+    <declare-styleable name="LinePageIndicator">
+        <!-- Whether or not the indicators should be centered. -->
+        <attr name="centered"/>
+        <!-- Color of the unselected lines that represent the pages. -->
+        <attr name="unselectedColor"/>
+        <!-- Color of the selected line that represents the current page. -->
+        <attr name="selectedColor"/>
+        <!-- Width of each indicator line. -->
+        <attr format="dimension" name="lineWidth"/>
+        <!-- Width of each indicator line's stroke. -->
+        <attr name="strokeWidth"/>
+        <!-- Width of the gap between each indicator line. -->
+        <attr format="dimension" name="gapWidth"/>
+        <!-- View background -->
+        <attr name="android:background"/>
+    </declare-styleable>
+    <declare-styleable name="MyEditText">
+        <attr format="boolean" name="enableAlpha"/>
+    </declare-styleable>
+    <declare-styleable name="MySoftKey">
+        <attr format="dimension" name="textSize"/>
+    </declare-styleable>
+    <declare-styleable name="ProgressWheel">
+        <attr format="boolean" name="matProg_progressIndeterminate"/>
+        <attr format="color" name="matProg_barColor"/>
+        <attr format="color" name="matProg_rimColor"/>
+        <attr format="dimension" name="matProg_rimWidth"/>
+        <attr format="float" name="matProg_spinSpeed"/>
+        <attr format="integer" name="matProg_barSpinCycleTime"/>
+        <attr format="dimension" name="matProg_circleRadius"/>
+        <attr format="boolean" name="matProg_fillRadius"/>
+        <attr format="dimension" name="matProg_barWidth"/>
+        <attr format="boolean" name="matProg_linearProgress"/>
+    </declare-styleable>
+    <declare-styleable name="RippleView">
+        <attr format="color" name="rippleColor"/>
+        <attr format="float" name="alphaFactor"/>
+        <attr format="boolean" name="hover"/>
+    </declare-styleable>
+    <declare-styleable name="Rotate3dAnimation">
+        <attr format="enum" name="rollType">
+            <enum name="x" value="0"/>
+            <enum name="y" value="1"/>
+            <enum name="z" value="2"/>
+        </attr>
+        <attr format="float" name="fromDeg"/>
+        <attr format="float" name="toDeg"/>
+        <attr format="fraction" name="pivotX"/>
+        <attr format="fraction" name="pivotY"/>
+    </declare-styleable>
+    <declare-styleable name="TitlePageIndicator">
+        <!-- Screen edge padding. -->
+        <attr format="dimension" name="clipPadding"/>
+        <!-- Color of the footer line and indicator. -->
+        <attr format="color" name="footerColor"/>
+        <!-- Height of the footer line. -->
+        <attr format="dimension" name="footerLineHeight"/>
+        <!-- Style of the indicator. Default is triangle. -->
+        <attr name="footerIndicatorStyle">
+            <enum name="none" value="0"/>
+            <enum name="triangle" value="1"/>
+            <enum name="underline" value="2"/>
+        </attr>
+        <!-- Height of the indicator above the footer line. -->
+        <attr format="dimension" name="footerIndicatorHeight"/>
+        <!-- Left and right padding of the underline indicator. -->
+        <attr format="dimension" name="footerIndicatorUnderlinePadding"/>
+        <!-- Padding between the bottom of the title and the footer. -->
+        <attr format="dimension" name="footerPadding"/>
+        <!-- Position of the line. -->
+        <attr name="linePosition">
+            <enum name="bottom" value="0"/>
+            <enum name="top" value="1"/>
+        </attr>
+        <!-- Color of the selected title. -->
+        <attr name="selectedColor"/>
+        <!-- Whether or not the selected item is displayed as bold. -->
+        <attr format="boolean" name="selectedBold"/>
+        <!-- Color of regular titles. -->
+        <attr name="android:textColor"/>
+        <!-- Size of title text. -->
+        <attr name="android:textSize"/>
+        <!-- Padding between titles when bumping into each other. -->
+        <attr format="dimension" name="titlePadding"/>
+        <!-- Padding between titles and the top of the View. -->
+        <attr format="dimension" name="topPadding"/>
+        <!-- View background -->
+        <attr name="android:background"/>
+    </declare-styleable>
+    <declare-styleable name="UnderlinePageIndicator">
+        <!-- Whether or not the selected indicator fades. -->
+        <attr format="boolean" name="fades"/>
+        <!-- Length of the delay to fade the indicator. -->
+        <attr format="integer" name="fadeDelay"/>
+        <!-- Length of the indicator fade to transparent. -->
+        <attr format="integer" name="fadeLength"/>
+        <!-- Color of the selected line that represents the current page. -->
+        <attr name="selectedColor"/>
+        <!-- View background -->
+        <attr name="android:background"/>
+    </declare-styleable>
+    <declare-styleable name="ViewPagerIndicator">
+        <!-- Style of the circle indicator. -->
+        <attr format="reference" name="vpiCirclePageIndicatorStyle"/>
+        <!-- Style of the icon indicator's views. -->
+        <attr format="reference" name="vpiIconPageIndicatorStyle"/>
+        <!-- Style of the line indicator. -->
+        <attr format="reference" name="vpiLinePageIndicatorStyle"/>
+        <!-- Style of the title indicator. -->
+        <attr format="reference" name="vpiTitlePageIndicatorStyle"/>
+        <!-- Style of the tab indicator's tabs. -->
+        <attr format="reference" name="vpiTabPageIndicatorStyle"/>
+        <!-- Style of the underline indicator. -->
+        <attr format="reference" name="vpiUnderlinePageIndicatorStyle"/>
+    </declare-styleable>
+</resources>
