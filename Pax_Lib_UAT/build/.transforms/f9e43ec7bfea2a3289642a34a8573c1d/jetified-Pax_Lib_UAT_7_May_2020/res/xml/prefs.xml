@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <EditTextPreference
+        android:key="PTid"
+        android:summary="Enter Your Terminal id:"
+        android:title="Terminal id" >
+    </EditTextPreference>
+    <EditTextPreference
+        android:key="PMid"
+        android:summary="Enter Your Merchant id:"
+        android:title="Merchant id" >
+    </EditTextPreference>
+    <EditTextPreference
+        android:key="PLocation"
+        android:summary="Enter Your Location:"
+        android:title="Location" >
+    </EditTextPreference>
+    <EditTextPreference
+        android:key="PCity"
+        android:summary="Enter Your City:"
+        android:title="City" >
+    </EditTextPreference>
+    <EditTextPreference
+        android:key="PDsno"
+        android:selectable="false"
+        android:summary="Please Connect Device"
+        android:title="Device Serial No:" >
+    </EditTextPreference>
+
+</PreferenceScreen>

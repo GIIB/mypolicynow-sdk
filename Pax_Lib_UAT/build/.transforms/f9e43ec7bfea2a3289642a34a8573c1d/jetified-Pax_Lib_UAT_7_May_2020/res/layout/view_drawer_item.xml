@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_10">
+
+        <ImageView
+            android:id="@+id/item"
+            android:layout_width="@dimen/padding_30"
+            android:layout_height="@dimen/padding_30"
+            android:layout_marginLeft="@dimen/padding_10"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:id="@+id/txtDrawerItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/padding_15"
+            android:text=""
+            android:textSize="@dimen/normal_text_size"
+            android:textColor="@color/drawer_text"
+            android:layout_toRightOf="@+id/item"/>
+
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_2"
+            android:layout_marginRight="@dimen/padding_15"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:visibility="gone"
+            android:background="@drawable/right_arrow_logo" />
+    </RelativeLayout>
+
+</LinearLayout>

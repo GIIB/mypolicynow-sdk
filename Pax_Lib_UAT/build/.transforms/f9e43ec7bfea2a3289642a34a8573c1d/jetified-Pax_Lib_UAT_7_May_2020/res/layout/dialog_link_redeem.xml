@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_10">
+
+    <RelativeLayout
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_5">
+
+        <TextView
+            android:id="@+id/dialogTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text=""
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/sub_header_text_size"
+            android:typeface="serif" />
+
+        <ImageView
+            android:id="@+id/cancelDialogView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_action_cancel" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/textMessageView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_margin="@dimen/padding_20"
+        android:background="#ffffff"
+        android:endColor="#ffffff"
+        android:startColor="#ffffff">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textMessage"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/header_text"
+                android:textSize="@dimen/normal_text_size"
+                android:textStyle="normal"
+                android:typeface="serif" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/llYesBtn"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:layout_below="@+id/textMessageView"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/padding_5"
+        android:background="@drawable/rounded_button_with_white_background"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/btnOkay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="@dimen/padding_2"
+            android:background="@drawable/rounded_button_with_color_background"
+            android:gravity="center"
+            android:text="Yes"
+            android:textColor="#ffffff"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:typeface="serif" />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/llYesNobtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llYesBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:layout_centerVertical="true"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/btnYes"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/padding_40"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/padding_10"
+            android:background="@drawable/rounded_button_with_dblue_background"
+            android:gravity="center"
+            android:text="Yes"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/normal_text_size" />
+
+        <Button
+            android:id="@+id/btnNo"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/padding_40"
+            android:layout_marginLeft="@dimen/padding_10"
+            android:background="@drawable/rounded_button_with_dblue_background"
+            android:gravity="center"
+            android:text="No"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/normal_text_size"
+
+            android:visibility="visible" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_background_with_transparent_color"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffff"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_5">
+
+        <LinearLayout
+            android:id="@+id/llEMITXN"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.youbank.functions.MyTextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:gravity="left"
+                android:paddingLeft="@dimen/padding_2"
+                android:text="EMI Txn ID:"
+                android:textColor="@color/header_text"
+                android:textSize="@dimen/font_10"
+                android:textStyle="normal" />
+
+            <com.youbank.functions.MyTextView
+                android:id="@+id/txtTransactionId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right|end"
+                android:padding="@dimen/padding_2"
+                android:text=""
+                android:textColor="@color/header_text"
+                android:textSize="@dimen/font_10"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/padding_2"
+                android:weightSum="2">
+
+                <com.youbank.functions.MyTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/txt_tenure"
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/font_10"
+                    android:textStyle="normal" />
+
+                <com.youbank.functions.MyTextView
+                    android:id="@+id/txtTenure"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text=""
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/font_10"
+                    android:textStyle="normal" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/padding_2"
+                android:weightSum="2">
+
+                <com.youbank.functions.MyTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/txt_card_issuer"
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/font_10"
+                    android:textStyle="normal" />
+
+                <com.youbank.functions.MyTextView
+                    android:id="@+id/txtCardIssuer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text=""
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/font_10"
+                    android:textStyle="normal" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/padding_2"
+                android:weightSum="2">
+
+                <com.youbank.functions.MyTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/txt_mer_cashback"
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/font_10"
+                    android:textStyle="normal" />
+
+                <com.youbank.functions.MyTextView
+                    android:id="@+id/txtMerchantCashback"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text=""
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/font_10"
+                    android:textStyle="normal" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/padding_2"
+                android:weightSum="2">
+
+                <com.youbank.functions.MyTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/txt_mer_cashback_amt"
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/font_10"
+                    android:textStyle="normal" />
+
+                <com.youbank.functions.MyTextView
+                    android:id="@+id/merCashBackAmt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text=""
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/font_10"
+                    android:textStyle="normal" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/padding_2"
+                android:weightSum="2">
+
+                <com.youbank.functions.MyTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/txt_rate_of_interest"
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/font_10"
+                    android:textStyle="normal" />
+
+                <com.youbank.functions.MyTextView
+                    android:id="@+id/txtRateOfInterest"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text=""
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/font_10"
+                    android:textStyle="normal" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_5">
+
+                <com.youbank.functions.MyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/consent_emi"
+                    android:textAllCaps="true"
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/font_14"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/padding_1"
+                    android:background="@android:color/black">
+
+                </View>
+
+                <com.youbank.functions.MyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_2"
+                    android:padding="@dimen/padding_2"
+                    android:text="@string/citi_bank_first_point"
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/font_8" />
+
+                <com.youbank.functions.MyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_2"
+                    android:text="@string/citi_bank_second_point"
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/font_8" />
+
+                <com.youbank.functions.MyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_2"
+                    android:text="@string/citi_bank_third_point"
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/font_8" />
+
+                <com.youbank.functions.MyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_2"
+                    android:text="@string/citi_bank_fourth_point"
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/font_8" />
+
+                <com.youbank.functions.MyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_2"
+                    android:text="@string/citi_bank_fifth_point"
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/font_8" />
+
+                <com.youbank.functions.MyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_2"
+                    android:text="@string/ciit_bank_sixth_point"
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/font_8" />
+
+                <com.youbank.functions.MyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_2"
+                    android:text="@string/citi_bank_seventh_point"
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/font_8" />
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+
+</LinearLayout>

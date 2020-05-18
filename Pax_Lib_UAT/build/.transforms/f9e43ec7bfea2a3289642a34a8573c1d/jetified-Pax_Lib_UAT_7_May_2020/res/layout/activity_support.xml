@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transaction_page_bg"
+    android:orientation="vertical"
+    android:weightSum="12">
+
+    <include
+        android:id="@+id/headerView"
+        layout="@layout/header_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <com.youbank.functions.MyTextView
+        android:id="@+id/headerText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/img_text_gap"
+        android:layout_weight=".1"
+        android:gravity="center"
+        android:text="Support"
+        android:textColor="@color/header_text"
+        android:textSize="@dimen/header_text_size" />
+
+
+    <ImageView
+        android:id="@+id/ivSupport"
+        android:layout_width="@dimen/padding_85"
+        android:layout_height="@dimen/padding_85"
+        android:layout_below="@+id/headerText"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/padding_50"
+        android:layout_weight="1"
+        android:src="@drawable/support_icon" />
+
+    <!--<TextView-->
+    <!--android:id="@+id/txtHelpDesk"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@+id/ivSupport"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_marginTop="@dimen/padding_30"-->
+    <!--android:layout_weight="3"-->
+    <!--android:gravity="center"-->
+    <!--android:text="Help Desk"-->
+    <!--android:textColor="@color/header_text"-->
+    <!--android:textSize="@dimen/header_text_size" />-->
+    <TextView
+        android:id="@+id/txtHelpDesk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivSupport"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/padding_30"
+        android:layout_weight="3"
+        android:gravity="center"
+        android:text="Customer Care"
+        android:textColor="@color/header_text"
+        android:textSize="@dimen/header_text_size" />
+
+    <TextView
+        android:id="@+id/txtHelpLineNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtHelpDesk"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/padding_50"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Helpline No."
+        android:textColor="@color/header_text"
+        android:textSize="@dimen/font_14"
+        android:textStyle="bold" />
+
+    <!--<TextView-->
+    <!--android:id="@+id/txtTiming"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@+id/txtHelpLineNo"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center"-->
+    <!--android:text="(7 a.m. to 11 p.m.)"-->
+    <!--android:textColor="@color/header_text"-->
+    <!--android:textSize="@dimen/font_14"-->
+    <!--android:textStyle="normal" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/txtMobile"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@+id/txtTiming"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_marginTop="@dimen/padding_50"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center"-->
+    <!--android:text="+91 8976003000"-->
+    <!--android:textColor="@color/header_text"-->
+    <!--android:textSize="@dimen/normal_text_size"-->
+    <!--android:textStyle="normal" />-->
+
+    <TextView
+        android:id="@+id/txtMobile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtTiming"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/padding_50"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="1800 266 9793"
+        android:textColor="@color/header_text"
+        android:textSize="@dimen/normal_text_size"
+        android:textStyle="normal" />
+
+    <!--<TextView-->
+    <!--android:id="@+id/txtMailId"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@+id/txtMobile"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center"-->
+    <!--android:text="itsl.helpdesk@agsindia.com"-->
+    <!--android:textColor="@color/header_text"-->
+    <!--android:textSize="@dimen/normal_text_size"-->
+    <!--android:textStyle="normal" />-->
+
+    <TextView
+        android:id="@+id/txtMailId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtMobile"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="info@indiatransact.com"
+        android:textColor="@color/header_text"
+        android:textSize="@dimen/normal_text_size"
+        android:textStyle="normal" />
+
+
+</LinearLayout>

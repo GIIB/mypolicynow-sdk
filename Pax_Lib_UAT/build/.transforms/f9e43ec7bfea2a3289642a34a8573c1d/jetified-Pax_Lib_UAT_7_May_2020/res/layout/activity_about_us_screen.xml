@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <RelativeLayout
+        android:id="@+id/tab"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_weight="0.91"
+        android:background="#003778">
+
+
+
+        <include
+            layout="@layout/ongowallet_small_title_view"
+            android:layout_width="70dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/homeButton"></include>
+
+        <TextView
+            android:id="@+id/aboutus_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:text="About Us"
+            android:textColor="#ffffff"
+            android:textSize="17dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/main"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <include
+            android:id="@+id/view"
+            layout="@layout/ongowallet_title_screen_color"
+            android:layout_width="200dp"
+            android:layout_height="110dp"
+            android:layout_marginLeft="10dp"></include>
+
+        <TextView
+            android:id="@+id/version_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/version"
+            android:textColor="#003778"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/txtreachtous"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/main"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="You can reach out to us on :"
+        android:textColor="#003778"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/txtmob"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtreachtous">
+
+        <TextView
+            android:id="@+id/care_no"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/ic_action_mobile"
+            android:layout_centerInParent="true"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:padding="2dp"
+            android:text="@string/customer_care"
+            android:textColor="#003778"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:background="@drawable/rounded_button_with_white_background" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtmob">
+
+        <TextView
+            android:id="@+id/care_mail"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:drawableLeft="@drawable/ic_action_mail"
+            android:layout_centerInParent="true"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:text="@string/care_mail"
+            android:textColor="#003778"
+            android:textSize="18dp"
+            android:padding="2dp"
+            android:textStyle="bold"
+            android:background="@drawable/rounded_button_with_white_background"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/poweredBy"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/powered_by"
+            android:textColor="#003778"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/indiaTransact"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/india_transact"
+            android:textColor="#003778"
+            android:textSize="17dp" />
+    </LinearLayout>
+</RelativeLayout>

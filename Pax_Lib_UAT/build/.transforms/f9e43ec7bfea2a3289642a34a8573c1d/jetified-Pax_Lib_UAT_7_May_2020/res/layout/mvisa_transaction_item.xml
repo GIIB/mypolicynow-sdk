@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="#fff"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_7"
+        android:layout_marginRight="@dimen/padding_7"
+        android:layout_marginTop="@dimen/padding_7"
+        android:background="@drawable/terminallistborder"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_10"
+        android:weightSum="3">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.2"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bazar"
+                android:textColor="@color/header_text"
+                android:textSize="@dimen/font_16"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/subHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Funds raised at "
+                android:textColor="@color/secondaryColorBlack"
+                android:textSize="@dimen/font_14"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/tvTranMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/secondaryColorBlack"
+                android:textSize="@dimen/font_14"
+                android:textStyle="normal" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight=".8"
+            android:gravity="right">
+
+            <TextView
+                android:id="@+id/txtAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right|end"
+                android:text="@string/tran_rupee"
+                android:textColor="@color/new_text_bg"
+                android:textSize="@dimen/font_16"
+                android:textStyle="normal" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

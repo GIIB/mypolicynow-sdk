@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transaction_page_bg"
+    android:orientation="vertical"
+    android:weightSum="4">
+
+    <RelativeLayout
+        android:id="@+id/imagell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:gravity="top"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <include
+            android:id="@+id/headerView"
+            layout="@layout/header_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/txtSaleTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/headerView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/padding_20"
+            android:text="Reward / Edit Delete"
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/header_text_size"
+            android:textStyle="normal" />
+
+        <LinearLayout
+            android:id="@+id/logosView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtSaleTitle"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/img_text_gap"
+            android:orientation="horizontal"
+            >
+
+            <RelativeLayout
+                android:id="@+id/imgCirclePrepaid"
+                android:layout_width="@dimen/padding_100"
+                android:layout_height="@dimen/padding_100"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/circle_bg">
+
+                <ImageView
+                    android:layout_width="@dimen/padding_50"
+                    android:layout_height="@dimen/padding_50"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/issucard_prepaid_icon" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_action_more_black" />
+
+            <RelativeLayout
+                android:id="@+id/imgCircleSale"
+                android:layout_width="@dimen/padding_85"
+                android:layout_height="@dimen/padding_85"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/circle_bg">
+
+                <ImageView
+                    android:layout_width="@dimen/padding_50"
+                    android:layout_height="@dimen/padding_50"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/issue_card_issuecard_icon" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/logosView"
+            android:layout_above="@+id/footer"
+            android:layout_marginTop="@dimen/padding_10"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:orientation="vertical">
+
+
+
+                <TextView
+                    android:id="@+id/txtText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:text="List of Programs"
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/sub_header_text_size"
+                    android:textStyle="normal"
+                    android:layout_marginTop="@dimen/padding_20"/>
+
+
+                <ListView
+                    android:id="@+id/lvEditDelete"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/padding_10"
+                    android:divider="@null"
+                    android:layout_below="@+id/txtText"
+                    android:dividerHeight="5.0sp"
+                    android:typeface="serif">
+
+                </ListView>
+        </RelativeLayout>
+        <include
+            layout="@layout/footer_view_bank_logo"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/footer_height"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/footer"
+            android:visibility="gone"></include>
+    </RelativeLayout>
+
+
+</RelativeLayout>

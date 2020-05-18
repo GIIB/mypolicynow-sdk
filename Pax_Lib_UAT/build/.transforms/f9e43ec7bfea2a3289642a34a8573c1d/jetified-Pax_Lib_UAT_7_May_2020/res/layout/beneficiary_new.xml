@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_2"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
+
+
+    <RelativeLayout
+        android:id="@+id/mobileView"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_button_with_white_background"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_action_mobile"
+            android:layout_centerVertical="true"/>
+
+        <AutoCompleteTextView
+            android:id="@+id/ActvSenMobile"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:maxLength="10"
+            android:layout_gravity="center"
+            android:textColorHint="#567295"
+            android:singleLine="true"
+            android:background="@null"
+            android:inputType="number"
+            android:hint="Sender Mobile Number">
+            <requestFocus />
+        </AutoCompleteTextView>
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/btnlayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+
+        android:layout_marginTop="20dp">
+        <!--android:layout_alignParentoBottom="true"
+        android:layout_marginBottm="20dp"-->
+
+
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_centerHorizontal="true">
+
+            <TextView
+                android:id="@+id/btnSubmitnew"
+                android:layout_width="180dp"
+                android:layout_height="fill_parent"
+                android:layout_centerInParent="true"
+                android:background="@drawable/rounded_button_with_color_background"
+                android:gravity="center"
+                android:text="Proceed"
+                android:textColor="#ffffff"
+                android:textSize="15dp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

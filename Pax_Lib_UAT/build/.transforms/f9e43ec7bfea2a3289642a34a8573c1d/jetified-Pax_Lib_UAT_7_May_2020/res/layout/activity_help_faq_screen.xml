@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/tab"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_weight="0.91"
+        android:background="#003778">
+
+        <ImageView
+            android:layout_width="55dp"
+            android:layout_height="23dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ongomerchant_logo" />
+
+        <!--<include
+            layout="@layout/ongowallet_small_title_view"
+            android:layout_width="70dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/homeButton"></include>-->
+
+        <TextView
+            android:id="@+id/addmoney_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:text="Help and Faq"
+            android:textColor="#ffffff"
+            android:textSize="17dp" />
+
+    </RelativeLayout>
+
+    <ExpandableListView
+        android:id="@+id/faqAndHelp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/tab"></ExpandableListView>
+
+    <!--<ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/tab">
+
+        <TextView
+            android:id="@+id/txtData"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="1. Why use Ongo?\n    Ongo is a safe and secured digital payment solution\n    that enables the Auto Rickshaw Driver to receive the\n    auto fare via SMS on the mobile phone. The payment\n    solution is approved by Reserve Bank of India.
+\n\n2. Is Ongo affiliated and approved by Auto Union?\n    Yes. The Mumbai Auto Union has approved Ongo,\n    the secured digital payment solution.
+\n\n3. What are the advantages for an Auto rickshaw Driver?\n    a. The Auto rickshaw driver will receive exact amount\n        of fare from the customer. The driver need not worry\n        about giving loose change.\n    b. The payment can be easily made from customers\n         Ongo wallet to the driver’s mobile number.\n    c. Eliminates risk of carrying cash.\n    d. A registered auto rickshaw driver will get a prepaid\n        card which he and his family can use\n    e. Auto rickshaw driver can send money to his family\n         or friends and pay for CNG filling at petrol \n         stations.
+\n\n4. How do an Auto rickshaw driver register for ongo\n    wallet services?\n     a. Registration is simple and fast\n      i.    Auto driver needs to visit the designated\n        location for registration\n     ii.   Fill up the registration form and apply\n        for the service\n     iii.  Submit the required basic documents; like\n         aadhaar card (photo copy), licence photo\n         copy etc.\n     iv.   Sign-up the agreement\n     v.    Collect the enrolment kit\n     vi.   Account will be activated instantly\n     vii.  Start receiving auto fare payment on your \n         mobile number
+\n\n5. Is there a registration fee?\n    a. No. this service is absolutely free of cost to all auto\n        rickshaw drivers.
+\n\n6. What if the Auto rickshaw driver changes his mobile\n    number? In such case the auto driver will have to\n    initiate a new registration process.
+\n\n7. How does the Auto rickshaw driver receive the auto fare\n    from ongo customer?\n    a. Please ask the customer to pay by Ongo\n    b. A registered customer will ask the auto rickshaw\n        driver for the following;\n      i.    Mobile number\n      ii.   Exact auto fare amount\n      iii.  Enter and initiate the payment on the mobile app\n      iv.  A screen displaying the payment details\n            shall be displayed on the customer app\n            for final confirmation\n           1. The screen will display exact amount, auto drivers\n                mobile number.\n           2. Customer will confirm the payment details.\n      v.   Post customer’s confirmation, the transaction\n            shall be processed.\n    c. The auto rickshaw driver will receive an instant SMS on\n        registered mobile number\n    d. Customers OnGo wallet account will be debited \n        instantly and auto driver account will be credited \n        instantly.\n    e. The SMS will contain the auto fares exact value and \n        auto rickshaw driver recieves the updated balance \n        amount.
+\n\n8. How much time does it take to receive the SMS for the\n    payment transaction made by customer?\n    a. The SMS is received instantly once the transaction\n        is initiated by the customer, the auto rickshaw\n        driver will receive the payment SMS within 10 seconds.
+\n\n9. What if the Auto rickshaw driver does not receive the \n    SMS?\n    a. The auto rickshaw driver’s money is safe and will\n        be remitted. The driver will either receive the\n        SMS later due to delay in delivery, or the payment\n        will reflect in the next SMS which the auto driver\n        receives. The amount will be added to auto driver’s\n        current balance.\n    b. The auto rickshaw driver will either receive the\n        SMS later due to delay in delivery, or the payment\n        will reflect in the next SMS that the auto driver\n        receives. The amount will be added to auto driver’s\n        updated balance.\n    c. For instant resolution if the SMS is not received,\n        the auto driver can request the customer to do the\n        following :\n        i.  If the transaction is processed and approved,\n            the app shall display the transaction message\n            which the customers can display to the Auto\n            rickshaw driver.\n        ii. This would be a validation of payment and\n            the auto driver can verify his account\n            balance update in the next SMS.\n        iii. In case, the transaction is failed / invalid,\n             the customer app will display the message\n             and payment will be paid in cash to the driver.
+\n\n10. What if the customer pays excessive amount towards\n       auto fare?\n       a. In such a case, the customer would have to request\n           the auto driver to refund the balance amount by cash.
+\n\n11. What if the customer has less balance in their\n       Ongo account?\n       a. The customer can make part payment by Ongo wallet\n           and balance by cash to the Auto rickshaw driver
+\n\n12. What is the maximum amount a customer can pay for\n      Auto Rickshaw fare?\n      a. Customers can pay a maximum of Rs. 299/- per\n      transaction
+\n\n13. Where can the Auto rickshaw driver withdraw his \n      money from?\n     a. There are designated cash vans called ongo\n         cash vans. These vans shall allow  withdrawals\n         by auto rickshaw driver’s prepaid card.
+\n\n14. How does the Auto rickshaw driver get prepaid card?\n     a. The auto driver needs to register and adhere to the\n         eKYC norms. Post eKYC approvals the prepaid card\n         along with the PIN shall be provided as part of\n         the Welcome Kit, instantly!
+\n\n15. Is there any charge to the Auto rickshaw driver for\n      withdrawing cash from the cash van?\n      a. No. this is a free service.
+\n\n16. Where does an Auto rickshaw driver contact in\n      case of query?\n      a. Please call the toll free number 1800xxxxxx\n          for query resolution
+\n\n17. What more can an Auto rickshaw driver do with Ongo?\n      The Auto rickshaw driver can :\n      a. Send money to his family and friends\n      b. Mobile Recharge\n      c. Pay for CNG at a designated petrol station" />
+    </ScrollView>-->
+
+</RelativeLayout>

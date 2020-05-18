@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="15dp">
+
+
+    <TextView
+        android:id="@+id/title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_18"
+        android:textColor="@color/accent"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:text="NFC Settings" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/padding_1"
+        android:background="@color/gray"
+        android:layout_below="@+id/title_tv"/>
+
+
+    <TextView
+        android:id="@+id/tv_enable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_18"
+        android:textColor="@color/accent"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="@dimen/padding_80"
+        android:layout_marginLeft="@dimen/padding_10"
+        android:text="Enable" />
+
+    <Switch
+        android:id="@+id/cb_show_pass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_80"
+        android:layout_marginBottom="@dimen/padding_40"
+        android:layout_marginRight="@dimen/padding_10"
+        android:layout_alignParentRight="true"
+        android:text="" />
+
+</RelativeLayout>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/rlMain"
+    android:background="@drawable/bg_2" >
+
+    <!--<include
+        android:id="@+id/tab"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        layout="@layout/action_bar_item" >
+    </include>-->
+
+    <ImageView
+        android:id="@+id/merchantlogo"
+        android:layout_width="190dp"
+        android:layout_height="80dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ongomerchant_logo" />
+
+    <RelativeLayout
+        android:id="@+id/transactionImage"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="30dp"
+        android:layout_height="720dp"
+        android:layout_below="@+id/merchantlogo"
+        android:background="@drawable/mpos_gola_two" />
+
+
+
+
+
+    <FrameLayout
+        android:layout_width="300dp"
+        android:layout_height="350dp"
+        android:layout_centerInParent="true"
+         >
+
+        <!--<RelativeLayout
+            android:id="@+id/LlsignpanelTAB"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button_with_blue_background" >
+
+            <ImageView
+                android:id="@+id/ivArrow"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/sale_page_back_button" />
+
+             <com.youbank.functions.MyTextView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="5dp"
+                android:text=""
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:visibility="visible" />
+        </RelativeLayout>-->
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerInParent="true" >
+
+            <com.youbank.functions.AnimatedGifImageView
+                android:id="@+id/animatedGifImageView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true" />
+
+             <com.youbank.functions.MyTextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/animatedGifImageView"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="140dp"
+
+                android:text="Processing"
+                android:textColor="@color/light_blue"
+                android:textSize="20dp" />
+        </RelativeLayout>
+    </FrameLayout>
+
+</RelativeLayout>
