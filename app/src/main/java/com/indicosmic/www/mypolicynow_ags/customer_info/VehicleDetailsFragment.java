@@ -33,7 +33,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.indicosmic.www.mypolicynow_ags.R;
-import com.indicosmic.www.mypolicynow_ags.ReviewDetailsActivity;
+import com.indicosmic.www.mypolicynow_ags.activities.ReviewDetailsActivity_5;
 import com.indicosmic.www.mypolicynow_ags.utils.CommonMethods;
 import com.indicosmic.www.mypolicynow_ags.utils.ConnectionDetector;
 import com.indicosmic.www.mypolicynow_ags.utils.MyValidator;
@@ -777,7 +777,7 @@ public class VehicleDetailsFragment extends Fragment implements BlockingStep, Ad
                 Log.d("VehicleDetails",""+vehicle_detailObj.toString());
                 Log.d("PreviousPolicyDetails",""+previous_policyObj.toString());
 
-                Intent intent = new Intent(context, ReviewDetailsActivity.class);
+                Intent intent = new Intent(context, ReviewDetailsActivity_5.class);
                 startActivity(intent);
                 Objects.requireNonNull(getActivity()).overridePendingTransition(R.animator.move_left,R.animator.move_right);
             }

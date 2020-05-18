@@ -45,7 +45,7 @@ public class JSONClass {
     }
 
 // on submit click
-        public static void createJSONArray(){
+        /*public static void createJSONArray(){
 
             jrray.put(SingletonClass.getinstance().jso);
             jrray.put(SingletonClass.getinstance().jsoImage);
@@ -62,17 +62,17 @@ public class JSONClass {
             jrray.put(jsonObject);
             Log.d("aa",jsonObject.toString());
 
-        }
+        }*/
 
-    public void createJSONObjectPosition(int question_id,int position){
+    public void createJSONObjectPosition(int question_id,int position,Context context){
 
         try {
             jsonObject = new JSONObject();
             jsonObject.put("question_id", question_id);
             jsonObject.put("answer_id",position+1);
-            jsonObject.put("pos_id",SingletonClass.getinstance().agent_id);
-            jsonObject.put("proposal_list_id",SingletonClass.getinstance().proposal_list_id);
-            jsonObject.put("ic_id",SingletonClass.getinstance().ic_id);
+            jsonObject.put("pos_id",UtilitySharedPreferences.getPrefs(context,"PosId"));
+            jsonObject.put("proposal_list_id",UtilitySharedPreferences.getPrefs(context,"proposal_list_id"));
+            jsonObject.put("ic_id",UtilitySharedPreferences.getPrefs(context,"IC_Id"));
             jrray.put(jsonObject);
             Log.d( "mera ",jsonObject.toString());
             Log.d("mera_array", String.valueOf(jrray));
@@ -83,15 +83,15 @@ public class JSONClass {
 
     }
 
-    public void createJSONObjectImage(int question_id,String imagePath){
+    public void createJSONObjectImage(int question_id,String imagePath,Context context){
 
         try {
             jsonObject = new JSONObject();
             jsonObject.put("question_id", question_id);
             jsonObject.put("image", imagePath);
-            jsonObject.put("pos_id",SingletonClass.getinstance().agent_id);
-            jsonObject.put("proposal_list_id",SingletonClass.getinstance().proposal_list_id);
-            jsonObject.put("ic_id",SingletonClass.getinstance().ic_id);
+            jsonObject.put("pos_id",UtilitySharedPreferences.getPrefs(context,"PosId"));
+            jsonObject.put("proposal_list_id",UtilitySharedPreferences.getPrefs(context,"proposal_list_id"));
+            jsonObject.put("ic_id",UtilitySharedPreferences.getPrefs(context,"IC_Id"));
             jrray.put(jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();

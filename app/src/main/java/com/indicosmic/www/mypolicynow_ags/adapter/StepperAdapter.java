@@ -56,7 +56,7 @@ public class StepperAdapter extends AbstractFragmentStepAdapter {
                 return step3;
 
           /*  case 4:
-                final ReviewDetailsActivity step4 = new ReviewDetailsActivity();
+                final ReviewDetailsActivity_5 step4 = new ReviewDetailsActivity_5();
                 Bundle b4 = new Bundle();
                 b4.putInt(CURRENT_STEP_POSITION_KEY, position);
                 step4.setArguments(b4);

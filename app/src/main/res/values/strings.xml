@@ -24,11 +24,11 @@
     <string name="company_contact_no">+91 22 26820489</string>
     <string name="footer_text">Developed By <a href="https://www.indicosmic.com" rel="nofollow">Indicosmic Capitals Pvt. Ltd.</a></string>
     <string name="title_settings_dialog">Permissions Required</string>
-    <string name="about_us">About Us</string>
+    <string name="about_us">ABOUT US</string>
     <string name="principal_officer">Dr. Chandrra Kant Khatri</string>
 
     <string name="disclaimer_policy">Disclaimer / Policy</string>
-    <string name="contact_us">Contact Us</string>
+    <string name="contact_us">CONTACT US</string>
     <string name="update_profile">Update Profile</string>
     <string name="action">Action: </string>
     <string name="english">English</string>
@@ -173,5 +173,7 @@
     </string-array>
 
     <string name="break_in_text">NOTE: Current policy has resulted in BREAK IN CASE. Inspection of your vehicle will be required before you can buy the policy.</string>
+    <string name="saved_proposal">SAVED PROPOSALS</string>
+    <string name="sold_policies">SOLD POLICIES</string>
 
 </resources>

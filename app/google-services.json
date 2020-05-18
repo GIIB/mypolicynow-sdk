@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "908238980668",
+    "firebase_url": "https://my-policy-now-ags.firebaseio.com",
+    "project_id": "my-policy-now-ags",
+    "storage_bucket": "my-policy-now-ags.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:908238980668:android:0ac574cfba423594562539",
+        "android_client_info": {
+          "package_name": "com.indicosmic.www.mypolicynow_ags"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "908238980668-tl198auf0hr6ggk5c89a7t8o7q4ugat9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDIHWGlrhbntr5nWk1aKI7lS6fFPLgW_s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "908238980668-tl198auf0hr6ggk5c89a7t8o7q4ugat9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

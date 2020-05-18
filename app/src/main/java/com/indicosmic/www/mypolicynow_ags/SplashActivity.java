@@ -14,10 +14,9 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.indicosmic.www.mypolicynow_ags.QuotationActivity;
+import com.indicosmic.www.mypolicynow_ags.activities.LoginActivity;
 import com.indicosmic.www.mypolicynow_ags.utils.RuntimePermissions;
 import com.indicosmic.www.mypolicynow_ags.utils.SharedPrefManager;
-import com.indicosmic.www.mypolicynow_ags.utils.SingletonClass;
 import com.indicosmic.www.mypolicynow_ags.utils.UtilitySharedPreferences;
 
 import java.util.ArrayList;
@@ -61,9 +60,6 @@ public class SplashActivity extends RuntimePermissions {
         startTimeMillis = System.currentTimeMillis();
         iv_logo = (ImageView)findViewById(R.id.iv_logo);
 
-
-
-        SingletonClass.initinstance();
         questionlist = new ArrayList<String>();
         sharedPrefManager = new SharedPrefManager(this);
 
@@ -170,7 +166,7 @@ public class SplashActivity extends RuntimePermissions {
 
                /* if (StrPosToken!=null && !StrPosToken.equalsIgnoreCase("")){
 
-                    Intent i = new Intent(getApplicationContext(), QuotationActivity.class);
+                    Intent i = new Intent(getApplicationContext(), QuotationActivity_2.class);
                     i.putExtra("pos_token", StrPosToken);
                     startActivity(i);
                     finish();

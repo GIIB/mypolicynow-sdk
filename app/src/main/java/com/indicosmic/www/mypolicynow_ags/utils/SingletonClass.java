@@ -1,3 +1,4 @@
+/*
 package com.indicosmic.www.mypolicynow_ags.utils;
 
 import com.indicosmic.www.mypolicynow_ags.model.Helper;
@@ -7,9 +8,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
+*/
 /**
  * Created by t3d on 12/08/16.
- */
+ *//*
+
 public class SingletonClass {
     private static SingletonClass instance;
     public ArrayList<Helper.Image> images;
@@ -53,3 +56,4 @@ public class SingletonClass {
         return instance;
     }
 }
+*/

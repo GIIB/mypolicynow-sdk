@@ -7,13 +7,23 @@
     android:background="@drawable/form_bg_quotation">
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:id="@+id/toolbar">
+
+        <include layout="@layout/toolback_with_back" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/RelInsuranceFor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:layout_gravity="center"
         android:gravity="center"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/toolbar"
         android:orientation="horizontal"
         android:weightSum="15">
         <LinearLayout
@@ -1034,6 +1044,7 @@
                             android:layout_margin="5dp"
                             android:padding="5dp"
                             android:minHeight="30sp"
+                            android:textSize="12sp"
                             android:visibility="gone"
                             android:buttonTint="@color/black"
                             style="@android:style/Widget.CompoundButton.CheckBox"
@@ -1048,6 +1059,8 @@
                             android:layout_margin="5dp"
                             android:padding="5dp"
                             android:minHeight="30sp"
+                            android:textSize="12sp"
+
                             android:visibility="gone"
                             android:buttonTint="@color/black"
                             style="@android:style/Widget.CompoundButton.CheckBox"
@@ -1065,6 +1078,8 @@
                             android:layout_margin="5dp"
                             android:padding="5dp"
                             android:minHeight="30sp"
+                            android:textSize="12sp"
+
                             android:visibility="gone"
                             android:buttonTint="@color/black"
                             style="@android:style/Widget.CompoundButton.CheckBox"
@@ -1082,6 +1097,8 @@
                             android:buttonTint="@color/black"
                             style="@android:style/Widget.CompoundButton.CheckBox"
                             android:minHeight="30sp"
+                            android:textSize="12sp"
+
                             android:visibility="gone"
                             android:layout_weight="5"/>
 
@@ -1095,7 +1112,11 @@
                             android:layout_margin="5dp"
                             android:padding="5dp"
                             android:minHeight="30sp"
+                            android:textSize="12sp"
+
                             android:buttonTint="@color/black"
+                            android:visibility="gone"
+
                             style="@android:style/Widget.CompoundButton.CheckBox"
                             android:layout_weight="5"/>
 
@@ -1108,9 +1129,13 @@
                             android:background="@drawable/form_bg_edittext_bg"
                             android:layout_margin="5dp"
                             android:padding="5dp"
+                            android:visibility="gone"
+
                             android:buttonTint="@color/black"
                             style="@android:style/Widget.CompoundButton.CheckBox"
                             android:minHeight="30sp"
+                            android:textSize="12sp"
+
                             android:layout_weight="5"/>
 
 

@@ -3,11 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.indicosmic.www.mypolicynow_ags"
     android:installLocation="auto">
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -35,11 +34,11 @@
         android:screenOrientation="portrait"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning"
+        tools:ignore="GoogleAppIndexingWarning,UnusedAttribute"
         tools:overrideLibrary="com.steelkiwi.library"
         >
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity_1"
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
@@ -53,43 +52,34 @@
         </activity>
 
         <activity
-            android:name=".AboutUsActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"
-
-            android:windowSoftInputMode="stateAlwaysHidden"/>
-        <activity
-            android:name=".ContactUsActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
-
-        <activity
-            android:name=".LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
-
-
-        <activity
-            android:name=".QuotationActivity"
+            android:name=".activities.QuotationActivity_2"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".IcListingQuoteScreen"
+            android:name=".activities.IcListingQuoteScreen_3"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".CustomerPage"
+            android:name=".activities.CustomerPage_4"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden"
             />
 
         <activity
-            android:name=".ProposalPdfActivity"
+            android:name=".activities.ReviewDetailsActivity_5"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden"
+            />
+
+
+        <!--Breakin Screens-->
+
+        <activity
+            android:name=".breakin_app_files.InspectionCheckpoint"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden"
@@ -97,11 +87,63 @@
 
 
         <activity
-            android:name=".ReviewDetailsActivity"
+            android:name=".breakin_app_files.ActivityInspectionImages"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden"
             />
+
+
+        <activity
+            android:name=".activities.ProposalPdfActivity_6"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden"
+            />
+
+        <activity
+            android:name=".activities.SoldPoliciesActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden"
+            />
+
+
+        <activity
+            android:name=".activities.PdfViewer"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden"
+            />
+
+
+        <activity
+            android:name=".activities.SavedProposalActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden"
+            />
+
+
+        <activity
+            android:name=".activities.AboutUsActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:name=".activities.ContactUsActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+
+        <activity
+            android:name=".activities.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+
+
 
         <!--PAX PAYMENT GATEWAY-->
 

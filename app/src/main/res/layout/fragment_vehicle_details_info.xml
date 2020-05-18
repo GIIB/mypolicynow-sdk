@@ -211,7 +211,7 @@
             android:inputType="textCapCharacters"
             android:padding="5dp"
             android:layout_weight="5"
-            android:maxLength="22"
+            android:maxLength="17"
 
             android:textColor="@color/black"
             android:textColorHint="@color/grey"
