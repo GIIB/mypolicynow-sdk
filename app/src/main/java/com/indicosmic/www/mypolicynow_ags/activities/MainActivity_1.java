@@ -38,6 +38,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.indicosmic.www.mypolicynow_ags.utils.CommonMethods.md5;
 import static com.indicosmic.www.mypolicynow_ags.webservices.RestClient.ROOT_URL2;
@@ -48,7 +49,7 @@ import static com.indicosmic.www.mypolicynow_ags.webservices.RestClient.x_api_ke
 public class MainActivity_1 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    String StrMobile,StrUserName,StrUserId,StrEmail,StrUniqueId,POS_TOKEN="";
+    String terminal_id="",merchant_id="",StrUserId,StrEmail,StrUniqueId,POS_TOKEN="";
     TextView TV_WelcomeTxt,TV_TodayDate;
     ProgressDialog myDialog;
     private static final String TAG = "MainActivity_1";
@@ -59,19 +60,38 @@ public class MainActivity_1 extends AppCompatActivity implements NavigationView.
         setContentView(R.layout.activity_main);
         Bundle bundle = getIntent().getExtras();
 
-        if (bundle != null && bundle.getString("pos_token") != null) {
-            POS_TOKEN = bundle.getString("pos_token");
-            getPreveledgesFromToken();
-        } else {
-            POS_TOKEN = "";
+        if (bundle != null){
+            if(bundle.getString("terminal_id") != null) {
+                terminal_id = bundle.getString("terminal_id");
+            }else {
+                terminal_id = "";
+            }
+
+            if(bundle.getString("merchant_id") != null) {
+                merchant_id = bundle.getString("merchant_id");
+            }else {
+                merchant_id = "";
+            }
+            if (terminal_id != null && merchant_id != null && !(terminal_id.equalsIgnoreCase("") && !merchant_id.equalsIgnoreCase(""))) {
+                //CommonMethods.DisplayToast(this,"Invalid Access. Please try again.");
+                getPasswordForMPN();
+            }else {
+                CommonMethods.DisplayToastInfo(this,"Invalid Access. Please contact system administrator");
+                UtilitySharedPreferences.clearPref(this);
+
+            }
+        }else {
+            terminal_id = "";
+            merchant_id = "";
+            CommonMethods.DisplayToastInfo(this,"Invalid Access. Please contact system administrator");
+            UtilitySharedPreferences.clearPref(this);
+
         }
+
         init();
         navigationView();
 
-        if(POS_TOKEN!=null && POS_TOKEN.equalsIgnoreCase("")){
-            //CommonMethods.DisplayToast(this,"Invalid Access. Please try again.");
-            getPasswordForMPN();
-        }
+
 
 
     }
@@ -144,8 +164,13 @@ public class MainActivity_1 extends AppCompatActivity implements NavigationView.
 
         TextView nav_header_userName = (TextView)hView.findViewById(R.id.nav_header_userName);
         TextView nav_user_email = (TextView)hView.findViewById(R.id.nav_Email);
-        nav_header_userName.setText("Merchant Id: "+StrMerchantId);
-        nav_user_email.setText("Terminal Id: "+StrTerminalId);
+        if(StrMerchantId!=null && !StrMerchantId.equalsIgnoreCase("")) {
+            nav_header_userName.setText("Merchant Id: " + StrMerchantId);
+        }
+
+        if(StrTerminalId!=null && !StrTerminalId.equalsIgnoreCase("")) {
+            nav_user_email.setText("Terminal Id: "+StrTerminalId);
+        }
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -222,11 +247,9 @@ public class MainActivity_1 extends AppCompatActivity implements NavigationView.
 
     private void getPasswordForMPN() {
 
-        String terminal_id="PX918512";
-        String merchant_id = "PX9400000000012";
+        terminal_id="PX918512";
+        merchant_id = "PX9400000000012";
 
-
-        myDialog.show();
 
         String URL = RestClient.ROOT_URL2+"getpassword";
         ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
@@ -420,16 +443,25 @@ public class MainActivity_1 extends AppCompatActivity implements NavigationView.
             finish();
 
         } else if(id == R.id.nav_saved_proposals){
-            Intent i = new Intent(getApplicationContext(), SavedProposalActivity.class);
-            startActivity(i);
-            overridePendingTransition(R.animator.move_left, R.animator.move_right);
-            finish();
+
+            if(POS_TOKEN!=null && !POS_TOKEN.equalsIgnoreCase("")){
+                Intent i = new Intent(getApplicationContext(), SavedProposalActivity.class);
+                startActivity(i);
+                overridePendingTransition(R.animator.move_left, R.animator.move_right);
+                finish();
+            }else {
+                CommonMethods.DisplayToastInfo(getApplicationContext(),"Invalid Token");
+            }
 
         } else if(id == R.id.nav_sold_policies){
-            Intent i = new Intent(getApplicationContext(), SoldPoliciesActivity.class);
-            startActivity(i);
-            overridePendingTransition(R.animator.move_left, R.animator.move_right);
-            finish();
+            if(POS_TOKEN!=null && !POS_TOKEN.equalsIgnoreCase("")){
+                Intent i = new Intent(getApplicationContext(), SoldPoliciesActivity.class);
+                startActivity(i);
+                overridePendingTransition(R.animator.move_left, R.animator.move_right);
+                finish();
+            }else {
+                CommonMethods.DisplayToastInfo(getApplicationContext(),"Invalid Token");
+            }
 
         }
 

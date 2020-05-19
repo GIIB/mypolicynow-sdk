@@ -271,6 +271,11 @@ public class SavedProposalActivity extends AppCompatActivity {
                     if (myDialog != null && myDialog.isShowing()) {
                         myDialog.dismiss();
                     }
+                    TextView textView = new TextView(getApplicationContext());
+                    textView.setText("No Data found...");
+                    textView.setPadding(10,10,10,10);
+
+                    ll_parent_saved_proposal.addView(textView);
                     CommonMethods.DisplayToastInfo(getApplicationContext(), "Something went wrong. Please try again later.");
                 }
             }) {

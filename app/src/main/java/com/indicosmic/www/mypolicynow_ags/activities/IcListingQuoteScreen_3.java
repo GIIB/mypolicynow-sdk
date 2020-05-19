@@ -1855,7 +1855,9 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
 
                             if(error.equalsIgnoreCase("1"))
                             {
-                                btn_add_on.setText(error_message);
+                                if(error_message!=null && !error_message.equalsIgnoreCase("null") && !error_message.equalsIgnoreCase("")) {
+                                    btn_add_on.setText(error_message);
+                                }
                                 Linear_row_Premium.setVisibility(View.GONE);
                                 btn_breakup.setVisibility(View.GONE);
                                 row_linear_idv.setVisibility(View.GONE);

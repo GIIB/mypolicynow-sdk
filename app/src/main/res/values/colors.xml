@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimaryBlue">#27525e</color>
-    <color name="colorPrimaryDark">#C0631F</color>
+    <!--<color name="colorPrimaryDark">#C0631F</color>
     <color name="colorPrimaryLight">#E6A674</color>
     <color name="colorPrimary">#F35D22</color>
     <color name="colorPrimaryVeryLight">#FF770B</color>
+        <color name="colorAccent">#5E5E5E</color>
+-->
+    <color name="colorPrimary">#00006B</color>
+    <color name="colorPrimaryDark">#00006B</color>
+    <color name="colorPrimaryLight">#2424FC</color>
+    <color name="colorPrimaryVeryLight">#9898FF</color>
+    <color name="colorAccent">#2828ae</color>
+    <color name="orange">#00006B</color>
+
     <color name="button_color">#db4100</color>
     <color name="iron_grey">#9c9999</color>
     <color name="sky_blue">#008cc9</color>
@@ -19,13 +28,14 @@
     <color name="primary_grey">#ededed</color>
     <color name="dark_grey">#757575</color>
     <color name="grey">#ccc9c9</color>
-    <color name="colorAccent">#5E5E5E</color>
     <color name="primary_light_blue">#6aacd9</color>
     <color name="red_close">#fc1208</color>
     <color name="pie_chart_blue">#3a4692</color>
     <color name="bg_grey_light">#F4F4F4</color>
     <color name="btn_color_yellow">#ffde73</color>
-    <color name="orange">#f7af50</color>
+    <!--<color name="orange">#f7af50</color>-->
+
+
     <color name="graph_color_blue">#535fab</color>
     <color name="form_background_color">#F1F5F7</color>
     <color name="primary_green">#60C23F</color>

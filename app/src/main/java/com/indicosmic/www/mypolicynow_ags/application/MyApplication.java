@@ -2,8 +2,8 @@ package com.indicosmic.www.mypolicynow_ags.application;
 
 import android.app.Application;
 
+import com.indicosmic.www.mypolicynow_ags.utils.ConnectivityReceiver;
 import com.loyalty.loyaltyapp.loyalty_main.LoyaltyApplication;
-import com.uatongo.utils.ConnectivityReceiver;
 
 /**
  * Created by Ravi Tamada on 15/06/16.
