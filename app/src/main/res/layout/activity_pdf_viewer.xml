@@ -22,15 +22,30 @@
         android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
         android:background="@color/form_background_color"
-        android:layout_above="@+id/LayoutBottomNav"
         android:layout_below="@+id/toolbar"
         android:layout_height="match_parent">
         <WebView
             android:id="@+id/webViewProposalPdf"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="visible"
             android:layout_below="@+id/toolbar"
             />
+   <!--     <com.github.barteksc.pdfviewer.PDFView
+            android:id="@+id/pdfView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/scrollBar"/>
+
+        <com.github.barteksc.pdfviewer.ScrollBar
+            android:id="@+id/scrollBar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />-->
+
+
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
@@ -40,10 +55,6 @@
         android:layout_centerInParent="true"
         android:layout_height="wrap_content"
         />
-
-
-
-
 
 
 

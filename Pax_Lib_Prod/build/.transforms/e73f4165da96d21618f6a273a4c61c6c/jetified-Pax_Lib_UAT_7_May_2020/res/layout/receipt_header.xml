@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/headerView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_50"
+        android:background="#55000000">
+
+        <LinearLayout
+            android:id="@+id/action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_vertical"
+            android:background="@color/new_bg_color"
+            android:gravity="center">
+
+
+            <ImageView
+                android:id="@+id/ivReceiptLogo"
+                android:layout_width="@dimen/padding_80"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/padding_10"
+                android:layout_marginRight="@dimen/padding_2"
+                android:layout_marginTop="@dimen/padding_2"
+                android:src="@drawable/new_logo_mpos" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

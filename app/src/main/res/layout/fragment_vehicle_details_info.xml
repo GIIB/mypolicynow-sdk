@@ -130,7 +130,7 @@
                     android:background="@drawable/btn_color_form_background"
                     android:hint="Eg- ABC *"
                     android:imeOptions="actionNext"
-                    android:inputType="textCapWords"
+                    android:inputType="textCapCharacters"
                     android:layout_weight="5"
                     android:maxLength="3"
                     android:padding="5dp"

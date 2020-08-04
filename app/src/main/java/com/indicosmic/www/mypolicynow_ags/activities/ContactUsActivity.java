@@ -14,7 +14,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.indicosmic.www.mypolicynow_ags.R;
+import com.indicosmic.www.mypolicynow_ags.utils.UtilitySharedPreferences;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -22,7 +24,7 @@ import java.lang.reflect.Method;
 public class ContactUsActivity extends AppCompatActivity {
 
 
-    ImageView back_btn_toolbar;
+    ImageView iv_logo,back_btn_toolbar;
     TextView til_text,tv_emailId,tv_mobile_no;
     WebView Webview_AddressLocation;
 
@@ -54,6 +56,12 @@ public class ContactUsActivity extends AppCompatActivity {
         tv_mobile_no= (TextView)findViewById(R.id.tv_mobile_no);
         Linkify.addLinks(tv_mobile_no, Linkify.PHONE_NUMBERS);
         tv_mobile_no.setMovementMethod(LinkMovementMethod.getInstance());
+        iv_logo = (ImageView) findViewById(R.id.iv_logo);
+
+        Glide.with(this)
+                .load("https://www.mypolicynow.com/assets/images/logo_spinner.gif")
+                .placeholder(R.drawable.logo_spinner)
+                .into(iv_logo);
 
 
         Webview_AddressLocation = (WebView)findViewById(R.id.Webview_AddressLocation);
@@ -114,6 +122,8 @@ public class ContactUsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(getApplicationContext(), MainActivity_1.class);
+        intent.putExtra("terminal_id", UtilitySharedPreferences.getPrefs(getApplicationContext(),"TerminalId"));
+        intent.putExtra("merchant_id",UtilitySharedPreferences.getPrefs(getApplicationContext(),"MerchantId"));
         startActivity(intent);
         overridePendingTransition(R.animator.left_right,R.animator.right_left);
         finish();

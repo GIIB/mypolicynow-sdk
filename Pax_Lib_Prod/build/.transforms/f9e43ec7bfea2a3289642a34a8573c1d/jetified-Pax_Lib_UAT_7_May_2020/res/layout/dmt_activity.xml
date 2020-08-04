@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff">
+<!--<RelativeLayout
+
+    android:id="@+id/tab"
+    android:layout_width="fill_parent"
+    android:layout_height="50dp"
+    android:layout_weight="0.91"
+    android:background="#003778">
+
+    <ImageView
+        android:id="@+id/homeButton"
+        android:layout_width="45dp"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="5dp"
+        android:src="@drawable/drawer" />
+
+    &lt;!&ndash;<ImageView
+        android:id="@+id/title_text"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo"
+        android:layout_toRightOf="@+id/homeButton" />&ndash;&gt;
+
+    <include
+        layout="@layout/ongowallet_small_title_view"
+        android:layout_width="70dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/homeButton"></include>
+
+    &lt;!&ndash;<RelativeLayout
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/notiView">
+
+        <ImageView
+            android:id="@+id/buttonOffer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/offer_logo_white" />
+
+        &lt;!&ndash;<TextView
+            android:id="@+id/txtOfferCount"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:text="1"
+            android:gravity="center"
+            android:textSize="10dp"
+            android:textColor="#ffffff"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/circle_shape_view" />&ndash;&gt;
+    </RelativeLayout>&ndash;&gt;
+
+    &lt;!&ndash;<RelativeLayout
+        android:id="@+id/notiView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/buttonSetting">
+
+        <ImageView
+            android:id="@+id/buttonNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/notification_logo_white" />
+
+        &lt;!&ndash;<TextView
+            android:id="@+id/txtNotificationCount"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:text="1"
+            android:gravity="center"
+            android:textSize="10dp"
+            android:textColor="#ffffff"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/circle_shape_view" />&ndash;&gt;
+    </RelativeLayout>&ndash;&gt;
+
+    <ImageView
+        android:id="@+id/buttonSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="2dp"
+        android:src="@drawable/three_dots" />
+
+</RelativeLayout>
+
+<RelativeLayout
+android:id="@+id/pro"
+android:layout_width="fill_parent"
+android:layout_height="50dp"
+android:layout_below="@+id/tab"
+android:background="#144681">
+
+<RelativeLayout
+    android:id="@+id/viewProfile"
+    android:layout_width="45dp"
+    android:layout_height="45dp"
+    android:layout_centerVertical="true"
+    android:layout_marginLeft="15dp"
+    android:layout_marginTop="2dp"
+    android:visibility="invisible"
+    android:background="@drawable/circle_bg">
+
+    <ImageView
+        android:id="@+id/userProfile"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_margin="1dp"
+        android:background="@drawable/ic_action_person"
+        android:visibility="invisible"
+        android:scaleType="fitXY" />
+</RelativeLayout>
+
+<TextView
+    android:id="@+id/txtUserName"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="true"
+    android:layout_marginLeft="5dp"
+    android:layout_toRightOf="@+id/viewProfile"
+    android:background="@null"
+    android:text=""
+    android:textColor="#ffffff"
+    android:textSize="16dp" />
+
+<TextView
+    android:id="@+id/txtBuild"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5dp"
+    android:layout_toRightOf="@+id/viewProfile"
+    android:layout_below="@+id/txtUserName"
+    android:visibility="gone"
+    android:background="@null"
+    android:text=""
+    android:textColor="#ffffff"
+    android:textSize="10dp" />
+
+&lt;!&ndash;<RelativeLayout
+    android:layout_width="110dp"
+    android:layout_height="fill_parent"
+    android:layout_alignParentRight="true"
+    android:background="@drawable/balance_logo">
+
+</RelativeLayout>&ndash;&gt;
+
+<TextView
+    android:id="@+id/txtSymbol"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="true"
+    android:layout_toLeftOf="@+id/txtBalanceRs"
+    android:layout_marginRight="5dp"
+    android:gravity="center_vertical"
+    android:text="₹"
+    android:textColor="#ffffff"
+    android:textSize="20dp" />
+
+<TextView
+    android:id="@+id/txtBalanceRs"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="true"
+    android:layout_toLeftOf="@+id/txtAddMoney"
+    android:layout_marginRight="5dp"
+    android:gravity="center_vertical"
+    android:text=""
+    android:textColor="#ffffff"
+    android:textStyle="bold"
+    android:textSize="15dp" />
+
+<TextView
+    android:id="@+id/txtAddMoney"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="true"
+    android:layout_alignParentRight="true"
+    android:layout_marginRight="10dp"
+    android:gravity="center_vertical"
+    android:background="@drawable/ic_action_refresh"
+    android:textColor="#ffffff"
+    android:textSize="14dp" />
+
+</RelativeLayout>-->
+<FrameLayout
+    android:id="@+id/fragment_container"
+    android:layout_below="@+id/tab"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+</FrameLayout>
+
+</RelativeLayout>

@@ -28,7 +28,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -39,6 +41,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.snackbar.Snackbar;
 import com.indicosmic.www.mypolicynow_ags.R;
 import com.indicosmic.www.mypolicynow_ags.activities.ProposalPdfActivity_6;
+import com.indicosmic.www.mypolicynow_ags.model.APIDataModel;
 import com.indicosmic.www.mypolicynow_ags.model.Agentinfo;
 import com.indicosmic.www.mypolicynow_ags.utils.CommonMethods;
 import com.indicosmic.www.mypolicynow_ags.utils.ConnectionDetector;
@@ -58,6 +61,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.indicosmic.www.mypolicynow_ags.webservices.RestClient.api_password;
+import static com.indicosmic.www.mypolicynow_ags.webservices.RestClient.api_user_name;
+import static com.indicosmic.www.mypolicynow_ags.webservices.RestClient.x_api_key;
+
 
 public class ActivityInspectionImages extends AppCompatActivity {
 
@@ -70,7 +77,7 @@ public class ActivityInspectionImages extends AppCompatActivity {
     InspectionImageModel inspectionImageModel;
     ArrayList<String> imageList = new ArrayList<>();
     ProgressDialog progressDialog;
-    String Latitude,Longitude,QuoteLink;
+    String Latitude, Longitude, QuoteLink;
     Agentinfo agent;
     String agent_id;
     LayoutInflater layoutinflater;
@@ -80,14 +87,18 @@ public class ActivityInspectionImages extends AppCompatActivity {
     EditText edtOdomenter_reading;
     String str_Odometer_reading;
 
-    String question_status,odo_status;
-    String IC_NAME="";
+    String question_status, odo_status;
+    String IC_NAME = "";
     File mImageFolder;
     JSONObject jsonodo;
     private String pictureImagePath = "";
-
-    String captionString,text,ic_id="",break_in_case_id="";
-
+    Uri outputFileUri;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    File imageFile = null;
+    String captionString, text, ic_id = "", break_in_case_id = "";
+    private int count = 0;
+    String question_id, pos_id, proposal_list_id, answer_id, image;
+    boolean isLastObject = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,32 +109,32 @@ public class ActivityInspectionImages extends AppCompatActivity {
         submit = (Button) findViewById(R.id.submit);
         nextquestion_modelsarray = new ArrayList<InspectionImageModel>();
         layoutinflater = getLayoutInflater();
-        ImageView back_btn_toolbar = (ImageView)findViewById(R.id.back_btn_toolbar);
+        ImageView back_btn_toolbar = (ImageView) findViewById(R.id.back_btn_toolbar);
         back_btn_toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
-        TextView til_text = (TextView)findViewById(R.id.til_text);
+        TextView til_text = (TextView) findViewById(R.id.til_text);
         til_text.setText("Next Inspection Check Points");
         //getSupportActionBar().setTitle("Next Inspection Check Points");
-        snackbar = (RelativeLayout)findViewById(R.id.snackbar);
+        snackbar = (RelativeLayout) findViewById(R.id.snackbar);
 
-        Latitude = UtilitySharedPreferences.getPrefs(getApplicationContext(),"Latitude");
-        Longitude = UtilitySharedPreferences.getPrefs(getApplicationContext(),"Longitude");
-        ic_id = UtilitySharedPreferences.getPrefs(getApplicationContext(),"IC_Id");
-        break_in_case_id =  UtilitySharedPreferences.getPrefs(getApplicationContext(),"BreakInCaseId");
-        QuoteLink  = UtilitySharedPreferences.getPrefs(getApplicationContext(),"QuoteLink");
-        agent_id = UtilitySharedPreferences.getPrefs(getApplicationContext(),"PosId");
-        IC_NAME= UtilitySharedPreferences.getPrefs(getApplicationContext(),"IC_NAME");
+        Latitude = UtilitySharedPreferences.getPrefs(getApplicationContext(), "Latitude");
+        Longitude = UtilitySharedPreferences.getPrefs(getApplicationContext(), "Longitude");
+        ic_id = UtilitySharedPreferences.getPrefs(getApplicationContext(), "IC_Id");
+        break_in_case_id = UtilitySharedPreferences.getPrefs(getApplicationContext(), "BreakInCaseId");
+        QuoteLink = UtilitySharedPreferences.getPrefs(getApplicationContext(), "QuoteLink");
+        agent_id = UtilitySharedPreferences.getPrefs(getApplicationContext(), "PosId");
+        IC_NAME = UtilitySharedPreferences.getPrefs(getApplicationContext(), "IC_NAME");
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait while images are being uploaded");
         progressDialog.setCancelable(false);
 
         // Add a footer to the ListView
         LayoutInflater inflater = getLayoutInflater();
-        ViewGroup header = (ViewGroup)inflater.inflate(R.layout.listview_footer,listview,false);
+        ViewGroup header = (ViewGroup) inflater.inflate(R.layout.listview_footer, listview, false);
         listview.addHeaderView(header);
 
         edtOdomenter_reading = (EditText) header.findViewById(R.id.edtOdomenter_reading);
@@ -135,7 +146,7 @@ public class ActivityInspectionImages extends AppCompatActivity {
 
                 str_Odometer_reading = edtOdomenter_reading.getText().toString().trim();
 
-               // Log.d(TAG, "imageclick "+SingletonClass.getinstance().nextimage_counter);
+                // Log.d(TAG, "imageclick "+SingletonClass.getinstance().nextimage_counter);
                 if (str_Odometer_reading.isEmpty() && str_Odometer_reading.equals("")) {
                     Snackbar snack = Snackbar.make(snackbar, "Please Enter odometer reading", Snackbar.LENGTH_LONG);
                     view = snack.getView();
@@ -143,8 +154,8 @@ public class ActivityInspectionImages extends AppCompatActivity {
                     tv.setTextColor(Color.RED);
                     snack.show();
                     return;
-                }else {
-                    if (!inspectionImageAdapter.CheckImageExist()){
+                } else {
+                    if (!inspectionImageAdapter.CheckImageExist()) {
                         Snackbar snack = Snackbar.make(snackbar, "You have not uploaded all required images", Snackbar.LENGTH_LONG);
                         view = snack.getView();
                         TextView tv = (TextView) view.findViewById(R.id.snackbar_text);
@@ -152,203 +163,16 @@ public class ActivityInspectionImages extends AppCompatActivity {
                         snack.show();
                         return;
 
-                        }else {
+                    } else {
 
-                            sendOdometerReading();
-                        }
+                        sendOdometerReading();
                     }
+                }
             }
         });
 
         showdata();
     }
-
-    private void sendTosever() {
-
-        progressDialog.show();
-
-
-        //String URL_EXIT = ROOT_URL + "post/exit/capture";
-        try {
-            Log.d("URL", Common.URL_NEXT_QUESTION_SUBMIT);
-
-            ConnectionDetector cd = new ConnectionDetector(this);
-            boolean isInternetPresent = cd.isConnectingToInternet();
-            if (isInternetPresent) {
-
-                StringRequest jsonObjectRequest = new StringRequest(Request.Method.POST,Common.URL_NEXT_QUESTION_SUBMIT, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("Response: ", ""+response);
-                        if(progressDialog!=null && progressDialog.isShowing()) {
-                            progressDialog.dismiss();
-                        }
-                        try{
-                            JSONObject jsonObject = new JSONObject(response);
-                               String question_status = jsonObject.getString("status");
-
-                                if (question_status.trim().contains("TRUE")){
-
-                                    deleteFolder();
-
-                                    UtilitySharedPreferences.setPrefs(getApplicationContext(),"IsBreakInInspectionDone","true");
-                                    Intent i = new Intent(getApplicationContext(), ProposalPdfActivity_6.class);
-                                    startActivity(i);
-                                    overridePendingTransition(R.animator.move_left,R.animator.move_right);
-                                    finish();
-                                } else {
-                                    CommonMethods.DisplayToast(getApplicationContext(),"Something went wrong. Please try again.");
-
-                                    //CommonMethods.DisplayToast(getApplicationContext(),"Please check the credentials and try again.");
-                                }
-
-                        }catch(Exception e){
-                            e.printStackTrace();
-                            if(progressDialog!=null && progressDialog.isShowing()) {
-                                progressDialog.dismiss();
-                            }
-                            Toast.makeText(getApplicationContext(), "Some error occurred. Please try again later. ", Toast.LENGTH_LONG).show();
-
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if(progressDialog!=null && progressDialog.isShowing()) {
-                            progressDialog.dismiss();
-                        }
-                        Toast.makeText(getApplicationContext(), "Some error occurred. Please try again later. ", Toast.LENGTH_LONG).show();
-
-                        Log.e("LOG", error.toString());
-                    }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() {
-                        final JSONObject final_object = new JSONObject();
-                        try {
-                            final_object.put("question_answer", InspectionImageAdapter.jrray2);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        Map<String, String> map = new HashMap<String, String>();
-                        map.put("user_answers", final_object.toString());
-                        //map.put("images",encodedString);
-                        Log.d("POSTDATA", "Inspection images params: " + map.toString());
-                        return map;
-                    }
-
-                };
-
-                int socketTimeout = 50000; //30 seconds - change to what you want
-                RequestQueue requestQueue = Volley.newRequestQueue(ActivityInspectionImages.this);
-                jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1, 0));
-                requestQueue.add(jsonObjectRequest);
-
-            } else {
-                if(progressDialog!=null && progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
-                CommonMethods.DisplayToast(this, "Please check your internet connection");
-            }
-        } catch (Exception e) {
-
-            e.printStackTrace();
-
-        }
-
-    }
-
-    /*private void sendTosever() {
-
-        progressDialog.show();
-
-
-
-        Log.d("URL",Common.URL_NEXT_QUESTION_SUBMIT);
-        try {
-           // Log.d("URL_EXIT",URL_EXIT);
-
-            ConnectionDetector cd = new ConnectionDetector(this);
-            boolean isInternetPresent = cd.isConnectingToInternet();
-            if (isInternetPresent) {
-                try {
-                    final_object.put("question_answer", NextQuestionAdapter.jrray2);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                JSONObject params = new JSONObject();
-                params.put("user_answers",  final_object.toString());
-
-
-                final String requestBody = params.toString();
-                Log.d("RequestBody",""+requestBody);
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,Common.URL_NEXT_QUESTION_SUBMIT, requestBody, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("Response: ", String.valueOf(response));
-                        if(progressDialog!=null && progressDialog.isShowing()) {
-                            progressDialog.dismiss();
-                        }
-                        try{
-                            if (response != null) {
-                                //JSONObject jsonObject = new JSONObject(response);
-                                String question_status = response.getString("status");
-
-                                if (question_status.trim().contains("TRUE")){
-
-                                    deleteFolder();
-                                    Toast.makeText(NextQuestions.this, "Your data has been successfully uploaded to our server", Toast.LENGTH_SHORT).show();
-
-                                    Intent i = new Intent(getApplicationContext(),UploadInspectionVideo_6.class);
-                                    startActivity(i);
-                                    finish();
-                                } else {
-                                    CommonMethods.DisplayToast(getApplicationContext(),"Something went wrong. Please try again.");
-
-                                    //CommonMethods.DisplayToast(getApplicationContext(),"Please check the credentials and try again.");
-                                }
-                            }
-                        }catch(Exception e){
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if(progressDialog!=null && progressDialog.isShowing()) {
-                            progressDialog.dismiss();
-                        }
-                        CommonMethods.DisplayToast(getApplicationContext(),"Something went wrong. Please try again.");
-
-                        Log.e("LOG", error.toString());
-                    }
-                });
-
-                int socketTimeout = 50000; //30 seconds - change to what you want
-                RetryPolicy policy = new DefaultRetryPolicy(0, -1, 0);
-                jsonObjectRequest.setRetryPolicy(policy);
-                // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
-                RequestQueue requestQueue = Volley.newRequestQueue(this);
-                requestQueue.add(jsonObjectRequest);
-
-            } else {
-                if(progressDialog!=null && progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
-                CommonMethods.DisplayToast(this, "Please check your internet connection");
-            }
-        } catch (Exception e) {
-            if(progressDialog!=null && progressDialog.isShowing()) {
-                progressDialog.dismiss();
-            }
-            e.printStackTrace();
-
-        }
-
-    }
-*/
-
 
     private void showdata() {
 
@@ -359,10 +183,10 @@ public class ActivityInspectionImages extends AppCompatActivity {
                 try {
 
                     JSONObject jsonObject = new JSONObject(response);
-                    Log.d("next question list",""+response);
+                    Log.d("next question list", "" + response);
                     String status = jsonObject.getString("status");
 
-                    if (status.trim().contains("TRUE")){
+                    if (status.trim().contains("TRUE")) {
 
                         JSONArray jsonArray = jsonObject.getJSONArray("data");
 
@@ -371,7 +195,7 @@ public class ActivityInspectionImages extends AppCompatActivity {
                             JSONObject ques_object = jsonArray.getJSONObject(i);
 
                             String main_question = ques_object.getString("name");
-                            String str_is_mand  = ques_object.getString("is_mand");
+                            String str_is_mand = ques_object.getString("is_mand");
 
                             inspectionImageModel = new InspectionImageModel();
 
@@ -396,10 +220,22 @@ public class ActivityInspectionImages extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                    volleyError.printStackTrace();
+                volleyError.printStackTrace();
                 //Toast.makeText(getApplicationContext(), volleyError.toString(), Toast.LENGTH_LONG).show();
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                //  Authorization: Basic $auth
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //headers.put("Content-Type", "application/x-www-form-urlencoded");
+                //headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("x-api-key",x_api_key);
+                headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
+                return headers;
+            }
+
+        };
 
 //        RequestQueue rQueue = Volley.newRequestQueue(NextQuestions.this);
 //        rQueue.add(request);
@@ -416,43 +252,59 @@ public class ActivityInspectionImages extends AppCompatActivity {
     public void captureImage(int pos, String imageName) {
 
         position = pos;
-        //imageTempName = imageName;
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
+        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageTempName = timeStamp + ".jpg";
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        mImageFolder = new File(Environment.getExternalStorageDirectory()+"ClaimPic");
-        mImageFolder = new File(storageDir, "ClaimPic");
-        if (!mImageFolder.exists()){
-            mImageFolder.mkdirs();
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (cameraIntent.resolveActivity(getApplicationContext().getPackageManager()) != null) {
+            try {
+
+                File direct = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/ClaimPic");
+                if (!direct.exists()) {
+                    direct.mkdirs();
+                }
+                imageFile = File.createTempFile(
+                        imageTempName,  // prefix
+                        ".jpg",         // suffix
+                        direct      // directory
+                );
+
+                pictureImagePath = "file:" + imageFile.getAbsolutePath();
+                Log.d("ImagePath",""+pictureImagePath);
+
+                outputFileUri = FileProvider.getUriForFile(getApplicationContext(), getApplicationContext().getPackageName() + ".fileprovider", imageFile);
+                if (imageFile != null) {
+                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+                    cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", 0);
+
+                    startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE);
+                }
+            } catch (Exception ex) {
+                // Error occurred while creating the File
+                startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE);
+                Log.i("TAG", "Exception");
+                Log.d("Error", ""+ex.getMessage());
+                //CommonMethods.DisplayToast(getApplicationContext(),"It seems to be some technical Issue. Please try again later.");
+            }
         }
 
-        pictureImagePath = mImageFolder.getAbsolutePath() + "/" + imageTempName;
-        File file = new File(pictureImagePath);
-        Uri outputFileUri = Uri.fromFile(file);
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-        cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", 0);
-
-        startActivityForResult(cameraIntent, 90);
-
     }
-
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != Activity.RESULT_CANCELED) {
-            if (requestCode == 90) {
+            if (requestCode == REQUEST_IMAGE_CAPTURE) {
 
                 File imgFile = new File(pictureImagePath);
-                if (imgFile.exists()) {
-                    Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                if(imageFile!=null && imageFile.exists()){
+                    Bitmap myBitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
 
                     @SuppressLint("SimpleDateFormat")
                     SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
                     captionString = sdf.format(new Date());
-                    text = "Date:" +captionString+ "\nLat:" + Latitude+ "\nLong:" +Longitude+ "\nQuote No.:"+QuoteLink;
+                    text = "Date:" +captionString+ "\nLat:" +Latitude+ "\nLong:" +Longitude;//+ "\nIMEI:"+agent.getImei();
                     String[] str = text.split("\n");
 
                     if (myBitmap != null) {
@@ -496,14 +348,13 @@ public class ActivityInspectionImages extends AppCompatActivity {
 
                             inspectionImageAdapter.setImageInItem(position, dest, file.getAbsolutePath());
                             // Toast.makeText(this, "path"+fos.toString(), Toast.LENGTH_LONG).show();
-                            dest.compress(Bitmap.CompressFormat.JPEG, 25, fos);
+                            dest.compress(Bitmap.CompressFormat.JPEG, 30, fos);
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
                     }
                 }
-
-             }
+            }
 
         }
     }
@@ -513,7 +364,7 @@ public class ActivityInspectionImages extends AppCompatActivity {
     public void onBackPressed() {
 
         super.onBackPressed();
-        overridePendingTransition(R.animator.left_right,R.animator.right_left);
+        overridePendingTransition(R.animator.left_right, R.animator.right_left);
         finish();
     }
 
@@ -522,18 +373,64 @@ public class ActivityInspectionImages extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.POST, Common.URL_SUBMIT_ODOMETER_READING, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-             //progressDialog.dismiss();
+                //progressDialog.dismiss();
                 try {
 
-                    JSONObject jsonObject = new JSONObject(response);
+                    JSONObject jObject = new JSONObject(response);
 
-                     odo_status = jsonObject.getString("status");
-                    if (odo_status.trim().contains("TRUE")){
-                        /*JSONArray question_array = NextQuestionAdapter.jrray2;
-                        Log.d("Array",""+question_array);
-                */
-                        sendTosever();
-                     //   Toast.makeText(NextQuestions.this, "Success", Toast.LENGTH_SHORT).show();
+                    odo_status = jObject.getString("status");
+                    if (odo_status.trim().contains("TRUE")) {
+
+
+                        JSONArray jrray = InspectionImageAdapter.jrray2;
+                        Log.d("jrray", "" + jrray);
+
+
+                        try {
+                            JSONObject jsonObject = jrray.getJSONObject(count);
+                            Log.d("jsonObj", "" + jsonObject);
+
+
+                            break_in_case_id = jsonObject.getString("break_in_case_id");
+                            question_id = jsonObject.getString("question_id");
+                            pos_id = jsonObject.getString("pos_id");
+                            proposal_list_id = jsonObject.getString("proposal_list_id");
+                            ic_id = jsonObject.getString("ic_id");
+
+
+                            if (jsonObject.has("image")) {
+                                image = jsonObject.getString("image");
+                            } else {
+                                image = "";
+                            }
+
+                            try {
+                                APIDataModel item = new APIDataModel();
+                                item.setBreak_in_case_id(break_in_case_id);
+                                item.setQuestion_id(question_id);
+                                item.setPos_id(pos_id);
+                                item.setProposal_list_id(proposal_list_id);
+                                item.setIc_id(ic_id);
+                                item.setImage(image);
+
+                                if (count == jrray.length() - 1) {
+                                    isLastObject = true;
+
+                                }
+                                if (progressDialog != null && !progressDialog.isShowing()) {
+                                    progressDialog.show();
+                                }
+                                execute(item);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
                     }
 
                 } catch (JSONException e) {
@@ -546,7 +443,7 @@ public class ActivityInspectionImages extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-               // progressDialog.dismiss();
+                // progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(), "Some error occurred. Please try again later. ", Toast.LENGTH_LONG).show();
 
             }
@@ -558,19 +455,30 @@ public class ActivityInspectionImages extends AppCompatActivity {
                     jsonodo = new JSONObject();
                     JSONObject odojson = new JSONObject();
                     odojson.put("odometer", str_Odometer_reading);
-                    odojson.put("pos_id", agent_id);
-                    odojson.put("break_in_case_id", break_in_case_id);
-                    jsonodo.put("odometer_reading",odojson);
+                    odojson.put("pos_id", UtilitySharedPreferences.getPrefs(getApplicationContext(), "agent_id"));
+                    odojson.put("break_in_case_id", UtilitySharedPreferences.getPrefs(getApplicationContext(), "BreakInCaseId"));
+                    jsonodo.put("odometer_reading", odojson);
 
-                    Log.d("odoadterjson",jsonodo.toString());
+                    Log.d("odoadterjson", jsonodo.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 Map<String, String> map = new HashMap<String, String>();
-                map.put("odometer_reading",jsonodo.toString());
+                map.put("odometer_reading", jsonodo.toString());
                 //map.put("images",encodedString);
                 Log.d("POSTDATA", "odoparams params: " + map.toString());
                 return map;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                //  Authorization: Basic $auth
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //headers.put("Content-Type", "application/x-www-form-urlencoded");
+                //headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("x-api-key",x_api_key);
+                headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
+                return headers;
             }
 
         };
@@ -580,28 +488,153 @@ public class ActivityInspectionImages extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-//        request.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-//        RequestQueue rQueue = Volley.newRequestQueue(NextQuestions.this);
-//        rQueue.add(request);
+
+    }
+
+    public void execute(APIDataModel item) {
+
+
+        Log.d("URL_NEXT_QUESTION", Common.URL_NEXT_QUESTION_SUBMIT_NEW);
+        StringRequest request = new StringRequest(Request.Method.POST, Common.URL_NEXT_QUESTION_SUBMIT_NEW, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    Log.d("response", response);
+                    JSONObject jObject = new JSONObject(response);
+
+                    String status = jObject.getString("status");
+
+                    if (status.trim().contains("TRUE")) {
+
+                        count++;
+                        if (count < InspectionImageAdapter.jrray2.length()) {
+                            Log.d("count", "" + count);
+                            if (count == InspectionImageAdapter.jrray2.length() - 1) {
+                                isLastObject = true;
+                            }
+                            try {
+                                JSONObject jsonObject = InspectionImageAdapter.jrray2.getJSONObject(count);
+                                Log.d("jsonObj", "" + jsonObject);
+
+                                question_id = jsonObject.getString("question_id");
+                                pos_id = jsonObject.getString("pos_id");
+                                proposal_list_id = jsonObject.getString("proposal_list_id");
+                                ic_id = jsonObject.getString("ic_id");
+
+                                if (jsonObject.has("image")) {
+                                    image = jsonObject.getString("image");
+                                } else {
+                                    image = "";
+                                }
+
+                                try {
+                                    APIDataModel item = new APIDataModel();
+                                    item.setBreak_in_case_id(break_in_case_id);
+                                    item.setQuestion_id(question_id);
+                                    item.setPos_id(pos_id);
+                                    item.setProposal_list_id(proposal_list_id);
+                                    item.setIc_id(ic_id);
+                                    item.setAnswer_id(answer_id);
+                                    item.setImage(image);
+
+
+                                    execute(item);
+
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            if (progressDialog != null && progressDialog.isShowing()) {
+                                progressDialog.dismiss();
+                                deleteFolder();
+                                UtilitySharedPreferences.setPrefs(getApplicationContext(),"IsBreakInInspectionDone","true");
+                                UtilitySharedPreferences.setPrefs(getApplicationContext(),"StrCallApiONResume","true");
+
+                                Intent intent = new Intent(getApplicationContext(), ProposalPdfActivity_6.class);
+                                startActivity(intent);
+                                overridePendingTransition(R.animator.move_left,R.animator.move_right);
+
+                            }
+                        }
+                    }
+
+                } catch (JSONException e) {
+
+                    e.printStackTrace();
+                    if (progressDialog != null && progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+
+                volleyError.printStackTrace();
+                Toast.makeText(getApplicationContext(), "Some error occurred. Please try again later. ", Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("break_in_case_id", item.getBreak_in_case_id());
+                map.put("question_id", item.getQuestion_id());
+                map.put("pos_id", item.getPos_id());
+                map.put("proposal_list_id", item.getProposal_list_id());
+                map.put("ic_id", item.getIc_id());
+                map.put("image", item.getImage());
+                map.put("isLastObject", String.valueOf(isLastObject));
+
+                Log.d("POSTDATA", "question params: " + map.toString());
+                return map;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                //  Authorization: Basic $auth
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //headers.put("Content-Type", "application/x-www-form-urlencoded");
+                //headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("x-api-key",x_api_key);
+                headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
+                return headers;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue rQueue = Volley.newRequestQueue(ActivityInspectionImages.this);
+        rQueue.add(request);
+
 
     }
 
 
 
 
-    public void deleteFolder(){
-        File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+"/ClaimPic");
+    public void deleteFolder() {
+        File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/ClaimPic");
 
-     //   Toast.makeText(this, "dir="+dir, Toast.LENGTH_LONG).show();
-        Log.d("deleteFolder: ",dir.toString());
+        //   Toast.makeText(this, "dir="+dir, Toast.LENGTH_LONG).show();
+        Log.d("deleteFolder: ", dir.toString());
 
-        if (dir.isDirectory())
-        {
+        if (dir.isDirectory()) {
             String[] children = dir.list();
-            for (int i = 0; i < children.length; i++)
-            {
+            for (int i = 0; i < children.length; i++) {
                 new File(dir, children[i]).delete();
             }
         }
     }
+
 }

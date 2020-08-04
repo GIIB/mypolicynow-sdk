@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MY POLICY NOW - AGS</string>
+    <string name="app_name">MY POLICY NOW</string>
     <string name="runtime_permissions_txt">Please enable ALL permissions from app settings.</string>
     <string name="permission_rationale">Please grant location permission to start the service</string>
     <string name="tag_line">Get Quick, Hassle Free Insurance Quote Now !</string>
@@ -25,7 +25,7 @@
     <string name="footer_text">Developed By <a href="https://www.indicosmic.com" rel="nofollow">Indicosmic Capitals Pvt. Ltd.</a></string>
     <string name="title_settings_dialog">Permissions Required</string>
     <string name="about_us">ABOUT US</string>
-    <string name="principal_officer">Dr. Chandrra Kant Khatri</string>
+    <string name="principal_officer">Dr. Chandra Kant Khatri</string>
 
     <string name="disclaimer_policy">Disclaimer / Policy</string>
     <string name="contact_us">CONTACT US</string>

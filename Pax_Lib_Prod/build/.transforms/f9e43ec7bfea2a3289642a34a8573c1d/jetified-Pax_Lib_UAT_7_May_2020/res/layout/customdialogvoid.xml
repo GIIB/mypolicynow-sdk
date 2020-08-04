@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_button_with_white_background"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_10">
+
+   <com.youbank.functions.MyTextView
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_20"
+        android:gravity="center"
+        android:text="Confirm Void ?"
+        android:textColor="@color/header_text"
+        android:textSize="@dimen/sub_header_text_size" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_margin="@dimen/padding_20"
+        android:orientation="horizontal" >
+
+      <com.youbank.functions.MyTextView
+            android:id="@+id/btnNo"
+            android:layout_width="@dimen/padding_30"
+            android:layout_height="@dimen/padding_40"
+            android:layout_marginLeft="@dimen/padding_30"
+            android:layout_marginRight="@dimen/padding_30"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_button_with_dblue_background"
+            android:gravity="center"
+            android:text="No"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/sub_header_text_size" />
+
+     <com.youbank.functions.MyTextView
+            android:id="@+id/btnYes"
+            android:layout_width="@dimen/padding_30"
+            android:layout_height="@dimen/padding_40"
+            android:layout_marginLeft="@dimen/padding_30"
+            android:layout_marginRight="@dimen/padding_30"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_button_with_dblue_background"
+            android:gravity="center"
+            android:text="Yes"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/sub_header_text_size" />
+    </LinearLayout>
+
+</RelativeLayout>

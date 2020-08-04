@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/tab"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_weight="0.91"
+        android:background="#003778">
+
+        <ImageView
+            android:layout_width="55dp"
+            android:layout_height="23dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ongomerchant_logo" />
+
+        <!--<include
+            layout="@layout/ongowallet_small_title_view"
+            android:layout_width="70dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/homeButton"></include>-->
+
+        <TextView
+            android:id="@+id/addmoney_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
+            android:textColor="#ffffff"
+            android:textSize="17dp"
+            android:text="Add Money"/>
+
+    </RelativeLayout>
+
+    <WebView
+        android:id="@+id/addMoneyWebView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tab"/>
+
+</RelativeLayout>

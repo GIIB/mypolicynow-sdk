@@ -6,6 +6,8 @@ import android.util.Log;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import static com.indicosmic.www.mypolicynow_ags.webservices.RestClient.BASE_URL;
+
 /**
  * Created by Ind3 on 15-12-17.
  */
@@ -15,7 +17,7 @@ public class Common {
 
     //public static String BASE_URL = "http://103.87.174.12/uat/mypolicynow.com/Api/";
     //public static String BASE_URL = "https://www.mypolicynow.com/Api/";
-    public static String BASE_URL = "http://uat.mypolicynow.com/Api/";
+    //public static String BASE_URL = "http://uat.mypolicynow.com/Api/";
     /*http://203.112.144.126/mypolicynow.com/
     http://123.108.50.50/mypolicynow.com/
     https://www.mypolicynow.com/prelive/
@@ -35,9 +37,11 @@ public class Common {
 
     public static String URL_QUESTION_LIST = BASE_URL+"fetch_breaking_question";
     public static String URL_SUBMIT_QUESTION = BASE_URL+"submit_inspection_report";
+    public static String URL_SUBMIT_QUESTION_NEW = BASE_URL+"submit_inspection_report_new";
 
     public static String URL_NEXT_QUESTION_LIST = BASE_URL+"fetch_inspection_question";
     public static String URL_NEXT_QUESTION_SUBMIT = BASE_URL+"submit_inspection_images";
+    public static String URL_NEXT_QUESTION_SUBMIT_NEW = BASE_URL+"submit_inspection_images_new";
 
     public static String URL_INSPECTION_COUNTER = BASE_URL+"proposal_counter";
 

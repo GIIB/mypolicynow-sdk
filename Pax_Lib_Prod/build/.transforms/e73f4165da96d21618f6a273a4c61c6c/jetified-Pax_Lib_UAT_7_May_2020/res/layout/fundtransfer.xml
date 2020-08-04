@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E0E0E0">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/header" />
+
+    <RelativeLayout
+        android:id="@+id/Rlmain"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header">
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/TMain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="8dp"
+            android:text="Domestic Fund Transfer"
+            android:textColor="#000000"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/Ivtrantype"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:src="@drawable/sale1"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/Vtop"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/Rlmain"
+        android:background="@android:color/darker_gray" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/Tvappver"
+        android:layout_below="@+id/Rlmain">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:checked="true"
+                    android:text="Card" />
+
+                <RadioButton
+                    android:id="@+id/radio1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Cash" />
+            </RadioGroup>
+
+            <RelativeLayout
+                android:id="@+id/Rlamnttip"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/radioGroup"
+                android:layout_marginBottom="8dp">
+
+                <com.youbank.functions.MyTextView
+                    android:id="@+id/TvToAccNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="12dp"
+                    android:text="Mobile Number"
+                    android:textColor="#000000"
+                    android:textSize="15sp" />
+
+                <RelativeLayout
+                    android:id="@+id/RltoAcc"
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/TvToAccNo"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="30dp"
+                    android:background="#EEEEEE">
+
+                    <com.youbank.functions.MyTextView
+                        android:id="@+id/TvHintAmnt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="@string/currency_txt"
+                        android:textColor="@android:color/black"
+                        android:textSize="13sp"
+                        android:visibility="gone" />
+
+                    <com.youbank.functions.MyEditText
+                        android:id="@+id/tvCreditAccNo"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/TvHintAmnt"
+                        android:layout_toRightOf="@+id/TvHintAmnt"
+                        android:background="@android:color/transparent"
+                        android:inputType="phone"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/RlIFSC"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/RltoAcc"
+                    android:layout_marginBottom="8dp">
+
+                    <com.youbank.functions.MyTextView
+                        android:id="@+id/TvToAccNo1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="12dp"
+                        android:text="IFSC Code"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <RelativeLayout
+                        android:id="@+id/RlIFSC1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_below="@+id/TvToAccNo1"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="30dp"
+                        android:background="#EEEEEE">
+
+                        <com.youbank.functions.MyTextView
+                            android:id="@id/TvHintAmnt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:text="@string/currency_txt"
+                            android:textColor="@android:color/black"
+                            android:textSize="13sp"
+                            android:visibility="gone" />
+
+                        <com.youbank.functions.MyEditText
+                            android:id="@+id/tvIFSCode"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@+id/TvHintAmnt"
+                            android:layout_toRightOf="@+id/TvHintAmnt"
+                            android:background="@android:color/transparent"
+                            android:inputType="textCapCharacters"
+                            android:textSize="18sp" />
+                    </RelativeLayout>
+
+                    <com.youbank.functions.MyTextView
+                        android:id="@+id/TvAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/RlIFSC1"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="12dp"
+                        android:text="Enter Amount"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <RelativeLayout
+                        android:id="@+id/RlAmount"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_below="@+id/TvAmount"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="30dp"
+                        android:background="#EEEEEE">
+
+                        <com.youbank.functions.MyTextView
+                            android:id="@id/TvHintAmnt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:text="@string/currency_txt"
+                            android:textColor="@android:color/black"
+                            android:textSize="13sp" />
+
+                        <com.youbank.functions.MyEditText
+                            android:id="@+id/EtvAmount"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@+id/TvHintAmnt"
+                            android:layout_toRightOf="@+id/TvHintAmnt"
+                            android:background="@android:color/transparent"
+                            android:inputType="numberDecimal"
+                            android:textSize="18sp" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <com.youbank.functions.MyButton
+                    android:id="@+id/BSubmit"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/RlIFSC"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/cbsubmit" />
+
+                <com.youbank.functions.MyTextView
+                    android:id="@+id/tvCardNoText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/BSubmit"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Card No"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:visibility="gone" />
+
+                <com.youbank.functions.MyTextView
+                    android:id="@+id/tvCardNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvCardNoText"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="5dp"
+                    android:text="459182100000123"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:visibility="gone" />
+
+                <RelativeLayout
+                    android:id="@+id/Rlinfo"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/BSubmit"
+                    android:visibility="gone">
+
+                    <com.youbank.functions.MyTextView
+                        android:id="@+id/TvtextCardno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:text="Card Number"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <com.youbank.functions.MyTextView
+                        android:id="@+id/TvCardno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/TvtextCardno"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="15sp" />
+
+                    <com.youbank.functions.MyTextView
+                        android:id="@+id/TvtextCardexpdt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/TvCardno"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:text="Expiry Date"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        android:visibility="gone" />
+
+                    <com.youbank.functions.MyTextView
+                        android:id="@+id/TvCardexpdt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/TvtextCardexpdt"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="15sp"
+                        android:visibility="gone" />
+
+                    <com.youbank.functions.MyTextView
+                        android:id="@+id/TvtextCardname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/TvCardexpdt"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:text="Card Holder Name"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        android:visibility="gone" />
+
+                    <com.youbank.functions.MyTextView
+                        android:id="@+id/TvCardname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/TvtextCardname"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="15sp"
+                        android:visibility="gone" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+    <com.youbank.functions.MyTextView
+        android:id="@+id/Tvappver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/Vbot"
+        android:layout_centerHorizontal="true"
+        android:text="@string/app_verno"
+        android:textColor="#000000"
+        android:textSize="10dp" />
+
+    <View
+        android:id="@+id/Vbot"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/textView1"
+        android:background="@android:color/darker_gray" />
+
+    <com.youbank.functions.MyTextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/footer_text"
+        android:textColor="#000000"
+        android:textSize="15dp" />
+
+</RelativeLayout>

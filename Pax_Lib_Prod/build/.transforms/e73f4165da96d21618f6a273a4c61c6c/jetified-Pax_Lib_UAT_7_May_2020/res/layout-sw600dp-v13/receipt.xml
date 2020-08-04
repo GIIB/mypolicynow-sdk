@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/Rlreceipt"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_background_with_transparent_color">
+
+    <RelativeLayout
+        android:id="@+id/Llsignpanel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff">
+
+        <include
+            android:id="@+id/Ivxyz"
+            layout="@layout/receipt_header"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/padding_5"
+            android:src="@drawable/indiatransact1" />
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/TvMname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Ivxyz"
+            android:layout_centerHorizontal="true"
+            android:text="NIDHI COMMUNICATION"
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/header_text_size"
+            android:textStyle="normal" />
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/Tvlocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/TvMname"
+            android:layout_centerHorizontal="true"
+            android:text="Location"
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/sub_header_text_size" />
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/Tvcity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Tvlocation"
+            android:layout_centerHorizontal="true"
+            android:text="City"
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/sub_header_text_size" />
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/Tvtrantype"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Tvcity"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/padding_5"
+            android:text="Sale"
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/sub_header_text_size" />
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/Tvtenure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Tvtrantype"
+            android:layout_centerHorizontal="true"
+            android:text=""
+            android:textColor="@android:color/black"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/TvTC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/Tvtenure"
+            android:text=""
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/font_10" />
+        <com.youbank.functions.MyTextView
+            android:id="@+id/TvAPPLname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/TvTC"
+            android:text="APPL NAME: "
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/font_10" />
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/TvAID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/TvAPPLname"
+            android:layout_alignParentRight="true"
+            android:text="AID: "
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/font_10" />
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/TvTVR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/TvAPPLname"
+            android:text="TVR: "
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/font_10" />
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/TvTSI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/TvTVR"
+            android:layout_alignParentRight="true"
+            android:text="TSI: "
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/font_10" />
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/TvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/TvTVR"
+            android:text="DATE:"
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/font_10" />
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/TvRrn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/TvDate"
+            android:layout_alignParentRight="true"
+            android:text="RRN:"
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/font_10" />
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/TvMid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/TvDate"
+            android:text="MId:"
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/font_10" />
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/TvInvoiceNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/TvMid"
+            android:text="INVOICE NO:"
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/font_10" />
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/TvTid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/TvDate"
+            android:text="TId:"
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/font_10" />
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/TvBatchno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/TvTid"
+            android:text="Batch No:"
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/font_10" />
+
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/TvAuthCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/TvBatchno"
+            android:text="AUTH CODE:"
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/font_10" />
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/TvAdditionalData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/TvAuthCode"
+            android:text="fhhfhfhf"
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/font_10"
+            android:visibility="gone" />
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/TvCardno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/TvAddData"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/padding_5"
+            android:text="CARD : "
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/normal_text_size" />
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/TvINTType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/TvCardno"
+            android:layout_centerHorizontal="true"
+            android:text="CARD : "
+            android:textStyle="bold"
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/normal_text_size"
+            />
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/TvSwipeOrChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/TvCardType"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/padding_5"
+            android:layout_marginTop="@dimen/padding_5"
+            android:text=""
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/font_10" />
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/TvCardType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/TvBatchno"
+            android:text=""
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/font_10" />
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/TvSENumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/TvAdditionalData"
+            android:text=""
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/font_10"
+            android:visibility="visible"/>
+
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/TvAddData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/TvSENumber"
+            android:text=""
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/font_10"
+            />
+
+
+        <RelativeLayout
+            android:id="@id/mainLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/TvINTType"
+            android:layout_margin="@dimen/padding_5"
+            android:background="@color/dim_foreground_disabled_material_dark"
+            android:padding="@dimen/padding_5">
+
+            <RelativeLayout
+                android:id="@+id/RlAmount"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_4">
+
+                <com.youbank.functions.MyTextView
+                    android:id="@+id/TvAmnt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="BASE AMOUNT : "
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/font_12" />
+
+                <TextView
+                    android:id="@+id/Ivrupee1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/padding_5"
+                    android:layout_toLeftOf="@+id/TvAmnt1"
+                    android:src="@drawable/ic_rupees_symbol"
+                    android:text="INR"
+                    android:textColor="#000"
+                    android:textSize="@dimen/font_12" />
+
+                <com.youbank.functions.MyTextView
+                    android:id="@+id/TvAmnt1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/font_12" />
+
+                <com.youbank.functions.MyTextView
+                    android:id="@+id/TvTip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/TvAmnt"
+                    android:layout_marginTop="@dimen/padding_5"
+                    android:text="TIP AMOUNT : "
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/font_12"
+                    android:visibility="visible" />
+
+                <com.youbank.functions.MyTextView
+                    android:id="@+id/TvTip1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/TvAmnt"
+                    android:layout_marginTop="@dimen/padding_5"
+                    android:text=""
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/font_12"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/TvAmnt"
+                    android:layout_marginRight="@dimen/padding_5"
+                    android:layout_marginTop="@dimen/padding_5"
+                    android:layout_toLeftOf="@+id/TvTip1"
+                    android:src="@drawable/ic_rupees_symbol"
+                    android:text="INR"
+                    android:textColor="#000"
+                    android:textSize="@dimen/font_12"
+                    android:visibility="visible" />
+
+
+                <View
+                    android:id="@+id/amntline1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/padding_1"
+                    android:layout_below="@+id/TvTip"
+                    android:layout_marginTop="@dimen/padding_2"
+                    android:layout_toRightOf="@+id/TvTip"
+                    android:background="@color/view_border"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/RlAmount"
+                android:layout_marginBottom="@dimen/padding_2"
+                android:layout_marginTop="@dimen/padding_5"
+                android:orientation="horizontal">
+
+                <com.youbank.functions.MyTextView
+                    android:id="@+id/TvTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TOTAL AMOUNT:"
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/font_12" />
+
+                <TextView
+                    android:id="@+id/Ivrupee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/TvTotal"
+                    android:layout_marginRight="@dimen/padding_5"
+                    android:layout_toLeftOf="@+id/TvTotal1"
+                    android:src="@drawable/ic_rupees_symbol"
+                    android:text="INR"
+                    android:textColor="#000"
+                    android:textSize="@dimen/font_12" />
+
+                <com.youbank.functions.MyTextView
+                    android:id="@+id/TvTotal1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/TvTotal"
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/font_12" />
+
+                <View
+                    android:id="@+id/amntline2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/padding_1"
+                    android:layout_below="@+id/TvTotal"
+                    android:layout_marginTop="@dimen/padding_2"
+                    android:layout_toRightOf="@+id/TvTotal"
+                    android:background="@android:color/black"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/viewSignOrNot"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/RlAgree"
+            android:layout_below="@+id/mainLayout"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtCardHolderName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
+                android:textColor="#000"
+                android:textSize="16dp" />
+
+            <RelativeLayout
+                android:id="@+id/pinVerifiedOkView"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/padding_40"
+                android:layout_above="@+id/txtCardHolderName">
+
+                <com.youbank.functions.MyTextView
+                    android:id="@+id/txtPinVerifiedOk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:text="PIN VERIFIED OK SIGNATURE NOT REQUIRED"
+                    android:textColor="@color/header_text"
+                    android:textSize="@dimen/normal_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/ifSignView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/Ivsignature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/padding_30"
+                    android:layout_above="@+id/line"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" />
+
+                <View
+                    android:id="@+id/line"
+                    android:layout_width="@dimen/padding_140"
+                    android:layout_height="@dimen/padding_1"
+                    android:layout_above="@+id/Tvsigname"
+                    android:layout_centerHorizontal="true"
+                    android:background="@android:color/black" />
+
+                <com.youbank.functions.MyTextView
+                    android:id="@+id/Tvsigname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:text=""
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/padding_15" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/RlAgree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_above="@+id/TvMerCopy"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/padding_5"
+            android:layout_marginTop="@dimen/padding_5">
+
+            <com.youbank.functions.MyTextView
+                android:id="@+id/TvAgreement1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/AgreementSale"
+                android:textColor="@color/header_text"
+                android:textSize="@dimen/font_10" />
+        </RelativeLayout>
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/TvMerCopy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/TvVer"
+            android:layout_centerHorizontal="true"
+            android:singleLine="true"
+            android:text="Customer Copy"
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/normal_text_size"
+            android:textStyle="bold" />
+
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/TvVer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/poweredBy_tv"
+            android:layout_centerHorizontal="true"
+            android:text="@string/app_verno"
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/font_10" />
+
+        <com.youbank.functions.MyTextView
+            android:id="@+id/poweredBy_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/padding_1"
+            android:text="@string/powered_by_str"
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/font_10" />
+
+    </RelativeLayout>
+</RelativeLayout>
+

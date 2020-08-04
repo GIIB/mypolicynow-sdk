@@ -161,7 +161,7 @@ public class InspectionImageAdapter extends BaseAdapter{
                 viewHolder.image.setImageBitmap(dataSet.getImage());
 
                 image_counter++;
-                //SingletonClass.getinstance().nextimage_counter = image_counter;
+                UtilitySharedPreferences.setPrefs(mCtc,"image_counter",String.valueOf(image_counter));
                 poslist.add(position);
             }
         });

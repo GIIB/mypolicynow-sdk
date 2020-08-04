@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_2">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/half_circle_blue"
+        android:orientation="vertical"
+        android:weightSum="3">
+
+        <RelativeLayout
+            android:id="@+id/headerView"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="90dp"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/ongomerchant_logo"
+
+                />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imageView1"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/dmt" />
+
+                <TextView
+                    android:id="@+id/rbHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:text="DMT"
+                    android:textColor="#fff"
+                    android:textSize="22dp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/mainLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/headerView">
+
+            <TextView
+                android:id="@+id/viewtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sender"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/title"></TextView>
+
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viewtitle"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <RadioButton
+                    android:id="@+id/rbregistration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:focusable="true"
+                    android:paddingRight="20dp"
+                    android:text="Registration "
+                    android:textColor="#fff"
+
+                    />
+
+                <!--<RadioButton
+                    android:id="@+id/rbview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/button_color"
+                    android:paddingRight="20dp"
+                    android:text="View" />-->
+
+                <RadioButton
+                    android:id="@+id/rbmodify"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="10dp"
+                    android:text="Modify"
+                    android:textColor="#fff" />
+
+            </RadioGroup>
+
+            <include
+                android:id="@+id/includerbregistration"
+                layout="@layout/fragments_dmt_sender_registration"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/radioGroup"
+                android:layout_marginTop="10dp"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/includerbview"
+                layout="@layout/fragments_dmt_sender_view"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@+id/radioGroup"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/includerbmodify"
+                layout="@layout/fragment_sender_modify"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/radioGroup"
+                android:layout_marginTop="10dp"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/includeOtp"
+                layout="@layout/activity_enter_otp_screen"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/radioGroup"
+                android:layout_marginTop="10dp"
+                android:visibility="gone" />
+
+
+        </RelativeLayout>
+        <!--</ScrollView>-->
+    </RelativeLayout>
+</RelativeLayout>

@@ -58,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="20sp"
+            android:layout_marginTop="10sp"
             android:weightSum="10">
 
             <TextView
@@ -86,10 +86,9 @@
                 android:layout_marginEnd="5dp"
                 android:padding="5dp"
                 android:layout_weight="5"
+                android:textSize="14sp"
+
                 />
-
-
-
 
 
         </LinearLayout>
@@ -123,6 +122,8 @@
                 android:gravity="center|end"
                 android:layout_marginEnd="5dp"
                 android:padding="5dp"
+                android:textSize="13sp"
+
                 android:layout_weight="5"
                 />
 
@@ -164,7 +165,6 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-
                 android:layout_gravity="center|end"
                 android:gravity="center|end"
                 android:layout_marginEnd="5dp"
@@ -172,9 +172,6 @@
                 android:layout_weight="5"
                 android:textSize="11sp"
                 />
-
-
-
 
 
         </LinearLayout>
@@ -435,6 +432,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:visibility="gone"
             android:weightSum="10">
 
             <TextView
@@ -475,6 +473,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:visibility="gone"
             android:weightSum="10">
 
             <TextView
@@ -740,14 +739,22 @@
                 android:textColor="@color/black"/>
 
 
+            <Button
+                android:id="@+id/btnResendMail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Resend Policy"
+                android:background="@color/primary"
+                android:layout_margin="5dp"
 
+                android:layout_weight="5"
+                android:textColor="@color/white"/>
 
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:weightSum="10"
-            android:layout_marginBottom="5dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:orientation="horizontal">
@@ -774,6 +781,8 @@
                 android:padding="5dp"
                 android:layout_weight="5"
                 android:textColor="@color/white"/>
+
+
 
 
         </LinearLayout>

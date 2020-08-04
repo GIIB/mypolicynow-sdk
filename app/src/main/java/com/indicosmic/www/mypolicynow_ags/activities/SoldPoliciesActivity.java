@@ -37,6 +37,7 @@ import com.indicosmic.www.mypolicynow_ags.R;
 import com.indicosmic.www.mypolicynow_ags.utils.CommonMethods;
 import com.indicosmic.www.mypolicynow_ags.utils.ConnectionDetector;
 import com.indicosmic.www.mypolicynow_ags.utils.MultipleSelectionSpinner;
+import com.indicosmic.www.mypolicynow_ags.utils.MyValidator;
 import com.indicosmic.www.mypolicynow_ags.utils.UtilitySharedPreferences;
 
 import org.json.JSONArray;
@@ -64,8 +65,8 @@ public class SoldPoliciesActivity extends AppCompatActivity {
     TextView tv_filters;
     ProgressDialog myDialog;
     LinearLayout ll_parent_sold_policies;
-    String StrAgentId="",StrPolicyNo="",StrRegistrationNo="",StrPolicyHolderMobileNo="",StrChassisNo="";
-    Dialog DialogFilters,DialogPdfViewer;
+    String terminal_id="",StrAgentId="",StrPolicyNo="",StrRegistrationNo="",StrPolicyHolderMobileNo="",StrChassisNo="",alternateEmailId="";
+    Dialog DialogFilters,ResendEmailDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,7 @@ public class SoldPoliciesActivity extends AppCompatActivity {
     private void init() {
 
         StrAgentId =   UtilitySharedPreferences.getPrefs(getApplicationContext(),"PosId");
+        terminal_id =  UtilitySharedPreferences.getPrefs(getApplicationContext(),"TerminalId");
 
         myDialog = new ProgressDialog(SoldPoliciesActivity.this);
         myDialog.setMessage("Please wait...");
@@ -135,6 +137,7 @@ public class SoldPoliciesActivity extends AppCompatActivity {
 
                         Log.d("Response", "" + response);
                         JSONObject jsonresponse = new JSONObject(response);
+
                         JSONArray records_arry = jsonresponse.getJSONArray("records");
                         if(records_arry.length()>0) {
                             for (int i = 0; i < records_arry.length(); i++) {
@@ -156,6 +159,8 @@ public class SoldPoliciesActivity extends AppCompatActivity {
                                 String gst_value = jsonObject.getString("gst_value");
                                 String gross_premium = jsonObject.getString("gross_premium");
                                 String policy_id = jsonObject.getString("policy_id");
+                                String quote_forward_link = jsonObject.getString("quote_forward_link");
+                                String proposal_pdf = ROOT_URL2+"downloadProposalPdf/"+quote_forward_link;
                                 String policy_lite_pdf = ROOT_URL2+"lite-download-policy/"+policy_id;
                                 String policy_pdf = ROOT_URL2+"downloadPolicyPdf/"+policy_id;
 
@@ -197,6 +202,7 @@ public class SoldPoliciesActivity extends AppCompatActivity {
                                 Button btnProposal =  (Button) rowView1.findViewById(R.id.btnProposal);
                                 Button btnPolicy =  (Button) rowView1.findViewById(R.id.btnPolicy);
                                 Button btnPolicyPdfLite =  (Button) rowView1.findViewById(R.id.btnPolicyPdfLite);
+                                Button btnResendMail =  (Button) rowView1.findViewById(R.id.btnResendMail);
 
                                 row_policy_issuer_name.setText(customer_name.toUpperCase());
                                 row_tv_mobile_no.setText(mobile_no);
@@ -206,6 +212,7 @@ public class SoldPoliciesActivity extends AppCompatActivity {
                                 row_tv_issue_date.setText(created_at);
                                 row_tv_vehicle_type.setText(vehicle_type);
                                 row_tv_reg_no.setText(vehicle_reg_no.toUpperCase());
+                                row_tv_quote_link.setText(quote_forward_link.toUpperCase());
 
                                 row_tv_od_premium.setText("\u20B9 " + net_od);
                                 row_tv_add_on_premium.setText("\u20B9 " + total_addon_premium);
@@ -215,7 +222,7 @@ public class SoldPoliciesActivity extends AppCompatActivity {
                                 row_tv_gst.setText("\u20B9 " + gst_value);
                                 row_tv_net_premium.setText("\u20B9 " + gross_premium);
 
-
+                                row_tv_proposal_url.setText(proposal_pdf);
                                 row_tv_policy_url.setText(policy_pdf);
                                 row_tv_policy_lite_url.setText(policy_lite_pdf);
 
@@ -230,15 +237,11 @@ public class SoldPoliciesActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(View view) {
                                         String pdf_title = "PROPOSAL PDF";
-
                                         Intent intent = new Intent(getApplicationContext(),PdfViewer.class);
                                         intent.putExtra("pdf_url",row_tv_proposal_url.getText().toString());
                                         intent.putExtra("pdf_title",pdf_title);
                                         startActivity(intent);
                                         overridePendingTransition(R.animator.move_left,R.animator.move_right);
-
-
-
                                     }
                                 });
 
@@ -269,6 +272,16 @@ public class SoldPoliciesActivity extends AppCompatActivity {
                                     }
                                 });
 
+                                btnResendMail.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+
+                                        showPopupToResendEmail(row_tv_policy_id.getText().toString(),row_tv_quote_link.getText().toString());
+
+
+                                    }
+                                });
+
                                 ll_parent_sold_policies.addView(rowView1);
 
                             }
@@ -276,6 +289,7 @@ public class SoldPoliciesActivity extends AppCompatActivity {
 
                             TextView textView = new TextView(getApplicationContext());
                             textView.setText("No Data found...");
+                            textView.setTextColor(getResources().getColor(R.color.red_close));
                             textView.setPadding(10,10,10,10);
 
                             ll_parent_sold_policies.addView(textView);
@@ -341,8 +355,181 @@ public class SoldPoliciesActivity extends AppCompatActivity {
 
     }
 
-    private void ViewFiltersDialog() {
+    private void showPopupToResendEmail(String policy_id,String quoteLink) {
 
+        ResendEmailDialog = new Dialog(SoldPoliciesActivity.this);
+        ResendEmailDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        ResendEmailDialog.setCanceledOnTouchOutside(true);
+        ResendEmailDialog.setCancelable(true);
+        ResendEmailDialog.setContentView(R.layout.pop_up_resend_policy);
+        ResendEmailDialog.getWindow().setBackgroundDrawable(
+                new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        TextView title = ResendEmailDialog.findViewById(R.id.title);
+        title.setText("RESEND POLICY");
+
+        Button btn_resend_policy_customer = (Button) ResendEmailDialog.findViewById(R.id.btn_resend_policy_customer);
+        EditText edt_AlternativeEmail =  (EditText) ResendEmailDialog.findViewById(R.id.edt_AlternativeEmail);
+        Button btnResendAlternateEmail =  (Button) ResendEmailDialog.findViewById(R.id.btnResendAlternateEmail);
+
+
+        btn_resend_policy_customer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                    alternateEmailId="";
+                    API_RESEND_MAIL(policy_id,quoteLink);
+            }
+        });
+
+
+        ResendEmailDialog.show();
+        btnResendAlternateEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if(!MyValidator.isValidEmail(edt_AlternativeEmail)){
+                    edt_AlternativeEmail.setError("Please provide Alternate Email Id to send mail");
+                }else {
+
+                    alternateEmailId = edt_AlternativeEmail.getText().toString();
+                    API_RESEND_MAIL(policy_id, quoteLink);
+                }
+
+            }
+        });
+
+
+    }
+
+    private void API_RESEND_MAIL(String policyId, String quoteLink) {
+
+        myDialog.show();
+        String URL = ROOT_URL2+"resendmail_policy";
+        ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
+        boolean isInternetPresent = cd.isConnectingToInternet();
+        if (isInternetPresent) {
+            Log.d("URL", "" + URL);
+            StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+
+                    if (myDialog != null && myDialog.isShowing()) {
+                        myDialog.dismiss();
+                    }
+                    try {
+
+                        Log.d("Response", "" + response);
+                        JSONObject jsonresponse = new JSONObject(response);
+
+                        boolean status = jsonresponse.getBoolean("status");
+                        if(ResendEmailDialog!=null && ResendEmailDialog.isShowing()){
+                            ResendEmailDialog.dismiss();
+                        }
+
+                        if(status) {
+
+
+                            String message = jsonresponse.getString("message");
+                            MessagePopUp(status,message);
+                        }else {
+                            String message = "Failed to send Quote";
+                            MessagePopUp(false,message);
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    if (myDialog != null && myDialog.isShowing()) {
+                        myDialog.dismiss();
+                    }
+                    CommonMethods.DisplayToastInfo(getApplicationContext(),"Something went wrong. Please try again later.");
+
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("policy_id", policyId);
+                    map.put("quote_link", quoteLink);
+                    map.put("agent_id", StrAgentId);
+                    map.put("mail_id",alternateEmailId);
+                    Log.d("Params",""+map);
+                    return map;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    //  Authorization: Basic $auth
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    //headers.put("Content-Type", "application/x-www-form-urlencoded");
+                    //headers.put("Content-Type", "application/json; charset=utf-8");
+                    headers.put("x-api-key",x_api_key);
+                    headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
+                    return headers;
+                }
+            };
+
+
+            int socketTimeout = 50000; //30 seconds - change to what you want
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            request.setRetryPolicy(policy);
+            // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(request);
+        }else {
+            CommonMethods.DisplayToast(getApplicationContext(),"Please check Internet Connection");
+        }
+
+    }
+
+    public void MessagePopUp(boolean status, String message) {
+        final Dialog dialog = new Dialog(SoldPoliciesActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.pop_up_info_message);
+        dialog.getWindow().setBackgroundDrawable(
+                new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        TextView title = dialog.findViewById(R.id.title);
+        TextView Message_text = dialog.findViewById(R.id.Message_text);
+
+        ImageView iv_MessageImg = dialog.findViewById(R.id.iv_MessageImg);
+        if(status) {
+            iv_MessageImg.setImageDrawable(getDrawable(R.drawable.checked_green));
+            iv_MessageImg.setVisibility(View.VISIBLE);
+        }else {
+            iv_MessageImg.setImageDrawable(getDrawable(R.drawable.alert_circle));
+            iv_MessageImg.setVisibility(View.VISIBLE);
+        }
+        TextView tv_ok = dialog.findViewById(R.id.tv_ok);
+        tv_ok.setText("OK");
+
+        title.setText(R.string.app_name);
+        Message_text.setText(Html.fromHtml(message));
+
+
+
+        dialog.show();
+        tv_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+            }
+        });
+
+
+
+    }
+
+
+    private void ViewFiltersDialog() {
 
         DialogFilters = new Dialog(SoldPoliciesActivity.this);
         DialogFilters.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -436,6 +623,8 @@ public class SoldPoliciesActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(getApplicationContext(), MainActivity_1.class);
+        intent.putExtra("terminal_id", UtilitySharedPreferences.getPrefs(getApplicationContext(),"TerminalId"));
+        intent.putExtra("merchant_id",UtilitySharedPreferences.getPrefs(getApplicationContext(),"MerchantId"));
         startActivity(intent);
         overridePendingTransition(R.animator.left_right,R.animator.right_left);
         finish();

@@ -56,7 +56,7 @@ public class SavedProposalActivity extends AppCompatActivity {
     TextView tv_filters;
     ProgressDialog myDialog;
     LinearLayout ll_parent_saved_proposal;
-    String StrAgentId="",StrProposalNo="",StrRegistrationNo="",StrPolicyHolderMobileNo="",StrChassisNo="";
+    String terminal_id="",StrAgentId="",StrProposalNo="",StrRegistrationNo="",StrPolicyHolderMobileNo="",StrChassisNo="";
     Dialog DialogFilters,DialogPdfViewer;
 
 
@@ -70,6 +70,7 @@ public class SavedProposalActivity extends AppCompatActivity {
 
     private void init() {
         StrAgentId =   UtilitySharedPreferences.getPrefs(getApplicationContext(),"PosId");
+        terminal_id =  UtilitySharedPreferences.getPrefs(getApplicationContext(),"TerminalId");
 
         myDialog = new ProgressDialog(SavedProposalActivity.this);
         myDialog.setMessage("Please wait...");
@@ -163,6 +164,7 @@ public class SavedProposalActivity extends AppCompatActivity {
 
 
                                 TextView row_tv_net_premium = (TextView) rowView1.findViewById(R.id.row_tv_net_premium);
+                                TextView row_total_premium = (TextView) rowView1.findViewById(R.id.row_total_premium);
 
                                 TextView row_tv_quote_link = (TextView) rowView1.findViewById(R.id.row_tv_quote_link);
                                 TextView row_tv_proposal_url = (TextView) rowView1.findViewById(R.id.row_tv_proposal_url);
@@ -183,7 +185,7 @@ public class SavedProposalActivity extends AppCompatActivity {
 
 
                                 row_tv_net_premium.setText("\u20B9 " + final_premium);
-
+                                row_total_premium.setText(final_premium);
 
                                 row_tv_quote_link.setText(quote_forward_link);
                                 String quote_url = "downloadProposalPdf/"+quote_forward_link.toUpperCase();
@@ -217,6 +219,7 @@ public class SavedProposalActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(View view) {
 
+                                        UtilitySharedPreferences.setPrefs(getApplicationContext(),"total_premium_payable",row_total_premium.getText().toString());
                                         JSONObject dataObj = new JSONObject();
                                         try {
                                             dataObj.put("proposal_no",row_tv_proposal_id.getText().toString());
@@ -566,6 +569,8 @@ public class SavedProposalActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(getApplicationContext(), MainActivity_1.class);
+        intent.putExtra("terminal_id", UtilitySharedPreferences.getPrefs(getApplicationContext(),"TerminalId"));
+        intent.putExtra("merchant_id",UtilitySharedPreferences.getPrefs(getApplicationContext(),"MerchantId"));
         startActivity(intent);
         overridePendingTransition(R.animator.left_right,R.animator.right_left);
         finish();

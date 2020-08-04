@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.indicosmic.www.mypolicynow_ags.R;
 import com.indicosmic.www.mypolicynow_ags.activities.MainActivity_1;
+import com.indicosmic.www.mypolicynow_ags.utils.UtilitySharedPreferences;
 
 public class AboutUsActivity extends AppCompatActivity {
     ImageView back_btn_toolbar;
@@ -45,6 +46,8 @@ public class AboutUsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(getApplicationContext(), MainActivity_1.class);
+        intent.putExtra("terminal_id", UtilitySharedPreferences.getPrefs(getApplicationContext(),"TerminalId"));
+        intent.putExtra("merchant_id",UtilitySharedPreferences.getPrefs(getApplicationContext(),"MerchantId"));
         startActivity(intent);
         overridePendingTransition(R.animator.left_right,R.animator.right_left);
         finish();

@@ -1,5 +1,6 @@
 package com.indicosmic.www.mypolicynow_ags.activities;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -43,6 +44,13 @@ import com.indicosmic.www.mypolicynow_ags.breakin_app_files.InspectionCheckpoint
 import com.indicosmic.www.mypolicynow_ags.utils.CommonMethods;
 import com.indicosmic.www.mypolicynow_ags.utils.ConnectionDetector;
 import com.indicosmic.www.mypolicynow_ags.utils.UtilitySharedPreferences;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.ServerResponse;
@@ -55,6 +63,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -78,13 +87,13 @@ public class ReviewDetailsActivity_5 extends AppCompatActivity {
             tv_Address1,tv_Address2,tv_City,tv_State,tv_Pincode;
     Button btn_Edit,btn_GenerateProposal;
     LinearLayout LayoutAppointeeDetails;
-    String StrAgentId="",StrMpnData="",StrUserActionData="",StrImageUrl="",SelectedIcId="",IsBreakInCase="";
+    String StrIsPreviousPolicy="",StrAgentId="",StrMpnData="",StrUserActionData="",StrImageUrl="",SelectedIcId="",IsBreakInCase="";
     String StrRegistrationDate="",Date_of_born = "", StrPolicyType = "";
     String StrSelectedSalutation,StrSelectedGender,StrSelectedMaritalStatus,StrFirstName,StrMiddleName, StrLastName, StrEmailAddress, StrPan, StrAadharCard,StrMobileNo="",StrGstInNumber="";
     String Str_NomineeSalutation,Str_NomineeRelationship,Str_AppointeeSalutation,Str_AppointeeRelationship;
     String Str_NomineeFirstName,Str_NomineeMiddleName,Str_NomineeLastName,Str_NomineeAge;
     String Str_AppointeeFirstName,Str_AppointeeMiddleName,Str_AppointeeLastName,Str_AppointeeAge;
-    String Str_Address1,Str_Address2,Str_Pincode,Str_State,Str_City,Str_CityId,Str_StateId;
+    String Str_Address1,Str_Address2,Str_Pincode,Str_State,Str_City,Str_CityId,Str_StateId,terminal_id;
     String StrPreviousPolicyNo,StrPreviousPolicyIC,StrRtoStateCode,StrRtoCityCode,StrRtoZoneCode,StrVehicleNo,StrEngineNo,StrChassisNo,StrVehicleColor,StrAgreement,
             StrBankName,StrBankId;
     JSONObject mpn_dataObj = new JSONObject();
@@ -94,7 +103,7 @@ public class ReviewDetailsActivity_5 extends AppCompatActivity {
     File myFileToUpload = null;
     String PreviousPolicyFileName;
     byte[] bbytesFile;
-
+    boolean is_breakin=false;
     String file_base;
     String filePath,picturePath,b64,filename,file_extension;
     String Quote_Link="";
@@ -152,6 +161,8 @@ public class ReviewDetailsActivity_5 extends AppCompatActivity {
         TextView til_text = (TextView)findViewById(R.id.til_text);
         til_text.setText("REVIEW CUSTOMER DETAILS");
 
+        terminal_id =  UtilitySharedPreferences.getPrefs(getApplicationContext(),"TerminalId");
+        StrAgentId =   UtilitySharedPreferences.getPrefs(getApplicationContext(),"PosId");
 
         iv_Ic = (ImageView)findViewById(R.id.iv_Ic);
         tv_IC_Name  = (TextView)findViewById(R.id.tv_IC_Name);
@@ -363,6 +374,7 @@ public class ReviewDetailsActivity_5 extends AppCompatActivity {
         String cityObjStr = UtilitySharedPreferences.getPrefs(this,"CustomerCityArry");
         String stateObjStr = UtilitySharedPreferences.getPrefs(this,"CustomerStateArry");
         StrMpnData =  UtilitySharedPreferences.getPrefs(this,"MpnData");
+
         StrUserActionData = UtilitySharedPreferences.getPrefs(this,"UserActionData");
         String StrOwnerDetails = UtilitySharedPreferences.getPrefs(this,"vehicle_ownerObj");
         String StrNomineeDetails = UtilitySharedPreferences.getPrefs(this,"nominee_detailsObj");
@@ -396,19 +408,30 @@ public class ReviewDetailsActivity_5 extends AppCompatActivity {
             customerObj.put("address_detail",address_detailObj);
             customerObj.put("vehicle_detail",vehicle_detailObj);
 
+            JSONObject user_action_dataObj = new JSONObject(StrUserActionData);
+            StrIsPreviousPolicy = user_action_dataObj.getString("is_previous_policy");
+
+            mpn_dataObj = new JSONObject(StrMpnData);
+            is_breakin = mpn_dataObj.getBoolean("is_breakin");
+
 
             if(StrPolicyType!=null && !StrPolicyType.equalsIgnoreCase("null") && !StrPolicyType.equalsIgnoreCase("")){
                 if(StrPolicyType.equalsIgnoreCase("renew")) {
-                    customerObj.put("previous_policy_details", previous_policyObj);
+                    if(StrIsPreviousPolicy!=null && StrIsPreviousPolicy.equalsIgnoreCase("no")){
+                        customerObj.put("previous_policy_details", "");
+                    }else {
+                        customerObj.put("previous_policy_details", previous_policyObj);
+                    }
+
                 }
             }
 
-            mpn_dataObj = new JSONObject(StrMpnData);
             mpn_dataObj.put("customer_quote",customerObj);
 
             JSONObject proposalObj = mpn_dataObj.getJSONObject("proposal_data");
             Quote_Link = proposalObj.getString("quote_forward_link");
 
+            Log.d("mpn_dataObj",""+mpn_dataObj);
             Log.d("Quote_Link",""+Quote_Link);
 
             //Log.d("customerObj",""+customerObj);
@@ -418,16 +441,23 @@ public class ReviewDetailsActivity_5 extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
         StrMpnData = mpn_dataObj.toString();
+        UtilitySharedPreferences.setPrefs(getApplicationContext(), "MpnData",StrMpnData);
+
         IsBreakInCase = UtilitySharedPreferences.getPrefs(getApplicationContext(),"isBreakIn");
 
         Log.d("customerObj",""+customerObj);
 
+
+
         if(StrPolicyType!=null && !StrPolicyType.equalsIgnoreCase("null") && !StrPolicyType.equalsIgnoreCase("")){
             if(StrPolicyType.equalsIgnoreCase("renew")) {
-                uploadPreviousPolicyDocumentPopup(true);
+                if(StrIsPreviousPolicy!=null && StrIsPreviousPolicy.equalsIgnoreCase("no")){
+                    API_GET_PROPOSAL_PDF_API();
+                }else {
+                    uploadPreviousPolicyDocumentPopup(true);
+                }
+
             }else{
                 API_GET_PROPOSAL_PDF_API();
             }
@@ -544,8 +574,8 @@ public class ReviewDetailsActivity_5 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                //requestMultiplePermissions();
                 cameraIntent();
-
             }
         });
 
@@ -563,7 +593,6 @@ public class ReviewDetailsActivity_5 extends AppCompatActivity {
             public void onClick(View view) {
                 if(imageFile!=null &&  !imageFile.getAbsolutePath().toString().equalsIgnoreCase("")) {
                     API_UPLOAD_PREVIOUS_YEAR_POLICY();
-
                 }else {
                     CommonMethods.DisplayToastError(getApplicationContext(),"It seems some issue while uploading.. Please try again later.");
                 }
@@ -572,15 +601,56 @@ public class ReviewDetailsActivity_5 extends AppCompatActivity {
 
     }
 
-    private void cameraIntent(){
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (cameraIntent.resolveActivity(this.getPackageManager()) != null) {
-            try {
-                //imageFile = createImageFile();
-                @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd").format(new Date());
+    private void requestMultiplePermissions() {
+        Dexter.withActivity(this)
+                .withPermissions(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.VIBRATE,
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        if (report.areAllPermissionsGranted()) {  // check if all permissions are granted
+                            Toast.makeText(getApplicationContext(), "All permissions are granted by user!", Toast.LENGTH_SHORT).show();
+                            cameraIntent();
+                        }
 
-                PreviousPolicyFileName = Quote_Link+"_"+ timeStamp;
-                //File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                        if (report.isAnyPermissionPermanentlyDenied()) { // check for permanent denial of any permission
+                            // show alert dialog navigating to Settings
+                            //openSettingsDialog();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+
+                    }
+
+
+
+
+                }).
+                withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+                        Toast.makeText(getApplicationContext(), "Some Error! ", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .onSameThread()
+                .check();
+    }
+
+    private void cameraIntent(){
+        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd").format(new Date());
+        PreviousPolicyFileName = Quote_Link+"_"+ timeStamp;
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (cameraIntent.resolveActivity(getApplicationContext().getPackageManager()) != null) {
+            try {
+
                 File direct = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/AGS");
                 if (!direct.exists()) {
                     direct.mkdirs();
@@ -594,16 +664,18 @@ public class ReviewDetailsActivity_5 extends AppCompatActivity {
                 mCurrentPhotoPath = "file:" + imageFile.getAbsolutePath();
                 Log.d("ImagePath",""+mCurrentPhotoPath);
 
-                outputFileUri = FileProvider.getUriForFile(this, this.getPackageName() + ".fileprovider", imageFile);
+                outputFileUri = FileProvider.getUriForFile(getApplicationContext(), getApplicationContext().getPackageName() + ".fileprovider", imageFile);
                 if (imageFile != null) {
                     cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
                     cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", 0);
-
                     startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE);
                 }
             } catch (Exception ex) {
                 // Error occurred while creating the File
-                Log.i("", "Exception");
+                startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE);
+                Log.i("TAG", "Exception");
+                Log.d("Error", ""+ex.getMessage());
+                //CommonMethods.DisplayToast(getApplicationContext(),"It seems to be some technical Issue. Please try again later.");
             }
         }
     }

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/parent_rl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_above="@+id/ll2"
+        android:background="@android:color/white"
+        android:layout_marginTop="@dimen/padding_10"
+
+
+
+        android:paddingTop="@dimen/padding_10"
+        android:paddingBottom="@dimen/padding_10"
+
+        android:weightSum="2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_above="@+id/ll2"
+            android:weightSum="2"
+            android:gravity="center"
+            android:background="@drawable/imageview_border"
+            android:layout_marginRight="@dimen/padding_10"
+            android:layout_marginLeft="@dimen/padding_10"
+            android:layout_weight="0.7">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Scan Here to Pay"
+                android:textStyle="bold"
+                android:textSize="@dimen/font_16"
+                android:textColor="@color/secondaryColorBlack"/>
+
+            <ImageView
+                android:layout_width="@dimen/padding_40"
+                android:layout_height="@dimen/padding_50"
+                android:layout_marginTop="@dimen/padding_10"
+                android:layout_gravity="center"
+                android:src="@drawable/down_arrow"
+                android:layout_marginBottom="@dimen/padding_20"
+                android:contentDescription="TODO" />
+
+            <ImageView
+                android:id="@+id/imgReadyQR"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.4"
+                android:layout_marginLeft="@dimen/padding_20"
+                android:layout_marginRight="@dimen/padding_20"
+                android:layout_gravity="center"
+                android:background="@drawable/static_qr_code_without_logo"
+                android:contentDescription="TODO" />
+
+            <TextView
+                android:id="@+id/mName_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/padding_20"
+                android:layout_marginRight="@dimen/padding_2"
+                android:layout_marginLeft="@dimen/padding_2"
+                android:text="Test"
+                android:textColor="@color/secondaryColorBlack"
+                android:textSize="@dimen/font_16"
+                android:textStyle="bold" />
+
+
+
+            <TextView
+                android:id="@+id/mAddress_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/padding_5"
+                android:layout_marginBottom="@dimen/padding_5"
+                android:layout_marginRight="@dimen/padding_2"
+                android:layout_marginLeft="@dimen/padding_2"
+                android:text="Mumbai"
+                android:textStyle="bold"
+                android:textSize="@dimen/font_16"
+                android:textColor="@color/secondaryColorBlack"/>
+
+
+
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.3"
+            android:orientation="vertical"
+            android:layout_marginRight="@dimen/padding_10"
+            android:layout_above="@+id/ll2"
+            android:weightSum="5">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/padding_2"
+                android:padding="@dimen/padding_12"
+                android:layout_weight="1"
+                android:background="@drawable/imageview_border"
+                android:src="@drawable/bharat_qr_logo"
+                android:contentDescription="TODO" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/padding_2"
+                android:padding="@dimen/padding_10"
+                android:layout_weight="1"
+                android:src="@drawable/upi_logo"
+                android:background="@drawable/imageview_border"
+                android:contentDescription="TODO" />
+
+
+            <ImageView
+                android:id="@+id/ruPaylogo"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_margin="@dimen/padding_2"
+                android:background="@drawable/imageview_border"
+                android:src="@drawable/rupaylogo1"
+                android:contentDescription="TODO" />
+
+            <ImageView
+                android:id="@+id/masterPassLogo"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_margin="@dimen/padding_2"
+                android:padding="@dimen/padding_10"
+                android:background="@drawable/imageview_border"
+                android:contentDescription="TODO"
+                android:src="@drawable/masterpass_logo" />
+
+
+            <ImageView
+                android:id="@+id/mvisalogo"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@drawable/imageview_border"
+                android:layout_weight="1"
+                android:layout_margin="@dimen/padding_2"
+                android:padding="@dimen/padding_5"
+                android:src="@drawable/mvisa_icon"
+                android:contentDescription="TODO" />
+
+
+
+
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/padding_20"
+        android:layout_marginTop="@dimen/padding_10"
+        android:layout_alignParentBottom="true"
+
+        android:weightSum="2">
+
+        <com.swipeit2.ClsRippleView
+            android:id="@+id/shareBtn"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/padding_40"
+            android:text="@string/share"
+            android:layout_marginLeft="@dimen/padding_20"
+            android:layout_marginRight="@dimen/padding_5"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@drawable/rounded_button_with_dblue_background"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/font_16" />
+
+
+        <com.swipeit2.ClsRippleView
+            android:id="@+id/downloadBtn"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/padding_40"
+            android:layout_marginRight="@dimen/padding_20"
+            android:layout_marginLeft="@dimen/padding_5"
+            android:background="@drawable/rounded_button_with_dblue_background"
+            android:text="@string/download"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/font_16" />
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

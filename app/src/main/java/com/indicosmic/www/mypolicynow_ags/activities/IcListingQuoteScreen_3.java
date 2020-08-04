@@ -78,7 +78,7 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
     String StrAgentId="",StrMpnData="",StrUserActionData="",StrImageUrl="",StrPlanTypeData="",selected_od_year,ProductTypeId="",StrExShowRoomPrice="";
     String StrMake,StrModel,StrVariant,Str_vehicle_make_model_variant_name="",Str_vehicle_id="",Str_vehicle_make_id="",Str_vehicle_model_id="",Str_vehicle_variant_id="",
             Str_cc="",Str_fuel="",Str_rto="",Str_policy_package_type="",Str_policy_start_date="",Str_previous_ncb="",Str_policy_type="",Str_policy_end_date="",
-            Str_current_ncb="",Str_policy_holder_type="",Str_claimed_in_past_year="",Str_plan_type="",Str_previous_policy_type="",Str_previous_policy_expiry_date="",
+            Str_current_ncb="",StrIsPreviousPolicy="",Str_policy_holder_type="",Str_claimed_in_past_year="",Str_plan_type="",Str_previous_policy_type="",Str_previous_policy_expiry_date="",
             Str_pa_cover_tenure="",Str_rto_id="",Str_have_pa_policy="",Str_product_type_id="",Str_vehicle_min_idv="",
             Str_vehicle_max_idv="",Str_total_vehicle_idv="";
     boolean is_breakin;
@@ -223,16 +223,39 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
             Str_policy_package_type = user_action_dataObj.getString("policy_package_type");
             Str_policy_type = user_action_dataObj.getString("policy_type");
             Str_policy_holder_type = user_action_dataObj.getString("policy_holder_type");
-
+            StrIsPreviousPolicy = user_action_dataObj.getString("is_previous_policy");
             if(Str_policy_holder_type.equalsIgnoreCase("individual")){
                 Str_pa_cover_tenure = user_action_dataObj.getString("selected_pa_year");
             }
 
             if(Str_policy_type.equalsIgnoreCase("renew")) {
-                Str_claimed_in_past_year = user_action_dataObj.getString("is_claimed");
-                Str_previous_policy_type = user_action_dataObj.getString("previous_yr_policy_type");
-                Str_previous_policy_expiry_date = user_action_dataObj.getString("previous_policy_expiry_date");
-                Str_previous_ncb = user_action_dataObj.getString("previous_policy_ncb");
+                if(user_action_dataObj.has("is_claimed")) {
+                    Str_claimed_in_past_year = user_action_dataObj.getString("is_claimed");
+                }else {
+                    Str_claimed_in_past_year = "";
+                }
+
+                if(user_action_dataObj.has("previous_yr_policy_type")) {
+                    Str_previous_policy_type = user_action_dataObj.getString("previous_yr_policy_type");
+                }else {
+                    Str_previous_policy_type = "";
+                }
+
+                if(user_action_dataObj.has("previous_policy_expiry_date")) {
+                    Str_previous_policy_expiry_date = user_action_dataObj.getString("previous_policy_expiry_date");
+                }else {
+                    Str_previous_policy_expiry_date = "";
+                }
+
+                if(user_action_dataObj.has("previous_policy_ncb")) {
+
+                    Str_previous_ncb = user_action_dataObj.getString("previous_policy_ncb");
+                    if(Str_previous_ncb!=null && Str_previous_ncb.equalsIgnoreCase("false")){
+                        Str_previous_ncb = "0";
+                    }
+                }else {
+                    Str_previous_ncb = "0";
+                }
 
             }else {
                 Str_previous_ncb = "0";
@@ -371,7 +394,7 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
 
             Str_current_ncb = mpn_dataObj.getString("current_ncb");
 
-            is_breakin = mpn_dataObj.getBoolean("is_quote_breakin");
+            is_breakin = mpn_dataObj.getBoolean("is_breakin");
             Str_vehicle_min_idv = mpn_dataObj.getString("vehicle_min_idv");
             Str_vehicle_max_idv = mpn_dataObj.getString("vehicle_max_idv");
             Str_total_vehicle_idv = mpn_dataObj.getString("total_vehicle_idv");
@@ -423,8 +446,16 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
 
 
         if(Str_policy_type.equalsIgnoreCase("renew")) {
-            LinearIsClaimed.setVisibility(View.VISIBLE);
-            LinearPreviousPolicyData.setVisibility(View.VISIBLE);
+
+            if(StrIsPreviousPolicy!=null && StrIsPreviousPolicy.equalsIgnoreCase("no")){
+                LinearPreviousPolicyData.setVisibility(View.GONE);
+                LinearIsClaimed.setVisibility(View.INVISIBLE);
+            }else {
+                LinearIsClaimed.setVisibility(View.VISIBLE);
+                LinearPreviousPolicyData.setVisibility(View.VISIBLE);
+            }
+
+
             tv_claimed_in_past_year.setText(ucFirst(Str_claimed_in_past_year));
             tv_previous_policy_type.setText(ucFirst(Str_previous_policy_type));
             tv_previous_policy_expiry_date.setText(Str_previous_policy_expiry_date);
@@ -1755,13 +1786,18 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
                         JSONObject dataObj = responseObj.getJSONObject("data");
 
                         //Quote Html
+                        JSONObject quote_result = dataObj.getJSONObject("quote_result");
+
                         JSONObject quote_html = dataObj.getJSONObject("quote_api");
                         String logo_url = quote_html.getString("logo_url");
                         String ic_id_name = quote_html.getString("ic_id_name");
 
                         String error = quote_html.getString("error");
 
-                        //boolean is_addon = quote_html.getBoolean("is_addon");
+
+                            JSONObject icObj  = quote_result.getJSONObject("ic");
+                            String IC_ShortCode = icObj.getString("short_code");
+                            Log.d("IC_ShortCode",""+IC_ShortCode);
 
 
 
@@ -1778,6 +1814,12 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
 
                             TextView row_ic_id = (TextView)rowView.findViewById(R.id.row_ic_id);
                             row_ic_id.setText(ic_id);
+
+                            TextView row_ic_short_code = (TextView)rowView.findViewById(R.id.row_ic_short_code);
+                            row_ic_short_code.setText(IC_ShortCode);
+
+
+
 
                             TextView row_ic_name= (TextView)rowView.findViewById(R.id.row_ic_name);
                             if(error_message!=null && !error_message.equalsIgnoreCase("")) {
@@ -1825,6 +1867,9 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
 
                             TextView row_ic_id = (TextView)rowView.findViewById(R.id.row_ic_id);
                             row_ic_id.setText(ic_id);
+
+                            TextView row_ic_short_code = (TextView)rowView.findViewById(R.id.row_ic_short_code);
+                            row_ic_short_code.setText(IC_ShortCode);
 
                             TextView row_ic_name= (TextView)rowView.findViewById(R.id.row_ic_name);
                             row_ic_name.setText(ic_id_name);
@@ -1962,6 +2007,7 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
                                 @Override
                                 public void onClick(View view) {
                                     UtilitySharedPreferences.setPrefs(getApplicationContext(),"total_premium_payable",net_premium_amt.getText().toString());
+                                    UtilitySharedPreferences.setPrefs(getApplicationContext(),"IC_ShortCode",row_ic_short_code.getText().toString());
                                     API_BUY_POLICY(row_ic_id.getText().toString());
                                 }
                             });
@@ -2199,9 +2245,6 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
         final TextView tv_dep_cover_addon_value = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_dep_cover_addon_value);
         final TextView tv_total_net_addons_premium = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_total_net_addons_premium);
 
-
-
-
         DialogBreakUpDetail.show();
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -2324,7 +2367,15 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
                     tv_basic_tp_18_h.setText(basic_cngailer_tp_gst);
 
                     tv_tp_other_i.setText(i_tp_other);
-                    tv_tp_other_18_j.setText(j_tp_Other_gst);
+
+                    if(j_tp_Other_gst!=null && !j_tp_Other_gst.equalsIgnoreCase("") && !j_tp_Other_gst.equalsIgnoreCase("null")){
+                        tv_tp_other_18_j.setText(j_tp_Other_gst);
+
+                    }else{
+                        j_tp_Other_gst = "0";
+                        tv_tp_other_18_j.setText(j_tp_Other_gst);
+                    }
+
                     tv_total_tp_k.setText(k_total_tp_premium);
                     tv_total_premium_l.setText(l_total_tp_premium_with_gst);
                     tv_total_premium_with_gst_18_m.setText(m_total_tp_premium_with_gst);

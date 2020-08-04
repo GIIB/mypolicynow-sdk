@@ -22,6 +22,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.webkit.PermissionRequest;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -75,12 +76,19 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
 import com.interfaces.ClsPAXInf;
 import com.interfaces.OnPaxPOSTransactionListerner;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import static com.indicosmic.www.mypolicynow_ags.webservices.RestClient.ROOT_URL2;
 import static com.indicosmic.www.mypolicynow_ags.webservices.RestClient.api_password;
 import static com.indicosmic.www.mypolicynow_ags.webservices.RestClient.api_user_name;
@@ -101,7 +109,7 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
     WebView webViewProposalPdf;
     SwipeRefreshLayout MySwipeRefreshLayout;
     ProgressBar progressBar;
-    String StrAgentId="",StrMpnData,StrUserActionData;
+    String StrAgentId="",StrMpnData,StrUserActionData,StrTotal_Swap,StrIc_premium,StrTotal_Rsa,StrIC_Code;
     WebViewClient webViewProposalPdfClient;
     boolean isVerifiedCustomerMobile = false;
     boolean isUploadedPolicyDocument = false;
@@ -110,7 +118,7 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
     String StrCustomerMobile = "",QuoteLink = "",PDF_URL="",quote_url="",proposal_no="",proposal_otp="",policy_no="",IsPrePolicyUploaded="",IsPaCoverUploaded="false";
     Button BtnShare,BtnEdit,BtnVerify,BtnUploadPACover,BtnBreakInInspection,BtnUploadPreviousPolicy,BtnBuyPolicy,BtnNewPolicy;
     Dialog DialogVerifyPopup,DialogUploadPolicy,DialogBreakInCase;
-    String StrPolicyType="";
+    String StrPolicyType="",product_type_id,StrIsPreviousPolicy="",breakin_status_id="";
     ImageView Iv_UploadedImg;
     Button btnPreviousPolicyUpload;
     Uri outputFileUri;
@@ -118,6 +126,7 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
     String Str_Base64Image;
     String download_file_url;
     String dest_file_path = "";
+    boolean CallApiOnResume = false;
     int downloadedSize = 0, totalsize;
     float per = 0;
     private static final int SELECT_FILE = 2243;
@@ -128,7 +137,8 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
     File myFileToUpload = null;
     String PreviousPolicyFileName,POLICY_GENERATED_URL="";
     byte[] bbytesFile;
-    String merchant_id="",terminal_id="",total_premium_payable="1";
+    String StrVehicleRegistrationNo="",Proposal_list_id="", merchant_id="",terminal_id="",total_premium_payable="1",StrAdditionalParameters="";
+    private static final int MY_CAMERA_PERMISSION_CODE = 100;
 
     String file_base;
     String filePath,picturePath,b64,filename,file_extension;
@@ -202,12 +212,7 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
         tv_loading.setTypeface(null, Typeface.BOLD);
         try {
 
-            JSONObject user_action_data = new JSONObject(StrUserActionData);
-
-            have_motor_policy = user_action_data.getString("have_motor_policy");
-            have_pa_policy = user_action_data.getString("have_pa_policy");
-
-            StrPolicyType = user_action_data.getString("policy_type");
+            setDataFromMpnData();
 
             JSONObject proposal_obj = new JSONObject(ProposalObjStr);
 
@@ -217,7 +222,10 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
             policy_no = proposal_obj.getString("policy_no");
             QuoteLink = proposal_obj.getString("quote_link");
             quote_url = proposal_obj.getString("url");
+
             QuoteLink = QuoteLink.toUpperCase();
+            API_GetProposalDetail();
+
             PDF_URL = ROOT_URL2+quote_url;
             Log.d("PDFURL",""+PDF_URL);
             download_file_url = PDF_URL;
@@ -225,7 +233,7 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
             UtilitySharedPreferences.setPrefs(getApplicationContext(),"QuoteLink",QuoteLink);
             UtilitySharedPreferences.setPrefs(getApplicationContext(),"proposal_list_id",proposal_no);
             //Toast.makeText(getApplicationContext(),"Customer Verification OTP :"+proposal_otp,Toast.LENGTH_LONG).show();
-            CheckAlreadyVerified(true);
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -274,8 +282,10 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
         BtnNewPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UtilitySharedPreferences.clearPref(getApplicationContext());
+                //UtilitySharedPreferences.clearPref(getApplicationContext());
                 Intent intent = new Intent(getApplicationContext(), MainActivity_1.class);
+                intent.putExtra("terminal_id", UtilitySharedPreferences.getPrefs(getApplicationContext(),"TerminalId"));
+                intent.putExtra("merchant_id",UtilitySharedPreferences.getPrefs(getApplicationContext(),"MerchantId"));
                 startActivity(intent);
                 overridePendingTransition(R.animator.left_right,R.animator.right_left);
                 finish();
@@ -321,6 +331,61 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        String StrCallApiONResume = UtilitySharedPreferences.getPrefs(getApplicationContext(),"StrCallApiONResume");
+        if(StrCallApiONResume!=null && !StrCallApiONResume.equalsIgnoreCase("")){
+            if(StrCallApiONResume.equalsIgnoreCase("true")){
+                CallApiOnResume = true;
+            }else {
+                CallApiOnResume = false;
+            }
+        }else{
+            CallApiOnResume = false;
+        }
+        if(CallApiOnResume) {
+            API_GetProposalDetail();
+        }
+
+    }
+
+    private void setDataFromMpnData() {
+        try {
+            StrMpnData = UtilitySharedPreferences.getPrefs(getApplicationContext(), "MpnData");
+            StrUserActionData = UtilitySharedPreferences.getPrefs(getApplicationContext(), "UserActionData");
+            JSONObject user_action_data = null;
+            if (StrUserActionData != null && !StrUserActionData.equalsIgnoreCase("")) {
+                user_action_data = new JSONObject(StrUserActionData);
+            }
+
+
+            if (user_action_data != null) {
+                have_motor_policy = user_action_data.getString("have_motor_policy");
+                have_pa_policy = user_action_data.getString("have_pa_policy");
+                StrPolicyType = user_action_data.getString("policy_type");
+                StrIsPreviousPolicy = user_action_data.getString("is_previous_policy");
+            }
+
+            if (StrMpnData != null && !StrMpnData.equalsIgnoreCase("")) {
+
+                JSONObject mpn_data = new JSONObject(StrMpnData);
+                //product_type_id = mpn_data.getString("product_type_id");
+                //IsBreakInCase = mpn_data.getString("is_breakin");
+            }
+
+
+
+
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        }
 
     @SuppressLint("SetJavaScriptEnabled")
     private void LoadProposalPage() {
@@ -477,8 +542,30 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
     }
 
     private void DisplayBtnsAsPerFlowConditions() {
-        IsBreakInCase = UtilitySharedPreferences.getPrefs(getApplicationContext(),"isBreakIn");
-        IsBreakInInspectionDone = UtilitySharedPreferences.getPrefs(getApplicationContext(),"IsBreakInInspectionDone");
+
+        if(UtilitySharedPreferences.getPrefs(getApplicationContext(),"IsPrePolicyUploaded")!=null){
+            if(!UtilitySharedPreferences.getPrefs(getApplicationContext(),"IsPrePolicyUploaded").equalsIgnoreCase("")){
+                IsPrePolicyUploaded = UtilitySharedPreferences.getPrefs(getApplicationContext(),"IsPrePolicyUploaded");
+            }
+        }else {
+            IsPrePolicyUploaded = "false";
+        }
+        //
+
+        /*if(UtilitySharedPreferences.getPrefs(getApplicationContext(),"isBreakIn")!=null){
+            if(!UtilitySharedPreferences.getPrefs(getApplicationContext(),"isBreakIn").equalsIgnoreCase("")){
+                 = UtilitySharedPreferences.getPrefs(getApplicationContext(),"isBreakIn");
+            }
+        }*/
+
+        if(UtilitySharedPreferences.getPrefs(getApplicationContext(),"IsBreakInInspectionDone")!=null){
+            if(!UtilitySharedPreferences.getPrefs(getApplicationContext(),"IsBreakInInspectionDone").equalsIgnoreCase("")){
+                IsBreakInInspectionDone = UtilitySharedPreferences.getPrefs(getApplicationContext(),"IsBreakInInspectionDone");
+            }
+        }else {
+            IsBreakInInspectionDone ="false";
+        }
+
         if(is_policy_purchased){
             BtnShare.setVisibility(View.GONE);
             BtnEdit.setVisibility(View.GONE);
@@ -493,102 +580,159 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
             BtnNewPolicy.setVisibility(View.GONE);
             if (isVerifiedCustomerMobile) {
                 BtnVerify.setVisibility(View.GONE);
-
-                if (have_motor_policy != null && have_pa_policy != null) {
-
-                    if (have_motor_policy.equalsIgnoreCase("yes") || have_pa_policy.equalsIgnoreCase("yes")) {
-
-                        if (IsPaCoverUploaded != null && IsPaCoverUploaded.equalsIgnoreCase("false")) {
-                            BtnUploadPACover.setVisibility(View.VISIBLE);
-                            BtnUploadPreviousPolicy.setVisibility(View.GONE);
-                            BtnBuyPolicy.setVisibility(View.GONE);
-                        } else {
-                            BtnUploadPACover.setVisibility(View.GONE);
-                            if (StrPolicyType.equalsIgnoreCase("renew")) {
-
-                                if (IsPrePolicyUploaded != null && !IsPrePolicyUploaded.equalsIgnoreCase("")) {
-                                    if (IsPrePolicyUploaded.equalsIgnoreCase("false")) {
-
-                                        BtnUploadPreviousPolicy.setVisibility(View.VISIBLE);
-                                        BtnBuyPolicy.setVisibility(View.GONE);
-                                    } else if (IsPrePolicyUploaded.equalsIgnoreCase("true")) {
-
-                                        BtnUploadPreviousPolicy.setVisibility(View.GONE);
-                                        BtnBuyPolicy.setVisibility(View.VISIBLE);
-                                        BtnBreakInInspection.setVisibility(View.GONE);
-                                        /*if(IsBreakInCase!=null && !IsBreakInCase.equalsIgnoreCase("")){
-                                            if(IsBreakInCase.equalsIgnoreCase("true") && !IsBreakInInspectionDone.equalsIgnoreCase("true")){
-                                                    BtnBreakInInspection.setVisibility(View.VISIBLE);
-                                                    BtnBuyPolicy.setVisibility(View.GONE);
-                                            }else {
-                                                BtnBuyPolicy.setVisibility(View.VISIBLE);
-                                                BtnBreakInInspection.setVisibility(View.GONE);
-                                            }
-                                        }else {
-                                            BtnBuyPolicy.setVisibility(View.VISIBLE);
-                                            BtnBreakInInspection.setVisibility(View.GONE);
-                                        }*/
+                BtnUploadPACover.setVisibility(View.GONE);
+                if (StrPolicyType.equalsIgnoreCase("renew")) {
+                    Log.d("StrIsPreviousPolicy",""+StrIsPreviousPolicy);
+                    Log.d("IsBreakInCase",""+IsBreakInCase);
+                    Log.d("breakin_status_id",""+breakin_status_id);
+                    Log.d("product_type_id",""+product_type_id);
+                    if(IsBreakInInspectionDone!=null && !IsBreakInInspectionDone.equalsIgnoreCase("")){
+                        Log.d("IsBreakInInspectionDone",""+IsBreakInInspectionDone);
+                    }else {
+                        IsBreakInInspectionDone = "false";
+                    }
 
 
+                    if(StrIsPreviousPolicy!=null && StrIsPreviousPolicy.equalsIgnoreCase("no")){
 
-                                    }
-                                }
-                            } else {
-                                BtnUploadPACover.setVisibility(View.GONE);
-                                BtnUploadPreviousPolicy.setVisibility(View.GONE);
+                        BtnUploadPreviousPolicy.setVisibility(View.GONE);
+                        //BtnBuyPolicy.setVisibility(View.VISIBLE);
+                        //BtnBreakInInspection.setVisibility(View.GONE);
+                        if(IsBreakInCase!=null && !IsBreakInCase.equalsIgnoreCase("")){
+                            if(IsBreakInCase.equalsIgnoreCase("true") && breakin_status_id.equalsIgnoreCase("7")  && product_type_id.equalsIgnoreCase("1")){
+                                BtnBreakInInspection.setVisibility(View.VISIBLE);
+                                BtnBuyPolicy.setVisibility(View.GONE);
+                            }else {
                                 BtnBuyPolicy.setVisibility(View.VISIBLE);
+                                BtnBreakInInspection.setVisibility(View.GONE);
                             }
+                        }else {
+                            BtnBuyPolicy.setVisibility(View.VISIBLE);
+                            BtnBreakInInspection.setVisibility(View.GONE);
                         }
-
-                    } else if (StrPolicyType.equalsIgnoreCase("renew")) {
-
+                    }else {
                         if (IsPrePolicyUploaded != null && !IsPrePolicyUploaded.equalsIgnoreCase("")) {
                             if (IsPrePolicyUploaded.equalsIgnoreCase("false")) {
-                                BtnUploadPACover.setVisibility(View.GONE);
+
                                 BtnUploadPreviousPolicy.setVisibility(View.VISIBLE);
                                 BtnBuyPolicy.setVisibility(View.GONE);
                             } else if (IsPrePolicyUploaded.equalsIgnoreCase("true")) {
+
                                 BtnUploadPreviousPolicy.setVisibility(View.GONE);
-                                BtnBuyPolicy.setVisibility(View.VISIBLE);
-                                BtnBreakInInspection.setVisibility(View.GONE);
-                               /* if(IsBreakInCase!=null && !IsBreakInCase.equalsIgnoreCase("")){
-                                    if(IsBreakInInspectionDone!=null && IsBreakInInspectionDone.equalsIgnoreCase("true")){
+                                //BtnBuyPolicy.setVisibility(View.VISIBLE);
+                                //BtnBreakInInspection.setVisibility(View.GONE);
+                                if(IsBreakInCase!=null && !IsBreakInCase.equalsIgnoreCase("")){
+                                    if(IsBreakInCase.equalsIgnoreCase("true") && breakin_status_id.equalsIgnoreCase("7")   && product_type_id.equalsIgnoreCase("1")){
+                                        BtnBreakInInspection.setVisibility(View.VISIBLE);
+                                        BtnBuyPolicy.setVisibility(View.GONE);
+                                    }else {
                                         BtnBuyPolicy.setVisibility(View.VISIBLE);
                                         BtnBreakInInspection.setVisibility(View.GONE);
-
-                                    }else {
-                                        if(IsBreakInCase.equalsIgnoreCase("true")){
-                                            BtnBreakInInspection.setVisibility(View.VISIBLE);
-                                            BtnBuyPolicy.setVisibility(View.GONE);
-                                        }
                                     }
                                 }else {
                                     BtnBuyPolicy.setVisibility(View.VISIBLE);
                                     BtnBreakInInspection.setVisibility(View.GONE);
-                                }*/
-
-
+                                }
                             }
                         }
-                    } else {
-                        BtnUploadPACover.setVisibility(View.GONE);
-                        BtnUploadPreviousPolicy.setVisibility(View.GONE);
-                        BtnBuyPolicy.setVisibility(View.VISIBLE);
-                        BtnBreakInInspection.setVisibility(View.GONE);
-
                     }
+
+
+                } else {
+                    BtnUploadPACover.setVisibility(View.GONE);
+                    BtnUploadPreviousPolicy.setVisibility(View.GONE);
+                    BtnBuyPolicy.setVisibility(View.VISIBLE);
                 }
             } else {
-
                 BtnVerify.setVisibility(View.VISIBLE);
-                BtnUploadPreviousPolicy.setVisibility(View.GONE);
                 BtnUploadPACover.setVisibility(View.GONE);
+                BtnUploadPreviousPolicy.setVisibility(View.GONE);
                 BtnBuyPolicy.setVisibility(View.GONE);
-                BtnBreakInInspection.setVisibility(View.GONE);
-
             }
+
         }
     }
+
+
+    private void InitiateBreakInLink() {
+        myDialog.show();
+        String URL = ROOT_URL2+"breakin_initiated";
+        ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
+        boolean isInternetPresent = cd.isConnectingToInternet();
+        if (isInternetPresent) {
+            Log.d("URL", "" + URL);
+            StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+
+                    if (myDialog != null && myDialog.isShowing()) {
+                        myDialog.dismiss();
+                    }
+                    try {
+
+                        Log.d("Response", "" + response);
+                        JSONObject jsonresponse = new JSONObject(response);
+
+                        //JSONObject msgObj = jsonresponse.getJSONObject("message");
+
+                        boolean result = jsonresponse.getBoolean("status");
+
+                        if(result){
+                            Intent i = new Intent(getApplicationContext(), InspectionCheckpoint.class);
+                            startActivity(i);
+                            overridePendingTransition(R.animator.move_left,R.animator.move_right);
+                            CommonMethods.DisplayToast(getApplicationContext(),"BreakIn Initiated Successfully.");
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    if (myDialog != null && myDialog.isShowing()) {
+                        myDialog.dismiss();
+                    }
+                    CommonMethods.DisplayToastInfo(getApplicationContext(),"Something went wrong. Please try again later.");
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("quote_link", QuoteLink.toUpperCase());
+                    map.put("agent_id", StrAgentId);
+                    map.put("proposal_no",proposal_no);
+                    map.put("mobile_no",StrCustomerMobile);
+                    Log.d("Params",""+map);
+                    return map;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    //  Authorization: Basic $auth
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    //headers.put("Content-Type", "application/x-www-form-urlencoded");
+                    //headers.put("Content-Type", "application/json; charset=utf-8");
+                    headers.put("x-api-key",x_api_key);
+                    headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
+                    return headers;
+                }
+            };
+
+
+            int socketTimeout = 50000; //30 seconds - change to what you want
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            request.setRetryPolicy(policy);
+            // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(request);
+        }else {
+            CommonMethods.DisplayToast(getApplicationContext(),"Please check Internet Connection");
+        }
+    }
+
 
     private void ResendVerifyLink() {
         myDialog.show();
@@ -754,11 +898,9 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
                 if(DialogBreakInCase!=null && DialogBreakInCase.isShowing()) {
                     DialogBreakInCase.dismiss();
                 }
+                InitiateBreakInLink();
 
-                Intent i = new Intent(getApplicationContext(), InspectionCheckpoint.class);
-                startActivity(i);
-                overridePendingTransition(R.animator.move_left,R.animator.move_right);
-                finish();
+
             }
         });
 
@@ -818,6 +960,7 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
             @Override
             public void onClick(View view) {
 
+                //requestMultiplePermissions();
                 cameraIntent();
 
             }
@@ -843,6 +986,49 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
             }
         });
 
+    }
+
+    private void requestMultiplePermissions() {
+        Dexter.withActivity(this)
+                .withPermissions(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.VIBRATE,
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        if (report.areAllPermissionsGranted()) {  // check if all permissions are granted
+                            Toast.makeText(getApplicationContext(), "All permissions are granted by user!", Toast.LENGTH_SHORT).show();
+                            cameraIntent();
+                        }
+
+                        if (report.isAnyPermissionPermanentlyDenied()) { // check for permanent denial of any permission
+                            // show alert dialog navigating to Settings
+                            //openSettingsDialog();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<com.karumi.dexter.listener.PermissionRequest> permissions, PermissionToken token) {
+
+                    }
+
+
+
+
+                }).
+                withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+                        Toast.makeText(getApplicationContext(), "Some Error! ", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .onSameThread()
+                .check();
     }
 
     private void cameraIntent(){
@@ -873,7 +1059,7 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
                 }
             } catch (Exception ex) {
                 // Error occurred while creating the File
-                //startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE);
                 Log.i(TAG, "Exception");
                 Log.d("Error", ""+ex.getMessage());
                 //CommonMethods.DisplayToast(getApplicationContext(),"It seems to be some technical Issue. Please try again later.");
@@ -960,11 +1146,12 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
                                     boolean upload_status = resultObj.getBoolean("status");
                                     if(upload_status){
                                         CommonMethods.DisplayToastSuccess(getApplicationContext(), "Document Uploaded Successfully.");
-                                        UtilitySharedPreferences.setPrefs(getApplicationContext(), "IsPrePolicyUploaded", "true");
 
 
                                         if(document_type.equalsIgnoreCase("previous_policy_doc")){
                                             IsPrePolicyUploaded = "true";
+                                            UtilitySharedPreferences.setPrefs(getApplicationContext(), "IsPrePolicyUploaded", "true");
+
                                         }
 
                                         if(document_type.equalsIgnoreCase("pa_cover")) {
@@ -1012,7 +1199,120 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
     }
 
     /*End Upload Previous Year Policy*/
+    private void API_GetProposalDetail() {
+        String URL = ROOT_URL2+"getProposalData";
+        ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
+        boolean isInternetPresent = cd.isConnectingToInternet();
+        if (isInternetPresent) {
+            Log.d("getProposalData", "" + URL);
+            StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
 
+                    if (myDialog != null && myDialog.isShowing()) {
+                        myDialog.dismiss();
+                    }
+                    try {
+
+                        Log.d("Response", "" + response);
+                        JSONObject jsonresponse = new JSONObject(response);
+
+                        //boolean status = jsonresponse.getBoolean("status");
+                        StrUserActionData = jsonresponse.getString("user_action_data");
+                        String StrQuoteData = jsonresponse.getString("quote_data");
+                        JSONObject QuoteDataObj = new JSONObject(StrQuoteData);
+
+                        JSONObject ProposalDataObj = QuoteDataObj.getJSONObject("proposal_data");
+
+                       // boolean is_quote_breakin  = QuoteDataObj.getBoolean("is_quote_breakin");
+                        JSONObject userActionObj = new JSONObject(StrUserActionData);
+                        StrIsPreviousPolicy = userActionObj.getString("is_previous_policy");
+                        Proposal_list_id = ProposalDataObj.getString("proposal_list_id");
+                        StrPolicyType = QuoteDataObj.getString("policy_type");
+                        IsBreakInCase = QuoteDataObj.getString("is_breakin");
+                        product_type_id = QuoteDataObj.getString("product_type_id");
+                        String Ic_id = ProposalDataObj.getString("ic_id");
+
+                        breakin_status_id = ProposalDataObj.getString("breakin_status_id");
+                        Log.d("breakin_status_id",""+breakin_status_id);
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(),"IC_Id",Ic_id);
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(),"proposal_list_id",Proposal_list_id);
+                        StrVehicleRegistrationNo = ProposalDataObj.getString("vehicle_reg_no");
+
+                        JSONObject customer_quoteObj = QuoteDataObj.getJSONObject("customer_quote");
+                        JSONObject vehicle_ownerObj = customer_quoteObj.getJSONObject("vehicle_owner");
+
+
+                        JSONObject ic_quoteObj = QuoteDataObj.getJSONObject("ic_quote");
+
+                        StrTotal_Swap = ic_quoteObj.getString("total_swap");
+                        StrIc_premium = ic_quoteObj.getString("ic_premium");
+                        if(ic_quoteObj.getString("total_rsa")!=null && !ic_quoteObj.getString("total_rsa").equalsIgnoreCase("null")) {
+                            StrTotal_Rsa = ic_quoteObj.getString("total_rsa");
+                        }else {
+                            StrTotal_Rsa = "0.0";
+                        }
+                        StrIC_Code = ic_quoteObj.getString("ic_code");
+                        StrCustomerMobile = vehicle_ownerObj.getString("mobile_no");
+
+
+                        //UtilitySharedPreferences.setPrefs(getApplicationContext(), "MpnData",StrMpnData);
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(), "UserActionData",StrUserActionData);
+                        CheckAlreadyVerified(true);
+                        setDataFromMpnData();
+
+
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    if (myDialog != null && myDialog.isShowing()) {
+                        myDialog.dismiss();
+                    }
+                    CommonMethods.DisplayToastInfo(getApplicationContext(),"Something went wrong. Please try again later.");
+
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("quote_link", QuoteLink.toUpperCase());
+                    //map.put("agent_id", StrAgentId);
+
+                    Log.d("Params",""+map);
+                    return map;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    //  Authorization: Basic $auth
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    //headers.put("Content-Type", "application/x-www-form-urlencoded");
+                    //headers.put("Content-Type", "application/json; charset=utf-8");
+                    headers.put("x-api-key",x_api_key);
+                    headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
+                    return headers;
+                }
+            };
+
+
+            int socketTimeout = 50000; //30 seconds - change to what you want
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            request.setRetryPolicy(policy);
+            // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(request);
+        }else {
+            CommonMethods.DisplayToast(getApplicationContext(),"Please check Internet Connection");
+        }
+
+    }
     //QUOTE FORWARD
     private void API_Quote_Forward() {
         myDialog.show();
@@ -1062,7 +1362,7 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
                 protected Map<String, String> getParams() {
                     Map<String, String> map = new HashMap<String, String>();
                     map.put("quote_link", QuoteLink.toUpperCase());
-                    map.put("agent_id", StrAgentId);
+                    //map.put("agent_id", StrAgentId);
 
                     Log.d("Params",""+map);
                     return map;
@@ -1247,7 +1547,6 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
                 tv_loading.setText(txt);
             }
         });
-
     }
 
     /*END OF DOWNLOAD PDF*/
@@ -1257,17 +1556,49 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
 
         merchant_id =  UtilitySharedPreferences.getPrefs(getApplicationContext(),"MerchantId");
         terminal_id =  UtilitySharedPreferences.getPrefs(getApplicationContext(),"TerminalId");
-        total_premium_payable =  UtilitySharedPreferences.getPrefs(getApplicationContext(),"total_premium_payable");
-        double total_amt = Double.valueOf(total_premium_payable);
+        //total_premium_payable =  UtilitySharedPreferences.getPrefs(getApplicationContext(),"total_premium_payable");
+
+        double total_amt = Double.valueOf(StrTotal_Swap);
         total_premium_payable = String.format("%.2f", total_amt);
+
+        if(StrIc_premium!=null && !StrIc_premium.equalsIgnoreCase("") && !StrIc_premium.equalsIgnoreCase("null")) {
+            double total_ic_amt = Double.valueOf(StrIc_premium);
+            StrIc_premium = String.format("%.2f", total_ic_amt);
+        }else {
+            StrIc_premium = total_premium_payable;
+        }
+
+        if(StrTotal_Rsa!=null && !StrTotal_Rsa.equalsIgnoreCase("") && !StrTotal_Rsa.equalsIgnoreCase("null")) {
+            double total_rsa = Double.valueOf(StrTotal_Rsa);
+            StrTotal_Rsa = String.format("%.2f", total_rsa);
+        }else {
+            StrTotal_Rsa = "0.00";
+        }
+
+        if(StrVehicleRegistrationNo!=null && !StrVehicleRegistrationNo.equalsIgnoreCase("")){
+            if(StrVehicleRegistrationNo.contains("-")){
+                StrVehicleRegistrationNo = StrVehicleRegistrationNo.replace("-","");
+                StrVehicleRegistrationNo = StrVehicleRegistrationNo.toUpperCase();
+            }else {
+                StrVehicleRegistrationNo = StrVehicleRegistrationNo.toUpperCase();
+            }
+
+        }
+
+
+        total_premium_payable = "1.0";
+        StrTotal_Rsa = "0.30";
+        StrIc_premium = "0.70";
+        StrAdditionalParameters = "INS|"+proposal_no+"|"+StrVehicleRegistrationNo+"|"+product_type_id+"|"+StrIC_Code+"|"+StrTotal_Rsa+"|"+StrIc_premium;
 
         Log.d("total_premium_payable",""+total_premium_payable);
         Log.d("terminal_id",""+terminal_id);
         Log.d("merchant_id",""+merchant_id);
+        Log.d("StrAdditionalParameters",""+StrAdditionalParameters);
 
 
         ClsPAXInf objClsPAXInf=new ClsPAXInf(this);
-        objClsPAXInf.sale(total_premium_payable,"0.0","", terminal_id,merchant_id, "");
+        objClsPAXInf.sale(total_premium_payable,"0.0","", terminal_id,merchant_id, StrAdditionalParameters);
 
     }
 
@@ -1289,7 +1620,9 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
 
 
     private void PostPaymentAPI(String ResponseResult) {
-
+        myDialog.setCancelable(true);
+        myDialog.setCanceledOnTouchOutside(true);
+        myDialog.show();
         try {
             JSONObject ResponseResultObj = new JSONObject(ResponseResult);
                 String URL = ROOT_URL2+"updatepaymentinfo";
@@ -1319,7 +1652,6 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
                                     POLICY_GENERATED_URL = ROOT_URL2+"downloadPolicyPdf/"+policy_id;
                                     download_file_url = POLICY_GENERATED_URL;
                                     PDF_URL = download_file_url;
-
 
                                     is_policy_purchased = true;
                                     LoadProposalPage();
@@ -1372,14 +1704,6 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
                             Log.d("Params",""+map);
                             return map;
                         }
-
-
-
-
-
-
-
-
 
 
 

@@ -27,6 +27,7 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.indicosmic.www.mypolicynow_ags.R;
 import com.indicosmic.www.mypolicynow_ags.utils.CommonMethods;
@@ -64,37 +65,275 @@ public class MainActivity_1 extends AppCompatActivity implements NavigationView.
             if(bundle.getString("terminal_id") != null) {
                 terminal_id = bundle.getString("terminal_id");
             }else {
-                terminal_id = "";
+                terminal_id = UtilitySharedPreferences.getPrefs(getApplicationContext(),"TerminalId");
             }
 
             if(bundle.getString("merchant_id") != null) {
                 merchant_id = bundle.getString("merchant_id");
             }else {
-                merchant_id = "";
+                merchant_id = UtilitySharedPreferences.getPrefs(getApplicationContext(),"MerchantId");
             }
-            if (terminal_id != null && merchant_id != null && !(terminal_id.equalsIgnoreCase("") && !merchant_id.equalsIgnoreCase(""))) {
-                //CommonMethods.DisplayToast(this,"Invalid Access. Please try again.");
-                getPasswordForMPN();
-            }else {
-                CommonMethods.DisplayToastInfo(this,"Invalid Access. Please contact system administrator");
-                UtilitySharedPreferences.clearPref(this);
 
-            }
         }else {
-            terminal_id = "";
-            merchant_id = "";
-            CommonMethods.DisplayToastInfo(this,"Invalid Access. Please contact system administrator");
-            UtilitySharedPreferences.clearPref(this);
+            terminal_id = UtilitySharedPreferences.getPrefs(getApplicationContext(),"TerminalId");
+            merchant_id = UtilitySharedPreferences.getPrefs(getApplicationContext(),"MerchantId");
 
         }
 
         init();
         navigationView();
 
+    }
+
+    private void init() {
+
+        myDialog = new ProgressDialog(MainActivity_1.this);
+        myDialog.setMessage("Please wait...");
+        myDialog.setCancelable(false);
+        myDialog.setCanceledOnTouchOutside(false);
+        //UAT MERCHANT / TERMINAL ID
+        //terminal_id="PX918512";
+        //merchant_id = "PX9400000000012";
+
+        ///LIVE MERCHANT / TERMINAL ID
+        terminal_id="RA131914";
+        merchant_id = "110000000125922";
+        Log.d("terminal_id",""+terminal_id);
+        Log.d("merchant_id",""+merchant_id);
+
+        if (terminal_id != null && merchant_id != null && !terminal_id.equalsIgnoreCase("") && !merchant_id.equalsIgnoreCase("")) {
+            getPasswordForMPN();
+        }else {
+            CommonMethods.DisplayToastInfo(this,"Invalid Access. Please contact system administrator");
+        }
+
+        LayoutCar = (LinearLayout)findViewById(R.id.LayoutCar);
+        LayoutBike = (LinearLayout)findViewById(R.id.LayoutBike);
+        LayoutCommercial = (LinearLayout)findViewById(R.id.LayoutCommercial);
+
+
+        LayoutCar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UtilitySharedPreferences.setPrefs(getApplicationContext(),"QuotationFor","Car");
+                if(POS_TOKEN!=null && !POS_TOKEN.equalsIgnoreCase("")){
+                    Intent i = new Intent(getApplicationContext(), QuotationActivity_2.class);
+                    i.putExtra("pos_token", POS_TOKEN);
+                    startActivity(i);
+                    overridePendingTransition(R.animator.move_left,R.animator.move_right);
+                    finish();
+                }else {
+                    CommonMethods.DisplayToastInfo(getApplicationContext(),"Invalid Token");
+                }
+            }
+        });
+
+        LayoutBike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UtilitySharedPreferences.setPrefs(getApplicationContext(),"QuotationFor","Bike");
+                if(POS_TOKEN!=null && !POS_TOKEN.equalsIgnoreCase("")){
+                    Intent i = new Intent(getApplicationContext(), QuotationActivity_2.class);
+                    i.putExtra("pos_token", POS_TOKEN);
+                    startActivity(i);
+                    overridePendingTransition(R.animator.move_left,R.animator.move_right);
+                    finish();
+                }else {
+                    CommonMethods.DisplayToastInfo(getApplicationContext(),"Invalid Token");
+                }
+            }
+        });
+
+
+        LayoutCommercial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UtilitySharedPreferences.setPrefs(getApplicationContext(),"QuotationFor","Commercial");
+                if(POS_TOKEN!=null && !POS_TOKEN.equalsIgnoreCase("")){
+                    Intent i = new Intent(getApplicationContext(), QuotationActivity_2.class);
+                    i.putExtra("pos_token", POS_TOKEN);
+                    startActivity(i);
+                    overridePendingTransition(R.animator.move_left,R.animator.move_right);
+                    finish();
+                }else {
+                    CommonMethods.DisplayToastInfo(getApplicationContext(),"Invalid Token");
+                }
+            }
+        });
+
+    }
+
+    private void getPasswordForMPN() {
+
+        String URL = RestClient.ROOT_URL2+"getpassword";
+        ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
+        boolean isInternetPresent = cd.isConnectingToInternet();
+        if (isInternetPresent) {
+            Log.d("URL", "" + URL);
+            StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+
+                    if (myDialog != null && myDialog.isShowing()) {
+                        myDialog.dismiss();
+                    }
+                    try {
+
+                        Log.d("Response", "" + response);
+                        JSONObject jsonresponse = new JSONObject(response);
+
+                        JSONObject data_obj = jsonresponse.getJSONObject("data");
+                        UtilitySharedPreferences.clearPref(getApplicationContext());
+                        POS_TOKEN  = data_obj.getString("token");
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(),"MerchantId",merchant_id);
+                        UtilitySharedPreferences.setPrefs(getApplicationContext(),"TerminalId",terminal_id);
+                        getPreveledgesFromToken();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    if (myDialog != null && myDialog.isShowing()) {
+                        myDialog.dismiss();
+                    }
+                    CommonMethods.DisplayToastInfo(getApplicationContext(),"Something went wrong. Please try again later.");
+
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> map = new HashMap<String, String>();
+
+                    map.put("merchant_id", merchant_id);
+                    map.put("terminal_id", terminal_id);
+                    map.put("access_key", md5(terminal_id));
+
+                    Log.d("GetPasswordToken",""+map);
+                    return map;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    //  Authorization: Basic $auth
+                    HashMap<String, String> headers = new HashMap<String, String>();
+
+                    headers.put("x-api-key",x_api_key);
+                    headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
+
+                    Log.d("Headers",""+headers);
+                    return headers;
+                }
+            };
+
+
+            int socketTimeout = 50000; //30 seconds - change to what you want
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            request.setRetryPolicy(policy);
+            // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(request);
+        }else {
+            CommonMethods.DisplayToast(getApplicationContext(),"Please check Internet Connection");
+        }
+
 
 
 
     }
+
+    private void getPreveledgesFromToken() {
+
+            String URL = ROOT_URL2+"tokenverify";
+            ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
+            boolean isInternetPresent = cd.isConnectingToInternet();
+            if (isInternetPresent) {
+                Log.d("URL", "" + URL);
+                StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        if (myDialog != null && myDialog.isShowing()) {
+                            myDialog.dismiss();
+                        }
+                        try {
+
+                            Log.d("Response", "" + response);
+                            JSONObject jsonresponse = new JSONObject(response);
+
+                            JSONObject data_obj = jsonresponse.getJSONObject("data");
+                            JSONObject agent_detailObj = data_obj.getJSONObject("agent_detail");
+                            String mer_id = data_obj.getString("merchant_id");
+                            String terminal_id = data_obj.getString("terminal_id");
+                            String StrAgentId  = agent_detailObj.getString("id");
+                            String StrAgentName = agent_detailObj.getString("username");
+                            String StrAgentMObile = agent_detailObj.getString("mobile_no");
+                            String StrAgentEmail = agent_detailObj.getString("email");
+
+                            UtilitySharedPreferences.setPrefs(getApplicationContext(),"PosId",StrAgentId);
+                            UtilitySharedPreferences.setPrefs(getApplicationContext(),"PosName",StrAgentName);
+                            UtilitySharedPreferences.setPrefs(getApplicationContext(),"PosMobile",StrAgentMObile);
+                            UtilitySharedPreferences.setPrefs(getApplicationContext(),"PosEmail",StrAgentEmail);
+                            UtilitySharedPreferences.setPrefs(getApplicationContext(),"MerchantId",mer_id);
+                            UtilitySharedPreferences.setPrefs(getApplicationContext(),"TerminalId",terminal_id);
+
+
+                            navigationView();
+
+
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        if (myDialog != null && myDialog.isShowing()) {
+                            myDialog.dismiss();
+                        }
+                        CommonMethods.DisplayToastInfo(getApplicationContext(),"Something went wrong. Please try again later.");
+
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String, String> map = new HashMap<String, String>();
+                        map.put("token_number", POS_TOKEN);
+                        Log.d("Token_verify",""+map);
+                        return map;
+                    }
+
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        //  Authorization: Basic $auth
+                        HashMap<String, String> headers = new HashMap<String, String>();
+                        //headers.put("Content-Type", "application/x-www-form-urlencoded");
+                        //headers.put("Content-Type", "application/json; charset=utf-8");
+                        headers.put("x-api-key",x_api_key);
+                        headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
+                        return headers;
+                    }
+                };
+
+
+                int socketTimeout = 50000; //30 seconds - change to what you want
+                RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                request.setRetryPolicy(policy);
+                // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
+                RequestQueue requestQueue = Volley.newRequestQueue(this);
+                requestQueue.add(request);
+            }else {
+                CommonMethods.DisplayToast(getApplicationContext(),"Please check Internet Connection");
+            }
+
+
+
+        }
 
     private void navigationView() {
 
@@ -114,6 +353,14 @@ public class MainActivity_1 extends AppCompatActivity implements NavigationView.
         ImageView iv_twitter = (ImageView)navigationView.findViewById(R.id.iv_twitter);
         ImageView iv_youtube = (ImageView)navigationView.findViewById(R.id.iv_youtube);
         ImageView iv_linked_in = (ImageView)navigationView.findViewById(R.id.iv_linked_in);
+
+
+        Glide.with(this)
+                .load("https://www.mypolicynow.com/assets/images/logo_spinner.gif")
+                .placeholder(R.drawable.logo_spinner)
+                .into(iv_logo);
+
+
 
         iv_facebook.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,254 +426,6 @@ public class MainActivity_1 extends AppCompatActivity implements NavigationView.
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    private void init() {
-
-        myDialog = new ProgressDialog(MainActivity_1.this);
-        myDialog.setMessage("Please wait...");
-        myDialog.setCancelable(false);
-        myDialog.setCanceledOnTouchOutside(false);
-
-
-        //getPasswordForMPN();
-
-        LayoutCar = (LinearLayout)findViewById(R.id.LayoutCar);
-        LayoutBike = (LinearLayout)findViewById(R.id.LayoutBike);
-        LayoutCommercial = (LinearLayout)findViewById(R.id.LayoutCommercial);
-
-
-        LayoutCar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                UtilitySharedPreferences.setPrefs(getApplicationContext(),"QuotationFor","Car");
-                if(POS_TOKEN!=null && !POS_TOKEN.equalsIgnoreCase("")){
-                    Intent i = new Intent(getApplicationContext(), QuotationActivity_2.class);
-                    i.putExtra("pos_token", POS_TOKEN);
-                    startActivity(i);
-                    overridePendingTransition(R.animator.move_left,R.animator.move_right);
-                    finish();
-                }else {
-                    CommonMethods.DisplayToastInfo(getApplicationContext(),"Invalid Token");
-                }
-            }
-        });
-
-        LayoutBike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                UtilitySharedPreferences.setPrefs(getApplicationContext(),"QuotationFor","Bike");
-                if(POS_TOKEN!=null && !POS_TOKEN.equalsIgnoreCase("")){
-                    Intent i = new Intent(getApplicationContext(), QuotationActivity_2.class);
-                    i.putExtra("pos_token", POS_TOKEN);
-                    startActivity(i);
-                    overridePendingTransition(R.animator.move_left,R.animator.move_right);
-                    finish();
-                }else {
-                    CommonMethods.DisplayToastInfo(getApplicationContext(),"Invalid Token");
-                }
-            }
-        });
-
-
-        LayoutCommercial.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                UtilitySharedPreferences.setPrefs(getApplicationContext(),"QuotationFor","Commercial");
-                if(POS_TOKEN!=null && !POS_TOKEN.equalsIgnoreCase("")){
-                    Intent i = new Intent(getApplicationContext(), QuotationActivity_2.class);
-                    i.putExtra("pos_token", POS_TOKEN);
-                    startActivity(i);
-                    overridePendingTransition(R.animator.move_left,R.animator.move_right);
-                    finish();
-                }else {
-                    CommonMethods.DisplayToastInfo(getApplicationContext(),"Invalid Token");
-                }
-            }
-        });
-
-    }
-
-    private void getPasswordForMPN() {
-
-        terminal_id="PX918512";
-        merchant_id = "PX9400000000012";
-
-
-        String URL = RestClient.ROOT_URL2+"getpassword";
-        ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
-        boolean isInternetPresent = cd.isConnectingToInternet();
-        if (isInternetPresent) {
-            Log.d("URL", "" + URL);
-            StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-
-                    if (myDialog != null && myDialog.isShowing()) {
-                        myDialog.dismiss();
-                    }
-                    try {
-
-                        Log.d("Response", "" + response);
-                        JSONObject jsonresponse = new JSONObject(response);
-
-                        JSONObject data_obj = jsonresponse.getJSONObject("data");
-
-                        POS_TOKEN  = data_obj.getString("token");
-                        UtilitySharedPreferences.setPrefs(getApplicationContext(),"MerchantId",merchant_id);
-                        UtilitySharedPreferences.setPrefs(getApplicationContext(),"TerminalId",terminal_id);
-                        getPreveledgesFromToken();
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-                    if (myDialog != null && myDialog.isShowing()) {
-                        myDialog.dismiss();
-                    }
-                    CommonMethods.DisplayToastInfo(getApplicationContext(),"Something went wrong. Please try again later.");
-
-                }
-            }) {
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> map = new HashMap<String, String>();
-
-                    map.put("merchant_id", merchant_id);
-                    map.put("terminal_id", terminal_id);
-                    map.put("access_key", md5(terminal_id));
-
-                    Log.d("GetPasswordToken",""+map);
-                    return map;
-                }
-
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    //  Authorization: Basic $auth
-                    HashMap<String, String> headers = new HashMap<String, String>();
-                    //headers.put("Content-Type", "application/x-www-form-urlencoded");
-                    //headers.put("Content-Type", "application/json; charset=utf-8");
-                    headers.put("x-api-key",x_api_key);
-                    headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
-
-                    Log.d("Headers",""+headers);
-                    return headers;
-                }
-            };
-
-
-            int socketTimeout = 50000; //30 seconds - change to what you want
-            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-            request.setRetryPolicy(policy);
-            // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
-            requestQueue.add(request);
-        }else {
-            CommonMethods.DisplayToast(getApplicationContext(),"Please check Internet Connection");
-        }
-
-
-
-
-    }
-
-
-    private void getPreveledgesFromToken() {
-
-            String URL = ROOT_URL2+"tokenverify";
-            ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
-            boolean isInternetPresent = cd.isConnectingToInternet();
-            if (isInternetPresent) {
-                Log.d("URL", "" + URL);
-                StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        if (myDialog != null && myDialog.isShowing()) {
-                            myDialog.dismiss();
-                        }
-                        try {
-
-                            Log.d("Response", "" + response);
-                            JSONObject jsonresponse = new JSONObject(response);
-
-                            JSONObject data_obj = jsonresponse.getJSONObject("data");
-                            JSONObject agent_detailObj = data_obj.getJSONObject("agent_detail");
-                            String mer_id = data_obj.getString("merchant_id");
-                            String terminal_id = data_obj.getString("terminal_id");
-                            String StrAgentId  = agent_detailObj.getString("id");
-                            String StrAgentName = agent_detailObj.getString("app_fullname");
-                            String StrAgentMObile = agent_detailObj.getString("mobile_no");
-                            String StrAgentEmail = agent_detailObj.getString("email");
-
-
-                            UtilitySharedPreferences.setPrefs(getApplicationContext(),"PosId",StrAgentId);
-                            UtilitySharedPreferences.setPrefs(getApplicationContext(),"PosName",StrAgentName);
-                            UtilitySharedPreferences.setPrefs(getApplicationContext(),"PosMobile",StrAgentMObile);
-                            UtilitySharedPreferences.setPrefs(getApplicationContext(),"PosEmail",StrAgentEmail);
-                            UtilitySharedPreferences.setPrefs(getApplicationContext(),"MerchantId",mer_id);
-                            UtilitySharedPreferences.setPrefs(getApplicationContext(),"TerminalId",terminal_id);
-
-
-                            navigationView();
-
-
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        if (myDialog != null && myDialog.isShowing()) {
-                            myDialog.dismiss();
-                        }
-                        CommonMethods.DisplayToastInfo(getApplicationContext(),"Something went wrong. Please try again later.");
-
-                    }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() {
-                        Map<String, String> map = new HashMap<String, String>();
-                        map.put("token_number", POS_TOKEN);
-                        Log.d("Token_verify",""+map);
-                        return map;
-                    }
-
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        //  Authorization: Basic $auth
-                        HashMap<String, String> headers = new HashMap<String, String>();
-                        //headers.put("Content-Type", "application/x-www-form-urlencoded");
-                        //headers.put("Content-Type", "application/json; charset=utf-8");
-                        headers.put("x-api-key",x_api_key);
-                        headers.put("Authorization", "Basic "+CommonMethods.Base64_Encode(api_user_name + ":" + api_password));
-                        return headers;
-                    }
-                };
-
-
-                int socketTimeout = 50000; //30 seconds - change to what you want
-                RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-                request.setRetryPolicy(policy);
-                // RequestQueue requestQueue = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
-                RequestQueue requestQueue = Volley.newRequestQueue(this);
-                requestQueue.add(request);
-            }else {
-                CommonMethods.DisplayToast(getApplicationContext(),"Please check Internet Connection");
-            }
-
-
-
-        }
-
-
-
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
@@ -469,4 +468,5 @@ public class MainActivity_1 extends AppCompatActivity implements NavigationView.
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

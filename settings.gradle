@@ -1,1 +1,1 @@
-include ':app', ':Pax_Lib_UAT'
+include ':app', ':Pax_Lib_Prod'

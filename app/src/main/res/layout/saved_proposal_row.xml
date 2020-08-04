@@ -312,6 +312,21 @@
                 android:textSize="14sp"
                 />
 
+            <TextView
+                android:id="@+id/row_total_premium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_gravity="center|end"
+                android:gravity="center|end"
+                android:layout_marginEnd="5dp"
+                android:padding="5dp"
+                android:visibility="gone"
+                android:layout_weight="5"
+                android:textSize="14sp"
+                />
+
 
             <TextView
                 android:id="@+id/row_tv_quote_link"

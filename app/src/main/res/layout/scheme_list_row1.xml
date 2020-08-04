@@ -38,6 +38,8 @@
                 android:enabled="false"
                 android:visibility="gone"/>
 
+
+
             <TextView
                 android:id="@+id/row_ic_name"
                 android:layout_height="wrap_content"
@@ -74,7 +76,7 @@
                         android:layout_marginBottom="5dp"
                         android:textColorHint="@color/grey"
                         android:enabled="false"
-                        android:text="PREMIUM"
+                        android:text="PAYABLE AMT"
                         android:fontFamily="@font/calibri_regular"
                         android:layout_gravity="center|start"
                         android:gravity="center|start"
@@ -160,6 +162,12 @@
                     android:gravity="center"
                     android:weightSum="10"
                     android:layout_weight="5">
+                    <TextView
+                        android:id="@+id/row_ic_short_code"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:enabled="false"
+                        android:visibility="gone"/>
 
                     <Button
                         android:id="@+id/btn_add_on"
@@ -179,6 +187,7 @@
                         android:textSize="10sp"
                         android:textStyle="bold"
                         android:visibility="visible"/>
+
 
                     <Button
                         android:id="@+id/btn_breakup"

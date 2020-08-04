@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@drawable/sale_page_background_image">
+    
+    <include
+        android:id="@+id/tab"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        layout="@layout/action_bar_item" >
+    </include>
+    
+     <RelativeLayout
+        android:id="@+id/Rlmain"
+        android:layout_width="fill_parent"
+        android:layout_height="300dp"
+        android:layout_below="@+id/tab"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/rounded_background_with_transparent_color"
+            >
+       <RelativeLayout
+                android:id="@+id/LlsignpanelTAB"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button_with_blue_background" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/sale_page_back_button" />
+
+ <com.youbank.functions.MyTextView
+                    android:id="@+id/imageView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="5dp"
+                    android:text="Printer Settings"
+                    android:textColor="#ffffff"
+                    android:textSize="20dp" />
+            </RelativeLayout>
+    
+
+<com.youbank.functions.MyTextView
+        android:id="@+id/Tvselectprinter"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/LlsignpanelTAB"
+        android:layout_marginTop="15dp"
+        android:text="Default Printer"
+        android:textColor="#003778" 
+       android:paddingLeft="20dp"
+        android:textSize="20sp"
+        android:visibility="visible"/>
+
+    <RelativeLayout
+        android:id="@+id/RlPrinterDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        
+        android:layout_below="@+id/Tvselectprinter" >
+
+   <com.youbank.functions.MyTextView
+            android:id="@+id/TvPrinterName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="30dp"
+            android:paddingTop="8dp"
+            android:text="Evolute101"
+            android:layout_centerHorizontal="true"
+            android:textColor="#003778"
+            android:textSize="18sp" />
+
+<com.youbank.functions.MyTextView
+            android:id="@+id/TvPrinterAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/TvPrinterName"
+            android:paddingLeft="30dp"
+            android:paddingTop="8dp"
+            android:text="12:43:A3:21:AG:BF"
+            android:layout_centerHorizontal="true"
+            android:textColor="#003778"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+ <com.youbank.functions.MyButton
+        android:id="@+id/Bdone"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/RlPrinterDetails"
+        android:background="@drawable/rounded_button_with_blue_background"
+        android:textColor="#ffffff"
+        android:textSize="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:text="Submit" />
+    </RelativeLayout>
+
+</RelativeLayout>

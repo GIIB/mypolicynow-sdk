@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/wallet_background">
+
+    <RelativeLayout
+        android:id="@+id/tab"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp">
+
+        <!--<ImageView-->
+            <!--android:layout_width="40dp"-->
+            <!--android:layout_height="28dp"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:background="@drawable/drawer" />-->
+
+        <ImageView
+            android:layout_width="55dp"
+            android:layout_height="23dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ongomerchant_logo" />
+
+        <!--<include
+            layout="@layout/ongowallet_small_title_view"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"></include>-->
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:layout_below="@+id/tab">
+
+        <TextView
+            android:id="@+id/createPinTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:textSize="15dp"
+            android:textColor="#567295"
+            android:text="Enter Your PIN" />
+
+        <RelativeLayout
+            android:id="@+id/newPinView"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/createPinTitle">
+
+            <LinearLayout
+                android:layout_width="270dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/rounded_button_with_white_background">
+
+                <EditText
+                    android:id="@+id/etdEnterPin"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:singleLine="true"
+
+                    android:maxLength="4"
+                    android:inputType="numberPassword"
+                    android:textColor="#567295"
+                    android:textSize="15dp"
+                    android:textColorHint="#567295" />
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/buttonView"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/newPinView">
+
+            <LinearLayout
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/rounded_button_with_white_background">
+
+                <TextView
+                    android:id="@+id/btnSubmit"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@drawable/rounded_button_with_color_background"
+                    android:gravity="center"
+                    android:hint="Submit"
+                    android:textStyle="bold"
+                    android:textColor="#567295"
+                    android:textSize="15dp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txtForgotPin"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/buttonView"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:text="Forgot PIN ?"
+            android:textColor="#567295"
+            android:textSize="16dp" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtForgotPin">
+
+            <View
+                android:layout_width="100dp"
+                android:layout_height="2dp"
+                android:layout_centerInParent="true"
+                android:background="#567295"></View>
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+</RelativeLayout>

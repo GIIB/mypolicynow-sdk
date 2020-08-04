@@ -2,9 +2,13 @@ package com.indicosmic.www.mypolicynow_ags.activities;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -16,6 +20,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -23,18 +28,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+
 import com.indicosmic.www.mypolicynow_ags.R;
 import com.indicosmic.www.mypolicynow_ags.utils.UtilitySharedPreferences;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URI;
+import java.util.Objects;
 
-import static com.indicosmic.www.mypolicynow_ags.webservices.RestClient.ROOT_URL2;
 
-public class PdfViewer extends AppCompatActivity {
+public class PdfViewer extends AppCompatActivity  {
 
     private static final String TAG = "ProposalPDF";
     WebView webViewProposalPdf;
@@ -46,6 +50,13 @@ public class PdfViewer extends AppCompatActivity {
     ProgressDialog myDialog;
     String PDF_URL="";
     String PDF_TITLE="";
+    //PDFView pdfView;
+    Integer pageNumber = 1;
+
+    String pdfFileName;
+    //ScrollBar scrollBar;
+
+    LinearLayout root;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,20 +101,8 @@ public class PdfViewer extends AppCompatActivity {
         StrAgentId =   UtilitySharedPreferences.getPrefs(getApplicationContext(),"PosId");
 
         webViewProposalPdf = findViewById(R.id.webViewProposalPdf);
-
-
-        MySwipeRefreshLayout = findViewById(R.id.swiperefresh);
-        MySwipeRefreshLayout.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // This method performs the actual data-refresh operation.
-                // The method calls setRefreshing(false) when it's finished.
-                LoadProposalPage();
-            }
-        });
-
-        progressBar = findViewById(R.id.progressbar);
-
+        //pdfView = findViewById(R.id.pdfView);
+        //scrollBar = findViewById(R.id.scrollBar);
 
 
         myDialog = new ProgressDialog(PdfViewer.this);
@@ -114,12 +113,64 @@ public class PdfViewer extends AppCompatActivity {
         tv_loading.setGravity(Gravity.CENTER);
         tv_loading.setTypeface(null, Typeface.BOLD);
 
+        progressBar = findViewById(R.id.progressbar);
+        //pdfView.setScrollBar(scrollBar);
+        MySwipeRefreshLayout = findViewById(R.id.swiperefresh);
+        MySwipeRefreshLayout.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // This method performs the actual data-refresh operation.
+                // The method calls setRefreshing(false) when it's finished.
+                LoadProposalPage();
+               /* if (PDF_URL != null) {
+                    displayFromUri(PDF_URL);
+                }*/
+            }
+        });
+
+
+
+     /*   if (PDF_URL != null) {
+            displayFromUri(PDF_URL);
+        }
+*/
 
         LoadProposalPage();
     }
 
+  /*  private void displayFromUri(String pdf_url) {
+        pdfFileName = getFileName(Uri.parse(pdf_url));
+
+        pdfView.fromUri(Uri.parse(pdf_url))
+                .defaultPage(pageNumber)
+                .onPageChange(this)
+                .swipeVertical(true)
+                .showMinimap(false)
+                .enableAnnotationRendering(true)
+                .onLoad(this)
+                .load();
+    }*/
+
+    public String getFileName(Uri uri) {
+        String result = null;
+        if (Objects.requireNonNull(uri.getScheme()).equals("content")) {
+            try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            }
+        }
+        if (result == null) {
+            result = uri.getLastPathSegment();
+        }
+        return result;
+    }
+
+
     @SuppressLint("SetJavaScriptEnabled")
     private void LoadProposalPage() {
+
+
         WebSettings ws = webViewProposalPdf.getSettings();
         ws.setSupportZoom(true);
         ws.setJavaScriptEnabled(true);
@@ -190,5 +241,15 @@ public class PdfViewer extends AppCompatActivity {
         overridePendingTransition(R.animator.left_right,R.animator.right_left);
         finish();
     }
+
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+
+    }
+
 
 }

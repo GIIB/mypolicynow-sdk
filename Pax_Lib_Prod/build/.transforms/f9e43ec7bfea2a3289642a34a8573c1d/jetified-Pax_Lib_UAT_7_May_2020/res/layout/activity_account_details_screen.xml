@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/wallet_background"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <RelativeLayout
+            android:id="@+id/tab"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:background="#003778">
+
+            <!--<ImageView-->
+            <!--android:layout_width="40dp"-->
+            <!--android:layout_height="28dp"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:background="@drawable/drawer" />-->
+
+            <ImageView
+                android:layout_width="55dp"
+                android:layout_height="23dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/ongomerchant_logo" />
+
+            <!--<include
+                layout="@layout/ongowallet_small_title_view"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"></include>-->
+
+            <TextView
+                android:id="@+id/account_details_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:text="Account Details"
+                android:textColor="#ffffff"
+                android:textSize="17dp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/tab"
+            android:layout_weight="0.2"
+            android:background="#ffffff"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/rounded_button_with_white_background">
+
+                    <EditText
+                        android:id="@+id/etdFirstName"
+                        android:layout_width="fill_parent"
+                        android:layout_height="45dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:hint="Name"
+                        android:inputType="textCapSentences"
+                        android:singleLine="true"
+                        android:textColor="#567295"
+                        android:textColorHint="#567295"
+                        android:textCursorDrawable="@drawable/cursor_color"
+                        android:textSize="15dp" />
+
+                    <!--<View
+                        android:layout_width="1dp"
+                        android:layout_height="fill_parent"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:background="#c0c0c0"></View>-->
+
+                    <!--<EditText
+                        android:id="@+id/etdLastName"
+                        android:layout_width="fill_parent"
+                        android:layout_height="45dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:hint="Last name"
+                        android:inputType="textCapSentences"
+                        android:singleLine="true"
+                        android:textColor="#567295"
+                        android:textColorHint="#567295"
+                        android:textCursorDrawable="@drawable/cursor_color"
+                        android:textSize="15dp" />-->
+                </LinearLayout>
+
+                <!--<LinearLayout
+                    android:id="@+id/datePickerLayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/rounded_button_with_white_background">
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+                        <TextView
+                            android:id="@+id/txtDateOfBirth"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="2"
+                            android:background="@null"
+                            android:clickable="false"
+                            android:gravity="center"
+                            android:text="Date of birth"
+                            android:textColor="#567295"
+                            android:textColorHint="#567295"
+                            android:textSize="15dp" />
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="8"
+                            android:background="@drawable/ic_calender" />
+                    </RelativeLayout>
+                </LinearLayout>-->
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/rounded_button_with_white_background"
+                    android:clickable="false">
+
+                    <EditText
+                        android:id="@+id/etdMobileNumber"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:background="@null"
+                        android:clickable="false"
+                        android:editable="false"
+                        android:enabled="false"
+                        android:gravity="center"
+                        android:hint="Mobile number"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:singleLine="true"
+                        android:textColor="#567295"
+                        android:textColorHint="#567295"
+                        android:textCursorDrawable="@drawable/cursor_color"
+                        android:textSize="15dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/rounded_button_with_white_background"
+                    android:clickable="false">
+
+                    <EditText
+                        android:id="@+id/etdEmail"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:background="@null"
+                        android:clickable="false"
+                        android:editable="false"
+                        android:enabled="false"
+                        android:gravity="center"
+                        android:hint="Email ID"
+                        android:singleLine="true"
+                        android:textColor="#567295"
+                        android:textColorHint="#567295"
+                        android:textCursorDrawable="@drawable/cursor_color"
+                        android:textSize="15dp" />
+                </LinearLayout>
+
+
+                <!--<RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="10dp">
+
+                    <LinearLayout
+                        android:layout_width="200dp"
+                        android:layout_height="fill_parent"
+                        android:layout_centerInParent="true">
+
+                        <TextView
+                            android:id="@+id/btnSubmit"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:background="@drawable/rounded_button_with_color_background"
+                            android:gravity="center"
+                            android:hint="Submit"
+                            android:textColor="#567295"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </RelativeLayout>-->
+
+                <TextView
+                    android:id="@+id/txtChangePin"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/buttonView"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:text="Change Password ?"
+                    android:textColor="#567295"
+                    android:textSize="16dp" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtForgotPin">
+
+                    <View
+                        android:layout_width="150dp"
+                        android:visibility="gone"
+                        android:layout_height="2dp"
+                        android:layout_centerInParent="true"
+                        android:background="#567295"></View>
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

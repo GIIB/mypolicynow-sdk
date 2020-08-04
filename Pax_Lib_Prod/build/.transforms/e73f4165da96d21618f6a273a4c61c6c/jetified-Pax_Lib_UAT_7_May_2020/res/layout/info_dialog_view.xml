@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:orientation="vertical">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/transparent_background"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_30">
+
+        <ImageView
+            android:id="@+id/imgLogo"
+            android:layout_width="@dimen/padding_70"
+            android:layout_height="@dimen/padding_70"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imgLogo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/padding_10"
+            android:text="DMT"
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/header_text_size" />
+
+        <TextView
+            android:id="@+id/txtDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtTitle"
+            android:layout_marginTop="@dimen/padding_10"
+            android:text="Direct Money Transfer/Domestic Money transfer is a process where in any person can send money to any bank account in india."
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/font_12" />
+
+        <CheckBox
+            android:id="@+id/chkDontShow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtDescription"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="Don't show this again"
+            android:textColor="@color/header_text"
+            android:textSize="@dimen/font_12" />
+
+        <TextView
+            android:id="@+id/txtOk"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:layout_below="@+id/chkDontShow"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/padding_10"
+            android:background="@drawable/rounded_button_with_dblue_background"
+            android:gravity="center"
+            android:text="Ok"
+            android:textAllCaps="false"
+            android:textColor="#fff"
+            android:textSize="@dimen/sub_header_text_size" />
+    </RelativeLayout>
+</RelativeLayout>

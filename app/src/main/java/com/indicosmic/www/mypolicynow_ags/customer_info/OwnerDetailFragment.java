@@ -392,12 +392,13 @@ public class OwnerDetailFragment extends Fragment implements BlockingStep, View.
                     result = false;
                 }
 
-                if (!MyValidator.isValidAadhaar(edt_Aadhar_Card)) {
-                    CommonMethods.DisplayToastWarning(context, "Please Enter Valid Aadhaar");
-                    edt_Aadhar_Card.requestFocus();
-                    result = false;
+                if(edt_Aadhar_Card.getText().toString().length()>0) {
+                    if (!MyValidator.isValidAadhaar(edt_Aadhar_Card)) {
+                        CommonMethods.DisplayToastWarning(context, "Please Enter Valid Aadhaar");
+                        edt_Aadhar_Card.requestFocus();
+                        result = false;
+                    }
                 }
-
 
 
                 if (!MyValidator.isValidGSTIN(Edt_GstInNumber)) {

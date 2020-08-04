@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView01"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg_2">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rounded_button_with_white_background">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_action_mobile"
+                android:layout_centerVertical="true"/>
+            <EditText
+                android:id="@+id/etdMobile"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:cursorVisible="true"
+                android:gravity="center"
+                android:hint="Mobile Number"
+                android:inputType="number"
+                android:maxLength="10"
+                android:textColorHint="#567295" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rounded_button_with_white_background">
+
+            <EditText
+                android:id="@+id/etname"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:digits="QWERTYUIOPAS DFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm'"
+                android:gravity="center"
+                android:hint="Name"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textColorHint="#567295" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/kycOneView"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_below="@+id/mobileView"
+                android:layout_gravity="center"
+                android:layout_weight=".5">
+
+
+                <TextView
+                    android:id="@+id/txtkyc1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@drawable/rounded_button_with_white_background"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="KYC 1"
+                    android:textColor="#000"
+                    android:textSize="15dp" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/below_arrow" />
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="2dp"
+                android:layout_weight=".5"
+                android:background="@drawable/rounded_button_with_white_background">
+
+                <EditText
+                    android:id="@+id/etkyc1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginTop="1dp"
+                    android:layout_weight=".5"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="Enter KYC 1  ID"
+                    android:singleLine="true"
+                    android:textColorHint="#567295" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/KycTwoView"
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_below="@+id/mobileView"
+                android:layout_gravity="center"
+                android:layout_weight=".5">
+
+
+                <TextView
+                    android:id="@+id/txtKyc2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@drawable/rounded_button_with_white_background"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="KYC 2"
+                    android:textColor="#000"
+                    android:textSize="15dp" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/below_arrow" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="2dp"
+                android:layout_weight=".5"
+                android:background="@drawable/rounded_button_with_white_background">
+
+                <EditText
+                    android:id="@+id/etkyc2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginTop="1dp"
+                    android:layout_weight=".5"
+                    android:gravity="center"
+                    android:background="@null"
+                    android:hint="Enter KYC 2  ID"
+                    android:singleLine="true"
+                    android:textColorHint="#567295" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rounded_button_with_white_background">
+
+            <EditText
+                android:id="@+id/etadd1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:hint="Address Line 1"
+                android:background="@null"
+                android:singleLine="true"
+                android:textColorHint="#567295" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rounded_button_with_white_background">
+
+            <EditText
+                android:id="@+id/etadd2"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:hint="Address Line 2"
+                android:singleLine="true"
+                android:background="@null"
+                android:textColorHint="#567295" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:layout_marginRight="2dp"
+                android:background="@drawable/rounded_button_with_white_background">
+
+                <EditText
+                    android:id="@+id/etpincode"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:hint="Pin Code"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLength="6"
+                    android:singleLine="true"
+                    android:textColorHint="#567295"
+                    android:background="@null"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_button_with_white_background">
+
+                <EditText
+                    android:id="@+id/etcity"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:digits="QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm"
+                    android:gravity="center"
+                    android:hint="City"
+                    android:inputType="text"
+                    android:background="@null"
+                    android:singleLine="true"
+                    android:textColorHint="#567295" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="2dp"
+                android:background="@drawable/rounded_button_with_white_background">
+
+                <EditText
+                    android:id="@+id/state"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:digits="QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm"
+                    android:gravity="center"
+                    android:hint="State"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLength="15"
+                    android:background="@null"
+                    android:singleLine="true"
+                    android:textColorHint="#567295" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rounded_button_with_white_background">
+
+            <EditText
+                android:id="@+id/etdEmailId"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:hint="Email ID"
+                android:background="@null"
+                android:imeOptions="actionDone"
+                android:inputType="textEmailAddress"
+                android:singleLine="true"
+                android:textColorHint="#567295" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:text="Click here for the charges applicable if any"
+            android:textColor="#567295"
+            android:textSize="15dp"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/btnlayout"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="80dp">
+
+            <RelativeLayout
+                android:layout_width="300dp"
+                android:layout_height="45dp"
+                android:layout_centerHorizontal="true">
+
+                <TextView
+                    android:id="@+id/btnSubmit"
+                    android:layout_width="180dp"
+                    android:layout_height="fill_parent"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/rounded_button_with_color_background"
+                    android:gravity="center"
+                    android:text="Register"
+                    android:textColor="#ffffff"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</ScrollView>

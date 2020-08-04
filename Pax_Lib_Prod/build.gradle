@@ -1,0 +1,3 @@
+configurations.maybeCreate("default")
+//artifacts.add("default", file('Pax_Lib_UAT_7_May_2020.aar'))
+artifacts.add("default", file('Pax_Library_Prod_V_1.0.0.2.aar'))

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_2"
+    android:orientation="vertical">
+
+
+    <include
+        android:id="@+id/includetxnfirstscreem"
+        layout="@layout/fragment_transactionsccreen1"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:visibility="visible" />
+
+    <include
+        android:id="@+id/includeTxnView"
+        layout="@layout/fragmenttransactionbenlist"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/includeTxnamount"
+        layout="@layout/fragment_transaction_amount_screen"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:visibility="gone" />
+
+</LinearLayout>

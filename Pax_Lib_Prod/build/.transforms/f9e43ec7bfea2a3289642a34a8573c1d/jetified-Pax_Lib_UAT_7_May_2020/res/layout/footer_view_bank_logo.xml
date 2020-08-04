@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@android:color/transparent"
+    android:layout_height="@dimen/footer_height">
+
+    <RelativeLayout
+        android:id="@+id/footerView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_60"
+        android:layout_alignParentBottom="true">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/ivIndiatransact"
+                android:text="powered by"
+                android:textColor="#000"
+                android:textSize="@dimen/option_text_size"
+
+                />
+
+            <ImageView
+                android:id="@+id/ivindusBankLogo"
+                android:layout_width="@dimen/footer_width"
+                android:layout_height="@dimen/footer_heights"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/indiatransact_logo" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</LinearLayout>

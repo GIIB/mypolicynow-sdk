@@ -6,15 +6,17 @@ public class RestClient
 	{
 		private static API REST_CLIENT;
 
-		//public static String ROOT_URL = "https://www.mypolicynow.com/Api/";
+		//public static String ROOT_URL2 = "http://ags.mypolicynow.com/";
 
-		public static String ROOT_URL = "http://uat.mypolicynow.com/ags/";
+
 		public static String ROOT_URL2 = "http://uat.mypolicynow.com/ags/";
 		public static String ROOT_IC_IMAGE_URL = ROOT_URL2+"assets/images/client-logos/200x120/";
+		public static String BASE_URL = ROOT_URL2+"Api/";
+
+
 		public static String URLProd = "https://www.mypolicynow.com/Api/";
 		public  static String ROOT_URL_BREAKIN = "http://uat.mypolicynow.com/Api/";
 		public static String URLUAT = "http://uat.mypolicynow.com/";
-
 		public static String GenerateQrCode = "https://pierre2106j-qrcode.p.rapidapi.com/api?backcolor=ffffff&pixel=10&ecl=L+%7C+M%7C+Q+%7C+H&forecolor=000000&type=json+%7C+url+%7C+tel+%7C+sms+%7C+email&";
 
 

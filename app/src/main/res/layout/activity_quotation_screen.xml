@@ -199,6 +199,7 @@
                             android:textSize="10sp"
                             android:layout_gravity="center"
                             android:gravity="center"
+                            android:visibility="invisible"
                             android:textColor="@color/black"
                             android:background="@color/grey_bg_color"
                             android:text="THIRD PARTY \nPOLICY"/>
@@ -213,6 +214,7 @@
                             android:background="@color/grey_bg_color"
                             android:layout_weight="3"
                             android:textSize="10sp"
+                            android:visibility="invisible"
                             android:layout_gravity="center"
                             android:gravity="center"
                             android:text="STANDALONE OD"/>
@@ -1166,17 +1168,87 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/IndividualPolicyHolderLayout"
+                    android:id="@+id/LinearHaveRSA"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:weightSum="10"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:visibility="gone"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5sp"
                         android:padding="5dp"
+                        android:layout_weight="5"
+                        android:layout_gravity="center|start"
+                        android:gravity="center|start"
+                        android:text="Do you want RSA ? *"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <RadioGroup
+                        android:id="@+id/RG_WantRsa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_weight="5"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:weightSum="10">
+
+
+                        <RadioButton
+                            android:id="@+id/Rb_YesRsa"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Yes"
+                            android:textColor="@color/black"
+                            android:background="@drawable/form_bg_edittext_bg"
+                            android:layout_margin="5dp"
+                            android:padding="5dp"
+                            android:buttonTint="@color/black"
+                            style="@android:style/Widget.CompoundButton.CheckBox"
+                            android:minHeight="30sp"
+
+                            android:layout_weight="5"/>
+
+                        <RadioButton
+                            android:id="@+id/Rb_NoRsa"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="No"
+                            android:textColor="@color/black"
+                            android:background="@drawable/form_bg_edittext_bg"
+                            android:layout_margin="5dp"
+                            android:padding="5dp"
+                            android:minHeight="30sp"
+                            android:buttonTint="@color/black"
+                            style="@android:style/Widget.CompoundButton.CheckBox"
+                            android:layout_weight="5"/>
+
+
+                    </RadioGroup>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/IndividualPolicyHolderLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:orientation="vertical">
+
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5sp"
+                        android:padding="5dp"
+                        android:visibility="gone"
                         android:text="CPA TERM SELECTION *"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
@@ -1188,6 +1260,7 @@
                         android:layout_marginTop="5sp"
                         android:layout_marginBottom="5dp"
                         android:layout_marginEnd="5dp"
+                        android:visibility="gone"
                         android:background="@drawable/btn_color_white">
 
                         <Spinner

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    android:background="#ffffff">
+
+    <RelativeLayout
+        android:id="@+id/tab"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:background="#003778">
+
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@null"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="Transaction Receipt"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:textSize="17dp" />
+
+        <ImageView
+            android:id="@+id/cancelDialogView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_action_cancel_white" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/llsenmob"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/tab"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal"
+        android:background="#ffffff">
+        <TextView
+            android:id="@+id/tvsenmob"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="Sender Mobile Number"
+            android:background="#ffffff"/>
+        <TextView
+            android:id="@+id/etsenmob1"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:singleLine="true"
+            android:background="#ffffff"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llsennam"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/llsenmob"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal"
+        android:background="#ffffff">
+        <TextView
+            android:id="@+id/tvsennam"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="Sender Name"
+            android:background="#ffffff"/>
+        <TextView
+            android:id="@+id/etsennam"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textSize="16dp"
+            android:background="#ffffff"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llbenmob"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/llsennam"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
+        android:background="#ffffff">
+        <TextView
+            android:id="@+id/tvbenmob"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="Beneficiary Account Number"
+            android:background="#ffffff"/>
+        <TextView
+            android:id="@+id/etbenmob1"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:singleLine="true"
+            android:background="#ffffff"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llbennam"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/llbenmob"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal"
+        android:background="#ffffff">
+        <TextView
+            android:id="@+id/tvbennam"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="Beneficiary Name"
+            android:background="#ffffff"/>
+        <TextView
+            android:id="@+id/etbennam"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textSize="16dp"
+            android:background="#ffffff"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lltxnid"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/llbennam"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal"
+        android:background="#ffffff">
+        <TextView
+            android:id="@+id/tvtxnid"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="Transaction Id"
+            android:background="#ffffff"/>
+        <TextView
+            android:id="@+id/ettxnid"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textSize="16dp"
+            android:background="#ffffff"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lltxnamt"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/lltxnid"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal"
+        android:background="#ffffff">
+        <TextView
+            android:id="@+id/tvtxnamt"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="Transaction Amount"
+            android:background="#ffffff"/>
+        <TextView
+            android:id="@+id/ettxnamtrec"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textSize="16dp"
+            android:background="#ffffff"
+            />
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:id="@+id/resendsRefundButtonsView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:visibility="visible"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/Done"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="13dp"
+            android:paddingBottom="13dp"
+            android:layout_weight="1"
+            android:visibility="visible"
+            android:gravity="center"
+            android:background="#FCBD52"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:text="Done"/>
+    </LinearLayout>
+</RelativeLayout>

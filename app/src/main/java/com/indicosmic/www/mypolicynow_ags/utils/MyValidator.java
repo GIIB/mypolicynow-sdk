@@ -507,4 +507,17 @@ public class MyValidator {
         return false;
 
     }
+
+    public static boolean isValidChassisNumber(EditText edt_engineNo) {
+
+        String engine_no = edt_engineNo.getText().toString().trim();
+        if (engine_no != null && (engine_no.length() == 17 )){
+            edt_engineNo.setError(null);
+            return true;
+        }
+        edt_engineNo.setError(REQUIRED_MSG + "This Filed should have 17 digits");
+        return false;
+
+    }
+
 }

@@ -98,7 +98,11 @@ public class QuotationActivity_2 extends AppCompatActivity implements AdapterVie
     String StrExpiryDate = "";
     CheckBox ChkNilDept;
     String SelectedRtoId="",SelectedMakeId="",SelectedModelId="",SelectedVaraintId="",SelectedVehicleId="";
-    LinearLayout LinearChangeInOwnership,LayoutODDisount,InvoiceLayout,LinearNewPolicyWanted,IndividualPolicyHolderLayout;
+    LinearLayout LinearChangeInOwnership,LayoutODDisount,InvoiceLayout,LinearNewPolicyWanted,IndividualPolicyHolderLayout,LinearHaveRSA;
+
+    RadioGroup RG_WantRsa;
+    RadioButton Rb_YesRsa,Rb_NoRsa;
+
     RadioGroup RG_NewPolicyRequired;
     RadioButton Rb_0OD3TP,Rb_0OD5TP,Rb_1OD3TP,Rb_3OD3TP,Rb_1OD5TP,Rb_5OD5TP;
     TextView til_invoice_price;
@@ -127,7 +131,7 @@ public class QuotationActivity_2 extends AppCompatActivity implements AdapterVie
 
     ArrayList<String> ncbDisplayValue = new ArrayList<String>();
 
-    String StrProduct="",StrPosToken="",StrAgentId="",ProductTypeId="2",StrPolicyHolder="";
+    String StrProduct="",StrPosToken="",StrAgentId="",is_rsa_pa="1",ProductTypeId="2",StrPolicyHolder="";
     Button BtnGetQuote;
     String StrRegistrationDate="",StrRegistration_monthId="0";
 
@@ -194,7 +198,7 @@ public class QuotationActivity_2 extends AppCompatActivity implements AdapterVie
                             JSONObject agent_detailObj = data_obj.getJSONObject("agent_detail");
 
                             StrAgentId = agent_detailObj.getString("id");
-                            String StrAgentName = agent_detailObj.getString("app_fullname");
+                            String StrAgentName = agent_detailObj.getString("username");
                             String StrAgentMObile = agent_detailObj.getString("mobile_no");
                             String StrAgentEmail = agent_detailObj.getString("email");
 
@@ -214,6 +218,7 @@ public class QuotationActivity_2 extends AppCompatActivity implements AdapterVie
                                     ProductTypeId = car_previledgeObj.getString("product_type_id");
                                     product_type="privatecar";
                                     String IcList = car_previledgeObj.getString("ic_ids");
+
                                     UtilitySharedPreferences.setPrefs(getApplicationContext(),"IcList",IcList);
                                     UtilitySharedPreferences.setPrefs(getApplicationContext(),"ProductTypeId",ProductTypeId);
                                     UtilitySharedPreferences.setPrefs(getApplicationContext(),"CarPreviledges",car_previledgeObj.toString());
@@ -225,6 +230,8 @@ public class QuotationActivity_2 extends AppCompatActivity implements AdapterVie
                                     ProductTypeId = bike_previledgeObj.getString("product_type_id");
                                     product_type="bike";
                                     String IcList = bike_previledgeObj.getString("ic_ids");
+
+
                                     UtilitySharedPreferences.setPrefs(getApplicationContext(),"IcList",IcList);
                                     UtilitySharedPreferences.setPrefs(getApplicationContext(),"ProductTypeId",ProductTypeId);
                                     UtilitySharedPreferences.setPrefs(getApplicationContext(),"BikePreviledges",bike_previledgeObj.toString());
@@ -431,6 +438,10 @@ public class QuotationActivity_2 extends AppCompatActivity implements AdapterVie
             @Override
             public void onClick(View v) {
 
+                Calendar cal = Calendar.getInstance();
+
+                //adding one day to current date
+                cal.add(Calendar.DAY_OF_MONTH, 45);
                 /*DialogFragment dFragment = new DatePickerFragment();
 
                 // Show the date picker dialog fragment
@@ -464,7 +475,7 @@ public class QuotationActivity_2 extends AppCompatActivity implements AdapterVie
                 }, mYear1, mMonth1+1, -1);
 
                 prePolicyExpiryDatePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                //prePolicyExpiryDatePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                prePolicyExpiryDatePickerDialog.getDatePicker().setMaxDate(cal.getTimeInMillis());
                 //((ViewGroup) datePickerDialog.getDatePicker()).findViewById(Resources.getSystem().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
 
                 prePolicyExpiryDatePickerDialog.show();
@@ -474,6 +485,10 @@ public class QuotationActivity_2 extends AppCompatActivity implements AdapterVie
         LinearChangeInOwnership = (LinearLayout)findViewById(R.id.LinearChangeInOwnership);
         LayoutODDisount = (LinearLayout)findViewById(R.id.LayoutODDisount);
         InvoiceLayout = (LinearLayout)findViewById(R.id.InvoiceLayout);
+
+
+        RG_WantRsa = (RadioGroup)findViewById(R.id.RG_WantRsa);
+
 
         RG_NewPolicyRequired= (RadioGroup)findViewById(R.id.RG_NewPolicyRequired);
 
@@ -600,6 +615,20 @@ public class QuotationActivity_2 extends AppCompatActivity implements AdapterVie
         RG_HaveMadeClaim= (RadioGroup)findViewById(R.id.RG_HaveMadeClaim);
         Rb_NotMadeClaim = (RadioButton)findViewById(R.id.Rb_NotMadeClaim);
         Rb_YesMadeClaim = (RadioButton)findViewById(R.id.Rb_YesMadeClaim);
+        Rb_YesRsa= (RadioButton)findViewById(R.id.Rb_YesRsa);
+        Rb_NoRsa= (RadioButton)findViewById(R.id.Rb_NoRsa);
+
+        Rb_YesRsa.setChecked(true);
+        Rb_YesRsa.setBackgroundColor(getResources().getColor(R.color.primary_green));
+        Rb_YesRsa.setTextColor(getResources().getColor(R.color.white));
+        Rb_YesRsa.setButtonTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.white));
+
+        Rb_NoRsa.setBackground(getResources().getDrawable(R.drawable.form_bg_edittext_bg));
+        Rb_NoRsa.setTextColor(getResources().getColor(R.color.black));
+        Rb_NoRsa.setButtonTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.black));
+
+        selected_pa_year = "0";
+        have_pa_policy = "yes";
 
 
         SameOwnerLayout= (LinearLayout)findViewById(R.id.SameOwnerLayout);
@@ -700,6 +729,9 @@ public class QuotationActivity_2 extends AppCompatActivity implements AdapterVie
                     Rb_1OD5TP.setTextColor(getResources().getColor(R.color.white));
                     Rb_1OD5TP.setButtonTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.white));
 
+                    selected_od_year = "1";
+
+
                     Rb_1OD3TP.setBackground(getResources().getDrawable(R.drawable.form_bg_edittext_bg));
                     Rb_1OD3TP.setTextColor(getResources().getColor(R.color.black));
                     Rb_1OD3TP.setButtonTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.black));
@@ -721,7 +753,6 @@ public class QuotationActivity_2 extends AppCompatActivity implements AdapterVie
                     Rb_0OD5TP.setTextColor(getResources().getColor(R.color.black));
                     Rb_0OD5TP.setButtonTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.black));
 
-                    selected_od_year = "1";
 
                 }
 
@@ -858,6 +889,43 @@ public class QuotationActivity_2 extends AppCompatActivity implements AdapterVie
                     LinearHaveMadeClaim.setVisibility(View.GONE);
                     LayoutNilDept.setVisibility(View.GONE);
                     is_changes_in_ownership = "yes";
+                    is_previous_policy = "no";
+
+
+                }
+
+            }
+        });
+
+
+        RG_WantRsa.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (Rb_NoRsa.isChecked()) {
+                    Rb_NoRsa.setBackgroundColor(getResources().getColor(R.color.primary_green));
+                    Rb_NoRsa.setTextColor(getResources().getColor(R.color.white));
+                    Rb_NoRsa.setButtonTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.white));
+
+                    Rb_YesRsa.setBackground(getResources().getDrawable(R.drawable.form_bg_edittext_bg));
+                    Rb_YesRsa.setTextColor(getResources().getColor(R.color.black));
+                    Rb_YesRsa.setButtonTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.black));
+
+                    selected_pa_year = "1";
+                    have_pa_policy = "yes";
+
+
+                }
+                if (Rb_YesRsa.isChecked()) {
+                    Rb_YesRsa.setBackgroundColor(getResources().getColor(R.color.primary_green));
+                    Rb_YesRsa.setTextColor(getResources().getColor(R.color.white));
+                    Rb_YesRsa.setButtonTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.white));
+
+                    Rb_NoRsa.setBackground(getResources().getDrawable(R.drawable.form_bg_edittext_bg));
+                    Rb_NoRsa.setTextColor(getResources().getColor(R.color.black));
+                    Rb_NoRsa.setButtonTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.black));
+
+                    selected_pa_year = "0";
+                    have_pa_policy = "yes";
 
 
                 }
@@ -1007,15 +1075,19 @@ public class QuotationActivity_2 extends AppCompatActivity implements AdapterVie
 
         Spn_PolicyHolder= (Spinner)findViewById(R.id.Spn_PolicyHolder);
         IndividualPolicyHolderLayout = (LinearLayout)findViewById(R.id.IndividualPolicyHolderLayout);
-
+        LinearHaveRSA  = (LinearLayout)findViewById(R.id.LinearHaveRSA);
         Spn_PolicyHolder.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 StrPolicyHolder = Spn_PolicyHolder.getSelectedItem().toString().trim();
                 if(StrPolicyHolder!=null && StrPolicyHolder.equalsIgnoreCase("INDIVIDUAL")){
-                    IndividualPolicyHolderLayout.setVisibility(View.VISIBLE);
+                    IndividualPolicyHolderLayout.setVisibility(View.GONE);
+                    LinearHaveRSA.setVisibility(View.VISIBLE);
                 }else if(StrPolicyHolder!=null && StrPolicyHolder.equalsIgnoreCase("CORPORATE")){
                     IndividualPolicyHolderLayout.setVisibility(View.GONE);
+                    LinearHaveRSA.setVisibility(View.GONE);
+                    selected_pa_year = "0";
+                    have_pa_policy = "yes";
 
                 }
             }
@@ -1259,8 +1331,14 @@ public class QuotationActivity_2 extends AppCompatActivity implements AdapterVie
                     Rb_1OD3TP.setVisibility(View.VISIBLE);
                     Rb_1OD5TP.setVisibility(View.GONE);
                     Rb_5OD5TP.setVisibility(View.GONE);
-                    Rb_3OD3TP.setVisibility(View.VISIBLE);
+                    Rb_3OD3TP.setVisibility(View.GONE);
 
+                    Rb_1OD3TP.setChecked(true);
+                    Rb_1OD3TP.setBackgroundColor(getResources().getColor(R.color.primary_green));
+                    Rb_1OD3TP.setTextColor(getResources().getColor(R.color.white));
+                    Rb_1OD3TP.setButtonTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.white));
+
+                    selected_od_year = "1";
 
                 }
                 else if (StrPolicyType != null && StrPolicyType.equalsIgnoreCase("Renew")) {
@@ -1325,8 +1403,15 @@ public class QuotationActivity_2 extends AppCompatActivity implements AdapterVie
                     Rb_0OD3TP.setVisibility(View.GONE);
                     Rb_1OD3TP.setVisibility(View.GONE);
                     Rb_1OD5TP.setVisibility(View.VISIBLE);
-                    Rb_5OD5TP.setVisibility(View.VISIBLE);
+                    Rb_5OD5TP.setVisibility(View.GONE);
                     Rb_3OD3TP.setVisibility(View.GONE);
+
+                    Rb_1OD5TP.setChecked(true);
+                    Rb_1OD5TP.setBackgroundColor(getResources().getColor(R.color.primary_green));
+                    Rb_1OD5TP.setTextColor(getResources().getColor(R.color.white));
+                    Rb_1OD5TP.setButtonTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.white));
+
+                    selected_od_year = "1";
 
                 }
                 else if (StrPolicyType != null && StrPolicyType.equalsIgnoreCase("Renew")) {
@@ -1999,6 +2084,8 @@ public class QuotationActivity_2 extends AppCompatActivity implements AdapterVie
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(getApplicationContext(), MainActivity_1.class);
+        intent.putExtra("terminal_id", UtilitySharedPreferences.getPrefs(getApplicationContext(),"TerminalId"));
+        intent.putExtra("merchant_id",UtilitySharedPreferences.getPrefs(getApplicationContext(),"MerchantId"));
         startActivity(intent);
         overridePendingTransition(R.animator.left_right,R.animator.right_left);
         finish();
@@ -2567,6 +2654,7 @@ public class QuotationActivity_2 extends AppCompatActivity implements AdapterVie
                 protected Map<String, String> getParams() {
                     Map<String, String> map = new HashMap<String, String>();
                     map.put("agent_id", StrAgentId);
+                    map.put("is_rsa_pa", is_rsa_pa);
                     map.put("vehicle_id", StrVehicleId);
                     map.put("vehicle_fuel", StrFuelType.toLowerCase());
                     map.put("policy_type", StrPolicyType.toLowerCase());

@@ -72,7 +72,8 @@ public class VehicleDetailsFragment extends Fragment implements BlockingStep, Ad
     Spinner Spn_VehicleColor,Spn_Agreement;
     TextView tv_registration_date;
     SearchableSpinner Spn_Bank;
-    String StrMpnData,StrUserActionData,StrPolicyType;
+    String StrMpnData,StrUserActionData,StrPolicyType,StrIsPreviousPolicy;
+    boolean is_breakin = false;
     String StrRtoStateCode,StrRtoCityCode,StrRtoZoneCode,StrVehicleNo,StrEngineNo,StrChassisNo,StrRegistrationDate,StrVehicleColor,StrAgreement,
             StrBankName,StrBankId,strRtoVehicleNoFull="";
     String SelectedIc_Id;
@@ -155,7 +156,7 @@ public class VehicleDetailsFragment extends Fragment implements BlockingStep, Ad
                 if(editable.toString()!=null && editable.toString().length()>0){
                     StrRtoZoneCode = Edt_RtoZoneCode.getText().toString();
                     strRtoVehicleNoFull  = StrRtoStateCode + "-"+StrRtoCityCode+"-"+StrRtoZoneCode+"-"+editable.toString();
-                    //API_CHECK_CHASSIS_NO("",strRtoVehicleNoFull.toLowerCase());
+                    API_CHECK_CHASSIS_NO("",strRtoVehicleNoFull.toLowerCase());
                 }
             }
         });
@@ -175,7 +176,7 @@ public class VehicleDetailsFragment extends Fragment implements BlockingStep, Ad
             @Override
             public void afterTextChanged(Editable editable) {
                 if(editable.toString()!=null && editable.toString().length()>0){
-                    //API_CHECK_CHASSIS_NO(editable.toString(),strRtoVehicleNoFull.toLowerCase());
+                    API_CHECK_CHASSIS_NO(editable.toString(),strRtoVehicleNoFull.toLowerCase());
                 }
             }
         });
@@ -452,12 +453,17 @@ public class VehicleDetailsFragment extends Fragment implements BlockingStep, Ad
 
 
     private void setValuesToView() {
-
+        StrMpnData = UtilitySharedPreferences.getPrefs(getContext(), "MpnData");
         try {
             JSONObject user_action_dataObj = new JSONObject(StrUserActionData);
             StrRegistrationDate = user_action_dataObj.getString("purchase_invoice_date");
             StrPolicyType = user_action_dataObj.getString("policy_type");
+            StrIsPreviousPolicy = user_action_dataObj.getString("is_previous_policy");
             String RTO_Label = user_action_dataObj.getString("rto_label");
+
+            JSONObject mpn_dataObj = new JSONObject(StrMpnData);
+            is_breakin = mpn_dataObj.getBoolean("is_breakin");
+
             if(RTO_Label!=null && !RTO_Label.equalsIgnoreCase("") && !RTO_Label.equalsIgnoreCase("null")){
 
                 String[] rtoSeparated = RTO_Label.split("-");
@@ -481,7 +487,11 @@ public class VehicleDetailsFragment extends Fragment implements BlockingStep, Ad
                 if(StrPolicyType.equalsIgnoreCase("new")){
                     LayoutPreviousPolicyRenewalData.setVisibility(View.GONE);
                 }else if(StrPolicyType.equalsIgnoreCase("renew")){
-                    LayoutPreviousPolicyRenewalData.setVisibility(View.VISIBLE);
+                    if(StrIsPreviousPolicy!=null && StrIsPreviousPolicy.equalsIgnoreCase("no")){
+                        LayoutPreviousPolicyRenewalData.setVisibility(View.GONE);
+                    }else {
+                        LayoutPreviousPolicyRenewalData.setVisibility(View.VISIBLE);
+                    }
                     Edt_PreviousPolicyNo.setText("");
                     Spn_Ic.setSelection(0);
                 }
@@ -555,7 +565,12 @@ public class VehicleDetailsFragment extends Fragment implements BlockingStep, Ad
                         if (StrPolicyType.equalsIgnoreCase("new")) {
                             LayoutPreviousPolicyRenewalData.setVisibility(View.GONE);
                         } else if (StrPolicyType.equalsIgnoreCase("renew")) {
-                            LayoutPreviousPolicyRenewalData.setVisibility(View.VISIBLE);
+                            if(StrIsPreviousPolicy!=null && StrIsPreviousPolicy.equalsIgnoreCase("no")){
+                                LayoutPreviousPolicyRenewalData.setVisibility(View.GONE);
+                            }else {
+                                LayoutPreviousPolicyRenewalData.setVisibility(View.VISIBLE);
+                            }
+
 
                             if (customer_quoteObj != null && !customer_quoteObj.toString().contains("previous_policy_details")) {
 
@@ -659,12 +674,12 @@ public class VehicleDetailsFragment extends Fragment implements BlockingStep, Ad
             CommonMethods.DisplayToastWarning(context, "Please Enter Engine No");
             result = false;
         }
-
-        if (!MyValidator.isValidEngine_ChassisNumber(Edt_ChassisNo)) {
+/*
+        if (!MyValidator.isValidChassisNumber(Edt_ChassisNo)) {
             Edt_ChassisNo.requestFocus();
             CommonMethods.DisplayToastWarning(context, "Please Enter Chassis No");
             result = false;
-        }
+        }*/
 
 
         if (!MyValidator.isValidSpinner(Spn_VehicleColor)) {
@@ -685,7 +700,7 @@ public class VehicleDetailsFragment extends Fragment implements BlockingStep, Ad
         }
 
         if(StrPolicyType!=null && !StrPolicyType.equalsIgnoreCase("null") && !StrPolicyType.equalsIgnoreCase("")){
-            if(StrPolicyType.equalsIgnoreCase("renew")){
+            if(StrPolicyType.equalsIgnoreCase("renew") && LayoutPreviousPolicyRenewalData.getVisibility() == View.VISIBLE){
                 if (!MyValidator.isValidField(Edt_PreviousPolicyNo)) {
                     Edt_PreviousPolicyNo.requestFocus();
                     CommonMethods.DisplayToastWarning(context, "Please Enter Previous Policy number");
@@ -732,11 +747,18 @@ public class VehicleDetailsFragment extends Fragment implements BlockingStep, Ad
                 StrBankId = bankValue.get(pos_bank);
 
                 if (StrPolicyType.equalsIgnoreCase("renew")) {
-                    StrPreviousPolicyNo = Edt_PreviousPolicyNo.getText().toString();
-                    String IcName = Spn_Ic.getSelectedItem().toString();
-                    int pos_ic = Spn_Ic.getSelectedItemPosition();
-                    String Ic_Id = icValue.get(pos_ic);
-                    StrPreviousPolicyIC = Ic_Id + "," + IcName;
+
+                    if(StrIsPreviousPolicy!=null && StrIsPreviousPolicy.equalsIgnoreCase("no")){
+                        StrPreviousPolicyNo = "";
+                        StrPreviousPolicyIC = "";
+                    }else {
+                        StrPreviousPolicyNo = Edt_PreviousPolicyNo.getText().toString();
+                        String IcName = Spn_Ic.getSelectedItem().toString();
+                        int pos_ic = Spn_Ic.getSelectedItemPosition();
+                        String Ic_Id = icValue.get(pos_ic);
+                        StrPreviousPolicyIC = Ic_Id + "," + IcName;
+                    }
+
 
 
                 } else {

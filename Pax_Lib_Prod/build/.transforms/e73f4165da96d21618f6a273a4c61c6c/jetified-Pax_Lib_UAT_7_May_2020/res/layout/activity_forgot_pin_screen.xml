@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/wallet_background"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/tab"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp">
+
+            <!--<ImageView-->
+            <!--android:layout_width="40dp"-->
+            <!--android:layout_height="28dp"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:background="@drawable/drawer" />-->
+
+            <!--<ImageView
+                android:layout_width="55dp"
+                android:layout_height="23dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/ongo_logo" />-->
+
+            <include
+                layout="@layout/ongowallet_small_title_view"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"></include>
+
+            <TextView
+                android:id="@+id/titleForgotPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="#ffffff"
+                android:text="Forgot Password"/>
+        </RelativeLayout>
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tab"
+            android:background="#ffffff"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtForgotPinTitle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="Forgot Password\n Please enter your registered\n mobile number "
+                android:textColor="#567295"
+                android:textSize="15dp" />
+
+            <RelativeLayout
+                android:id="@+id/newPinView"
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_below="@+id/txtForgotPinTitle"
+                android:layout_marginTop="15dp">
+
+                <LinearLayout
+                    android:layout_width="300dp"
+                    android:layout_height="45dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/rounded_button_with_white_background">
+
+                    <EditText
+                        android:id="@+id/etdMobileNumber"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:hint="Mobile number"
+                        android:maxLength="10"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textColor="#567295"
+                        android:textColorHint="#567295"
+                        android:textCursorDrawable="@drawable/cursor_color"
+                        android:textSize="15dp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/orView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/newPinView"
+                android:visibility="visible"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:id="@+id/txtOr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Or"
+                    android:visibility="gone"
+                    android:textColor="#567295"
+                    android:textSize="15dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/reNewPinView"
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_below="@+id/orView"
+                android:visibility="gone"
+                android:layout_marginTop="15dp">
+
+                <LinearLayout
+                    android:layout_width="300dp"
+                    android:layout_height="45dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/rounded_button_with_white_background">
+
+                    <EditText
+                        android:id="@+id/etdEmailId"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:hint="Email ID"
+                        android:singleLine="true"
+                        android:textColor="#567295"
+
+                        android:textColorHint="#567295"
+                        android:textCursorDrawable="@drawable/cursor_color"
+                        android:textSize="15dp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/datePickerLayout"
+                android:layout_width="fill_parent"
+                android:visibility="gone"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/reNewPinView">
+
+                <RelativeLayout
+                    android:layout_width="300dp"
+                    android:layout_height="fill_parent"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"
+                    android:background="@drawable/rounded_button_with_white_background">
+
+                    <TextView
+                        android:id="@+id/txtDateOfBirth"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="2"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:text="Date of birth"
+                        android:textColor="#567295"
+                        android:textColorHint="#567295"
+                        android:textSize="15dp" />
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="8"
+                        android:background="@drawable/ic_calender" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_below="@+id/datePickerLayout"
+                android:layout_marginTop="30dp">
+
+                <LinearLayout
+                    android:layout_width="200dp"
+                    android:layout_height="45dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/rounded_button_with_white_background">
+
+                    <TextView
+                        android:id="@+id/btnSubmit"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:background="@drawable/rounded_button_with_color_background"
+                        android:gravity="center"
+                        android:hint="Submit"
+                        android:textColor="#567295"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

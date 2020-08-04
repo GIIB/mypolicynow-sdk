@@ -1,0 +1,23 @@
+00|SALE|07/10/2017|15:40:24|000281298554|RB000102|RB0001020000000|1|
+000049|
+123456|000000000500|000000000000||Maharashtra|Mumbai|463237XXXXXX5339| KALPESH HARICHANDRA DHUM |
+mPOS_CHIP|mPOS Test 2|Visa Debit|A0000000031010|0880048000|E800
+
+00|
+155829|
+1007|
+000281298566|
+123456|
+|
+000001|
+000050|
+VDD|
+Chip
+
+
+
+Bundle[{terminal_id=rb000102, emvAPPLName=Visa Debit, batch_no=000001,
+amount=1.23, cardno=463237XXXXXX5339, emvAID=A0000000031010, emvTSI=E800, emvTVR=0880048000, SWIPEORCHIP=CHIP, phoneno=          ,
+card_name= KALPESH HARICHANDRA DHUM , bt_address=null, cardtype=VISA, rrn=000281298590, tip=000000, city=Mumbai, date=162550,
+stan=000003, time=1007, email=                                                                                                    , emvTc=A079AA6EF6B56383, total_amount=1.23, merchant_id=RB0001020000000, totat_amount=1.23,
+Internalnal_Card=VDD, authcode=123456, location=Maharashtra, merchant_name=mPOS Test 2, transaction=SALE}]
