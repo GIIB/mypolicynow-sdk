@@ -122,7 +122,7 @@ public class QuotationActivity_2 extends AppCompatActivity implements AdapterVie
     ArrayList<String> cpaDisplayValue = new ArrayList<String>();
 
 
-    ArrayList<String> variantValue = new ArrayList<String>();
+    //ArrayList<String> variantValue = new ArrayList<String>();
     ArrayList<String> variantDisplayValue = new ArrayList<String>();
     ArrayList<String> variantVehicleIdValue = new ArrayList<String>();
 
@@ -1696,10 +1696,10 @@ public class QuotationActivity_2 extends AppCompatActivity implements AdapterVie
 
     private void GetVariantList(String selectedMakeId,String selectedModelId) {
 
-        variantValue = new ArrayList<>();
+        //variantValue = new ArrayList<>();
         variantDisplayValue = new ArrayList<>();
         variantVehicleIdValue = new ArrayList<>();
-        variantValue.add("0");
+        //variantValue.add("0");
         variantDisplayValue.add("Select Variant");
         variantVehicleIdValue.add("0");
 
@@ -1734,7 +1734,7 @@ public class QuotationActivity_2 extends AppCompatActivity implements AdapterVie
                             String vehicle_id = variantObj.getString("vehicle_id");
                             String fuel_cleaned = variantObj.getString("fuel_cleaned");
 
-                            variantValue.add(variant_id);
+                            //variantValue.add(variant_id);
                             variantVehicleIdValue.add(vehicle_id);
                             variantDisplayValue.add(variant_name.toUpperCase() + " ("+ seating_capacity + "SEATER) ("+fuel_cleaned.toUpperCase()+") ("+cc+" CC)");
                         }
@@ -2579,8 +2579,12 @@ public class QuotationActivity_2 extends AppCompatActivity implements AdapterVie
                 JSONArray jsonArray = new JSONArray(variant_arry);
                 for(int k =0; k<jsonArray.length();k++){
                     JSONObject jsonObject = jsonArray.getJSONObject(k);
-                    String id = jsonObject.getString("id");
-                    if(SelectedVaraintId.equalsIgnoreCase(id)){
+                    String vehicle_id = jsonObject.getString("vehicle_id");
+                    Log.d("SelectedVehicleId",""+SelectedVehicleId);
+                    if(SelectedVehicleId.equalsIgnoreCase(vehicle_id)){
+                        Log.d("jsonObject",""+jsonObject.toString());
+
+                        SelectedVaraintId = jsonObject.getString("id");
                         StrVehicleId = jsonObject.getString("vehicle_id");
                         StrVariantCleaned = jsonObject.getString("variant_cleaned");
                         StrVariant = jsonObject.getString("variant");
@@ -2950,7 +2954,7 @@ public class QuotationActivity_2 extends AppCompatActivity implements AdapterVie
 
             String SelectedVariant = Spn_Variant.getSelectedItem().toString().toLowerCase();
             int pos_varaint = Spn_Variant.getSelectedItemPosition();
-            SelectedVaraintId = variantValue.get(pos_varaint).toString();
+            //SelectedVaraintId = variantValue.get(pos_varaint).toString();
             SelectedVehicleId = variantVehicleIdValue.get(pos_varaint).toString();
             Log.d("SelectedVariant",SelectedVariant);
             Log.d("SelectedVehicleId",SelectedVehicleId);

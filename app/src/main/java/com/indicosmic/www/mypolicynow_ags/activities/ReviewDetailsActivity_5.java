@@ -771,6 +771,7 @@ public class ReviewDetailsActivity_5 extends AppCompatActivity {
                                         if (DialogUploadPolicy != null && DialogUploadPolicy.isShowing()) {
                                             DialogUploadPolicy.dismiss();
                                         }
+                                        API_GET_PROPOSAL_PDF_API();
                                     } else {
                                         CommonMethods.DisplayToastError(getApplicationContext(), "Error in Uploading. Please upload it again.");
                                     }
@@ -779,7 +780,7 @@ public class ReviewDetailsActivity_5 extends AppCompatActivity {
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                                API_GET_PROPOSAL_PDF_API();
+
                             }
                         }
 

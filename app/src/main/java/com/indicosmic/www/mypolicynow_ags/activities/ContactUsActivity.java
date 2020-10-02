@@ -18,14 +18,20 @@ import com.bumptech.glide.Glide;
 import com.indicosmic.www.mypolicynow_ags.R;
 import com.indicosmic.www.mypolicynow_ags.utils.UtilitySharedPreferences;
 
+import org.json.JSONObject;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 
 public class ContactUsActivity extends AppCompatActivity {
 
 
     ImageView iv_logo,back_btn_toolbar;
-    TextView til_text,tv_emailId,tv_mobile_no;
+    TextView til_text,tv_emailId,tv_mobile_no,tv_technical_support,tv_operational_support;
     WebView Webview_AddressLocation;
 
     @Override
@@ -56,6 +62,15 @@ public class ContactUsActivity extends AppCompatActivity {
         tv_mobile_no= (TextView)findViewById(R.id.tv_mobile_no);
         Linkify.addLinks(tv_mobile_no, Linkify.PHONE_NUMBERS);
         tv_mobile_no.setMovementMethod(LinkMovementMethod.getInstance());
+
+        tv_technical_support= (TextView)findViewById(R.id.tv_technical_support);
+        Linkify.addLinks(tv_technical_support, Linkify.PHONE_NUMBERS);
+        tv_technical_support.setMovementMethod(LinkMovementMethod.getInstance());
+
+        tv_operational_support= (TextView)findViewById(R.id.tv_operational_support);
+        Linkify.addLinks(tv_operational_support, Linkify.PHONE_NUMBERS);
+        tv_operational_support.setMovementMethod(LinkMovementMethod.getInstance());
+
         iv_logo = (ImageView) findViewById(R.id.iv_logo);
 
         Glide.with(this)
@@ -70,6 +85,21 @@ public class ContactUsActivity extends AppCompatActivity {
         //Webview_AddressLocation.loadUrl("file:///android_asset/www/web_epf_chart.html");
 
         loadWebViewDatafinal(Webview_AddressLocation, "file:///android_asset/www/web_map_view.html");
+
+
+      /*  int arr[] = {1,1,2,2,3,3,4,5,5,6};
+        for(int i=0; i<arr.length; i++) {
+            int count = 0;
+            for(int j=0; j<arr.length; j++) {
+                if ((arr[i] == arr[j]) && (i!=j)) {
+                    count++ ;
+                }
+            }
+            if(count==0) {
+                System.out.println(arr[i]);
+            }
+        }*/
+
 
 
     }

@@ -120,7 +120,7 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
     JSONArray AddOnArray = new JSONArray();
     boolean is_antitheft = false,is_automobile_association = false;
     String geographical="";
-    String pa_unnamed_persons_no="",pa_unnamed_persons_value="",ll_paid_driver_value="",ll_paid_driver_name="";
+    String seating_capacity="",pa_unnamed_persons_no="",pa_unnamed_persons_value="",ll_paid_driver_value="",ll_paid_driver_name="";
     String addons_data="";
     JSONObject selected_addonsObj;
 
@@ -218,6 +218,7 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
             Str_rto = user_action_dataObj.getString("rto_label");
             Str_rto_id = user_action_dataObj.getString("rto_id");
             Str_cc = user_action_dataObj.getString("cc");
+            seating_capacity = user_action_dataObj.getString("seating_capacity");
             Str_have_pa_policy = user_action_dataObj.getString("have_pa_policy");
             Str_product_type_id = user_action_dataObj.getString("product_type_id");
             Str_policy_package_type = user_action_dataObj.getString("policy_package_type");
@@ -647,9 +648,18 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
                     } else if (accessories instanceof JSONObject) {
                         // It's an object
                         JSONObject interventionObject = (JSONObject) accessories;
-                        CB_Accessories.setChecked(true);
-                        electrical_val = interventionObject.getString("elec_value");
-                        non_electrical_val = interventionObject.getString("non_elec_value");
+                        if(interventionObject.getString("elec_value").equalsIgnoreCase("0") && interventionObject.getString("non_elec_value").equalsIgnoreCase("0")){
+                            CB_Accessories.setChecked(false);
+                            electrical_val = "";
+                            non_electrical_val = "";
+
+                        }else{
+                            CB_Accessories.setChecked(true);
+                            electrical_val = interventionObject.getString("elec_value");
+                            non_electrical_val = interventionObject.getString("non_elec_value");
+                        }
+
+
 
                     }
                 }else {
@@ -697,7 +707,7 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
                 //Condition for car aa_member_name, to set here
                 if(StrMpnData.contains("pa_covers")) {
                     Object pa_covers = mpn_dataObj.get("pa_covers");
-
+                    Log.d("pa_covers--->",""+pa_covers);
                     if (pa_covers instanceof JSONArray) {
                         // It's an array
                         JSONArray pa_coversJsonArray = (JSONArray) pa_covers;
@@ -707,13 +717,27 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
                     } else if (pa_covers instanceof JSONObject) {
                         // It's an object
                         JSONObject pa_coversObject = (JSONObject) pa_covers;
-                        CB_Accessories.setChecked(true);
-                        pa_unnamed_persons_no = pa_coversObject.getString("pa_unnamed_persons_no");
-                        pa_unnamed_persons_value = pa_coversObject.getString("pa_unnamed_persons_value");
 
-                        if (pa_unnamed_persons_no != null && !pa_unnamed_persons_no.equalsIgnoreCase("")) {
-                            pa_unnamed_persons_no = "on";
+                        if(pa_coversObject.getString("pa_unnamed_persons_no")!=null && !pa_coversObject.getString("pa_unnamed_persons_no").equalsIgnoreCase("")){
+                            pa_unnamed_persons_no = pa_coversObject.getString("pa_unnamed_persons_no");
+
+                        }else {
+                            pa_unnamed_persons_no = "";
+                            //CB_PACovers.setChecked(false);
                         }
+
+                        if(pa_coversObject.getString("pa_unnamed_persons_value")!=null && !pa_coversObject.getString("pa_unnamed_persons_value").equalsIgnoreCase("")) {
+                            pa_unnamed_persons_value = pa_coversObject.getString("pa_unnamed_persons_value");
+                            CB_PACovers.setChecked(true);
+                        }else{
+                            pa_unnamed_persons_value = "";
+                            pa_unnamed_persons_no = "";
+                            CB_PACovers.setChecked(false);
+                        }
+                    }else{
+                        CB_PACovers.setChecked(false);
+                        pa_unnamed_persons_no = "";
+                        pa_unnamed_persons_value = "";
                     }
                 }else {
                     CB_PACovers.setChecked(false);
@@ -1175,7 +1199,15 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
         if(Str_product_type_id!=null && !Str_product_type_id.equalsIgnoreCase("")) {
             if (Str_product_type_id.equalsIgnoreCase("1")){
 
-                CB_PA_UnnamedPerson.setText("PA Unnamed Persons (5)");
+                if(pa_unnamed_persons_no!=null && !pa_unnamed_persons_no.equalsIgnoreCase("")){
+                    if(pa_unnamed_persons_no.matches("[0-9]+")) {
+                        CB_PA_UnnamedPerson.setText("PA Unnamed Persons (" + pa_unnamed_persons_no + ")");
+                    }else {
+                        CB_PA_UnnamedPerson.setText("PA Unnamed Persons (" + seating_capacity + ")");
+                    }
+                }else {
+                    CB_PA_UnnamedPerson.setText("PA Unnamed Persons (" + seating_capacity + ")");
+                }
                 CB_LLPaidDriver.setVisibility(View.VISIBLE);
                 LayoutLLPaidDriver.setVisibility(View.GONE);
                 if(ll_paid_driver_value!=null && !ll_paid_driver_value.equalsIgnoreCase("") && !ll_paid_driver_value.equalsIgnoreCase("null")){
@@ -1190,10 +1222,13 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
                     }else {
                         CB_LLPaidDriver.setChecked(false);
                     }
+                }else {
+                    CB_LLPaidDriver.setChecked(false);
                 }
 
             }else if(Str_product_type_id.equalsIgnoreCase("2")){
-                CB_PA_UnnamedPerson.setText("PA Unnamed Persons (2)");
+
+                CB_PA_UnnamedPerson.setText("PA Unnamed Persons (" + seating_capacity + ")");
                 CB_LLPaidDriver.setVisibility(View.GONE);
                 LayoutLLPaidDriver.setVisibility(View.GONE);
                 ll_paid_driver_value="";
@@ -1202,18 +1237,18 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
             }
         }
 
-        if(pa_unnamed_persons_no!=null && !pa_unnamed_persons_no.equalsIgnoreCase("") && !pa_unnamed_persons_no.equalsIgnoreCase("null")){
-            if(pa_unnamed_persons_no.equalsIgnoreCase("on")){
-                CB_PA_UnnamedPerson.setChecked(true);
-                LayoutPA_SumAssured.setVisibility(View.VISIBLE);
-                if(pa_unnamed_persons_value!=null && !pa_unnamed_persons_value.equalsIgnoreCase("") && !pa_unnamed_persons_value.equalsIgnoreCase("null")){
-                    int i = getIndex(Spn_Pa_SumAssured,pa_unnamed_persons_value);
-                    Spn_Pa_SumAssured.setSelection(i);
-                }
-            }else {
-                CB_PA_UnnamedPerson.setChecked(false);
-            }
+        if(pa_unnamed_persons_value!=null && !pa_unnamed_persons_value.equalsIgnoreCase("") && !pa_unnamed_persons_value.equalsIgnoreCase("null")){
+            LayoutPA_SumAssured.setVisibility(View.VISIBLE);
+            int i = getIndex(Spn_Pa_SumAssured,pa_unnamed_persons_value);
+            Spn_Pa_SumAssured.setSelection(i);
+            CB_PA_UnnamedPerson.setChecked(true);
+        }else {
+            LayoutPA_SumAssured.setVisibility(View.GONE);
+            Spn_Pa_SumAssured.setSelection(0);
+            CB_PA_UnnamedPerson.setChecked(false);
         }
+
+
 
 
 
@@ -1248,14 +1283,20 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                if(CB_PA_UnnamedPerson!=null &&  CB_PA_UnnamedPerson.isChecked()){
+                    CB_PA_UnnamedPerson.setChecked(false);
+                }
+
+                if(CB_LLPaidDriver!=null && CB_LLPaidDriver.isChecked()){
+                    CB_LLPaidDriver.setChecked(false);
+                }
                 pa_unnamed_persons_no = "";
                 pa_unnamed_persons_value = "";
                 ll_paid_driver_value = "";
                 ll_paid_driver_name = "";
+                CB_PACovers.setChecked(false);
                 API_UPDATE_QUOTE("pa_covers","");
-                if(CB_PACovers.isChecked()){
-                    CB_PACovers.setChecked(false);
-                }
+
             }
         });
 
@@ -1282,36 +1323,66 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
                     if (Str_product_type_id.equalsIgnoreCase("1")){
                         boolean cb_ll_paidDriverChecked = CB_LLPaidDriver.isChecked();
 
-                        if(cb_pa_unnamedPersonChecked){
+
+                        if(!cb_pa_unnamedPersonChecked && !cb_ll_paidDriverChecked){
+                            pa_unnamed_persons_no = "";
+                            pa_unnamed_persons_value = "";
+                            ll_paid_driver_value = "";
+                            ll_paid_driver_name = "";
+                            CommonMethods.DisplayToastError(getApplicationContext(),"Please Select PA Unnamed Person No");
+                        }else if(cb_pa_unnamedPersonChecked && !cb_ll_paidDriverChecked) {
+                            ll_paid_driver_value = "";
+                            ll_paid_driver_name = "";
                             pa_unnamed_persons_no = "on";
                             if(Spn_Pa_SumAssured.getSelectedItemPosition()==0){
                                 pa_unnamed_persons_value = "";
                                 CommonMethods.DisplayToastError(getApplicationContext(),"Please Select PA Unnamed Sum Insured");
                             }else {
                                 pa_unnamed_persons_value = Spn_Pa_SumAssured.getSelectedItem().toString().trim();
+                                Log.d("Call","---->1");
+                                CB_PACovers.setChecked(true);
                                 API_UPDATE_QUOTE("pa_covers","");
                             }
-                        }else {
+                        }else if(!cb_pa_unnamedPersonChecked && cb_ll_paidDriverChecked){
                             pa_unnamed_persons_no = "";
                             pa_unnamed_persons_value = "";
-                            CommonMethods.DisplayToastError(getApplicationContext(),"Please Select PA Unnamed Person No");
-                        }
-
-
-                        if(cb_ll_paidDriverChecked){
                             ll_paid_driver_value = "on";
                             if(EdtLLPaidDriverName.getText().toString().length()==0){
                                 ll_paid_driver_name = "";
-                                API_UPDATE_QUOTE("pa_covers","");
+                                EdtLLPaidDriverName.setError("Enter Valid Paid Driver Name");
+                                CommonMethods.DisplayToastError(getApplicationContext(),"Please Enter LL Paid Driver Name");
                             }else {
                                 ll_paid_driver_name = EdtLLPaidDriverName.getText().toString().trim();
+                                Log.d("Call","---->3");
+                                CB_PACovers.setChecked(true);
                                 API_UPDATE_QUOTE("pa_covers","");
                             }
-                        }else {
-                            ll_paid_driver_value = "";
-                            ll_paid_driver_name = "";
-                            API_UPDATE_QUOTE("pa_covers","");
+                        }else if(cb_pa_unnamedPersonChecked && cb_ll_paidDriverChecked){
+                            pa_unnamed_persons_no = "on";
+                            ll_paid_driver_value = "on";
+                            if(Spn_Pa_SumAssured.getSelectedItemPosition()==0){
+                                pa_unnamed_persons_value = "";
+                                CommonMethods.DisplayToastError(getApplicationContext(),"Please Select PA Unnamed Sum Insured");
+                            }else {
+                                pa_unnamed_persons_value = Spn_Pa_SumAssured.getSelectedItem().toString().trim();
+
+                                if(EdtLLPaidDriverName.getText().toString().length()==0){
+                                    ll_paid_driver_name = "";
+                                    EdtLLPaidDriverName.setError("Enter Valid Paid Driver Name");
+                                    CommonMethods.DisplayToastError(getApplicationContext(),"Please Enter LL Paid Driver Name");
+                                }else {
+                                    ll_paid_driver_name = EdtLLPaidDriverName.getText().toString().trim();
+                                    Log.d("Call","---->3");
+                                    CB_PACovers.setChecked(true);
+                                    API_UPDATE_QUOTE("pa_covers","");
+                                }
+                            }
+
                         }
+
+
+
+
 
 
                     }else if(Str_product_type_id.equalsIgnoreCase("2")){
@@ -1322,6 +1393,7 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
                                 CommonMethods.DisplayToastError(getApplicationContext(),"Please Select PA Unnamed Sum Insured");
                             }else {
                                 pa_unnamed_persons_value = Spn_Pa_SumAssured.getSelectedItem().toString().trim();
+                                Log.d("Call","---->4");
                                 API_UPDATE_QUOTE("pa_covers","");
                             }
                         }else {
@@ -1641,7 +1713,7 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
 
                         UtilitySharedPreferences.setPrefs(getApplicationContext(),"MpnData",StrMpnData);
                         UtilitySharedPreferences.setPrefs(getApplicationContext(),"UserActionData",StrUserActionData);
-                        setValuesToAccesories();
+
                         if(Type!=null && Type.equalsIgnoreCase("accessories")){
                             if(DialogAccessiores!=null && DialogAccessiores.isShowing()) {
                                 DialogAccessiores.dismiss();
@@ -1674,6 +1746,8 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
                             String ic_id = IcList[k];
                             LoadQuotation(ic_id);
                         }
+
+                        setValuesToAccesories();
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -2197,12 +2271,18 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
         final TextView tv_electrical_accessory_premium = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_electrical_accessory_premium);
         final TextView tv_non_electric_accessory = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_non_electric_accessory);
         final TextView tv_total_geographical_od = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_total_geographical_od);
+
+        final TextView tv_bifuel_premium = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_bifuel_premium);
+
         final TextView tv_total_net_od_premium = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_total_net_od_premium);
 
         final TextView tv_basic_tp_liability = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_basic_tp_liability);
         final TextView tv_compulsory_pa = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_compulsory_pa);
         final TextView tv_pa_to_other_person = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_pa_to_other_person);
         final TextView tv_total_geographical_tp = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_total_geographical_tp);
+
+        final TextView tv_cng_lpg_tp = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_cng_lpg_tp);
+
         final TextView tv_total_tp_premium = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_total_tp_premium);
 
         final TextView tv_total_idv = (TextView) DialogBreakUpDetail.findViewById(R.id.tv_total_idv);
@@ -2320,12 +2400,21 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
                     String Compulsary_pa_to_owner_driver = breakup_html.getString("Compulsary_pa_to_owner_driver");
                     String pa_cover_to_persons_other_than_owner_driver = breakup_html.getString("pa_cover_to_persons_other_than_owner_driver");
                     String total_geographical_extension_tp = breakup_html.getString("total_geographical_extension_tp");
+
+                    if(fuel.equalsIgnoreCase("cng")) {
+                        String tp_bifuel_premium = breakup_html.getString("tp_bifuel_premium");
+                        tv_cng_lpg_tp.setText(tp_bifuel_premium);
+
+                    }else {
+                        tv_cng_lpg_tp.setText("0");
+                    }
                     String total_tp_premium = breakup_html.getString("total_tp_premium");
 
                     tv_basic_tp_liability.setText(basic_third_party_liability);
                     tv_compulsory_pa.setText(Compulsary_pa_to_owner_driver);
                     tv_pa_to_other_person.setText(pa_cover_to_persons_other_than_owner_driver);
                     tv_total_geographical_tp.setText(total_geographical_extension_tp);
+
                     tv_total_tp_premium.setText(total_tp_premium);
 
 
@@ -2390,12 +2479,22 @@ public class IcListingQuoteScreen_3 extends AppCompatActivity {
                         String electrical_premium = basic_od_htmlObj.getString("electrical_premium");
                         String non_electrical_premium = basic_od_htmlObj.getString("non_electrical_premium");
                         String geographical_value_od = basic_od_htmlObj.getString("geographical_value_od");
+
                         String net_od = basic_od_htmlObj.getString("net_od");
+
+                        if(fuel.equalsIgnoreCase("cng")) {
+                            String bifuel_premium = basic_od_htmlObj.getString("bifuel_premium");
+                            tv_bifuel_premium.setText(bifuel_premium);
+
+                        }else {
+                            tv_bifuel_premium.setText("0");
+                        }
 
                         tv_basic_od_odbp.setText(basic_od);
                         tv_electrical_accessory_premium.setText(electrical_premium);
                         tv_non_electric_accessory.setText(non_electrical_premium);
                         tv_total_geographical_od.setText(geographical_value_od);
+
                         tv_total_net_od_premium.setText(net_od);
 
 

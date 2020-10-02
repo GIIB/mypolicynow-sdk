@@ -1167,11 +1167,9 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
                                         CommonMethods.DisplayToastError(getApplicationContext(), "Error in Uploading. Please upload it again.");
                                     }
 
-
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-
 
                             }
 
@@ -1233,8 +1231,10 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
                         product_type_id = QuoteDataObj.getString("product_type_id");
                         String Ic_id = ProposalDataObj.getString("ic_id");
 
-                        breakin_status_id = ProposalDataObj.getString("breakin_status_id");
-                        Log.d("breakin_status_id",""+breakin_status_id);
+                        if(StrQuoteData.contains("breakin_status_id")) {
+                            breakin_status_id = ProposalDataObj.getString("breakin_status_id");
+                            Log.d("breakin_status_id", "" + breakin_status_id);
+                        }
                         UtilitySharedPreferences.setPrefs(getApplicationContext(),"IC_Id",Ic_id);
                         UtilitySharedPreferences.setPrefs(getApplicationContext(),"proposal_list_id",Proposal_list_id);
                         StrVehicleRegistrationNo = ProposalDataObj.getString("vehicle_reg_no");
@@ -1586,9 +1586,9 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
         }
 
 
-        total_premium_payable = "1.0";
-        StrTotal_Rsa = "0.30";
-        StrIc_premium = "0.70";
+       /* total_premium_payable = "2.00";
+        StrTotal_Rsa = "1.00";
+        StrIc_premium = "1.00";*/
         StrAdditionalParameters = "INS|"+proposal_no+"|"+StrVehicleRegistrationNo+"|"+product_type_id+"|"+StrIC_Code+"|"+StrTotal_Rsa+"|"+StrIc_premium;
 
         Log.d("total_premium_payable",""+total_premium_payable);
@@ -1596,15 +1596,13 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
         Log.d("merchant_id",""+merchant_id);
         Log.d("StrAdditionalParameters",""+StrAdditionalParameters);
 
-
         ClsPAXInf objClsPAXInf=new ClsPAXInf(this);
-        objClsPAXInf.sale(total_premium_payable,"0.0","", terminal_id,merchant_id, StrAdditionalParameters);
+        objClsPAXInf.sale(total_premium_payable,"0.00","", terminal_id,merchant_id, StrAdditionalParameters);
 
     }
 
     @Override
     public void OnSuccess(String s) {
-
         Log.d("success-payment-string",""+s);
         //String StrPaymentResponse_success = "{\"emvTc\":\"1623C60BB7DAD0DC\",\"transaction\":\"SALE\",\"CallFrom\":\"Sale\",\"emvAPPLName\":\"VISA\",\"emvAID\":\"A0000000031010\",\"ResponseCallFrom\":\"TAP\",\"emvTVR\":\"0000000000\",\"emvTSI\":\"0000\",\"date\":\"08-05-2020\",\"time\":\"18:57:51\",\"rrn\":\"000000467847\",\"terminal_id\":\"PX918512\",\"merchant_id\":\"PX9400000000012\",\"batch_no\":\"000003\",\"stan\":\"856005\",\"cardtype\":\"VISA\",\"authcode\":\"989898\",\"cardno\":\"420739******9584\",\"tip\":\"0.00\",\"amount\":\"1.00\",\"total_amount\":\"1.0\",\"PINBLOCK\":\"\",\"card_name\":\"AKSHAY KULSHRESTHA \",\"email\":\"                                                                                                    \",\"phoneno\":\"          \",\"SE_NUMBER\":\"\",\"Internalnal_Card\":\"\"}";
         PostPaymentAPI(s);
@@ -1612,12 +1610,11 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
 
     @Override
     public void OnError(String s) {
-
-        CommonMethods.DisplayToastError(getApplicationContext(),s);
-        Log.d("failure-payment-string",s);
+         CommonMethods.DisplayToastError(getApplicationContext(),s);
+         Log.d("failure-payment-string",s);
+         //String StrPaymentResponse_success = "{\"emvTc\":\"D7C49B18A088ACA0\",\"transaction\":\"SALE\",\"CallFrom\":\"Sale\",\"emvAPPLName\":\"MASTERCARD\",\"emvAID\":\"A0000000041010\",\"ResponseCallFrom\":\"CHIP\",\"emvTVR\":\"0000048000\",\"emvTSI\":\"E800\",\"date\":\"14-08-2020\",\"time\":\"18:00:58\",\"rrn\":\"002644401741\",\"terminal_id\":\"RA131914\",\"merchant_id\":\"110000000125922\",\"batch_no\":\"000001\",\"stan\":\"284451\",\"cardtype\":\"MASTERCARD\",\"authcode\":\"R55881\",\"cardno\":\"536303******2633\",\"tip\":\"0.00\",\"amount\":\"1733.55\",\"total_amount\":\"1733.55\",\"PINBLOCK\":\"FD089C7227BB46F7\",\"card_name\":\"AKSHAY KULSHRESTHA       \\/\",\"email\":\"                                                                                                    \",\"phoneno\":\"          \",\"Internalnal_Card\":\"MDC\"}, agent_id=13179}";
+         //PostPaymentAPI(StrPaymentResponse_success);
     }
-
-
 
     private void PostPaymentAPI(String ResponseResult) {
         myDialog.setCancelable(true);
@@ -1731,9 +1728,6 @@ public class ProposalPdfActivity_6 extends AppCompatActivity implements OnPaxPOS
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
-
 
     }
 

@@ -174,7 +174,13 @@
 
         </LinearLayout>
 
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5sp"
+            android:text="Enter Engine No. *"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
 
         <EditText
@@ -196,7 +202,13 @@
             android:textColorHint="@color/grey"
             android:textSize="17sp" />
 
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5sp"
+            android:text="Enter Chassis No. *"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
         <EditText
             android:id="@+id/Edt_ChassisNo"
             android:layout_width="match_parent"

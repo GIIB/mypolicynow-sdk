@@ -35,11 +35,16 @@ import com.indicosmic.www.mypolicynow_ags.utils.UtilitySharedPreferences;
 import com.indicosmic.www.mypolicynow_ags.utils.ConnectionDetector;
 import com.indicosmic.www.mypolicynow_ags.webservices.RestClient;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import static com.indicosmic.www.mypolicynow_ags.utils.CommonMethods.md5;
 import static com.indicosmic.www.mypolicynow_ags.webservices.RestClient.ROOT_URL2;
@@ -160,6 +165,7 @@ public class MainActivity_1 extends AppCompatActivity implements NavigationView.
                 }
             }
         });
+
 
     }
 
@@ -347,7 +353,6 @@ public class MainActivity_1 extends AppCompatActivity implements NavigationView.
 
         //TextView nav_header_userId = navigationView.findViewById(R.id.nav_header_userId);
         View hView =  navigationView.getHeaderView(0);
-        ImageView iv_logo = (ImageView)hView.findViewById(R.id.iv_logo);
         ImageView iv_facebook = (ImageView)navigationView.findViewById(R.id.iv_facebook);
         ImageView iv_google_plus = (ImageView)navigationView.findViewById(R.id.iv_google_plus);
         ImageView iv_twitter = (ImageView)navigationView.findViewById(R.id.iv_twitter);
@@ -355,11 +360,11 @@ public class MainActivity_1 extends AppCompatActivity implements NavigationView.
         ImageView iv_linked_in = (ImageView)navigationView.findViewById(R.id.iv_linked_in);
 
 
-        Glide.with(this)
+       /* Glide.with(this)
                 .load("https://www.mypolicynow.com/assets/images/logo_spinner.gif")
                 .placeholder(R.drawable.logo_spinner)
                 .into(iv_logo);
-
+*/
 
 
         iv_facebook.setOnClickListener(new View.OnClickListener() {
@@ -423,6 +428,8 @@ public class MainActivity_1 extends AppCompatActivity implements NavigationView.
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+
         navigationView.setNavigationItemSelectedListener(this);
     }
 

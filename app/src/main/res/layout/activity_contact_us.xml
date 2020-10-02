@@ -131,6 +131,36 @@
                 android:textColor="@color/colorPrimaryBlue"/>
 
 
+            <TextView
+                android:id="@+id/tv_technical_support"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/technical_support"
+                android:layout_gravity="center"
+                android:gravity="center|start"
+                android:padding="10sp"
+                android:layout_marginBottom="5sp"
+                android:textSize="14sp"
+                android:autoLink="phone"
+                android:drawableStart="@drawable/ic_phone_android"
+                android:drawablePadding="5sp"
+                android:textColor="@color/colorPrimaryBlue"/>
+
+            <TextView
+                android:id="@+id/tv_operational_support"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/operational_support"
+                android:layout_gravity="center"
+                android:gravity="center|start"
+                android:padding="10sp"
+                android:layout_marginBottom="5sp"
+                android:textSize="14sp"
+                android:autoLink="phone"
+                android:drawableStart="@drawable/ic_phone_android"
+                android:drawablePadding="5sp"
+                android:textColor="@color/colorPrimaryBlue"/>
+
             <WebView
                 android:id="@+id/Webview_AddressLocation"
                 android:layout_width="match_parent"

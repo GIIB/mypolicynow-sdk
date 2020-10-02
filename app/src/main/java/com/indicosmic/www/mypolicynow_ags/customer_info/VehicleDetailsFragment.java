@@ -657,16 +657,19 @@ public class VehicleDetailsFragment extends Fragment implements BlockingStep, Ad
     private boolean IsValidFields() {
         boolean result = true;
 
-        if (!MyValidator.isValidField(Edt_RtoZoneCode)) {
-            Edt_RtoZoneCode.requestFocus();
-            CommonMethods.DisplayToastWarning(context, "Please Enter Valid Vehicle No");
-            result = false;
-        }
+        if (StrPolicyType.equalsIgnoreCase("renew")) {
 
-        if (!MyValidator.isValidField(Edt_RtoVehicleNo)) {
-            Edt_RtoVehicleNo.requestFocus();
-            CommonMethods.DisplayToastWarning(context, "Please Enter Valid Vehicle No");
-            result = false;
+            if (!MyValidator.isValidField(Edt_RtoZoneCode)) {
+                Edt_RtoZoneCode.requestFocus();
+                CommonMethods.DisplayToastWarning(context, "Please Enter Valid Vehicle No");
+                result = false;
+            }
+
+            if (!MyValidator.isValidField(Edt_RtoVehicleNo)) {
+                Edt_RtoVehicleNo.requestFocus();
+                CommonMethods.DisplayToastWarning(context, "Please Enter Valid Vehicle No");
+                result = false;
+            }
         }
 
         if (!MyValidator.isValidEngine_ChassisNumber(Edt_EngineNo)) {
@@ -674,12 +677,12 @@ public class VehicleDetailsFragment extends Fragment implements BlockingStep, Ad
             CommonMethods.DisplayToastWarning(context, "Please Enter Engine No");
             result = false;
         }
-/*
+
         if (!MyValidator.isValidChassisNumber(Edt_ChassisNo)) {
             Edt_ChassisNo.requestFocus();
             CommonMethods.DisplayToastWarning(context, "Please Enter Chassis No");
             result = false;
-        }*/
+        }
 
 
         if (!MyValidator.isValidSpinner(Spn_VehicleColor)) {

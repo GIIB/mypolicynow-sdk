@@ -13,6 +13,7 @@
     <color name="colorPrimaryVeryLight">#9898FF</color>
     <color name="colorAccent">#2828ae</color>
     <color name="orange">#00006B</color>
+    <color name="quote_bg_color">#e5f2f8</color>
 
     <color name="button_color">#db4100</color>
     <color name="iron_grey">#9c9999</color>
